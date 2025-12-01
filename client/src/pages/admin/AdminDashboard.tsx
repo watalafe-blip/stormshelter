@@ -1,7 +1,7 @@
 
-import { Link } from 'wouter';
-import { categories } from '@/lib/mockData';
-import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus } from 'lucide-react';
+import { Link, useRoute } from 'wouter';
+import { categories, products } from '@/lib/mockData';
+import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,8 +14,106 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function AdminDashboard() {
+  const [, params] = useRoute('/admin/:page?');
+  const page = params?.page || 'dashboard';
+
+  if (page === 'products') {
+    return (
+       <div className="p-8 space-y-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-serif font-bold">Products</h1>
+            <p className="text-muted-foreground">Manage your product catalog.</p>
+          </div>
+          <Button><Plus className="mr-2 h-4 w-4" /> Add Product</Button>
+        </div>
+
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+               <div className="relative w-64">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input placeholder="Search products..." className="pl-8" />
+              </div>
+              <Button variant="outline" size="sm"><Filter className="mr-2 h-4 w-4" /> Filter</Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[80px]">Image</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {products.map((product) => (
+                  <TableRow key={product.id}>
+                    <TableCell>
+                      <div className="w-12 h-12 rounded-md overflow-hidden bg-muted">
+                        <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium">{product.name}</TableCell>
+                    <TableCell>{product.category}</TableCell>
+                    <TableCell>${product.price.toFixed(2)}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Active</Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive"><Trash className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {/* Example of more rows */}
+                 <TableRow>
+                    <TableCell>
+                      <div className="w-12 h-12 rounded-md overflow-hidden bg-muted"></div>
+                    </TableCell>
+                    <TableCell className="font-medium">Summer Linen Shirt</TableCell>
+                    <TableCell>Fashion</TableCell>
+                    <TableCell>$89.00</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Draft</Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button>
+                    </TableCell>
+                  </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+       </div>
+    );
+  }
+
+  // Default Dashboard View
   return (
     <div className="p-8 space-y-8">
       <div className="flex items-center justify-between">

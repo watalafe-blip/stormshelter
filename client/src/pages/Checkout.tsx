@@ -9,19 +9,29 @@ import { Link, useLocation } from 'wouter';
 import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Checkout() {
   const [, setLocation] = useLocation();
   const [isProcessing, setIsProcessing] = useState(false);
+  const { toast } = useToast();
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
-    // Simulate API call
+    
+    // Simulate network request
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    toast({
+      title: "Order Placed Successfully",
+      description: "Redirecting to confirmation page...",
+    });
+
     setTimeout(() => {
       setIsProcessing(false);
       setLocation('/confirmation');
-    }, 2000);
+    }, 500);
   };
 
   // Mock cart summary
@@ -99,12 +109,12 @@ export default function Checkout() {
                     </div>
                   </div>
                   <div className="p-4 grid gap-4 bg-card">
-                    <Input placeholder="Card number" />
+                    <Input placeholder="Card number" required />
                     <div className="grid grid-cols-2 gap-4">
-                      <Input placeholder="Expiration date (MM/YY)" />
-                      <Input placeholder="Security code" />
+                      <Input placeholder="Expiration date (MM/YY)" required />
+                      <Input placeholder="Security code" required />
                     </div>
-                    <Input placeholder="Name on card" />
+                    <Input placeholder="Name on card" required />
                   </div>
                 </div>
               </div>
