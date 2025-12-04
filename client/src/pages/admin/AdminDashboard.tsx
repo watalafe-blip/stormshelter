@@ -1,12 +1,12 @@
 
 import { Link, useRoute } from 'wouter';
-import { categories, products } from '@/lib/mockData';
-import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit, Loader2, Save, FileText, CreditCard, RefreshCw, XCircle, CheckCircle } from 'lucide-react';
+import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit, Loader2, Save, FileText, CreditCard, RefreshCw, XCircle, CheckCircle, Palette, Mail, LayoutTemplate, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
+import { useStore } from '@/lib/storeContext';
 import {
   Table,
   TableBody,
@@ -20,7 +20,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -36,65 +35,79 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
 
 export default function AdminDashboard() {
   const [, params] = useRoute('/admin/:page?');
   const page = params?.page || 'dashboard';
-  const [editingProduct, setEditingProduct] = useState<string | null>(null);
-  const [editingPage, setEditingPage] = useState<string | null>(null);
-  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
+  const { products, updateProduct, deleteProduct, orders, updateOrder, theme, updateTheme, notifications } = useStore();
   const { toast } = useToast();
 
-  const handleEditClick = (productId: string) => {
-    setEditingProduct(productId);
+  // Local State for Editing
+  const [editingProduct, setEditingProduct] = useState<string | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Handlers
+  const handleSaveProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    
+    if (editingProduct) {
+      updateProduct(editingProduct, {
+        name: formData.get('name') as string,
+        price: parseFloat(formData.get('price') as string),
+        category: formData.get('category') as string,
+        description: formData.get('description') as string,
+      });
+    }
+
+    await new Promise(r => setTimeout(r, 800)); // Simulate delay
+    setIsSaving(false);
+    setEditingProduct(null);
+    toast({ title: "Product Saved", description: "Your changes have been updated successfully." });
   };
 
-  const handleSaveProduct = () => {
+  const handleOrderAction = async (action: string) => {
+    if (!selectedOrder) return;
     setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
-      setEditingProduct(null);
-      toast({ title: "Product Saved", description: "Your changes have been updated successfully." });
-    }, 1000);
+    
+    let status = 'fulfilled';
+    if (action === 'Cancelled') status = 'cancelled';
+    // In a real app, we'd handle refund logic separately
+    
+    updateOrder(selectedOrder, { status: status as any });
+
+    await new Promise(r => setTimeout(r, 800));
+    setIsSaving(false);
+    setSelectedOrder(null);
+    toast({ title: `Order ${action}`, description: `Order status has been updated.` });
   };
 
-  const handleSavePage = () => {
+  const handleThemeUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
-      setEditingPage(null);
-      toast({ title: "Page Updated", description: "Content has been published." });
-    }, 1000);
-  };
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
 
-  const handleOrderAction = (action: string) => {
-    setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
-      setSelectedOrder(null);
-      toast({ title: `Order ${action}`, description: `Order status has been updated to ${action}.` });
-    }, 1000);
+    updateTheme({
+      storeName: formData.get('storeName') as string,
+      primaryColor: formData.get('primaryColor') as string,
+      announcementBar: formData.get('announcementBar') as string,
+    });
+
+    await new Promise(r => setTimeout(r, 800));
+    setIsSaving(false);
+    toast({ title: "Theme Updated", description: "Storefront appearance has been updated." });
   };
 
   const currentProduct = products.find(p => p.id === editingProduct);
-  
-  // Mock Pages Data
-  const pages = [
-    { id: 'home', title: 'Home Page', status: 'Published', lastUpdated: '2 mins ago' },
-    { id: 'about', title: 'About Us', status: 'Published', lastUpdated: '2 days ago' },
-    { id: 'contact', title: 'Contact', status: 'Published', lastUpdated: '1 week ago' },
-    { id: 'terms', title: 'Terms & Conditions', status: 'Draft', lastUpdated: '3 weeks ago' },
-  ];
+  const currentOrder = orders.find(o => o.id === selectedOrder);
 
-  // Mock Orders Data
-  const orders = [
-    { id: "ORD-001", customer: "Alice Freeman", status: "Fulfilled", date: "2023-10-21", amount: 250.00, payment: "Credit Card", items: 3 },
-    { id: "ORD-002", customer: "Bob Smith", status: "Pending", date: "2023-10-21", amount: 120.50, payment: "PayPal", items: 1 },
-    { id: "ORD-003", customer: "Charlie Brown", status: "Cancelled", date: "2023-10-20", amount: 45.00, payment: "Credit Card", items: 1 },
-    { id: "ORD-004", customer: "Diana Prince", status: "Fulfilled", date: "2023-10-19", amount: 850.00, payment: "Credit Card", items: 5 },
-    { id: "ORD-005", customer: "Evan Wright", status: "Processing", date: "2023-10-19", amount: 65.99, payment: "Debit Card", items: 2 },
-  ];
+  // --- RENDER CONTENT BASED ON PAGE ---
 
   if (page === 'products') {
     return (
@@ -125,6 +138,7 @@ export default function AdminDashboard() {
                   <TableHead>Name</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>Price</TableHead>
+                  <TableHead>Inventory</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -133,15 +147,18 @@ export default function AdminDashboard() {
                 {products.map((product) => (
                   <TableRow key={product.id}>
                     <TableCell>
-                      <div className="w-12 h-12 rounded-md overflow-hidden bg-muted">
+                      <div className="w-12 h-12 rounded-md overflow-hidden bg-muted border border-border/50">
                         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                       </div>
                     </TableCell>
                     <TableCell className="font-medium">{product.name}</TableCell>
                     <TableCell>{product.category}</TableCell>
                     <TableCell>${product.price.toFixed(2)}</TableCell>
+                    <TableCell>{product.inventory} in stock</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Active</Badge>
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 capitalize">
+                        {product.status}
+                      </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
@@ -152,10 +169,12 @@ export default function AdminDashboard() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => handleEditClick(product.id)}>
+                          <DropdownMenuItem onClick={() => setEditingProduct(product.id)}>
                             <Edit className="mr-2 h-4 w-4" /> Edit
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive"><Trash className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive" onClick={() => deleteProduct(product.id)}>
+                            <Trash className="mr-2 h-4 w-4" /> Delete
+                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -168,115 +187,52 @@ export default function AdminDashboard() {
 
         {/* Edit Product Sheet */}
         <Sheet open={!!editingProduct} onOpenChange={(open) => !open && setEditingProduct(null)}>
-          <SheetContent className="sm:max-w-md overflow-y-auto">
+          <SheetContent className="sm:max-w-lg overflow-y-auto">
             <SheetHeader>
               <SheetTitle>Edit Product</SheetTitle>
               <SheetDescription>
-                Make changes to your product here. Click save when you're done.
+                Update product details. Changes reflect immediately on the storefront.
               </SheetDescription>
             </SheetHeader>
             {currentProduct && (
-              <div className="grid gap-4 py-4">
-                <div className="aspect-video w-full overflow-hidden rounded-lg bg-muted mb-4">
+              <form id="edit-product-form" onSubmit={handleSaveProduct} className="grid gap-4 py-4">
+                <div className="aspect-video w-full overflow-hidden rounded-lg bg-muted mb-4 relative group cursor-pointer">
                    <img src={currentProduct.image} className="h-full w-full object-cover" alt="Product preview" />
+                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                      <span className="text-white font-medium flex items-center gap-2"><ImageIcon size={16}/> Change Image</span>
+                   </div>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" defaultValue={currentProduct.name} />
+                  <Input name="name" id="name" defaultValue={currentProduct.name} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="price">Price</Label>
-                    <Input id="price" defaultValue={currentProduct.price} type="number" />
+                    <Input name="price" id="price" defaultValue={currentProduct.price} type="number" step="0.01" />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="category">Category</Label>
-                    <Input id="category" defaultValue={currentProduct.category} />
+                    <Input name="category" id="category" defaultValue={currentProduct.category} />
                   </div>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="description">Description</Label>
-                  <Textarea id="description" defaultValue={currentProduct.description} rows={4} />
+                  <Textarea name="description" id="description" defaultValue={currentProduct.description} rows={5} />
                 </div>
-              </div>
+              </form>
             )}
             <SheetFooter>
               <SheetClose asChild>
                 <Button variant="outline">Cancel</Button>
               </SheetClose>
-              <Button onClick={handleSaveProduct} disabled={isSaving}>
+              <Button type="submit" form="edit-product-form" disabled={isSaving}>
                 {isSaving ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...</> : <><Save className="mr-2 h-4 w-4" /> Save Changes</>}
               </Button>
             </SheetFooter>
           </SheetContent>
         </Sheet>
        </div>
-    );
-  }
-
-  if (page === 'pages') {
-    return (
-      <div className="p-8 space-y-8 animate-in fade-in duration-500">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-serif font-bold">Pages</h1>
-            <p className="text-muted-foreground">Manage content for your store pages.</p>
-          </div>
-          <Button><Plus className="mr-2 h-4 w-4" /> Create Page</Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pages.map((p) => (
-            <Card key={p.id} className="hover:border-primary/50 transition-colors cursor-pointer group" onClick={() => setEditingPage(p.id)}>
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div className="p-2 bg-muted rounded-md group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                    <FileText className="h-6 w-6" />
-                  </div>
-                  <Badge variant={p.status === 'Published' ? 'default' : 'secondary'}>{p.status}</Badge>
-                </div>
-                <CardTitle className="mt-4">{p.title}</CardTitle>
-                <CardDescription>Last updated {p.lastUpdated}</CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
-        </div>
-
-        {/* Edit Page Sheet */}
-        <Sheet open={!!editingPage} onOpenChange={(open) => !open && setEditingPage(null)}>
-          <SheetContent className="sm:max-w-lg w-full">
-            <SheetHeader>
-              <SheetTitle>Edit Page Content</SheetTitle>
-              <SheetDescription>
-                Update the content for this page.
-              </SheetDescription>
-            </SheetHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="page-title">Page Title</Label>
-                <Input id="page-title" defaultValue={pages.find(p => p.id === editingPage)?.title} />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="page-content">Content (Markdown)</Label>
-                <Textarea id="page-content" className="min-h-[300px] font-mono text-sm" defaultValue="# Welcome to our store\n\nWe believe in quality above all else..." />
-              </div>
-              <div className="grid gap-2">
-                 <Label>SEO Settings</Label>
-                 <Input placeholder="Meta Title" />
-                 <Input placeholder="Meta Description" />
-              </div>
-            </div>
-            <SheetFooter>
-              <SheetClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </SheetClose>
-              <Button onClick={handleSavePage} disabled={isSaving}>
-                {isSaving ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Publishing...</> : 'Publish Changes'}
-              </Button>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
-      </div>
     );
   }
 
@@ -308,19 +264,22 @@ export default function AdminDashboard() {
                 {orders.map((order) => (
                   <TableRow key={order.id}>
                     <TableCell className="font-medium">{order.id}</TableCell>
-                    <TableCell>{order.customer}</TableCell>
+                    <TableCell>
+                      <div>{order.customer}</div>
+                      <div className="text-xs text-muted-foreground">{order.email}</div>
+                    </TableCell>
                     <TableCell>{order.date}</TableCell>
                     <TableCell>
                       <Badge variant={
-                        order.status === 'Fulfilled' ? 'default' : 
-                        order.status === 'Pending' ? 'secondary' : 
-                        order.status === 'Cancelled' ? 'destructive' : 'outline'
-                      }>
+                        order.status === 'fulfilled' ? 'default' : 
+                        order.status === 'pending' ? 'secondary' : 
+                        order.status === 'cancelled' ? 'destructive' : 'outline'
+                      } className="capitalize">
                         {order.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>{order.payment}</TableCell>
-                    <TableCell className="text-right">${order.amount.toFixed(2)}</TableCell>
+                    <TableCell><Badge variant="outline" className="capitalize">{order.paymentStatus}</Badge></TableCell>
+                    <TableCell className="text-right">${order.total.toFixed(2)}</TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm" onClick={() => setSelectedOrder(order.id)}>Manage</Button>
                     </TableCell>
@@ -337,13 +296,16 @@ export default function AdminDashboard() {
             <SheetHeader className="mb-6">
               <div className="flex items-center justify-between">
                  <SheetTitle>Order {selectedOrder}</SheetTitle>
-                 <Badge>Fulfilled</Badge>
+                 <Badge variant={currentOrder?.status === 'fulfilled' ? 'default' : 'outline'} className="capitalize">
+                   {currentOrder?.status}
+                 </Badge>
               </div>
               <SheetDescription>
-                Placed on October 21, 2023 at 4:32 PM
+                Placed on {currentOrder?.date}
               </SheetDescription>
             </SheetHeader>
             
+            {currentOrder && (
             <div className="space-y-6">
                <div className="border rounded-lg p-4 space-y-4">
                   <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wider">Customer</h3>
@@ -352,31 +314,31 @@ export default function AdminDashboard() {
                         <Users size={20} />
                      </div>
                      <div>
-                        <p className="font-medium">Alice Freeman</p>
-                        <p className="text-sm text-muted-foreground">alice@example.com</p>
+                        <p className="font-medium">{currentOrder.customer}</p>
+                        <p className="text-sm text-muted-foreground">{currentOrder.email}</p>
                      </div>
                   </div>
                </div>
 
                <div className="space-y-4">
-                  <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wider">Items</h3>
-                  {[1, 2].map(i => (
-                     <div key={i} className="flex justify-between items-center py-2 border-b last:border-0">
-                        <div className="flex gap-3">
-                           <div className="h-12 w-12 bg-muted rounded overflow-hidden">
-                              <img src={products[i-1].image} className="h-full w-full object-cover" />
-                           </div>
-                           <div>
-                              <p className="font-medium text-sm">{products[i-1].name}</p>
-                              <p className="text-xs text-muted-foreground">Qty: 1</p>
-                           </div>
-                        </div>
-                        <p className="text-sm font-medium">${products[i-1].price}</p>
-                     </div>
-                  ))}
-                  <div className="flex justify-between pt-2 font-bold">
+                  <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wider">Items ({currentOrder.items})</h3>
+                  {/* Simulation of items based on count */}
+                  <div className="flex justify-between items-center py-2 border-b">
+                    <div className="flex gap-3">
+                       <div className="h-12 w-12 bg-muted rounded overflow-hidden">
+                          <img src={products[0].image} className="h-full w-full object-cover" />
+                       </div>
+                       <div>
+                          <p className="font-medium text-sm">{products[0].name}</p>
+                          <p className="text-xs text-muted-foreground">Qty: 1</p>
+                       </div>
+                    </div>
+                    <p className="text-sm font-medium">${products[0].price}</p>
+                  </div>
+                  
+                  <div className="flex justify-between pt-2 font-bold border-t border-dashed mt-4">
                      <span>Total</span>
-                     <span>$429.50</span>
+                     <span>${currentOrder.total.toFixed(2)}</span>
                   </div>
                </div>
 
@@ -392,68 +354,204 @@ export default function AdminDashboard() {
                   </Button>
                </div>
             </div>
+            )}
           </SheetContent>
         </Sheet>
       </div>
     );
   }
 
-  if (page === 'payments') {
+  if (page === 'pages') {
     return (
-       <div className="p-8 space-y-8 animate-in fade-in duration-500">
-        <div className="flex items-center justify-between">
+      <div className="p-8 space-y-8 animate-in fade-in duration-500">
+         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-serif font-bold">Payments</h1>
-            <p className="text-muted-foreground">View and manage transaction history.</p>
+            <h1 className="text-3xl font-serif font-bold">Online Store</h1>
+            <p className="text-muted-foreground">Manage theme and content.</p>
           </div>
-          <Button variant="outline">Export CSV</Button>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
-           <Card>
-              <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Gross Volume</CardTitle></CardHeader>
-              <CardContent><div className="text-2xl font-bold">$45,231.89</div></CardContent>
-           </Card>
-           <Card>
-              <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Net Volume</CardTitle></CardHeader>
-              <CardContent><div className="text-2xl font-bold">$42,100.50</div></CardContent>
-           </Card>
-           <Card>
-              <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Refunds</CardTitle></CardHeader>
-              <CardContent><div className="text-2xl font-bold text-destructive">$1,240.00</div></CardContent>
-           </Card>
-        </div>
+        <Tabs defaultValue="theme">
+          <TabsList className="grid w-full grid-cols-2 max-w-md">
+             <TabsTrigger value="theme">Theme Settings</TabsTrigger>
+             <TabsTrigger value="content">Pages & Content</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="theme" className="mt-6 space-y-6">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Preview Card */}
+                <Card className="bg-muted/30 border-dashed">
+                   <CardHeader>
+                      <CardTitle>Live Preview</CardTitle>
+                      <CardDescription>Real-time preview of your storefront settings.</CardDescription>
+                   </CardHeader>
+                   <CardContent>
+                      <div className="border rounded-lg bg-background shadow-sm overflow-hidden">
+                         <div className="h-12 border-b flex items-center px-4 justify-between" style={{ background: '#fff' }}>
+                            <span className="font-serif font-bold text-lg">{theme.storeName}</span>
+                            <div className="flex gap-2">
+                               <div className="w-4 h-4 rounded-full bg-muted"></div>
+                               <div className="w-4 h-4 rounded-full bg-muted"></div>
+                            </div>
+                         </div>
+                         <div className="p-8 text-center space-y-4">
+                            <h3 className="font-serif text-2xl">Hero Title</h3>
+                            <Button style={{ backgroundColor: `hsl(${theme.primaryColor})`, color: 'white' }}>Shop Now</Button>
+                         </div>
+                         <div className="h-8 bg-black text-white text-xs flex items-center justify-center">
+                            {theme.announcementBar}
+                         </div>
+                      </div>
+                   </CardContent>
+                </Card>
 
-        <Card>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Order</TableHead>
-                  <TableHead>Method</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                  <TableHead className="text-right">Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                 {[1,2,3,4,5].map((i) => (
-                    <TableRow key={i}>
-                       <TableCell className="text-muted-foreground">Oct 21, 2023</TableCell>
-                       <TableCell className="font-medium">Payment from Alice Freeman</TableCell>
-                       <TableCell><Link href="#" className="underline decoration-dotted">#ORD-00{i}</Link></TableCell>
-                       <TableCell><div className="flex items-center gap-2"><CreditCard size={14} /> Visa •••• 4242</div></TableCell>
-                       <TableCell className="text-right font-medium">+$250.00</TableCell>
-                       <TableCell className="text-right"><Badge variant="outline" className="text-green-600 bg-green-50 border-green-200">Succeeded</Badge></TableCell>
-                    </TableRow>
+                {/* Settings Form */}
+                <Card>
+                   <CardHeader>
+                      <CardTitle>Theme Customization</CardTitle>
+                      <CardDescription>Update your store's look and feel.</CardDescription>
+                   </CardHeader>
+                   <CardContent>
+                      <form onSubmit={handleThemeUpdate} className="space-y-4">
+                         <div className="space-y-2">
+                            <Label>Store Name</Label>
+                            <Input name="storeName" defaultValue={theme.storeName} />
+                         </div>
+                         <div className="space-y-2">
+                            <Label>Primary Color (HSL)</Label>
+                            <div className="flex gap-2">
+                               <Input name="primaryColor" defaultValue={theme.primaryColor} />
+                               <div className="w-10 h-10 rounded border shrink-0" style={{ backgroundColor: `hsl(${theme.primaryColor})` }}></div>
+                            </div>
+                            <p className="text-xs text-muted-foreground">Try: "0 72% 51%" (Red) or "220 70% 50%" (Blue)</p>
+                         </div>
+                         <div className="space-y-2">
+                            <Label>Announcement Bar</Label>
+                            <Input name="announcementBar" defaultValue={theme.announcementBar} />
+                         </div>
+                         <div className="space-y-2">
+                            <Label>Logo</Label>
+                            <div className="border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-muted-foreground hover:bg-muted/50 transition-colors cursor-pointer">
+                               <ImageIcon className="h-8 w-8 mb-2" />
+                               <span className="text-sm">Click to upload logo</span>
+                            </div>
+                         </div>
+                         <Button type="submit" disabled={isSaving} className="w-full">
+                           {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Save Theme Settings'}
+                         </Button>
+                      </form>
+                   </CardContent>
+                </Card>
+             </div>
+          </TabsContent>
+
+          <TabsContent value="content" className="mt-6">
+             <Card>
+                <CardHeader>
+                   <CardTitle>Pages</CardTitle>
+                   <CardDescription>Manage static pages like About Us, Contact, etc.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                   <Table>
+                      <TableHeader>
+                         <TableRow>
+                            <TableHead>Title</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Last Updated</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                         </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                         <TableRow>
+                            <TableCell className="font-medium">Home Page</TableCell>
+                            <TableCell><Badge>Published</Badge></TableCell>
+                            <TableCell>2 days ago</TableCell>
+                            <TableCell className="text-right"><Button variant="ghost" size="sm">Edit</Button></TableCell>
+                         </TableRow>
+                         <TableRow>
+                            <TableCell className="font-medium">About Us</TableCell>
+                            <TableCell><Badge>Published</Badge></TableCell>
+                            <TableCell>1 week ago</TableCell>
+                            <TableCell className="text-right"><Button variant="ghost" size="sm">Edit</Button></TableCell>
+                         </TableRow>
+                         <TableRow>
+                            <TableCell className="font-medium">Contact</TableCell>
+                            <TableCell><Badge>Published</Badge></TableCell>
+                            <TableCell>1 month ago</TableCell>
+                            <TableCell className="text-right"><Button variant="ghost" size="sm">Edit</Button></TableCell>
+                         </TableRow>
+                      </TableBody>
+                   </Table>
+                </CardContent>
+             </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    );
+  }
+
+  if (page === 'settings') {
+     return (
+        <div className="p-8 space-y-8 animate-in fade-in duration-500">
+           <div className="flex items-center justify-between">
+             <div>
+               <h1 className="text-3xl font-serif font-bold">Settings</h1>
+               <p className="text-muted-foreground">Manage global store settings.</p>
+             </div>
+           </div>
+           
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-1 space-y-1">
+                 <h3 className="font-medium">Notifications</h3>
+                 <p className="text-sm text-muted-foreground">Manage email templates sent to customers.</p>
+              </div>
+              <div className="md:col-span-2 space-y-4">
+                 {notifications.map((notif: any) => (
+                    <Card key={notif.id}>
+                       <CardHeader className="pb-3">
+                          <div className="flex items-center justify-between">
+                             <div className="flex items-center gap-3">
+                                <div className="p-2 bg-muted rounded-full"><Mail size={16} /></div>
+                                <div>
+                                   <CardTitle className="text-base">{notif.name}</CardTitle>
+                                   <CardDescription className="text-xs">{notif.subject}</CardDescription>
+                                </div>
+                             </div>
+                             <Button variant="outline" size="sm">Edit Template</Button>
+                          </div>
+                       </CardHeader>
+                    </Card>
                  ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-       </div>
-    )
+              </div>
+           </div>
+
+           <Separator />
+
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-1 space-y-1">
+                 <h3 className="font-medium">Payments</h3>
+                 <p className="text-sm text-muted-foreground">Manage payment providers and payouts.</p>
+              </div>
+              <div className="md:col-span-2">
+                 <Card>
+                    <CardContent className="p-6 space-y-4">
+                       <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                             <CreditCard className="text-muted-foreground" />
+                             <span className="font-medium">Stripe (Test Mode)</span>
+                          </div>
+                          <Badge variant="default" className="bg-green-600">Active</Badge>
+                       </div>
+                       <div className="text-sm text-muted-foreground">
+                          Accepting Visa, Mastercard, Amex. Payouts scheduled daily.
+                       </div>
+                       <Button variant="outline">Manage Provider</Button>
+                    </CardContent>
+                 </Card>
+              </div>
+           </div>
+        </div>
+     )
   }
 
   // Default Dashboard View
@@ -488,7 +586,7 @@ export default function AdminDashboard() {
             <ShoppingCart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
+            <div className="text-2xl font-bold">+{orders.length}</div>
             <p className="text-xs text-muted-foreground">+180.1% from last month</p>
           </CardContent>
         </Card>
@@ -498,7 +596,7 @@ export default function AdminDashboard() {
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,203</div>
+            <div className="text-2xl font-bold">{products.length}</div>
             <p className="text-xs text-muted-foreground">12 Low Stock Alerts</p>
           </CardContent>
         </Card>
@@ -538,23 +636,23 @@ export default function AdminDashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {orders.map((order) => (
+              {orders.slice(0, 5).map((order) => (
                 <TableRow key={order.id}>
                   <TableCell className="font-medium">{order.id}</TableCell>
                   <TableCell>{order.customer}</TableCell>
                   <TableCell>
                     <Badge variant={
-                      order.status === 'Fulfilled' ? 'default' : 
-                      order.status === 'Pending' ? 'secondary' : 
-                      order.status === 'Cancelled' ? 'destructive' : 'outline'
-                    }>
+                      order.status === 'fulfilled' ? 'default' : 
+                      order.status === 'pending' ? 'secondary' : 
+                      order.status === 'cancelled' ? 'destructive' : 'outline'
+                    } className="capitalize">
                       {order.status}
                     </Badge>
                   </TableCell>
                   <TableCell>{order.date}</TableCell>
-                  <TableCell className="text-right">${order.amount.toFixed(2)}</TableCell>
+                  <TableCell className="text-right">${order.total.toFixed(2)}</TableCell>
                   <TableCell className="text-right">
-                    <Button variant="ghost" size="sm">Manage</Button>
+                    <Button variant="ghost" size="sm" onClick={() => setSelectedOrder(order.id)}>Manage</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -562,6 +660,25 @@ export default function AdminDashboard() {
           </Table>
         </CardContent>
       </Card>
+      
+       {/* Shared Order Details Sheet for Dashboard View too */}
+        <Sheet open={!!selectedOrder} onOpenChange={(open) => !open && setSelectedOrder(null)}>
+          <SheetContent className="sm:max-w-md">
+             {/* Same sheet content as above - simplifying by not duplicating code in this prompt, 
+                 in real app would be component */}
+             <SheetHeader className="mb-6">
+               <SheetTitle>Order Details</SheetTitle>
+               <SheetDescription>Manage this order.</SheetDescription>
+             </SheetHeader>
+             <div className="space-y-4">
+                <p>Order ID: {selectedOrder}</p>
+                <div className="flex flex-col gap-2">
+                   <Button onClick={() => handleOrderAction('Fulfilled')}>Mark Fulfilled</Button>
+                   <Button variant="outline" onClick={() => handleOrderAction('Cancelled')}>Cancel Order</Button>
+                </div>
+             </div>
+          </SheetContent>
+        </Sheet>
     </div>
   );
 }
