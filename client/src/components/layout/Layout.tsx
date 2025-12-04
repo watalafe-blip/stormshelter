@@ -82,6 +82,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link href="/shop" className="text-lg font-medium">Shop</Link>
                 <Link href="/about" className="text-lg font-medium">About</Link>
                 <Link href="/contact" className="text-lg font-medium">Contact</Link>
+                <Link href="/admin" className="text-lg font-medium text-primary">Admin Dashboard</Link>
               </nav>
             </SheetContent>
           </Sheet>
@@ -106,7 +107,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Button>
             
             <Link href="/admin">
-              <Button variant="ghost" size="icon" className="hidden sm:flex" title="Admin Demo">
+              <Button variant="ghost" size="icon" title="Admin Demo">
                 <User className="h-5 w-5" />
               </Button>
             </Link>
@@ -172,8 +173,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </p>
           </div>
         </div>
-        <div className="container mx-auto px-4 mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} LuxeStore. All rights reserved.
+        <div className="container mx-auto px-4 mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground flex flex-col md:flex-row justify-between items-center gap-4">
+          <span>&copy; {new Date().getFullYear()} LuxeStore. All rights reserved.</span>
+          <Link href="/admin" className="text-xs text-muted-foreground hover:text-primary underline decoration-dotted">
+            Admin Panel Login
+          </Link>
         </div>
       </footer>
     </div>
