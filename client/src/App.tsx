@@ -13,6 +13,7 @@ import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
 import Confirmation from "@/pages/Confirmation";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
+import Layout from "@/components/layout/Layout";
 
 function Router() {
   return (
@@ -24,8 +25,16 @@ function Router() {
       <Route path="/cart" component={Cart} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/confirmation" component={Confirmation} />
-      <Route path="/admin" component={AdminDashboard} />
-      <Route path="/admin/:page" component={AdminDashboard} />
+      <Route path="/admin">
+        <Layout>
+          <AdminDashboard />
+        </Layout>
+      </Route>
+      <Route path="/admin/:page">
+        <Layout>
+          <AdminDashboard />
+        </Layout>
+      </Route>
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
