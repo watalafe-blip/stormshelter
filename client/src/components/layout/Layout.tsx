@@ -36,6 +36,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Orders
               </div>
             </Link>
+            <Link href="/admin/payments">
+              <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors ${location === '/admin/payments' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+                Payments
+              </div>
+            </Link>
+            <Link href="/admin/pages">
+              <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors ${location === '/admin/pages' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+                Pages
+              </div>
+            </Link>
             <Link href="/admin/customers">
               <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors ${location === '/admin/customers' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
                 Customers
