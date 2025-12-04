@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { ShoppingBag, Menu, X, Search, User, LayoutDashboard } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, User, LayoutDashboard, Box, FileText, CreditCard, Settings, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -13,52 +13,102 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const isAdmin = location.startsWith('/admin');
 
+  const AdminSidebarLinks = () => (
+    <>
+      <Link href="/admin">
+        <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors flex items-center gap-3 ${location === '/admin' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+          <LayoutDashboard size={20} />
+          Dashboard
+        </div>
+      </Link>
+      <Link href="/admin/products">
+        <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors flex items-center gap-3 ${location === '/admin/products' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+          <Box size={20} />
+          Products
+        </div>
+      </Link>
+      <Link href="/admin/orders">
+        <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors flex items-center gap-3 ${location === '/admin/orders' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+          <ShoppingBag size={20} />
+          Orders
+        </div>
+      </Link>
+      <Link href="/admin/payments">
+        <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors flex items-center gap-3 ${location === '/admin/payments' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+          <CreditCard size={20} />
+          Payments
+        </div>
+      </Link>
+      <Link href="/admin/pages">
+        <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors flex items-center gap-3 ${location === '/admin/pages' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+          <FileText size={20} />
+          Pages
+        </div>
+      </Link>
+      <Link href="/admin/customers">
+        <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors flex items-center gap-3 ${location === '/admin/customers' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+          <Users size={20} />
+          Customers
+        </div>
+      </Link>
+      <Link href="/admin/settings">
+        <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors flex items-center gap-3 ${location === '/admin/settings' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+          <Settings size={20} />
+          Settings
+        </div>
+      </Link>
+    </>
+  );
+
   if (isAdmin) {
     return (
       <div className="min-h-screen flex bg-gray-50">
-        <aside className="w-64 bg-sidebar border-r border-sidebar-border text-sidebar-foreground hidden md:block fixed h-full">
+        {/* Desktop Sidebar */}
+        <aside className="w-64 bg-sidebar border-r border-sidebar-border text-sidebar-foreground hidden md:block fixed h-full overflow-y-auto">
           <div className="p-6 border-b border-sidebar-border">
             <h2 className="text-2xl font-serif font-bold">LuxeAdmin</h2>
           </div>
-          <nav className="p-4 space-y-2">
-            <Link href="/admin">
-              <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors ${location === '/admin' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
-                Dashboard
-              </div>
-            </Link>
-            <Link href="/admin/products">
-              <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors ${location === '/admin/products' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
-                Products
-              </div>
-            </Link>
-            <Link href="/admin/orders">
-              <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors ${location === '/admin/orders' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
-                Orders
-              </div>
-            </Link>
-            <Link href="/admin/payments">
-              <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors ${location === '/admin/payments' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
-                Payments
-              </div>
-            </Link>
-            <Link href="/admin/pages">
-              <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors ${location === '/admin/pages' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
-                Pages
-              </div>
-            </Link>
-            <Link href="/admin/customers">
-              <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors ${location === '/admin/customers' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
-                Customers
-              </div>
-            </Link>
+          <nav className="p-4 space-y-1">
+            <AdminSidebarLinks />
             <div className="mt-8 pt-4 border-t border-sidebar-border">
-              <Link href="/" className="p-3 text-sm text-muted-foreground hover:text-foreground cursor-pointer flex items-center gap-2">
-                  <LayoutDashboard size={16} /> Back to Store
+              <Link href="/">
+                <div className="p-3 text-sm text-muted-foreground hover:text-foreground cursor-pointer flex items-center gap-3">
+                  <LayoutDashboard size={20} /> Back to Store
+                </div>
               </Link>
             </div>
           </nav>
         </aside>
-        <main className="flex-1 md:ml-64">
+
+        {/* Mobile Header for Admin */}
+        <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-background border-b border-border p-4 flex items-center justify-between">
+           <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-64 p-0">
+              <div className="p-6 border-b">
+                <h2 className="text-xl font-serif font-bold">LuxeAdmin</h2>
+              </div>
+              <nav className="p-4 space-y-1">
+                <AdminSidebarLinks />
+                <div className="mt-8 pt-4 border-t border-border">
+                   <Link href="/">
+                    <div className="p-3 text-sm text-muted-foreground hover:text-foreground cursor-pointer flex items-center gap-3">
+                      <LayoutDashboard size={20} /> Back to Store
+                    </div>
+                  </Link>
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
+          <span className="font-serif font-bold">LuxeAdmin</span>
+          <div className="w-10"></div> {/* Spacer */}
+        </div>
+
+        <main className="flex-1 md:ml-64 pt-16 md:pt-0">
           {children}
         </main>
       </div>
@@ -78,26 +128,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </SheetTrigger>
             <SheetContent side="left">
               <nav className="flex flex-col gap-4 mt-8">
-                <Link href="/" className="text-lg font-medium">Home</Link>
-                <Link href="/shop" className="text-lg font-medium">Shop</Link>
-                <Link href="/about" className="text-lg font-medium">About</Link>
-                <Link href="/contact" className="text-lg font-medium">Contact</Link>
-                <Link href="/admin" className="text-lg font-medium text-primary">Admin Dashboard</Link>
+                <Link href="/"><a className="text-lg font-medium">Home</a></Link>
+                <Link href="/shop"><a className="text-lg font-medium">Shop</a></Link>
+                <Link href="/about"><a className="text-lg font-medium">About</a></Link>
+                <Link href="/contact"><a className="text-lg font-medium">Contact</a></Link>
+                <div className="pt-4 border-t border-border mt-4">
+                   <Link href="/admin"><a className="text-lg font-medium text-primary flex items-center gap-2"><Settings size={18} /> Admin Dashboard</a></Link>
+                </div>
               </nav>
             </SheetContent>
           </Sheet>
 
           {/* Logo */}
-          <Link href="/" className="text-2xl font-serif font-bold tracking-tight">
-            LuxeStore
+          <Link href="/">
+            <a className="text-2xl font-serif font-bold tracking-tight">LuxeStore</a>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-            <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
-            <Link href="/shop" className="hover:text-foreground transition-colors">Shop</Link>
-            <Link href="/about" className="hover:text-foreground transition-colors">About</Link>
-            <Link href="/contact" className="hover:text-foreground transition-colors">Contact</Link>
+            <Link href="/"><a className="hover:text-foreground transition-colors">Home</a></Link>
+            <Link href="/shop"><a className="hover:text-foreground transition-colors">Shop</a></Link>
+            <Link href="/about"><a className="hover:text-foreground transition-colors">About</a></Link>
+            <Link href="/contact"><a className="hover:text-foreground transition-colors">Contact</a></Link>
           </nav>
 
           {/* Actions */}
