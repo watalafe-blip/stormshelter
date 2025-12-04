@@ -554,6 +554,171 @@ export default function AdminDashboard() {
      )
   }
 
+
+  if (page === 'payments') {
+    return (
+      <div className="p-8 space-y-8 animate-in fade-in duration-500">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-serif font-bold">Payments</h1>
+            <p className="text-muted-foreground">Manage payment providers and payouts.</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+           <div className="md:col-span-2 space-y-6">
+              <Card>
+                 <CardHeader>
+                    <div className="flex items-center justify-between">
+                       <CardTitle>Payment Providers</CardTitle>
+                       <Button variant="outline" size="sm">Add Provider</Button>
+                    </div>
+                    <CardDescription>Accept payments from customers.</CardDescription>
+                 </CardHeader>
+                 <CardContent className="space-y-6">
+                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                       <div className="flex items-center gap-4">
+                          <div className="h-10 w-10 bg-blue-600 rounded flex items-center justify-center text-white font-bold">S</div>
+                          <div>
+                             <h4 className="font-medium">Stripe Payments</h4>
+                             <p className="text-sm text-muted-foreground">Accept Visa, Mastercard, Amex, Apple Pay</p>
+                          </div>
+                       </div>
+                       <div className="flex items-center gap-3">
+                          <Badge variant="default" className="bg-green-600 hover:bg-green-700">Active</Badge>
+                          <Button variant="ghost" size="sm">Manage</Button>
+                       </div>
+                    </div>
+                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                       <div className="flex items-center gap-4">
+                          <div className="h-10 w-10 bg-yellow-400 rounded flex items-center justify-center text-blue-900 font-bold">P</div>
+                          <div>
+                             <h4 className="font-medium">PayPal</h4>
+                             <p className="text-sm text-muted-foreground">Express Checkout</p>
+                          </div>
+                       </div>
+                       <div className="flex items-center gap-3">
+                          <Button variant="outline" size="sm">Activate</Button>
+                       </div>
+                    </div>
+                 </CardContent>
+              </Card>
+
+              <Card>
+                 <CardHeader>
+                    <CardTitle>Payment Capture</CardTitle>
+                    <CardDescription>Automatically capture payments for orders.</CardDescription>
+                 </CardHeader>
+                 <CardContent>
+                    <div className="flex items-center justify-between">
+                       <div className="space-y-0.5">
+                          <Label className="text-base">Automatic Capture</Label>
+                          <p className="text-sm text-muted-foreground">Payments are captured as soon as the order is placed.</p>
+                       </div>
+                       <Switch checked={true} />
+                    </div>
+                 </CardContent>
+              </Card>
+           </div>
+
+           <div className="space-y-6">
+              <Card>
+                 <CardHeader>
+                    <CardTitle>Payout Schedule</CardTitle>
+                 </CardHeader>
+                 <CardContent className="space-y-4">
+                    <div className="flex justify-between text-sm">
+                       <span className="text-muted-foreground">Next Payout</span>
+                       <span className="font-medium">Tomorrow</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                       <span className="text-muted-foreground">Amount</span>
+                       <span className="font-medium">$1,240.50</span>
+                    </div>
+                    <Button variant="outline" className="w-full">View Payouts</Button>
+                 </CardContent>
+              </Card>
+           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (page === 'customers') {
+     // Derive customers from orders for this view
+     const uniqueCustomers = Array.from(new Set(orders.map(o => o.email))).map(email => {
+       const customerOrders = orders.filter(o => o.email === email);
+       const totalSpent = customerOrders.reduce((sum, o) => sum + o.total, 0);
+       const lastOrder = customerOrders.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+       return {
+         id: email,
+         name: customerOrders[0].customer,
+         email: email,
+         ordersCount: customerOrders.length,
+         totalSpent: totalSpent,
+         lastOrderDate: lastOrder.date,
+         status: 'Active'
+       };
+     });
+
+     return (
+        <div className="p-8 space-y-8 animate-in fade-in duration-500">
+           <div className="flex items-center justify-between">
+             <div>
+               <h1 className="text-3xl font-serif font-bold">Customers</h1>
+               <p className="text-muted-foreground">View and manage customer details.</p>
+             </div>
+             <Button>Import Customers</Button>
+           </div>
+
+           <Card>
+              <CardHeader className="pb-3">
+                 <div className="flex items-center justify-between">
+                    <div className="relative w-64">
+                       <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                       <Input placeholder="Search customers..." className="pl-8" />
+                    </div>
+                    <Button variant="outline" size="sm"><Filter className="mr-2 h-4 w-4" /> Filter</Button>
+                 </div>
+              </CardHeader>
+              <CardContent>
+                 <Table>
+                    <TableHeader>
+                       <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Orders</TableHead>
+                          <TableHead>Total Spent</TableHead>
+                          <TableHead>Last Order</TableHead>
+                       </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                       {uniqueCustomers.length > 0 ? uniqueCustomers.map((customer) => (
+                          <TableRow key={customer.id}>
+                             <TableCell>
+                                <div className="font-medium">{customer.name}</div>
+                                <div className="text-xs text-muted-foreground">{customer.email}</div>
+                             </TableCell>
+                             <TableCell><Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">{customer.status}</Badge></TableCell>
+                             <TableCell>{customer.ordersCount} orders</TableCell>
+                             <TableCell>${customer.totalSpent.toFixed(2)}</TableCell>
+                             <TableCell>{customer.lastOrderDate}</TableCell>
+                          </TableRow>
+                       )) : (
+                          <TableRow>
+                             <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                                No customers found. Place some orders to see them here.
+                             </TableCell>
+                          </TableRow>
+                       )}
+                    </TableBody>
+                 </Table>
+              </CardContent>
+           </Card>
+        </div>
+     );
+  }
+
   // Default Dashboard View
   return (
     <div className="p-8 space-y-8 animate-in fade-in duration-500">
