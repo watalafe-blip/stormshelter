@@ -1,11 +1,12 @@
 
 import { Link, useRoute } from 'wouter';
 import { categories, products } from '@/lib/mockData';
-import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit } from 'lucide-react';
+import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit, Loader2, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -22,10 +23,44 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+  SheetClose,
+} from "@/components/ui/sheet";
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AdminDashboard() {
   const [, params] = useRoute('/admin/:page?');
   const page = params?.page || 'dashboard';
+  const [editingProduct, setEditingProduct] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const { toast } = useToast();
+
+  const handleEditClick = (productId: string) => {
+    setEditingProduct(productId);
+  };
+
+  const handleSaveProduct = () => {
+    setIsSaving(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSaving(false);
+      setEditingProduct(null);
+      toast({
+        title: "Product Saved",
+        description: "Your changes have been updated successfully.",
+      });
+    }, 1000);
+  };
+
+  const currentProduct = products.find(p => p.id === editingProduct);
 
   if (page === 'products') {
     return (
@@ -83,32 +118,64 @@ export default function AdminDashboard() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEditClick(product.id)}>
+                            <Edit className="mr-2 h-4 w-4" /> Edit
+                          </DropdownMenuItem>
                           <DropdownMenuItem className="text-destructive"><Trash className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
                 ))}
-                {/* Example of more rows */}
-                 <TableRow>
-                    <TableCell>
-                      <div className="w-12 h-12 rounded-md overflow-hidden bg-muted"></div>
-                    </TableCell>
-                    <TableCell className="font-medium">Summer Linen Shirt</TableCell>
-                    <TableCell>Fashion</TableCell>
-                    <TableCell>$89.00</TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Draft</Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button>
-                    </TableCell>
-                  </TableRow>
               </TableBody>
             </Table>
           </CardContent>
         </Card>
+
+        {/* Edit Product Sheet */}
+        <Sheet open={!!editingProduct} onOpenChange={(open) => !open && setEditingProduct(null)}>
+          <SheetContent className="sm:max-w-md overflow-y-auto">
+            <SheetHeader>
+              <SheetTitle>Edit Product</SheetTitle>
+              <SheetDescription>
+                Make changes to your product here. Click save when you're done.
+              </SheetDescription>
+            </SheetHeader>
+            {currentProduct && (
+              <div className="grid gap-4 py-4">
+                <div className="aspect-video w-full overflow-hidden rounded-lg bg-muted mb-4">
+                   <img src={currentProduct.image} className="h-full w-full object-cover" alt="Product preview" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input id="name" defaultValue={currentProduct.name} />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="price">Price</Label>
+                    <Input id="price" defaultValue={currentProduct.price} type="number" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="category">Category</Label>
+                    <Input id="category" defaultValue={currentProduct.category} />
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea id="description" defaultValue={currentProduct.description} rows={4} />
+                </div>
+              </div>
+            )}
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </SheetClose>
+              <Button onClick={handleSaveProduct} disabled={isSaving}>
+                {isSaving ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...</> : <><Save className="mr-2 h-4 w-4" /> Save Changes</>}
+              </Button>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
        </div>
     );
   }
