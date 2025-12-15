@@ -68,10 +68,10 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   ]);
 
   const [theme, setTheme] = useState<ThemeSettings>({
-    storeName: "LuxeStore",
+    storeName: "Vitality",
     logoUrl: null,
-    primaryColor: "240 5.9% 10%", // Default black/zinc
-    announcementBar: "Free shipping on all orders over $100"
+    primaryColor: "180 30% 30%", // Deep calming teal/green
+    announcementBar: "Complimentary White Glove Delivery on Orders Over $2,000"
   });
 
   const [pages, setPages] = useState([
