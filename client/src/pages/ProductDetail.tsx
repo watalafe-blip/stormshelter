@@ -1,6 +1,6 @@
 
 import { useRoute } from "wouter";
-import { products } from "@/lib/mockData";
+import { useStore } from "@/lib/storeContext";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Heart, Share2, Truck, ShieldCheck, RefreshCw, Star } from "lucide-react";
@@ -17,6 +17,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function ProductDetail() {
+  const { products } = useStore();
   const [, params] = useRoute("/product/:id");
   const product = products.find((p) => p.id === params?.id) || products[0];
   const [quantity, setQuantity] = useState(1);
@@ -66,6 +67,9 @@ export default function ProductDetail() {
               </div>
               <div className="flex items-baseline gap-4">
                 <span className="text-3xl font-medium">${product.price.toFixed(2)}</span>
+                {product.compareAtPrice && product.compareAtPrice > product.price && (
+                   <span className="text-xl text-muted-foreground line-through">${product.compareAtPrice.toFixed(2)}</span>
+                )}
                 <span className="text-sm text-green-600 font-medium bg-green-50 px-2 py-1 rounded-full">In Stock</span>
               </div>
             </div>

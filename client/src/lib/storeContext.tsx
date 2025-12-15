@@ -7,6 +7,7 @@ export interface Product {
   id: string;
   name: string;
   price: number;
+  compareAtPrice?: number;
   category: string;
   image: string;
   description: string;
@@ -14,17 +15,52 @@ export interface Product {
   isNew?: boolean;
   inventory: number;
   status: 'active' | 'draft' | 'archived';
+  shippingProfileId?: string;
 }
 
 export interface Order {
   id: string;
   customer: string;
   email: string;
+  phone?: string;
+  address?: string;
   date: string;
   status: 'pending' | 'processing' | 'fulfilled' | 'cancelled';
   paymentStatus: 'paid' | 'unpaid' | 'refunded';
   total: number;
   items: number;
+  shippingCost?: number;
+}
+
+export interface Page {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  status: 'published' | 'draft';
+}
+
+export interface MenuLink {
+  id: string;
+  label: string;
+  url: string;
+  type: 'page' | 'url';
+}
+
+export interface ShippingProfile {
+  id: string;
+  name: string;
+  type: 'flat' | 'distance';
+  rate: number;
+  originState?: string; // e.g., 'MO' for Missouri
+}
+
+export interface HomePageSection {
+  id: string;
+  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block';
+  title?: string;
+  content?: any;
+  enabled: boolean;
 }
 
 export interface ThemeSettings {
@@ -32,6 +68,13 @@ export interface ThemeSettings {
   logoUrl: string | null;
   primaryColor: string; // H S L format e.g. "240 5.9% 10%"
   announcementBar: string;
+  typography: {
+    heading: 'serif' | 'sans';
+    body: 'serif' | 'sans';
+  };
+  headerMenu: MenuLink[];
+  footerMenu: MenuLink[];
+  homeLayout: HomePageSection[];
 }
 
 export interface StoreContextType {
@@ -41,12 +84,21 @@ export interface StoreContextType {
   deleteProduct: (id: string) => void;
   
   orders: Order[];
+  addOrder: (order: Order) => void;
   updateOrder: (id: string, updates: Partial<Order>) => void;
   
   theme: ThemeSettings;
   updateTheme: (updates: Partial<ThemeSettings>) => void;
   
-  pages: any[]; // keeping simple for now
+  pages: Page[];
+  addPage: (page: Page) => void;
+  updatePage: (id: string, updates: Partial<Page>) => void;
+  deletePage: (id: string) => void;
+  
+  shippingProfiles: ShippingProfile[];
+  addShippingProfile: (profile: ShippingProfile) => void;
+  updateShippingProfile: (id: string, updates: Partial<ShippingProfile>) => void;
+  
   notifications: any[];
 }
 
@@ -57,27 +109,58 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [products, setProducts] = useState<Product[]>(initialProducts.map(p => ({
     ...p,
     inventory: Math.floor(Math.random() * 50) + 10,
-    status: 'active'
+    status: 'active',
+    compareAtPrice: p.price * 1.2
   })));
 
   const [orders, setOrders] = useState<Order[]>([
-    { id: "ORD-1001", customer: "Alice Freeman", email: "alice@example.com", date: "2023-10-21", status: "fulfilled", paymentStatus: "paid", total: 250.00, items: 3 },
-    { id: "ORD-1002", customer: "Bob Smith", email: "bob@test.com", date: "2023-10-21", status: "pending", paymentStatus: "paid", total: 120.50, items: 1 },
-    { id: "ORD-1003", customer: "Charlie Brown", email: "charlie@domain.com", date: "2023-10-20", status: "cancelled", paymentStatus: "refunded", total: 45.00, items: 1 },
-    { id: "ORD-1004", customer: "Diana Prince", email: "diana@themyscira.net", date: "2023-10-19", status: "fulfilled", paymentStatus: "paid", total: 850.00, items: 5 },
+    { id: "ORD-1001", customer: "Alice Freeman", email: "alice@example.com", phone: "555-0101", address: "123 Main St, Springfield, MO 65804", date: "2023-10-21", status: "fulfilled", paymentStatus: "paid", total: 250.00, items: 3, shippingCost: 15.00 },
+    { id: "ORD-1002", customer: "Bob Smith", email: "bob@test.com", phone: "555-0102", address: "456 Oak Ave, Metropolis, NY 10012", date: "2023-10-21", status: "pending", paymentStatus: "paid", total: 120.50, items: 1, shippingCost: 12.00 },
+    { id: "ORD-1003", customer: "Charlie Brown", email: "charlie@domain.com", phone: "555-0103", address: "789 Pine Ln, Gotham, NJ 07001", date: "2023-10-20", status: "cancelled", paymentStatus: "refunded", total: 45.00, items: 1, shippingCost: 8.00 },
+    { id: "ORD-1004", customer: "Diana Prince", email: "diana@themyscira.net", phone: "555-0104", address: "101 Island Dr, Paradise, CA 90210", date: "2023-10-19", status: "fulfilled", paymentStatus: "paid", total: 850.00, items: 5, shippingCost: 0.00 },
   ]);
 
   const [theme, setTheme] = useState<ThemeSettings>({
     storeName: "Vitality",
     logoUrl: null,
     primaryColor: "180 30% 30%", // Deep calming teal/green
-    announcementBar: "Complimentary White Glove Delivery on Orders Over $2,000"
+    announcementBar: "Complimentary White Glove Delivery on Orders Over $2,000",
+    typography: {
+      heading: 'serif',
+      body: 'sans'
+    },
+    headerMenu: [
+      { id: '1', label: 'Home', url: '/', type: 'url' },
+      { id: '2', label: 'Shop', url: '/shop', type: 'url' },
+      { id: '3', label: 'About', url: '/about', type: 'page' },
+      { id: '4', label: 'Contact', url: '/contact', type: 'page' },
+    ],
+    footerMenu: [
+      { id: '1', label: 'Shipping Info', url: '/shipping', type: 'page' },
+      { id: '2', label: 'Returns', url: '/returns', type: 'page' },
+      { id: '3', label: 'Privacy Policy', url: '/privacy', type: 'page' },
+    ],
+    homeLayout: [
+      { id: 'hero', type: 'hero', enabled: true },
+      { id: 'cats', type: 'category-grid', title: 'Shop by Category', enabled: true },
+      { id: 'feats', type: 'featured-products', title: 'Our Top Picks', enabled: true },
+      { id: 'news', type: 'newsletter', enabled: true },
+      { id: 'new', type: 'new-arrivals', title: 'New Arrivals', enabled: true },
+    ]
   });
 
-  const [pages, setPages] = useState([
-    { id: 'home', title: 'Home', status: 'published' },
-    { id: 'about', title: 'About Us', status: 'published' },
-    { id: 'contact', title: 'Contact', status: 'published' },
+  const [pages, setPages] = useState<Page[]>([
+    { id: 'home', title: 'Home', slug: '/', content: 'Home page content...', status: 'published' },
+    { id: 'about', title: 'About Us', slug: '/about', content: 'About us content...', status: 'published' },
+    { id: 'contact', title: 'Contact', slug: '/contact', content: 'Contact form...', status: 'published' },
+    { id: 'shipping', title: 'Shipping Info', slug: '/shipping', content: 'Shipping policies...', status: 'published' },
+    { id: 'returns', title: 'Return Policy', slug: '/returns', content: 'Return policies...', status: 'published' },
+  ]);
+  
+  const [shippingProfiles, setShippingProfiles] = useState<ShippingProfile[]>([
+    { id: 'flat-std', name: 'Standard Shipping', type: 'flat', rate: 15.00 },
+    { id: 'flat-exp', name: 'Express Shipping', type: 'flat', rate: 35.00 },
+    { id: 'dist-mo', name: 'Midwest Delivery', type: 'distance', rate: 5.00, originState: 'MO' },
   ]);
 
   const [notifications] = useState([
@@ -91,7 +174,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setProducts(products.map(p => p.id === id ? { ...p, ...updates } : p));
   };
   const deleteProduct = (id: string) => setProducts(products.filter(p => p.id !== id));
-
+  
+  const addOrder = (order: Order) => setOrders([order, ...orders]);
   const updateOrder = (id: string, updates: Partial<Order>) => {
     setOrders(orders.map(o => o.id === id ? { ...o, ...updates } : o));
   };
@@ -99,16 +183,18 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const updateTheme = (updates: Partial<ThemeSettings>) => {
     setTheme(prev => ({ ...prev, ...updates }));
   };
+  
+  const addPage = (page: Page) => setPages([...pages, page]);
+  const updatePage = (id: string, updates: Partial<Page>) => setPages(pages.map(p => p.id === id ? { ...p, ...updates } : p));
+  const deletePage = (id: string) => setPages(pages.filter(p => p.id !== id));
+  
+  const addShippingProfile = (profile: ShippingProfile) => setShippingProfiles([...shippingProfiles, profile]);
+  const updateShippingProfile = (id: string, updates: Partial<ShippingProfile>) => setShippingProfiles(shippingProfiles.map(p => p.id === id ? { ...p, ...updates } : p));
 
   // Apply theme to CSS variables
   useEffect(() => {
-    // This is a simplified way to apply the primary color. 
-    // In a real app, we might parse HSL properly.
-    // Assuming the input is in "H S% L%" format or similar valid css var value
     if (theme.primaryColor) {
       document.documentElement.style.setProperty('--primary', theme.primaryColor);
-      // Simple logic to determine foreground color based on lightness could go here
-      // For now, assuming dark primary means light text
       document.documentElement.style.setProperty('--primary-foreground', '0 0% 100%'); 
     }
   }, [theme.primaryColor]);
@@ -116,9 +202,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   return (
     <StoreContext.Provider value={{
       products, addProduct, updateProduct, deleteProduct,
-      orders, updateOrder,
+      orders, addOrder, updateOrder,
       theme, updateTheme,
-      pages, notifications
+      pages, addPage, updatePage, deletePage,
+      shippingProfiles, addShippingProfile, updateShippingProfile,
+      notifications
     }}>
       {children}
     </StoreContext.Provider>

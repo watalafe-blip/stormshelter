@@ -41,13 +41,25 @@ import { Separator } from "@/components/ui/separator";
 export default function AdminDashboard() {
   const [, params] = useRoute('/admin/:page?');
   const page = params?.page || 'dashboard';
-  const { products, updateProduct, deleteProduct, orders, updateOrder, theme, updateTheme, notifications } = useStore();
+  const { 
+    products, addProduct, updateProduct, deleteProduct, 
+    orders, addOrder, updateOrder, 
+    theme, updateTheme, 
+    pages, addPage, updatePage, deletePage,
+    shippingProfiles, addShippingProfile, updateShippingProfile,
+    notifications
+  } = useStore();
   const { toast } = useToast();
 
   // Local State for Editing
   const [editingProduct, setEditingProduct] = useState<string | null>(null);
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
+  const [isCreatingOrder, setIsCreatingOrder] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  
+  // Navigation State
+  const [activeTab, setActiveTab] = useState('theme');
 
   // Handlers
   const handleSaveProduct = async (e: React.FormEvent) => {
@@ -56,20 +68,60 @@ export default function AdminDashboard() {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     
+    const productData = {
+      name: formData.get('name') as string,
+      price: parseFloat(formData.get('price') as string),
+      compareAtPrice: formData.get('compareAtPrice') ? parseFloat(formData.get('compareAtPrice') as string) : undefined,
+      category: formData.get('category') as string,
+      description: formData.get('description') as string,
+      image: (formData.get('image') as string) || products[0].image, // Fallback for new product
+      inventory: parseInt(formData.get('inventory') as string) || 0,
+      status: 'active' as const,
+    };
+
     if (editingProduct) {
-      updateProduct(editingProduct, {
-        name: formData.get('name') as string,
-        price: parseFloat(formData.get('price') as string),
-        category: formData.get('category') as string,
-        description: formData.get('description') as string,
+      updateProduct(editingProduct, productData);
+      toast({ title: "Product Updated", description: "Changes saved successfully." });
+    } else {
+      addProduct({
+        id: `prod-${Date.now()}`,
+        ...productData
       });
+      toast({ title: "Product Created", description: "New product added to catalog." });
     }
 
     await new Promise(r => setTimeout(r, 800)); // Simulate delay
     setIsSaving(false);
     setEditingProduct(null);
-    toast({ title: "Product Saved", description: "Your changes have been updated successfully." });
+    setIsAddingProduct(false);
   };
+  
+  const handleCreateOrder = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    
+    addOrder({
+      id: `ORD-${Math.floor(Math.random() * 10000)}`,
+      customer: formData.get('customer') as string,
+      email: formData.get('email') as string,
+      phone: formData.get('phone') as string,
+      address: formData.get('address') as string,
+      date: new Date().toISOString().split('T')[0],
+      status: 'pending',
+      paymentStatus: 'unpaid',
+      total: parseFloat(formData.get('total') as string) || 0,
+      shippingCost: parseFloat(formData.get('shippingCost') as string) || 0,
+      items: 1, // Simplified for manual creation
+    });
+    
+    await new Promise(r => setTimeout(r, 500));
+    setIsSaving(false);
+    setIsCreatingOrder(false);
+    toast({ title: "Order Created", description: "Manual order has been created." });
+  };
+
 
   const handleOrderAction = async (action: string) => {
     if (!selectedOrder) return;
@@ -117,7 +169,7 @@ export default function AdminDashboard() {
             <h1 className="text-3xl font-serif font-bold">Products</h1>
             <p className="text-muted-foreground">Manage your product catalog.</p>
           </div>
-          <Button><Plus className="mr-2 h-4 w-4" /> Add Product</Button>
+          <Button onClick={() => setIsAddingProduct(true)}><Plus className="mr-2 h-4 w-4" /> Add Product</Button>
         </div>
 
         <Card>
@@ -138,6 +190,7 @@ export default function AdminDashboard() {
                   <TableHead>Name</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>Price</TableHead>
+                  <TableHead>Discount</TableHead>
                   <TableHead>Inventory</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -154,6 +207,7 @@ export default function AdminDashboard() {
                     <TableCell className="font-medium">{product.name}</TableCell>
                     <TableCell>{product.category}</TableCell>
                     <TableCell>${product.price.toFixed(2)}</TableCell>
+                    <TableCell>{product.compareAtPrice && product.compareAtPrice > product.price ? <span className="text-destructive text-sm line-through">${product.compareAtPrice.toFixed(2)}</span> : '-'}</TableCell>
                     <TableCell>{product.inventory} in stock</TableCell>
                     <TableCell>
                       <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 capitalize">
@@ -185,40 +239,57 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        {/* Edit Product Sheet */}
-        <Sheet open={!!editingProduct} onOpenChange={(open) => !open && setEditingProduct(null)}>
+        {/* Edit/Add Product Sheet */}
+        <Sheet open={!!editingProduct || isAddingProduct} onOpenChange={(open) => {
+          if (!open) {
+            setEditingProduct(null);
+            setIsAddingProduct(false);
+          }
+        }}>
           <SheetContent className="sm:max-w-lg overflow-y-auto">
             <SheetHeader>
-              <SheetTitle>Edit Product</SheetTitle>
+              <SheetTitle>{editingProduct ? 'Edit Product' : 'Add Product'}</SheetTitle>
               <SheetDescription>
-                Update product details. Changes reflect immediately on the storefront.
+                {editingProduct ? 'Update product details.' : 'Add a new product to your catalog.'}
               </SheetDescription>
             </SheetHeader>
-            {currentProduct && (
-              <form id="edit-product-form" onSubmit={handleSaveProduct} className="grid gap-4 py-4">
+            {/* If adding, we use empty defaults. If editing, we use currentProduct */}
+            {(editingProduct ? currentProduct : true) && (
+              <form id="product-form" onSubmit={handleSaveProduct} className="grid gap-4 py-4">
                 <div className="aspect-video w-full overflow-hidden rounded-lg bg-muted mb-4 relative group cursor-pointer">
-                   <img src={currentProduct.image} className="h-full w-full object-cover" alt="Product preview" />
+                   <img src={editingProduct && currentProduct ? currentProduct.image : "https://placehold.co/600x400"} className="h-full w-full object-cover" alt="Product preview" />
                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                       <span className="text-white font-medium flex items-center gap-2"><ImageIcon size={16}/> Change Image</span>
                    </div>
+                   <input type="hidden" name="image" value={editingProduct && currentProduct ? currentProduct.image : ""} />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="name">Name</Label>
-                  <Input name="name" id="name" defaultValue={currentProduct.name} />
+                  <Input name="name" id="name" defaultValue={editingProduct && currentProduct ? currentProduct.name : ''} required />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="price">Price</Label>
-                    <Input name="price" id="price" defaultValue={currentProduct.price} type="number" step="0.01" />
+                    <Input name="price" id="price" defaultValue={editingProduct && currentProduct ? currentProduct.price : ''} type="number" step="0.01" required />
                   </div>
                   <div className="grid gap-2">
+                    <Label htmlFor="compareAtPrice">Compare At Price (Discount)</Label>
+                    <Input name="compareAtPrice" id="compareAtPrice" defaultValue={editingProduct && currentProduct ? currentProduct.compareAtPrice : ''} type="number" step="0.01" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
                     <Label htmlFor="category">Category</Label>
-                    <Input name="category" id="category" defaultValue={currentProduct.category} />
+                    <Input name="category" id="category" defaultValue={editingProduct && currentProduct ? currentProduct.category : ''} required />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="inventory">Inventory</Label>
+                    <Input name="inventory" id="inventory" defaultValue={editingProduct && currentProduct ? currentProduct.inventory : 10} type="number" />
                   </div>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="description">Description</Label>
-                  <Textarea name="description" id="description" defaultValue={currentProduct.description} rows={5} />
+                  <Textarea name="description" id="description" defaultValue={editingProduct && currentProduct ? currentProduct.description : ''} rows={5} />
                 </div>
               </form>
             )}
@@ -226,8 +297,8 @@ export default function AdminDashboard() {
               <SheetClose asChild>
                 <Button variant="outline">Cancel</Button>
               </SheetClose>
-              <Button type="submit" form="edit-product-form" disabled={isSaving}>
-                {isSaving ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...</> : <><Save className="mr-2 h-4 w-4" /> Save Changes</>}
+              <Button type="submit" form="product-form" disabled={isSaving}>
+                {isSaving ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...</> : <><Save className="mr-2 h-4 w-4" /> Save Product</>}
               </Button>
             </SheetFooter>
           </SheetContent>
@@ -235,6 +306,7 @@ export default function AdminDashboard() {
        </div>
     );
   }
+
 
   if (page === 'orders') {
     return (
@@ -244,6 +316,7 @@ export default function AdminDashboard() {
             <h1 className="text-3xl font-serif font-bold">Orders</h1>
             <p className="text-muted-foreground">Manage and fulfill customer orders.</p>
           </div>
+          <Button onClick={() => setIsCreatingOrder(true)}><Plus className="mr-2 h-4 w-4" /> Create Order</Button>
         </div>
 
         <Card>
@@ -290,6 +363,49 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
+        {/* Create Manual Order Sheet */}
+        <Sheet open={isCreatingOrder} onOpenChange={setIsCreatingOrder}>
+          <SheetContent className="sm:max-w-md">
+             <SheetHeader className="mb-6">
+               <SheetTitle>Create Manual Order</SheetTitle>
+               <SheetDescription>Enter details for a manual order.</SheetDescription>
+             </SheetHeader>
+             <form id="create-order-form" onSubmit={handleCreateOrder} className="space-y-4">
+                <div className="grid gap-2">
+                   <Label>Customer Name</Label>
+                   <Input name="customer" required placeholder="John Doe" />
+                </div>
+                <div className="grid gap-2">
+                   <Label>Email</Label>
+                   <Input name="email" type="email" required placeholder="john@example.com" />
+                </div>
+                <div className="grid gap-2">
+                   <Label>Phone</Label>
+                   <Input name="phone" type="tel" placeholder="+1 555-0000" />
+                </div>
+                <div className="grid gap-2">
+                   <Label>Shipping Address</Label>
+                   <Textarea name="address" placeholder="123 Main St, City, State, ZIP" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                   <div className="grid gap-2">
+                      <Label>Order Total ($)</Label>
+                      <Input name="total" type="number" step="0.01" required placeholder="0.00" />
+                   </div>
+                   <div className="grid gap-2">
+                      <Label>Shipping Cost ($)</Label>
+                      <Input name="shippingCost" type="number" step="0.01" placeholder="0.00" />
+                   </div>
+                </div>
+             </form>
+             <SheetFooter className="mt-6">
+                <Button type="submit" form="create-order-form" disabled={isSaving}>
+                   {isSaving ? 'Creating...' : 'Create Order'}
+                </Button>
+             </SheetFooter>
+          </SheetContent>
+        </Sheet>
+
         {/* Order Details Sheet */}
         <Sheet open={!!selectedOrder} onOpenChange={(open) => !open && setSelectedOrder(null)}>
           <SheetContent className="sm:max-w-md">
@@ -316,8 +432,15 @@ export default function AdminDashboard() {
                      <div>
                         <p className="font-medium">{currentOrder.customer}</p>
                         <p className="text-sm text-muted-foreground">{currentOrder.email}</p>
+                        {currentOrder.phone && <p className="text-sm text-muted-foreground">{currentOrder.phone}</p>}
                      </div>
                   </div>
+                  {currentOrder.address && (
+                     <div className="pt-2 border-t mt-2">
+                        <p className="text-xs text-muted-foreground uppercase mb-1">Shipping Address</p>
+                        <p className="text-sm">{currentOrder.address}</p>
+                     </div>
+                  )}
                </div>
 
                <div className="space-y-4">
@@ -336,9 +459,19 @@ export default function AdminDashboard() {
                     <p className="text-sm font-medium">${products[0].price}</p>
                   </div>
                   
-                  <div className="flex justify-between pt-2 font-bold border-t border-dashed mt-4">
-                     <span>Total</span>
-                     <span>${currentOrder.total.toFixed(2)}</span>
+                  <div className="space-y-2 pt-2 mt-4">
+                     <div className="flex justify-between text-sm">
+                        <span>Subtotal</span>
+                        <span>${(currentOrder.total - (currentOrder.shippingCost || 0)).toFixed(2)}</span>
+                     </div>
+                     <div className="flex justify-between text-sm">
+                        <span>Shipping</span>
+                        <span>${(currentOrder.shippingCost || 0).toFixed(2)}</span>
+                     </div>
+                     <div className="flex justify-between font-bold border-t border-dashed pt-2">
+                        <span>Total</span>
+                        <span>${currentOrder.total.toFixed(2)}</span>
+                     </div>
                   </div>
                </div>
 
@@ -361,20 +494,23 @@ export default function AdminDashboard() {
     );
   }
 
+
   if (page === 'pages') {
     return (
       <div className="p-8 space-y-8 animate-in fade-in duration-500">
          <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-serif font-bold">Online Store</h1>
-            <p className="text-muted-foreground">Manage theme and content.</p>
+            <p className="text-muted-foreground">Manage theme, content, and navigation.</p>
           </div>
         </div>
 
         <Tabs defaultValue="theme">
-          <TabsList className="grid w-full grid-cols-2 max-w-md">
-             <TabsTrigger value="theme">Theme Settings</TabsTrigger>
-             <TabsTrigger value="content">Pages & Content</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 max-w-2xl">
+             <TabsTrigger value="theme">Theme</TabsTrigger>
+             <TabsTrigger value="content">Pages</TabsTrigger>
+             <TabsTrigger value="navigation">Navigation</TabsTrigger>
+             <TabsTrigger value="homepage">Home Page</TabsTrigger>
           </TabsList>
           
           <TabsContent value="theme" className="mt-6 space-y-6">
@@ -388,14 +524,14 @@ export default function AdminDashboard() {
                    <CardContent>
                       <div className="border rounded-lg bg-background shadow-sm overflow-hidden">
                          <div className="h-12 border-b flex items-center px-4 justify-between" style={{ background: '#fff' }}>
-                            <span className="font-serif font-bold text-lg">{theme.storeName}</span>
+                            <span className={`font-bold text-lg ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>{theme.storeName}</span>
                             <div className="flex gap-2">
                                <div className="w-4 h-4 rounded-full bg-muted"></div>
                                <div className="w-4 h-4 rounded-full bg-muted"></div>
                             </div>
                          </div>
                          <div className="p-8 text-center space-y-4">
-                            <h3 className="font-serif text-2xl">Hero Title</h3>
+                            <h3 className={`text-2xl ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>Hero Title</h3>
                             <Button style={{ backgroundColor: `hsl(${theme.primaryColor})`, color: 'white' }}>Shop Now</Button>
                          </div>
                          <div className="h-8 bg-black text-white text-xs flex items-center justify-center">
@@ -423,12 +559,35 @@ export default function AdminDashboard() {
                                <Input name="primaryColor" defaultValue={theme.primaryColor} />
                                <div className="w-10 h-10 rounded border shrink-0" style={{ backgroundColor: `hsl(${theme.primaryColor})` }}></div>
                             </div>
-                            <p className="text-xs text-muted-foreground">Try: "0 72% 51%" (Red) or "220 70% 50%" (Blue)</p>
                          </div>
                          <div className="space-y-2">
                             <Label>Announcement Bar</Label>
                             <Input name="announcementBar" defaultValue={theme.announcementBar} />
                          </div>
+                         
+                         <div className="grid grid-cols-2 gap-4 pt-2">
+                            <div className="space-y-2">
+                               <Label>Headings Font</Label>
+                               <div className="flex items-center gap-2 border p-2 rounded-md">
+                                  <Switch 
+                                    checked={theme.typography.heading === 'serif'} 
+                                    onCheckedChange={(checked) => updateTheme({ typography: { ...theme.typography, heading: checked ? 'serif' : 'sans' } })} 
+                                  />
+                                  <span className="text-sm">{theme.typography.heading === 'serif' ? 'Serif (Classic)' : 'Sans (Modern)'}</span>
+                               </div>
+                            </div>
+                            <div className="space-y-2">
+                               <Label>Body Font</Label>
+                               <div className="flex items-center gap-2 border p-2 rounded-md">
+                                  <Switch 
+                                    checked={theme.typography.body === 'serif'} 
+                                    onCheckedChange={(checked) => updateTheme({ typography: { ...theme.typography, body: checked ? 'serif' : 'sans' } })} 
+                                  />
+                                  <span className="text-sm">{theme.typography.body === 'serif' ? 'Serif' : 'Sans'}</span>
+                               </div>
+                            </div>
+                         </div>
+
                          <div className="space-y-2">
                             <Label>Logo</Label>
                             <div className="border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-muted-foreground hover:bg-muted/50 transition-colors cursor-pointer">
@@ -447,41 +606,107 @@ export default function AdminDashboard() {
 
           <TabsContent value="content" className="mt-6">
              <Card>
-                <CardHeader>
-                   <CardTitle>Pages</CardTitle>
-                   <CardDescription>Manage static pages like About Us, Contact, etc.</CardDescription>
+                <CardHeader className="flex flex-row items-center justify-between">
+                   <div>
+                     <CardTitle>Pages</CardTitle>
+                     <CardDescription>Manage static pages like About Us, Contact, etc.</CardDescription>
+                   </div>
+                   <Button size="sm"><Plus className="mr-2 h-4 w-4" /> Add Page</Button>
                 </CardHeader>
                 <CardContent>
                    <Table>
                       <TableHeader>
                          <TableRow>
                             <TableHead>Title</TableHead>
+                            <TableHead>Slug</TableHead>
                             <TableHead>Status</TableHead>
-                            <TableHead>Last Updated</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                          </TableRow>
                       </TableHeader>
                       <TableBody>
-                         <TableRow>
-                            <TableCell className="font-medium">Home Page</TableCell>
-                            <TableCell><Badge>Published</Badge></TableCell>
-                            <TableCell>2 days ago</TableCell>
-                            <TableCell className="text-right"><Button variant="ghost" size="sm">Edit</Button></TableCell>
-                         </TableRow>
-                         <TableRow>
-                            <TableCell className="font-medium">About Us</TableCell>
-                            <TableCell><Badge>Published</Badge></TableCell>
-                            <TableCell>1 week ago</TableCell>
-                            <TableCell className="text-right"><Button variant="ghost" size="sm">Edit</Button></TableCell>
-                         </TableRow>
-                         <TableRow>
-                            <TableCell className="font-medium">Contact</TableCell>
-                            <TableCell><Badge>Published</Badge></TableCell>
-                            <TableCell>1 month ago</TableCell>
-                            <TableCell className="text-right"><Button variant="ghost" size="sm">Edit</Button></TableCell>
-                         </TableRow>
+                         {pages.map(p => (
+                           <TableRow key={p.id}>
+                              <TableCell className="font-medium">{p.title}</TableCell>
+                              <TableCell className="text-muted-foreground">{p.slug}</TableCell>
+                              <TableCell><Badge variant="outline">{p.status}</Badge></TableCell>
+                              <TableCell className="text-right"><Button variant="ghost" size="sm">Edit</Button></TableCell>
+                           </TableRow>
+                         ))}
                       </TableBody>
                    </Table>
+                </CardContent>
+             </Card>
+          </TabsContent>
+          
+          <TabsContent value="navigation" className="mt-6">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               <Card>
+                  <CardHeader>
+                     <CardTitle>Header Menu</CardTitle>
+                     <CardDescription>Links shown in the top navigation bar.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                     {theme.headerMenu.map((link, idx) => (
+                        <div key={link.id} className="flex items-center gap-2 p-2 border rounded bg-background">
+                           <div className="text-muted-foreground font-mono text-xs w-6">{idx + 1}</div>
+                           <Input defaultValue={link.label} className="h-8" />
+                           <Input defaultValue={link.url} className="h-8 flex-1 font-mono text-xs" />
+                           <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive"><Trash size={14} /></Button>
+                        </div>
+                     ))}
+                     <Button variant="outline" className="w-full border-dashed"><Plus className="mr-2 h-4 w-4" /> Add Menu Item</Button>
+                  </CardContent>
+               </Card>
+               <Card>
+                  <CardHeader>
+                     <CardTitle>Footer Menu</CardTitle>
+                     <CardDescription>Links shown in the page footer.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                     {theme.footerMenu.map((link, idx) => (
+                        <div key={link.id} className="flex items-center gap-2 p-2 border rounded bg-background">
+                           <div className="text-muted-foreground font-mono text-xs w-6">{idx + 1}</div>
+                           <Input defaultValue={link.label} className="h-8" />
+                           <Input defaultValue={link.url} className="h-8 flex-1 font-mono text-xs" />
+                           <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive"><Trash size={14} /></Button>
+                        </div>
+                     ))}
+                     <Button variant="outline" className="w-full border-dashed"><Plus className="mr-2 h-4 w-4" /> Add Menu Item</Button>
+                  </CardContent>
+               </Card>
+             </div>
+          </TabsContent>
+
+          <TabsContent value="homepage" className="mt-6">
+             <Card>
+                <CardHeader>
+                   <CardTitle>Home Page Layout</CardTitle>
+                   <CardDescription>Drag and drop sections to reorder your home page.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                   {theme.homeLayout.map((section, idx) => (
+                      <div key={section.id} className="flex items-center justify-between p-4 border rounded-lg bg-background shadow-sm">
+                         <div className="flex items-center gap-4">
+                            <div className="p-2 bg-muted rounded cursor-move"><LayoutTemplate size={16} /></div>
+                            <div>
+                               <div className="font-medium capitalize">{section.type.replace('-', ' ')}</div>
+                               {section.title && <div className="text-xs text-muted-foreground">Title: {section.title}</div>}
+                            </div>
+                         </div>
+                         <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
+                               <Switch checked={section.enabled} onCheckedChange={(c) => {
+                                  // Update logic would go here
+                                  const newLayout = [...theme.homeLayout];
+                                  newLayout[idx].enabled = c;
+                                  updateTheme({ homeLayout: newLayout });
+                               }} />
+                               <span className="text-xs text-muted-foreground">{section.enabled ? 'Visible' : 'Hidden'}</span>
+                            </div>
+                            <Button variant="ghost" size="sm">Edit</Button>
+                         </div>
+                      </div>
+                   ))}
                 </CardContent>
              </Card>
           </TabsContent>
@@ -489,6 +714,7 @@ export default function AdminDashboard() {
       </div>
     );
   }
+
 
   if (page === 'settings') {
      return (
@@ -522,6 +748,41 @@ export default function AdminDashboard() {
                        </CardHeader>
                     </Card>
                  ))}
+              </div>
+           </div>
+
+           <Separator />
+
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-1 space-y-1">
+                 <h3 className="font-medium">Shipping & Delivery</h3>
+                 <p className="text-sm text-muted-foreground">Manage shipping rates and zones.</p>
+              </div>
+              <div className="md:col-span-2 space-y-4">
+                 <Card>
+                    <CardHeader>
+                       <div className="flex items-center justify-between">
+                          <CardTitle>Shipping Profiles</CardTitle>
+                          <Button size="sm">Add Profile</Button>
+                       </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                       {shippingProfiles.map(profile => (
+                          <div key={profile.id} className="flex items-center justify-between p-4 border rounded-lg">
+                             <div>
+                                <h4 className="font-medium">{profile.name}</h4>
+                                <p className="text-sm text-muted-foreground">
+                                   {profile.type === 'flat' ? `Flat Rate: $${profile.rate.toFixed(2)}` : `Distance Based: $${profile.rate.toFixed(2)}/mile from ${profile.originState}`}
+                                </p>
+                             </div>
+                             <div className="flex gap-2">
+                                <Button variant="ghost" size="sm">Edit</Button>
+                                <Button variant="ghost" size="icon" className="text-destructive"><Trash size={14}/></Button>
+                             </div>
+                          </div>
+                       ))}
+                    </CardContent>
+                 </Card>
               </div>
            </div>
 

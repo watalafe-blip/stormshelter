@@ -1,10 +1,12 @@
 
 import Layout from '@/components/layout/Layout';
 import ProductCard from '@/components/product/ProductCard';
-import { products, categories } from '@/lib/mockData';
+import { categories } from '@/lib/mockData';
+import { useStore } from '@/lib/storeContext';
 import { useRoute } from 'wouter';
 
 export default function Shop() {
+  const { products } = useStore();
   const [, params] = useRoute('/shop/:category?');
   const categoryId = params?.category;
   
