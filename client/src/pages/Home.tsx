@@ -6,7 +6,7 @@ import ServiceFeatures from '@/components/home/ServiceFeatures';
 import ProductCard from '@/components/product/ProductCard';
 import { useStore } from '@/lib/storeContext';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export default function Home() {
   const { products, theme } = useStore();
@@ -52,6 +52,43 @@ export default function Home() {
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
+          </section>
+        );
+      case 'image-text':
+        return (
+          <section key={section.id} className="py-20 container mx-auto px-4 overflow-hidden">
+             <div className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 ${section.imagePosition === 'right' ? '' : 'lg:flex-row-reverse'}`}>
+               <div className="flex-1 space-y-6">
+                 <h2 className={`text-3xl md:text-4xl font-bold text-[#3E2723] ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
+                   {section.title}
+                 </h2>
+                 <p className="text-lg text-muted-foreground leading-relaxed">
+                   {section.content}
+                 </p>
+                 {section.bullets && (
+                   <ul className="space-y-3 mt-6">
+                     {section.bullets.map((bullet: string, idx: number) => (
+                       <li key={idx} className="flex items-start gap-3 text-[#3E2723]/90 font-medium">
+                         <CheckCircle2 className="h-6 w-6 text-[#FFD700] shrink-0 fill-[#3E2723]" />
+                         <span>{bullet}</span>
+                       </li>
+                     ))}
+                   </ul>
+                 )}
+                 <Button className="mt-8 bg-[#3E2723] text-white hover:bg-[#5D4037]">
+                   Learn More
+                 </Button>
+               </div>
+               <div className="flex-1 w-full">
+                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border-4 border-[#3E2723]/10">
+                   <img 
+                     src={section.image} 
+                     alt={section.title}
+                     className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                   />
+                 </div>
+               </div>
+             </div>
           </section>
         );
       case 'text-block':

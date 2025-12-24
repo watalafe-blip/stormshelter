@@ -1,6 +1,9 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { products as initialProducts, categories as initialCategories } from './mockData';
+import imgConstruction from '@assets/stock_images/underground_storm_sh_f71d64df.jpg';
+import imgStorm from '@assets/stock_images/tornado_storm_clouds_e3501d57.jpg';
+import imgFamily from '@assets/stock_images/happy_family_safe_at_5ec97324.jpg';
 
 // Types
 export interface Product {
@@ -57,9 +60,12 @@ export interface ShippingProfile {
 
 export interface HomePageSection {
   id: string;
-  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block';
+  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text';
   title?: string;
   content?: any;
+  image?: string;
+  imagePosition?: 'left' | 'right';
+  bullets?: string[];
   enabled: boolean;
 }
 
@@ -142,6 +148,36 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     ],
     homeLayout: [
       { id: 'hero', type: 'hero', enabled: true },
+      { 
+        id: 'feature-safety', 
+        type: 'image-text', 
+        title: 'Uncompromising Safety Standards', 
+        content: 'When the siren sounds, you need absolute certainty. Our shelters are engineered to exceed FEMA 320 and ICC 500 standards, providing near-absolute protection against EF5 tornadoes and extreme weather events.',
+        bullets: [
+          'Reinforced 6000 PSI Concrete Construction',
+          'Double-Handrail Steel Steps for Easy Access',
+          'Heavy-Duty 10 Gauge Steel Door with 3-Point Locking',
+          'Leak-Proof Sealant & Ventilation System'
+        ],
+        image: imgConstruction,
+        imagePosition: 'right',
+        enabled: true 
+      },
+      { 
+        id: 'feature-peace', 
+        type: 'image-text', 
+        title: 'Peace of Mind for Your Family', 
+        content: 'Don’t leave your family’s safety to chance. A Home Defend underground shelter provides a permanent, accessible safe haven right in your backyard. Sleep soundly through any storm knowing you have a plan.',
+        bullets: [
+          'Quick Entry Design - Seconds Count',
+          'Spacious Interior for Family & Supplies',
+          'Lifetime Structural Warranty',
+          'Value-Adding Home Improvement'
+        ],
+        image: imgFamily,
+        imagePosition: 'left',
+        enabled: true 
+      },
       { id: 'feats', type: 'featured-products', title: 'Our Premier Shelter', enabled: true },
       { id: 'text-install', type: 'text-block', title: 'Installation & Delivery', content: 'Shipped directly from Missouri. Delivery is $4 per mile for locations outside of Missouri. You are responsible for unloading and installation at your site.', enabled: true },
       { id: 'news', type: 'newsletter', enabled: true },
