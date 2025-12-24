@@ -3,7 +3,7 @@ import { useRoute } from "wouter";
 import { useStore } from "@/lib/storeContext";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Heart, Share2, Truck, ShieldCheck, RefreshCw, Star } from "lucide-react";
+import { Minus, Plus, Heart, Share2, Truck, ShieldCheck, RefreshCw, Star, AlertTriangle, Info, Check } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import ProductCard from "@/components/product/ProductCard";
@@ -15,6 +15,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function ProductDetail() {
   const { products } = useStore();
@@ -23,176 +25,122 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
 
+  // If no product found
+  if (!product) return <div>Product not found</div>;
+
+  const depositAmount = (product as any).deposit || 0;
+  const remainingBalance = product.price - depositAmount;
+
   const handleAddToCart = () => {
     toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
+      title: "Deposit Added",
+      description: `Deposit for ${product.name} added to cart.`,
     });
   };
 
-  const relatedProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
-
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 mb-24">
-          {/* Image Gallery */}
-          <div className="space-y-4">
-            <div className="aspect-[3/4] bg-muted rounded-xl overflow-hidden border border-border/50 sticky top-24">
-              <img 
-                src={product.image} 
-                alt={product.name} 
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-
-          {/* Product Info */}
-          <div className="space-y-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">{product.category}</span>
-                {product.isNew && <span className="bg-secondary text-secondary-foreground text-[10px] px-2 py-0.5 rounded-full uppercase font-bold tracking-wide">New Arrival</span>}
-              </div>
-              <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">{product.name}</h1>
-              <div className="flex items-center gap-4 mb-6">
-                 <div className="flex text-yellow-500">
-                    <Star size={18} fill="currentColor" />
-                    <Star size={18} fill="currentColor" />
-                    <Star size={18} fill="currentColor" />
-                    <Star size={18} fill="currentColor" />
-                    <Star size={18} fill="currentColor" className="opacity-50" />
-                 </div>
-                 <span className="text-sm text-muted-foreground">(124 reviews)</span>
-              </div>
-              <div className="flex items-baseline gap-4">
-                <span className="text-3xl font-medium">${product.price.toFixed(2)}</span>
-                {product.compareAtPrice && product.compareAtPrice > product.price && (
-                   <span className="text-xl text-muted-foreground line-through">${product.compareAtPrice.toFixed(2)}</span>
-                )}
-                <span className="text-sm text-green-600 font-medium bg-green-50 px-2 py-1 rounded-full">In Stock</span>
-              </div>
-            </div>
-
-            <div className="prose prose-stone max-w-none text-muted-foreground leading-relaxed">
-              <p>{product.description}</p>
-              <p>Experience the perfect blend of style and functionality. Crafted with premium materials and designed for the modern lifestyle, this product delivers exceptional quality and performance that lasts.</p>
-            </div>
-
-            <div className="space-y-6 pt-6 border-t border-border">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex items-center border border-input rounded-md w-fit">
-                  <button 
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-3 hover:bg-muted transition-colors"
-                  >
-                    <Minus size={16} />
-                  </button>
-                  <span className="w-12 text-center font-medium">{quantity}</span>
-                  <button 
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="p-3 hover:bg-muted transition-colors"
-                  >
-                    <Plus size={16} />
-                  </button>
+      <div className="bg-[#fdfaf5]">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
+            {/* Image Gallery */}
+            <div className="space-y-4">
+              <div className="aspect-[4/3] bg-white rounded-xl overflow-hidden border-2 border-[#3E2723]/10 shadow-lg sticky top-24">
+                <img 
+                  src={product.image} 
+                  alt={product.name} 
+                  className="h-full w-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 bg-[#FFD700] text-[#3E2723] px-4 py-2 font-bold text-sm uppercase tracking-wider rounded shadow-md">
+                  EF5 Rated
                 </div>
-                <Button onClick={handleAddToCart} size="lg" className="flex-1 h-12 text-base">
-                  Add to Cart - ${(product.price * quantity).toFixed(2)}
-                </Button>
-                <Button variant="outline" size="icon" className="h-12 w-12 shrink-0">
-                  <Heart size={20} />
-                </Button>
-              </div>
-              
-              <div className="text-xs text-muted-foreground text-center flex items-center justify-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                12 people are viewing this product right now
               </div>
             </div>
 
-            {/* Tabs for Detail, Specs, Reviews */}
-            <div className="pt-8">
-               <Tabs defaultValue="details" className="w-full">
-                  <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none p-0 h-auto">
-                    <TabsTrigger value="details" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none px-4 py-3">Details</TabsTrigger>
-                    <TabsTrigger value="shipping" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none px-4 py-3">Shipping & Returns</TabsTrigger>
-                    <TabsTrigger value="reviews" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none px-4 py-3">Reviews</TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="details" className="pt-6 space-y-4">
-                    <h3 className="font-serif font-bold text-lg">Product Specifications</h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground text-sm">
-                       <li>Premium grade materials sourced ethically</li>
-                       <li>Hand-finished details for unique character</li>
-                       <li>Designed in our Studio in New York</li>
-                       <li>Water-resistant coating included</li>
-                       <li>Dimensions: 12" x 8" x 4"</li>
-                    </ul>
-                  </TabsContent>
-                  
-                  <TabsContent value="shipping" className="pt-6">
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value="item-1">
-                        <AccordionTrigger>Shipping Information</AccordionTrigger>
-                        <AccordionContent>
-                          We offer free standard shipping on all orders over $50. Orders are typically processed within 1-2 business days. You will receive a tracking number via email once your package has shipped.
-                        </AccordionContent>
-                      </AccordionItem>
-                      <AccordionItem value="item-2">
-                        <AccordionTrigger>Return Policy</AccordionTrigger>
-                        <AccordionContent>
-                          We accept returns within 30 days of delivery. Items must be unused and in their original packaging. Return shipping is free for all domestic orders.
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  </TabsContent>
-                  
-                  <TabsContent value="reviews" className="pt-6 space-y-6">
-                     <div className="flex items-center justify-between">
-                        <h3 className="font-serif font-bold text-lg">Customer Reviews</h3>
-                        <Button variant="outline" size="sm">Write a Review</Button>
-                     </div>
-                     
-                     {[1, 2].map((review) => (
-                       <div key={review} className="border-b border-border pb-6 last:border-0">
-                          <div className="flex items-center gap-3 mb-2">
-                             <Avatar className="h-8 w-8">
-                               <AvatarFallback>JD</AvatarFallback>
-                             </Avatar>
-                             <div>
-                                <p className="text-sm font-medium">Jane Doe</p>
-                                <div className="flex text-yellow-500">
-                                  <Star size={12} fill="currentColor" />
-                                  <Star size={12} fill="currentColor" />
-                                  <Star size={12} fill="currentColor" />
-                                  <Star size={12} fill="currentColor" />
-                                  <Star size={12} fill="currentColor" />
-                                </div>
-                             </div>
-                             <span className="text-xs text-muted-foreground ml-auto">2 days ago</span>
-                          </div>
-                          <p className="text-sm text-muted-foreground">
-                             Absolutely love this product! The quality is unmatched and it looks even better in person than in the photos. Highly recommend to anyone on the fence.
-                          </p>
-                       </div>
-                     ))}
-                  </TabsContent>
-               </Tabs>
+            {/* Product Info */}
+            <div className="space-y-8">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm font-bold text-[#3E2723] uppercase tracking-wider flex items-center gap-1">
+                    <ShieldCheck size={16} className="text-[#FFD700]" /> Home Defense Certified
+                  </span>
+                </div>
+                <h1 className="text-3xl md:text-4xl font-sans font-extrabold text-[#3E2723] mb-4 leading-tight">{product.name}</h1>
+                
+                <div className="flex items-center gap-4 mb-6 p-4 bg-white rounded-lg border border-[#3E2723]/10 shadow-sm">
+                   <div className="flex text-[#FFD700]">
+                      <Star size={20} fill="currentColor" />
+                      <Star size={20} fill="currentColor" />
+                      <Star size={20} fill="currentColor" />
+                      <Star size={20} fill="currentColor" />
+                      <Star size={20} fill="currentColor" />
+                   </div>
+                   <span className="text-sm font-medium text-[#3E2723]">5.0 (24 Verified Owners)</span>
+                </div>
+
+                <div className="space-y-4 bg-white p-6 rounded-xl border-2 border-[#3E2723]/10 shadow-md">
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-5xl font-extrabold text-[#3E2723]">${product.price.toLocaleString()}</span>
+                      {product.compareAtPrice && (
+                        <span className="text-xl text-muted-foreground line-through decoration-red-500/50">${product.compareAtPrice.toLocaleString()}</span>
+                      )}
+                    </div>
+                    {product.compareAtPrice && (
+                       <span className="text-sm font-bold text-green-600">You Save ${(product.compareAtPrice - product.price).toLocaleString()}</span>
+                    )}
+                  </div>
+
+                  <div className="bg-[#fefce8] border border-yellow-200 rounded-lg p-4 flex flex-col gap-2">
+                    <div className="flex justify-between items-center border-b border-yellow-200 pb-2">
+                      <span className="font-bold text-[#3E2723]">Non-Refundable Deposit Today:</span>
+                      <span className="font-extrabold text-2xl text-[#3E2723]">${depositAmount}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm text-[#3E2723]/80 pt-1">
+                      <span>Remaining Balance (Due before ship):</span>
+                      <span>${remainingBalance.toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                 <Alert className="bg-orange-50 border-orange-200 text-[#3E2723]">
+                    <AlertTriangle className="h-4 w-4 text-orange-600" />
+                    <AlertTitle className="text-orange-800 font-bold">Important Delivery Info</AlertTitle>
+                    <AlertDescription className="text-orange-900/80 text-sm mt-1">
+                       <ul className="list-disc list-inside space-y-1">
+                          <li>Ships from Missouri (Freight cost calculated at checkout)</li>
+                          <li><strong>Customer responsible for unloading</strong> (Forklift/Crane required)</li>
+                          <li>Installation services not included</li>
+                       </ul>
+                    </AlertDescription>
+                 </Alert>
+
+                 <Button onClick={handleAddToCart} size="lg" className="w-full h-16 text-xl font-bold bg-[#3E2723] hover:bg-[#5D4037] text-white shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                    Secure Your Unit - Pay ${depositAmount} Deposit
+                 </Button>
+                 
+                 <p className="text-center text-xs text-muted-foreground flex items-center justify-center gap-1">
+                    <ShieldCheck size={12} /> Secure 256-bit SSL Encrypted Payment
+                 </p>
+              </div>
+
+              <div className="prose prose-stone max-w-none text-[#3E2723]/80 leading-relaxed">
+                <h3 className="text-[#3E2723] font-bold">Product Description</h3>
+                <p className="whitespace-pre-line">{product.description}</p>
+                
+                <h4 className="text-[#3E2723] font-bold mt-4">Key Features:</h4>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 list-none pl-0">
+                   <li className="flex items-center gap-2"><Check size={16} className="text-green-600"/> 6000 PSI Cured Concrete</li>
+                   <li className="flex items-center gap-2"><Check size={16} className="text-green-600"/> Double Handrail Steps</li>
+                   <li className="flex items-center gap-2"><Check size={16} className="text-green-600"/> 10-Year Warranty</li>
+                   <li className="flex items-center gap-2"><Check size={16} className="text-green-600"/> Made in USA</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Related Products */}
-        {relatedProducts.length > 0 && (
-          <div className="mt-24 border-t border-border pt-16">
-            <h2 className="text-3xl font-serif font-bold mb-8">You May Also Like</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedProducts.map(p => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </Layout>
   );

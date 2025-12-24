@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { Link } from 'wouter';
 import { heroSlides } from '@/lib/mockData';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -42,7 +43,7 @@ export default function HeroSlider() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-5xl md:text-7xl font-serif font-bold leading-tight"
+                className="text-5xl md:text-7xl font-sans font-extrabold leading-tight text-[#fdfaf5]"
               >
                 {heroSlides[current].title}
               </motion.h2>
@@ -50,7 +51,7 @@ export default function HeroSlider() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="text-lg md:text-xl text-white/90"
+                className="text-lg md:text-xl text-[#fdfaf5]/90 font-medium"
               >
                 {heroSlides[current].subtitle}
               </motion.p>
@@ -59,9 +60,11 @@ export default function HeroSlider() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.7 }}
               >
-                <Button size="lg" className="rounded-full px-8 text-base h-12 bg-white text-black hover:bg-white/90 border-none">
-                  {heroSlides[current].cta} <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                <Link href="/product/shelter-001">
+                  <Button size="lg" className="rounded-md px-8 text-base h-14 bg-[#FFD700] text-[#3E2723] hover:bg-[#FBC02D] border-none font-bold uppercase tracking-wide shadow-lg">
+                    {heroSlides[current].cta} <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
               </motion.div>
             </div>
           </div>

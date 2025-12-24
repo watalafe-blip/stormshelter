@@ -121,31 +121,30 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   ]);
 
   const [theme, setTheme] = useState<ThemeSettings>({
-    storeName: "Vitality",
+    storeName: "Home Defend",
     logoUrl: null,
-    primaryColor: "180 30% 30%", // Deep calming teal/green
-    announcementBar: "Complimentary White Glove Delivery on Orders Over $2,000",
+    primaryColor: "30 25% 20%", // Dark Brown (HSL approx for #4E342E)
+    announcementBar: "Now Taking Orders for 2025 Season - Secure Your Spot with $500 Deposit",
     typography: {
-      heading: 'serif',
+      heading: 'sans', // Strong, trustworthy sans-serif
       body: 'sans'
     },
     headerMenu: [
       { id: '1', label: 'Home', url: '/', type: 'url' },
-      { id: '2', label: 'Shop', url: '/shop', type: 'url' },
-      { id: '3', label: 'About', url: '/about', type: 'page' },
-      { id: '4', label: 'Contact', url: '/contact', type: 'page' },
+      { id: '2', label: 'Slope Shelter', url: '/product/shelter-001', type: 'url' },
+      { id: '3', label: 'About Us', url: '/about', type: 'page' },
+      { id: '4', label: 'Contact Us', url: '/contact', type: 'page' },
     ],
     footerMenu: [
-      { id: '1', label: 'Shipping Info', url: '/shipping', type: 'page' },
-      { id: '2', label: 'Returns', url: '/returns', type: 'page' },
-      { id: '3', label: 'Privacy Policy', url: '/privacy', type: 'page' },
+      { id: '1', label: 'Shipping Policy', url: '/shipping', type: 'page' },
+      { id: '2', label: 'Installation Guide', url: '/installation', type: 'page' },
+      { id: '3', label: 'Contact Us', url: '/contact', type: 'page' },
     ],
     homeLayout: [
       { id: 'hero', type: 'hero', enabled: true },
-      { id: 'cats', type: 'category-grid', title: 'Shop by Category', enabled: true },
-      { id: 'feats', type: 'featured-products', title: 'Our Top Picks', enabled: true },
+      { id: 'feats', type: 'featured-products', title: 'Our Premier Shelter', enabled: true },
+      { id: 'text-install', type: 'text-block', title: 'Installation & Delivery', content: 'Shipped directly from Missouri. You are responsible for unloading and installation at your site.', enabled: true },
       { id: 'news', type: 'newsletter', enabled: true },
-      { id: 'new', type: 'new-arrivals', title: 'New Arrivals', enabled: true },
     ]
   });
 

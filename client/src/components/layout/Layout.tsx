@@ -1,15 +1,17 @@
 
-import React, { useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { ShoppingBag, Menu, X, Search, User, LayoutDashboard, Box, FileText, CreditCard, Settings, Users } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, User, LayoutDashboard, Box, FileText, CreditCard, Settings, Users, Phone, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { useStore } from '@/lib/storeContext';
+import { useState } from 'react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { theme } = useStore();
 
   const isAdmin = location.startsWith('/admin');
 
@@ -141,33 +143,38 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* Logo */}
           <Link href="/">
-            <a className="text-2xl font-serif font-bold tracking-tight">LuxeStore</a>
+            <a className={`text-2xl font-bold tracking-tight flex items-center gap-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
+              <Shield className="fill-[#FFD700] text-[#3E2723]" />
+              <span className="text-[#3E2723]">{theme.storeName}</span>
+            </a>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-            <Link href="/"><a className="hover:text-foreground transition-colors">Home</a></Link>
-            <Link href="/shop"><a className="hover:text-foreground transition-colors">Shop</a></Link>
-            <Link href="/about"><a className="hover:text-foreground transition-colors">About</a></Link>
-            <Link href="/contact"><a className="hover:text-foreground transition-colors">Contact</a></Link>
+          <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-[#3E2723]/80 uppercase tracking-wide">
+             {theme.headerMenu.map(link => (
+                <Link key={link.id} href={link.url}>
+                   <a className="hover:text-[#3E2723] transition-colors hover:underline decoration-2 decoration-[#FFD700] underline-offset-4">{link.label}</a>
+                </Link>
+             ))}
           </nav>
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={() => setIsSearchOpen(!isSearchOpen)}>
-              <Search className="h-5 w-5" />
-            </Button>
+            <div className="hidden md:flex items-center gap-2 mr-4 text-sm font-bold text-[#3E2723]">
+               <Phone size={16} className="text-[#FFD700]" />
+               <span>1-800-DEFEND-1</span>
+            </div>
             
             <Link href="/admin">
               <Button variant="ghost" size="icon" title="Admin Demo">
-                <User className="h-5 w-5" />
+                <User className="h-5 w-5 text-[#3E2723]" />
               </Button>
             </Link>
 
             <Link href="/cart">
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="icon" className="relative text-[#3E2723]">
                 <ShoppingBag className="h-5 w-5" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px]">2</Badge>
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] bg-[#FFD700] text-[#3E2723]">0</Badge>
               </Button>
             </Link>
           </div>

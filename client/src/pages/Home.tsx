@@ -38,24 +38,34 @@ export default function Home() {
         );
       case 'featured-products':
         return (
-          <section key={section.id} className="py-16 container mx-auto px-4">
+          <section key={section.id} className="py-16 container mx-auto px-4 bg-[#fdfaf5]">
              <div className="flex items-end justify-between mb-8">
               <div>
-                <h2 className={`text-3xl font-bold mb-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
+                <h2 className={`text-3xl font-bold mb-2 text-[#3E2723] ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
                   {section.title || 'Our Top Picks'}
                 </h2>
-                <p className="text-muted-foreground">Hand-selected favorites just for you.</p>
+                <p className="text-muted-foreground">Engineered for survival.</p>
               </div>
-              <Button variant="link" className="gap-2">View All <ArrowRight className="h-4 w-4" /></Button>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {topPicks.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}
-              {/* Duplicating for grid fill demo */}
-              {topPicks.slice(0, 1).map((product, i) => (
-                 <ProductCard key={`dup-${i}`} product={{...product, id: `dup-${product.id}`}} />
-              ))}
+            </div>
+          </section>
+        );
+      case 'text-block':
+        return (
+          <section key={section.id} className="py-20 bg-[#3E2723] text-white">
+            <div className="container mx-auto px-4 text-center max-w-4xl">
+              <h2 className="text-3xl md:text-4xl font-sans font-bold mb-6 text-[#FFD700]">{section.title}</h2>
+              <div className="text-lg md:text-xl leading-relaxed opacity-90">
+                {section.content}
+              </div>
+              <div className="mt-8 flex justify-center gap-4 text-sm font-medium opacity-75">
+                 <div className="flex items-center gap-2"><div className="w-2 h-2 bg-[#FFD700] rounded-full"></div> Requires Flatbed Truck</div>
+                 <div className="flex items-center gap-2"><div className="w-2 h-2 bg-[#FFD700] rounded-full"></div> Heavy Equipment Needed</div>
+              </div>
             </div>
           </section>
         );
