@@ -110,7 +110,7 @@ export default function ProductDetail() {
                     <AlertTitle className="text-orange-800 font-bold">Important Delivery Info</AlertTitle>
                     <AlertDescription className="text-orange-900/80 text-sm mt-1">
                        <ul className="list-disc list-inside space-y-1">
-                          <li>Ships from Missouri (Freight cost calculated at checkout)</li>
+                          <li>Ships from Missouri ($4 per mile shipping fee outside MO)</li>
                           <li><strong>Customer responsible for unloading</strong> (Forklift/Crane required)</li>
                           <li>Installation services not included</li>
                        </ul>

@@ -143,7 +143,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     homeLayout: [
       { id: 'hero', type: 'hero', enabled: true },
       { id: 'feats', type: 'featured-products', title: 'Our Premier Shelter', enabled: true },
-      { id: 'text-install', type: 'text-block', title: 'Installation & Delivery', content: 'Shipped directly from Missouri. You are responsible for unloading and installation at your site.', enabled: true },
+      { id: 'text-install', type: 'text-block', title: 'Installation & Delivery', content: 'Shipped directly from Missouri. Delivery is $4 per mile for locations outside of Missouri. You are responsible for unloading and installation at your site.', enabled: true },
       { id: 'news', type: 'newsletter', enabled: true },
     ]
   });
@@ -159,7 +159,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [shippingProfiles, setShippingProfiles] = useState<ShippingProfile[]>([
     { id: 'flat-std', name: 'Standard Shipping', type: 'flat', rate: 15.00 },
     { id: 'flat-exp', name: 'Express Shipping', type: 'flat', rate: 35.00 },
-    { id: 'dist-mo', name: 'Midwest Delivery', type: 'distance', rate: 5.00, originState: 'MO' },
+    { id: 'dist-mo', name: 'Midwest Delivery', type: 'distance', rate: 4.00, originState: 'MO' },
   ]);
 
   const [notifications] = useState([

@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { useStore } from '@/lib/storeContext';
 import { useState } from 'react';
+import logoImg from '@assets/images_1766611330812.png';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -144,7 +145,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Logo */}
           <Link href="/">
             <a className={`text-2xl font-bold tracking-tight flex items-center gap-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
-              <Shield className="fill-[#FFD700] text-[#3E2723]" />
+              <img src={logoImg} alt="Home Defend Logo" className="h-10 w-auto" />
               <span className="text-[#3E2723]">{theme.storeName}</span>
             </a>
           </Link>
