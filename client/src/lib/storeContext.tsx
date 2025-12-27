@@ -60,7 +60,7 @@ export interface ShippingProfile {
 
 export interface HomePageSection {
   id: string;
-  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text';
+  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text' | '3d-viewer' | 'parallax-scroll';
   title?: string;
   content?: any;
   image?: string;
@@ -149,18 +149,24 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     homeLayout: [
       { id: 'hero', type: 'hero', enabled: true },
       { 
+        id: '3d-view', 
+        type: '3d-viewer', 
+        title: 'Explore the Shelter',
+        content: 'Interact with our 3D model to see the robust construction and design features up close.',
+        enabled: true 
+      },
+      { 
         id: 'feature-safety', 
-        type: 'image-text', 
+        type: 'parallax-scroll', 
         title: 'Uncompromising Safety Standards', 
-        content: 'When the siren sounds, you need absolute certainty. Our shelters are engineered to exceed FEMA 320 and ICC 500 standards, providing near-absolute protection against EF5 tornadoes and extreme weather events.',
-        bullets: [
-          'Reinforced 6000 PSI Concrete Construction',
-          'Double-Handrail Steel Steps for Easy Access',
-          'Heavy-Duty 10 Gauge Steel Door with 3-Point Locking',
-          'Leak-Proof Sealant & Ventilation System'
-        ],
+        content: 'When the siren sounds, you need absolute certainty. Our shelters are engineered to exceed FEMA 320 and ICC 500 standards.',
         image: imgConstruction,
-        imagePosition: 'right',
+        bullets: [
+          'Reinforced 6000 PSI Concrete',
+          'Double-Handrail Steel Steps',
+          'Heavy-Duty 10 Gauge Steel Door',
+          'Leak-Proof Sealant System'
+        ],
         enabled: true 
       },
       { 

@@ -5,6 +5,8 @@ import CategoryGrid from '@/components/home/CategoryGrid';
 import ServiceFeatures from '@/components/home/ServiceFeatures';
 import ProductCard from '@/components/product/ProductCard';
 import { useStore } from '@/lib/storeContext';
+import Shelter3D from '@/components/home/Shelter3D';
+import ParallaxSection from '@/components/home/ParallaxSection';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
@@ -22,6 +24,51 @@ export default function Home() {
     switch (section.type) {
       case 'hero':
         return <HeroSlider key={section.id} />;
+      case '3d-viewer':
+        return (
+          <section key={section.id} className="py-20 bg-stone-100">
+             <div className="container mx-auto px-4">
+               <div className="text-center max-w-3xl mx-auto mb-12">
+                  <h2 className={`text-4xl font-bold mb-4 text-[#3E2723] ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
+                    {section.title}
+                  </h2>
+                  <p className="text-lg text-muted-foreground">{section.content}</p>
+               </div>
+               <Shelter3D />
+             </div>
+          </section>
+        );
+      case 'parallax-scroll':
+        return (
+          <ParallaxSection 
+            key={section.id} 
+            bgImage={section.image} 
+            className="min-h-[80vh] flex items-center"
+            overlayColor="bg-black/60"
+          >
+             <div className="max-w-2xl text-white space-y-8">
+               <h2 className={`text-5xl md:text-6xl font-bold leading-tight ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
+                 {section.title}
+               </h2>
+               <p className="text-xl md:text-2xl opacity-90 leading-relaxed font-light">
+                 {section.content}
+               </p>
+               {section.bullets && (
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                   {section.bullets.map((bullet: string, idx: number) => (
+                     <div key={idx} className="flex items-center gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/10">
+                       <CheckCircle2 className="h-6 w-6 text-[#FFD700]" />
+                       <span className="font-bold tracking-wide">{bullet}</span>
+                     </div>
+                   ))}
+                 </div>
+               )}
+               <Button size="lg" className="mt-8 bg-[#FFD700] text-[#3E2723] hover:bg-[#FBC02D] font-bold text-lg px-8 h-14">
+                 Explore Specifications
+               </Button>
+             </div>
+          </ParallaxSection>
+        );
       case 'category-grid':
         return (
           <section key={section.id} className="py-16 container mx-auto px-4">
