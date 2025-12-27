@@ -60,12 +60,13 @@ export interface ShippingProfile {
 
 export interface HomePageSection {
   id: string;
-  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text' | '3d-viewer' | 'parallax-scroll';
+  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text' | '3d-viewer' | 'parallax-scroll' | 'specs-detail';
   title?: string;
   content?: any;
   image?: string;
   imagePosition?: 'left' | 'right';
   bullets?: string[];
+  specs?: { label: string; value: string }[];
   enabled: boolean;
 }
 
@@ -154,6 +155,23 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         title: 'Explore the Shelter',
         content: 'Interact with our 3D model to see the robust construction and design features up close.',
         enabled: true 
+      },
+      {
+        id: 'specs-section',
+        type: 'specs-detail',
+        title: 'Engineered Specifications',
+        content: 'Built with the highest grade materials to ensure survival in the most extreme conditions.',
+        specs: [
+          { label: 'Concrete Strength', value: '6,000 PSI Cured' },
+          { label: 'Wall Thickness', value: '4 Inches Reinforced' },
+          { label: 'Floor Thickness', value: '4 Inches Poured' },
+          { label: 'Roof Thickness', value: '5 Inches Sloped' },
+          { label: 'Rebar Reinforcement', value: '#3 & #4 Grade 60 Steel' },
+          { label: 'Door Construction', value: '10 Gauge Steel / 3-Point Lock' },
+          { label: 'Dimensions (Outer)', value: '6\' x 8\' x 6\'4"' },
+          { label: 'Weight', value: 'Approx. 12,000 lbs' }
+        ],
+        enabled: true
       },
       { 
         id: 'feature-safety', 

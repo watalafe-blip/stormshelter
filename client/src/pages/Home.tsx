@@ -8,7 +8,7 @@ import { useStore } from '@/lib/storeContext';
 import Shelter3D from '@/components/home/Shelter3D';
 import ParallaxSection from '@/components/home/ParallaxSection';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Ruler, Hammer, Shield } from 'lucide-react';
 
 export default function Home() {
   const { products, theme } = useStore();
@@ -136,6 +136,31 @@ export default function Home() {
                  </div>
                </div>
              </div>
+          </section>
+        );
+      case 'specs-detail':
+        return (
+          <section key={section.id} className="py-20 bg-white">
+            <div className="container mx-auto px-4">
+               <div className="text-center max-w-3xl mx-auto mb-16">
+                  <h2 className={`text-4xl font-bold mb-4 text-[#3E2723] ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
+                    {section.title}
+                  </h2>
+                  <p className="text-lg text-muted-foreground">{section.content}</p>
+               </div>
+               
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                 {section.specs?.map((spec: any, idx: number) => (
+                   <div key={idx} className="bg-[#fdfaf5] p-6 rounded-xl border border-[#3E2723]/10 hover:shadow-md transition-shadow">
+                      <div className="flex items-center gap-3 mb-3 text-[#FFD700]">
+                        {idx % 3 === 0 ? <Hammer size={24} className="text-[#3E2723]" /> : idx % 3 === 1 ? <Ruler size={24} className="text-[#3E2723]" /> : <Shield size={24} className="text-[#3E2723]" />}
+                        <h4 className="font-bold text-[#3E2723] text-sm uppercase tracking-wider">{spec.label}</h4>
+                      </div>
+                      <p className="text-2xl font-extrabold text-[#3E2723]">{spec.value}</p>
+                   </div>
+                 ))}
+               </div>
+            </div>
           </section>
         );
       case 'text-block':
