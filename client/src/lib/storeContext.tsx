@@ -149,12 +149,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     ],
     homeLayout: [
       { id: 'hero', type: 'hero', enabled: true },
-      { 
-        id: '3d-view', 
-        type: '3d-viewer', 
-        title: 'Explore the Shelter',
-        content: 'Interact with our 3D model to see the robust construction and design features up close.',
-        enabled: true 
+      {
+        id: 'interactive-shelter',
+        type: '3d-viewer',
+        title: 'Interactive Shelter Tour',
+        content: 'Click the door to look inside. Use your mouse to rotate, scroll to zoom.',
+        enabled: true
       },
       {
         id: 'xray-tech-demo',

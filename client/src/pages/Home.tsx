@@ -5,10 +5,10 @@ import CategoryGrid from '@/components/home/CategoryGrid';
 import ServiceFeatures from '@/components/home/ServiceFeatures';
 import ProductCard from '@/components/product/ProductCard';
 import { useStore } from '@/lib/storeContext';
-import Shelter3D from '@/components/home/Shelter3D';
 import ParallaxSection from '@/components/home/ParallaxSection';
 import XrayTech from '@/components/home/XrayTech';
 import PurchaseSection from '@/components/home/PurchaseSection';
+import InteractiveShelter3D from '@/components/home/InteractiveShelter3D';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2, Ruler, Hammer, Shield } from 'lucide-react';
 
@@ -27,19 +27,7 @@ export default function Home() {
       case 'hero':
         return <HeroSlider key={section.id} />;
       case '3d-viewer':
-        return (
-          <section key={section.id} className="py-20 bg-stone-100">
-             <div className="container mx-auto px-4">
-               <div className="text-center max-w-3xl mx-auto mb-12">
-                  <h2 className={`text-4xl font-bold mb-4 text-[#3E2723] ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
-                    {section.title}
-                  </h2>
-                  <p className="text-lg text-muted-foreground">{section.content}</p>
-               </div>
-               <Shelter3D />
-             </div>
-          </section>
-        );
+        return <InteractiveShelter3D key={section.id} />;
       case 'parallax-scroll':
         return (
           <ParallaxSection 
