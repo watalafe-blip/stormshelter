@@ -60,7 +60,7 @@ export interface ShippingProfile {
 
 export interface HomePageSection {
   id: string;
-  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text' | '3d-viewer' | 'parallax-scroll' | 'specs-detail';
+  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text' | '3d-viewer' | 'parallax-scroll' | 'specs-detail' | 'xray-tech' | 'purchase-section';
   title?: string;
   content?: any;
   image?: string;
@@ -157,6 +157,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         enabled: true 
       },
       {
+        id: 'xray-tech-demo',
+        type: 'xray-tech',
+        enabled: true
+      },
+      {
         id: 'specs-section',
         type: 'specs-detail',
         title: 'Engineered Specifications',
@@ -173,36 +178,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         ],
         enabled: true
       },
-      { 
-        id: 'feature-safety', 
-        type: 'parallax-scroll', 
-        title: 'Uncompromising Safety Standards', 
-        content: 'When the siren sounds, you need absolute certainty. Our shelters are engineered to exceed FEMA 320 and ICC 500 standards.',
-        image: imgConstruction,
-        bullets: [
-          'Reinforced 6000 PSI Concrete',
-          'Double-Handrail Steel Steps',
-          'Heavy-Duty 10 Gauge Steel Door',
-          'Leak-Proof Sealant System'
-        ],
-        enabled: true 
+      {
+         id: 'buy-now',
+         type: 'purchase-section',
+         enabled: true
       },
-      { 
-        id: 'feature-peace', 
-        type: 'image-text', 
-        title: 'Peace of Mind for Your Family', 
-        content: 'Don’t leave your family’s safety to chance. A Home Defend underground shelter provides a permanent, accessible safe haven right in your backyard. Sleep soundly through any storm knowing you have a plan.',
-        bullets: [
-          'Quick Entry Design - Seconds Count',
-          'Spacious Interior for Family & Supplies',
-          'Lifetime Structural Warranty',
-          'Value-Adding Home Improvement'
-        ],
-        image: imgFamily,
-        imagePosition: 'left',
-        enabled: true 
-      },
-      { id: 'feats', type: 'featured-products', title: 'Our Premier Shelter', enabled: true },
       { id: 'text-install', type: 'text-block', title: 'Installation & Delivery', content: 'Shipped directly from Missouri. Delivery is $4 per mile for locations outside of Missouri. You are responsible for unloading and installation at your site.', enabled: true },
       { id: 'news', type: 'newsletter', enabled: true },
     ]

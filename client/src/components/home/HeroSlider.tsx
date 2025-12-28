@@ -60,11 +60,16 @@ export default function HeroSlider() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.7 }}
               >
-                <Link href="/product/shelter-001">
-                  <Button size="lg" className="rounded-md px-8 text-base h-14 bg-[#FFD700] text-[#3E2723] hover:bg-[#FBC02D] border-none font-bold uppercase tracking-wide shadow-lg">
+                  <Button 
+                    size="lg" 
+                    className="rounded-md px-8 text-base h-14 bg-[#FFD700] text-[#3E2723] hover:bg-[#FBC02D] border-none font-bold uppercase tracking-wide shadow-lg"
+                    onClick={() => {
+                      const element = document.getElementById('purchase');
+                      element?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
                     {heroSlides[current].cta} <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
-                </Link>
               </motion.div>
             </div>
           </div>

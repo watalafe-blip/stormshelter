@@ -7,6 +7,8 @@ import ProductCard from '@/components/product/ProductCard';
 import { useStore } from '@/lib/storeContext';
 import Shelter3D from '@/components/home/Shelter3D';
 import ParallaxSection from '@/components/home/ParallaxSection';
+import XrayTech from '@/components/home/XrayTech';
+import PurchaseSection from '@/components/home/PurchaseSection';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2, Ruler, Hammer, Shield } from 'lucide-react';
 
@@ -163,6 +165,10 @@ export default function Home() {
             </div>
           </section>
         );
+      case 'xray-tech':
+        return <XrayTech key={section.id} />;
+      case 'purchase-section':
+        return <PurchaseSection key={section.id} />;
       case 'text-block':
         return (
           <section key={section.id} className="py-20 bg-[#3E2723] text-white">
