@@ -38,7 +38,7 @@ export default function PurchaseSection() {
       // Mock calculation logic based on distance from Missouri (simulated)
       // Base rate $500 + random distance factor
       const simulatedDistance = Math.floor(Math.random() * 800) + 100;
-      const ratePerMile = 4;
+      const ratePerMile = 6;
       const cost = simulatedDistance * ratePerMile;
       
       setShippingCost(cost);
@@ -132,7 +132,7 @@ export default function PurchaseSection() {
                         <span className="font-bold text-[#3E2723] text-lg">${shippingCost.toLocaleString()}</span>
                      </div>
                      <p className="text-xs text-stone-500 mt-1">
-                       Based on $4/mile from Missouri HQ. Final rate confirmed at checkout.
+                       Based on $6/mile from Missouri HQ. Final rate confirmed at checkout.
                      </p>
                   </div>
                 )}

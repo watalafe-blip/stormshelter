@@ -5,55 +5,52 @@ import { heroSlides } from '@/lib/mockData';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import heroVideo from '@/assets/hero_video.mp4';
 
 export default function HeroSlider() {
   const [current, setCurrent] = useState(0);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % heroSlides.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const next = () => setCurrent((prev) => (prev + 1) % heroSlides.length);
-  const prev = () => setCurrent((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  // We only use the first slide content for the video hero
+  const slide = heroSlides[0];
 
   return (
-    <div className="relative h-[600px] w-full overflow-hidden bg-gray-100">
+    <div className="relative h-[800px] w-full overflow-hidden bg-stone-900">
       <AnimatePresence mode="wait">
         <motion.div
-          key={current}
+          key="hero-video"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.7 }}
-          className="absolute inset-0"
+          transition={{ duration: 1 }}
+          className="absolute inset-0 w-full h-full"
         >
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroSlides[current].image})` }}
-          >
-            <div className="absolute inset-0 bg-black/30" />
-          </div>
+          <video
+            src={heroVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-transparent" />
           
-          <div className="absolute inset-0 container mx-auto px-4 flex items-center">
-            <div className="max-w-xl text-white space-y-6">
-              <motion.h2 
+          <div className="absolute inset-0 flex items-center justify-center text-center">
+            <div className="max-w-4xl px-4 space-y-8">
+              <motion.h1
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-5xl md:text-7xl font-sans font-extrabold leading-tight text-[#fdfaf5]"
+                className="text-5xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tighter drop-shadow-lg leading-none"
               >
-                {heroSlides[current].title}
-              </motion.h2>
-              <motion.p 
+                {slide.title}
+              </motion.h1>
+              <motion.p
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="text-lg md:text-xl text-[#fdfaf5]/90 font-medium"
+                className="text-xl md:text-2xl text-[#fdfaf5]/90 font-medium max-w-2xl mx-auto"
               >
-                {heroSlides[current].subtitle}
+                {slide.subtitle}
               </motion.p>
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
@@ -62,13 +59,13 @@ export default function HeroSlider() {
               >
                   <Button 
                     size="lg" 
-                    className="rounded-md px-8 text-base h-14 bg-[#FFD700] text-[#3E2723] hover:bg-[#FBC02D] border-none font-bold uppercase tracking-wide shadow-lg"
+                    className="rounded-md px-10 text-lg h-16 bg-[#FFD700] text-[#3E2723] hover:bg-[#FBC02D] border-none font-bold uppercase tracking-wide shadow-xl transform hover:scale-105 transition-all"
                     onClick={() => {
                       const element = document.getElementById('purchase');
                       element?.scrollIntoView({ behavior: 'smooth' });
                     }}
                   >
-                    {heroSlides[current].cta} <ArrowRight className="ml-2 h-5 w-5" />
+                    {slide.cta} <ArrowRight className="ml-2 h-6 w-6" />
                   </Button>
               </motion.div>
             </div>
@@ -76,30 +73,8 @@ export default function HeroSlider() {
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-10">
-        {heroSlides.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrent(idx)}
-            className={`w-2.5 h-2.5 rounded-full transition-all ${
-              current === idx ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/70'
-            }`}
-          />
-        ))}
-      </div>
-
-      <button 
-        onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/20 text-white hover:bg-black/40 transition-colors backdrop-blur-sm z-10"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button 
-        onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/20 text-white hover:bg-black/40 transition-colors backdrop-blur-sm z-10"
-      >
-        <ChevronRight size={24} />
-      </button>
+      {/* Decorative Bottom Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-stone-900 to-transparent z-10" />
     </div>
   );
 }

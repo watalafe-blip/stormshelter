@@ -130,21 +130,37 @@ export default function Home() {
         );
       case 'specs-detail':
         return (
-          <section key={section.id} className="py-20 bg-white">
-            <div className="container mx-auto px-4">
-               <div className="text-center max-w-3xl mx-auto mb-16">
-                  <h2 className={`text-4xl font-bold mb-4 text-[#3E2723] ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
-                    {section.title}
-                  </h2>
-                  <p className="text-lg text-muted-foreground">{section.content}</p>
+          <section key={section.id} className="py-24 bg-stone-50 relative overflow-hidden">
+            <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #3E2723 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
+            <div className="container mx-auto px-4 relative">
+               <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
+                  <div className="max-w-2xl">
+                    <h2 className={`text-4xl md:text-5xl font-bold mb-6 text-[#3E2723] ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
+                      {section.title}
+                    </h2>
+                    <p className="text-xl text-muted-foreground leading-relaxed">{section.content}</p>
+                  </div>
+                  <div className="hidden md:block">
+                    <Shield size={64} className="text-[#FFD700] opacity-80" />
+                  </div>
                </div>
                
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                  {section.specs?.map((spec: any, idx: number) => (
-                   <div key={idx} className="bg-white border-l-4 border-[#FFD700] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                      <h4 className="font-bold text-[#3E2723] text-sm uppercase tracking-wider mb-3">{spec.label}</h4>
-                      <p className="text-3xl font-extrabold text-[#3E2723]">{spec.value}</p>
-                   </div>
+                   <motion.div 
+                      key={idx} 
+                      whileHover={{ y: -5 }}
+                      className="bg-white p-8 rounded-2xl shadow-sm border border-[#3E2723]/5 group hover:border-[#FFD700] transition-colors relative overflow-hidden"
+                   >
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-[#FFD700]/10 rounded-bl-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
+                      
+                      <div className="mb-4 text-[#3E2723] opacity-80 group-hover:opacity-100 transition-opacity">
+                        {idx % 4 === 0 ? <Hammer size={32} /> : idx % 4 === 1 ? <Ruler size={32} /> : idx % 4 === 2 ? <Shield size={32} /> : <CheckCircle2 size={32} />}
+                      </div>
+                      
+                      <h4 className="font-bold text-stone-500 text-xs uppercase tracking-widest mb-2">{spec.label}</h4>
+                      <p className="text-2xl font-black text-[#3E2723] leading-tight">{spec.value}</p>
+                   </motion.div>
                  ))}
                </div>
             </div>

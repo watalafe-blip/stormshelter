@@ -143,65 +143,6 @@ export default function XrayTech() {
           </div>
 
         </div>
-
-        {/* Before/After Image Comparison Section */}
-        <div className="mt-32 pt-24 border-t border-white/20">
-
-          <div className="max-w-4xl mx-auto">
-            {/* Before/After Slider */}
-            <div 
-              ref={outcomeContainerRef}
-              className="relative w-full aspect-video rounded-2xl overflow-hidden cursor-ew-resize select-none ring-4 ring-white/10 shadow-2xl"
-              onMouseMove={handleOutcomeMove}
-              onTouchMove={handleOutcomeMove}
-              onMouseDown={handleOutcomeMouseDown}
-              onTouchStart={handleOutcomeMouseDown}
-            >
-              {/* Before - Closed Shelter */}
-              <img 
-                src={imgClosed} 
-                alt="Shelter closed" 
-                className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
-              />
-              
-              <div className="absolute bottom-4 left-4 bg-stone-800/80 backdrop-blur px-4 py-2 rounded text-sm font-bold uppercase tracking-widest text-white">
-                Closed
-              </div>
-
-              {/* After - Open Shelter (Clipped) */}
-              <div 
-                className="absolute inset-0 w-full h-full overflow-hidden"
-                style={{ clipPath: `inset(0 ${100 - outcomeSliderPosition}% 0 0)` }}
-              >
-                <img 
-                  src={imgOpen} 
-                  alt="Shelter open" 
-                  className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
-                />
-                 <div className="absolute bottom-4 right-4 bg-green-600/80 backdrop-blur px-4 py-2 rounded text-sm font-bold uppercase tracking-widest text-white">
-                   Open
-                 </div>
-              </div>
-
-              {/* Slider Handle */}
-              <div 
-                className="absolute top-0 bottom-0 w-1 bg-[#FFD700] shadow-[0_0_20px_rgba(255,215,0,0.5)] z-20"
-                style={{ left: `${outcomeSliderPosition}%` }}
-              >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-[#FFD700] rounded-full flex items-center justify-center shadow-lg transform active:scale-110 transition-transform">
-                  <Scan size={20} className="text-[#3E2723]" />
-                </div>
-              </div>
-              
-              {/* Instruction Hint */}
-              <div className="absolute top-4 left-0 right-0 text-center pointer-events-none">
-                 <span className="bg-black/50 backdrop-blur text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider">
-                    Drag to Compare
-                 </span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
