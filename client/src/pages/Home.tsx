@@ -11,6 +11,7 @@ import PurchaseSection from '@/components/home/PurchaseSection';
 import Testimonials from '@/components/home/Testimonials';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2, Ruler, Hammer, Shield } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   const { products, theme } = useStore();
