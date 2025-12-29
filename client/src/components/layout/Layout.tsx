@@ -131,15 +131,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const headerBgClass = isScrolled 
     ? "bg-white/95 backdrop-blur shadow-md text-[#3E2723]" 
-    : "bg-[#2d4040] text-white border-transparent"; // Using a dark teal/slate similar to reference image
+    : "bg-[#E69138] text-white border-transparent"; // Brand Orange
 
   const navLinkClass = isScrolled
     ? "hover:text-[#E69138] text-[#3E2723]"
-    : "hover:text-[#E69138] text-white";
+    : "hover:text-[#3E2723] text-white";
 
   const outlineButtonClass = isScrolled
     ? "border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
-    : "border-white text-white hover:bg-white hover:text-[#2d4040]";
+    : "border-white text-white hover:bg-white hover:text-[#E69138]";
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -166,20 +166,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </SheetContent>
           </Sheet>
 
-          {/* Left Nav */}
+          {/* Left: Nav Links */}
           <nav className="hidden md:flex flex-1 items-center gap-8 text-sm font-bold uppercase tracking-wide">
-             {theme.headerMenu.slice(0, 2).map(link => (
+             {theme.headerMenu.map(link => (
                 <Link key={link.id} href={link.url}>
-                   <a className={`transition-colors hover:underline decoration-2 decoration-[#E69138] underline-offset-4 ${navLinkClass}`}>{link.label}</a>
+                   <a className={`transition-colors hover:underline decoration-2 decoration-[#3E2723] underline-offset-4 ${navLinkClass}`}>{link.label}</a>
                 </Link>
              ))}
           </nav>
 
-          {/* Centered Logo */}
+          {/* Center: Logo */}
           <Link href="/">
             <a className={`text-2xl font-bold tracking-tight flex items-center justify-center gap-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
               <div className={`rounded-full p-2 relative z-10 transition-all duration-300 ${isScrolled ? 'bg-white' : 'bg-transparent'}`}>
-                {/* Logo with mix-blend-multiply works well on white, but for dark bg we might need brightness filter or just remove mix-blend if it's a transparent png */}
                 <img 
                   src={logoImg} 
                   alt="Home Defend Logo" 
@@ -189,16 +188,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </a>
           </Link>
 
-          {/* Right Nav & Actions */}
+          {/* Right: Actions */}
           <div className="flex-1 flex items-center justify-end gap-6">
-            <nav className="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-wide mr-4">
-               {theme.headerMenu.slice(2).map(link => (
-                  <Link key={link.id} href={link.url}>
-                     <a className={`transition-colors hover:underline decoration-2 decoration-[#E69138] underline-offset-4 ${navLinkClass}`}>{link.label}</a>
-                  </Link>
-               ))}
-            </nav>
-
             <div className="flex items-center gap-3">
               <Button 
                 variant="outline"
@@ -209,17 +200,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </Button>
 
               <Button 
-                className={`hidden lg:flex font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 ${isScrolled ? 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F]' : 'bg-transparent border border-white text-white hover:bg-white hover:text-[#2d4040]'}`}
+                className={`hidden lg:flex font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 ${isScrolled ? 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F]' : 'bg-transparent border border-white text-white hover:bg-white hover:text-[#E69138]'}`}
                 onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Secure My Shelter
               </Button>
-              
-              <Link href="/admin">
-                <Button variant="ghost" size="icon" title="Admin Demo" className={isScrolled ? '' : 'text-white hover:bg-white/10'}>
-                  <User className="h-5 w-5" />
-                </Button>
-              </Link>
             </div>
           </div>
         </div>
