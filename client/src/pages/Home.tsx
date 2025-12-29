@@ -7,6 +7,7 @@ import ProductCard from '@/components/product/ProductCard';
 import { useStore } from '@/lib/storeContext';
 import ParallaxSection from '@/components/home/ParallaxSection';
 import XrayTech from '@/components/home/XrayTech';
+import HowItWorks from '@/components/home/HowItWorks';
 import PurchaseSection from '@/components/home/PurchaseSection';
 import Testimonials from '@/components/home/Testimonials';
 import { Button } from '@/components/ui/button';
@@ -169,6 +170,8 @@ export default function Home() {
         );
       case 'xray-tech':
         return <XrayTech key={section.id} />;
+      case 'how-it-works':
+        return <HowItWorks key={section.id} />;
       case 'purchase-section':
         return <PurchaseSection key={section.id} />;
       case 'testimonials':

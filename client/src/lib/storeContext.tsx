@@ -60,7 +60,7 @@ export interface ShippingProfile {
 
 export interface HomePageSection {
   id: string;
-  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text' | '3d-viewer' | 'parallax-scroll' | 'specs-detail' | 'xray-tech' | 'purchase-section' | 'testimonials';
+  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text' | '3d-viewer' | 'parallax-scroll' | 'specs-detail' | 'xray-tech' | 'purchase-section' | 'testimonials' | 'how-it-works';
   title?: string;
   content?: any;
   image?: string;
@@ -152,6 +152,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       {
         id: 'xray-tech-demo',
         type: 'xray-tech',
+        enabled: true
+      },
+      {
+        id: 'how-it-works',
+        type: 'how-it-works',
         enabled: true
       },
       {
