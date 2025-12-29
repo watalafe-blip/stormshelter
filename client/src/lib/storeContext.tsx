@@ -171,7 +171,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
           { label: 'Roof Thickness', value: '5 Inches Sloped', description: 'Extra thick and angled so heavy debris slides right off.' },
           { label: 'Rebar Reinforcement', value: '#3 & #4 Grade 60 Steel', description: 'A steel skeleton inside the walls specifically for tornadoes.' },
           { label: 'Door Construction', value: '10 Gauge Steel / 3-Point Lock', description: 'Like a bank vault door for your family.' },
-          { label: 'Dimensions (Outer)', value: '6\' x 8\' x 6\'4"', description: 'Fits the whole family comfortably.' },
+          { label: 'Dimensions (Outer)', value: '80" W x 104" L x 85" H', description: 'Spacious interior with 6\'4" headroom.' },
           { label: 'Weight', value: 'Approx. 12,000 lbs', description: 'So heavy that even a massive tornado cannot lift it.' }
         ],
         enabled: true

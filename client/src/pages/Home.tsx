@@ -14,6 +14,9 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2, Ruler, Hammer, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+import blueprintImg from '@assets/shelter-blueprint.png';
+import cutawayImg from '@assets/shelter-cutaway.png';
+
 export default function Home() {
   const { products, theme } = useStore();
   const topPicks = products.filter(p => p.isTopPick);
@@ -147,6 +150,17 @@ export default function Home() {
                   </div>
                </div>
                
+               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#3E2723]/10">
+                    <h3 className="text-xl font-bold mb-4 text-[#3E2723]">Technical Blueprints</h3>
+                    <img src={blueprintImg} alt="Shelter Blueprints" className="w-full h-auto rounded-lg" />
+                  </div>
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#3E2723]/10">
+                    <h3 className="text-xl font-bold mb-4 text-[#3E2723]">Interior Cutaway</h3>
+                    <img src={cutawayImg} alt="Shelter Cutaway View" className="w-full h-auto rounded-lg" />
+                  </div>
+               </div>
+
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                  {section.specs?.map((spec: any, idx: number) => (
                    <motion.div 

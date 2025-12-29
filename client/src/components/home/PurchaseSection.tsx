@@ -194,9 +194,6 @@ export default function PurchaseSection() {
                     <div className="flex items-center gap-1 text-xs font-bold text-stone-600 bg-stone-100 px-2 py-1 rounded">
                       <span>🏦</span> Wire Transfer
                     </div>
-                    <div className="flex items-center gap-1 text-xs font-bold text-stone-600 bg-stone-100 px-2 py-1 rounded">
-                      <span>📝</span> Check
-                    </div>
                   </div>
                 </div>
               </div>
