@@ -66,7 +66,7 @@ export interface HomePageSection {
   image?: string;
   imagePosition?: 'left' | 'right';
   bullets?: string[];
-  specs?: { label: string; value: string }[];
+  specs?: { label: string; value: string; description?: string }[];
   enabled: boolean;
 }
 
@@ -165,14 +165,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         title: 'Engineered Specifications',
         content: 'Built with the highest grade materials to ensure survival in the most extreme conditions.',
         specs: [
-          { label: 'Concrete Strength', value: '6,000 PSI Cured' },
-          { label: 'Wall Thickness', value: '4 Inches Reinforced' },
-          { label: 'Floor Thickness', value: '4 Inches Poured' },
-          { label: 'Roof Thickness', value: '5 Inches Sloped' },
-          { label: 'Rebar Reinforcement', value: '#3 & #4 Grade 60 Steel' },
-          { label: 'Door Construction', value: '10 Gauge Steel / 3-Point Lock' },
-          { label: 'Dimensions (Outer)', value: '6\' x 8\' x 6\'4"' },
-          { label: 'Weight', value: 'Approx. 12,000 lbs' }
+          { label: 'Concrete Strength', value: '6,000 PSI Cured', description: 'Twice as strong as a normal driveway or sidewalk.' },
+          { label: 'Wall Thickness', value: '4 Inches Reinforced', description: 'Solid walls that stop flying debris instantly.' },
+          { label: 'Floor Thickness', value: '4 Inches Poured', description: 'A solid foundation that will never crack or shift.' },
+          { label: 'Roof Thickness', value: '5 Inches Sloped', description: 'Extra thick and angled so heavy debris slides right off.' },
+          { label: 'Rebar Reinforcement', value: '#3 & #4 Grade 60 Steel', description: 'A steel skeleton inside the walls specifically for tornadoes.' },
+          { label: 'Door Construction', value: '10 Gauge Steel / 3-Point Lock', description: 'Like a bank vault door for your family.' },
+          { label: 'Dimensions (Outer)', value: '6\' x 8\' x 6\'4"', description: 'Fits the whole family comfortably.' },
+          { label: 'Weight', value: 'Approx. 12,000 lbs', description: 'So heavy that even a massive tornado cannot lift it.' }
         ],
         enabled: true
       },

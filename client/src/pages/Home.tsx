@@ -161,7 +161,8 @@ export default function Home() {
                       </div>
                       
                       <h4 className="font-bold text-stone-500 text-xs uppercase tracking-widest mb-2">{spec.label}</h4>
-                      <p className="text-2xl font-black text-[#3E2723] leading-tight">{spec.value}</p>
+                      <p className="text-2xl font-black text-[#3E2723] leading-tight mb-2">{spec.value}</p>
+                      <p className="text-sm text-stone-500 leading-relaxed">{spec.description}</p>
                    </motion.div>
                  ))}
                </div>
