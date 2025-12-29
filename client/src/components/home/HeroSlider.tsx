@@ -59,7 +59,7 @@ export default function HeroSlider() {
               >
                   <Button 
                     size="lg" 
-                    className="rounded-md px-10 text-lg h-16 bg-[#FFD700] text-[#3E2723] hover:bg-[#FBC02D] border-none font-bold uppercase tracking-wide shadow-xl transform hover:scale-105 transition-all"
+                    className="rounded-md px-10 text-lg h-16 bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] border-none font-bold uppercase tracking-wide shadow-xl transform hover:scale-105 transition-all"
                     onClick={() => {
                       const element = document.getElementById('purchase');
                       element?.scrollIntoView({ behavior: 'smooth' });

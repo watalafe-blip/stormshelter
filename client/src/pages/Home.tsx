@@ -48,13 +48,13 @@ export default function Home() {
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                    {section.bullets.map((bullet: string, idx: number) => (
                      <div key={idx} className="flex items-center gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/10">
-                       <CheckCircle2 className="h-6 w-6 text-[#FFD700]" />
+                       <CheckCircle2 className="h-6 w-6 text-[#E69138]" />
                        <span className="font-bold tracking-wide">{bullet}</span>
                      </div>
                    ))}
                  </div>
                )}
-               <Button size="lg" className="mt-8 bg-[#FFD700] text-[#3E2723] hover:bg-[#FBC02D] font-bold text-lg px-8 h-14">
+               <Button size="lg" className="mt-8 bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold text-lg px-8 h-14">
                  Explore Specifications
                </Button>
              </div>
@@ -142,7 +142,7 @@ export default function Home() {
                     <p className="text-xl text-muted-foreground leading-relaxed">{section.content}</p>
                   </div>
                   <div className="hidden md:block">
-                    <Shield size={64} className="text-[#FFD700] opacity-80" />
+                    <Shield size={64} className="text-[#E69138] opacity-80" />
                   </div>
                </div>
                
@@ -151,9 +151,9 @@ export default function Home() {
                    <motion.div 
                       key={idx} 
                       whileHover={{ y: -5 }}
-                      className="bg-white p-8 rounded-2xl shadow-sm border border-[#3E2723]/5 group hover:border-[#FFD700] transition-colors relative overflow-hidden"
+                      className="bg-white p-8 rounded-2xl shadow-sm border border-[#3E2723]/5 group hover:border-[#E69138] transition-colors relative overflow-hidden"
                    >
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-[#FFD700]/10 rounded-bl-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-[#E69138]/10 rounded-bl-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
                       
                       <div className="mb-4 text-[#3E2723] opacity-80 group-hover:opacity-100 transition-opacity">
                         {idx % 4 === 0 ? <Hammer size={32} /> : idx % 4 === 1 ? <Ruler size={32} /> : idx % 4 === 2 ? <Shield size={32} /> : <CheckCircle2 size={32} />}
@@ -177,13 +177,13 @@ export default function Home() {
         return (
           <section key={section.id} className="py-20 bg-[#3E2723] text-white">
             <div className="container mx-auto px-4 text-center max-w-4xl">
-              <h2 className="text-3xl md:text-4xl font-sans font-bold mb-6 text-[#FFD700]">{section.title}</h2>
+              <h2 className="text-3xl md:text-4xl font-sans font-bold mb-6 text-[#E69138]">{section.title}</h2>
               <div className="text-lg md:text-xl leading-relaxed opacity-90">
                 {section.content}
               </div>
               <div className="mt-8 flex justify-center gap-4 text-sm font-medium opacity-75">
-                 <div className="flex items-center gap-2"><div className="w-2 h-2 bg-[#FFD700] rounded-full"></div> Requires Flatbed Truck</div>
-                 <div className="flex items-center gap-2"><div className="w-2 h-2 bg-[#FFD700] rounded-full"></div> Heavy Equipment Needed</div>
+                 <div className="flex items-center gap-2"><div className="w-2 h-2 bg-[#E69138] rounded-full"></div> Requires Flatbed Truck</div>
+                 <div className="flex items-center gap-2"><div className="w-2 h-2 bg-[#E69138] rounded-full"></div> Heavy Equipment Needed</div>
               </div>
             </div>
           </section>

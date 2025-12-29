@@ -64,7 +64,7 @@ export default function PurchaseSection() {
   return (
     <section id="purchase" className="py-24 bg-[#fdfaf5] relative overflow-hidden">
       {/* Background Decorative Blob */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#FFD700]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#E69138]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -81,7 +81,7 @@ export default function PurchaseSection() {
           {/* Features Column */}
           <div className="space-y-6 lg:pt-10">
             <h3 className="text-xl font-bold text-[#3E2723] flex items-center gap-2">
-              <ShieldCheck className="text-[#FFD700]" /> Standard Inclusions
+              <ShieldCheck className="text-[#E69138]" /> Standard Inclusions
             </h3>
             <ul className="space-y-4">
               {[
@@ -91,8 +91,8 @@ export default function PurchaseSection() {
                 'Installation Guide Included'
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-stone-600">
-                  <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                    <Check size={14} className="text-green-600" />
+                  <div className="w-6 h-6 rounded-full bg-[#E69138]/10 flex items-center justify-center shrink-0">
+                    <Check size={14} className="text-[#E69138]" />
                   </div>
                   {item}
                 </li>
@@ -174,7 +174,7 @@ export default function PurchaseSection() {
 
               <Button 
                 onClick={handlePurchase} 
-                className="w-full h-16 text-xl font-bold bg-[#FFD700] hover:bg-[#FBC02D] text-[#3E2723] shadow-lg hover:shadow-xl transition-all"
+                className="w-full h-16 text-xl font-bold bg-[#E69138] hover:bg-[#D4842F] text-[#3E2723] shadow-lg hover:shadow-xl transition-all"
               >
                 Secure My Shelter
               </Button>

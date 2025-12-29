@@ -61,28 +61,27 @@ export default function XrayTech() {
           
           {/* Text Content */}
           <div className="flex-1 space-y-8 z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD700]/10 text-[#FFD700] border border-[#FFD700]/20 text-sm font-bold tracking-wider uppercase">
-              <Scan size={16} /> Proprietary Tech
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E69138]/10 text-[#E69138] border border-[#E69138]/20 text-sm font-bold tracking-wider uppercase">
+              <Scan size={16} /> Why Choose Home Defend
             </div>
             
             <h2 className="text-4xl md:text-5xl font-sans font-bold leading-tight">
-              See What Others <span className="text-[#FFD700]">Hide</span>.
+              Protect What Matters <span className="text-[#E69138]">Most</span>.
             </h2>
             
             <p className="text-xl text-stone-300 leading-relaxed">
-              While other companies cut corners with thin walls and minimal reinforcement, we invite you to look closer. Our 
-              <span className="text-white font-bold"> Mono-Pour™ Technology</span> integrates a 
-              massive steel rebar cage directly into 6,000 PSI concrete.
+              It’s not just about concrete and steel—it’s about the feeling of absolute security when the sky turns dark. 
+              Our shelters provide a sanctuary where fear is replaced by safety, ensuring your family’s legacy survives any storm.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
               <div className="bg-white/5 border border-white/10 p-4 rounded-lg">
-                <h4 className="text-[#FFD700] font-bold text-lg mb-2">Double Rebar Grid</h4>
-                <p className="text-sm text-stone-400">#4 Steel Rebar placed every 12 inches on center, creating an impenetrable cage.</p>
+                <h4 className="text-[#E69138] font-bold text-lg mb-2">Unshakable Peace of Mind</h4>
+                <p className="text-sm text-stone-400">Sleep soundly knowing you have a permanent, fail-safe plan just steps away from your back door.</p>
               </div>
               <div className="bg-white/5 border border-white/10 p-4 rounded-lg">
-                <h4 className="text-[#FFD700] font-bold text-lg mb-2">Zero Cold Joints</h4>
-                <p className="text-sm text-stone-400">Poured as a single solid unit to eliminate weak points and water intrusion.</p>
+                <h4 className="text-[#E69138] font-bold text-lg mb-2">Invest in Survival</h4>
+                <p className="text-sm text-stone-400">A one-time investment that protects your family for generations. Can you put a price on their safety?</p>
               </div>
             </div>
           </div>
@@ -125,10 +124,10 @@ export default function XrayTech() {
 
               {/* Slider Handle */}
               <div 
-                className="absolute top-0 bottom-0 w-1 bg-[#FFD700] shadow-[0_0_20px_rgba(255,215,0,0.5)] z-20"
+                className="absolute top-0 bottom-0 w-1 bg-[#E69138] shadow-[0_0_20px_rgba(230,145,56,0.5)] z-20"
                 style={{ left: `${sliderPosition}%` }}
               >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-[#FFD700] rounded-full flex items-center justify-center shadow-lg transform active:scale-110 transition-transform">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-[#E69138] rounded-full flex items-center justify-center shadow-lg transform active:scale-110 transition-transform">
                   <Scan size={20} className="text-[#3E2723]" />
                 </div>
               </div>
