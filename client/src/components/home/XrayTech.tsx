@@ -1,11 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Scan, ShieldAlert } from 'lucide-react';
+import { Scan, ShieldAlert, Volume2, VolumeX } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import imgConcrete from '@assets/generated_images/concrete_storm_shelter_exterior.png';
 import imgRebar from '@assets/generated_images/steel_rebar_cage_structure_for_shelter.png';
+import videoSafe from '@assets/generated_videos/family_safe_in_underground_shelter_during_tornado.mp4';
+import videoDestruction from '@assets/generated_videos/tornado_destruction_without_shelter_protection.mp4';
 
 export default function XrayTech() {
   const [sliderPosition, setSliderPosition] = useState(50);
+  const [activeVideo, setActiveVideo] = useState<'safe' | 'destruction'>('destruction');
+  const [isMuted, setIsMuted] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -120,6 +125,106 @@ export default function XrayTech() {
             </div>
           </div>
 
+        </div>
+
+        {/* Video Comparison Section */}
+        <div className="mt-32 pt-24 border-t border-white/20">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl md:text-5xl font-sans font-bold leading-tight mb-6">
+              Why This <span className="text-[#FFD700]">Decision</span> Matters
+            </h2>
+            <p className="text-xl text-stone-300 leading-relaxed">
+              Toggle between what happens with and without a Home Defend shelter.
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            {/* Video Toggle Buttons */}
+            <div className="flex gap-4 mb-8 justify-center">
+              <Button
+                onClick={() => setActiveVideo('destruction')}
+                className={`px-6 py-3 rounded-lg font-bold uppercase tracking-wide transition-all ${
+                  activeVideo === 'destruction'
+                    ? 'bg-red-600/80 text-white shadow-lg'
+                    : 'bg-white/10 text-stone-300 hover:bg-white/20'
+                }`}
+              >
+                Without Shelter
+              </Button>
+              <Button
+                onClick={() => setActiveVideo('safe')}
+                className={`px-6 py-3 rounded-lg font-bold uppercase tracking-wide transition-all ${
+                  activeVideo === 'safe'
+                    ? 'bg-green-600/80 text-white shadow-lg'
+                    : 'bg-white/10 text-stone-300 hover:bg-white/20'
+                }`}
+              >
+                With Shelter
+              </Button>
+            </div>
+
+            {/* Video Player */}
+            <motion.div
+              key={activeVideo}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full bg-black rounded-xl overflow-hidden shadow-2xl ring-4 ring-white/10"
+            >
+              <video
+                src={activeVideo === 'safe' ? videoSafe : videoDestruction}
+                autoPlay
+                muted={isMuted}
+                loop
+                className="w-full h-auto"
+              />
+
+              {/* Video Controls Overlay */}
+              <div className="absolute bottom-4 right-4 flex gap-2">
+                <button
+                  onClick={() => setIsMuted(!isMuted)}
+                  className="bg-white/20 hover:bg-white/30 backdrop-blur p-2 rounded-lg transition-all"
+                >
+                  {isMuted ? (
+                    <VolumeX size={20} className="text-white" />
+                  ) : (
+                    <Volume2 size={20} className="text-white" />
+                  )}
+                </button>
+              </div>
+
+              {/* Status Badge */}
+              <div className={`absolute top-4 left-4 px-4 py-2 rounded-lg font-bold uppercase tracking-widest text-sm backdrop-blur ${
+                activeVideo === 'safe'
+                  ? 'bg-green-600/80 text-white'
+                  : 'bg-red-600/80 text-white'
+              }`}>
+                {activeVideo === 'safe' ? '✓ Protected' : '✗ Exposed'}
+              </div>
+            </motion.div>
+
+            {/* Comparison Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+              <div className="bg-white/5 border border-white/10 p-6 rounded-lg text-center">
+                <h4 className="text-[#FFD700] font-bold text-lg mb-2">Safety Rating</h4>
+                <p className={`text-3xl font-extrabold ${activeVideo === 'safe' ? 'text-green-400' : 'text-red-400'}`}>
+                  {activeVideo === 'safe' ? '100%' : '0%'}
+                </p>
+              </div>
+              <div className="bg-white/5 border border-white/10 p-6 rounded-lg text-center">
+                <h4 className="text-[#FFD700] font-bold text-lg mb-2">Family Security</h4>
+                <p className={`text-3xl font-extrabold ${activeVideo === 'safe' ? 'text-green-400' : 'text-red-400'}`}>
+                  {activeVideo === 'safe' ? 'Secured' : 'At Risk'}
+                </p>
+              </div>
+              <div className="bg-white/5 border border-white/10 p-6 rounded-lg text-center">
+                <h4 className="text-[#FFD700] font-bold text-lg mb-2">Peace of Mind</h4>
+                <p className={`text-3xl font-extrabold ${activeVideo === 'safe' ? 'text-green-400' : 'text-red-400'}`}>
+                  {activeVideo === 'safe' ? 'Guaranteed' : 'Lost'}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
