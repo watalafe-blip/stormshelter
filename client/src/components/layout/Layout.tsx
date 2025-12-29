@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { useStore } from '@/lib/storeContext';
 import { useState, useEffect } from 'react';
-import logoImg from '@assets/images_1766984422155.png';
+import logoImg from '@assets/images-Photoroom_1766984801727.png';
 import PurchaseNotification from '@/components/home/PurchaseNotification';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -182,7 +182,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <img 
                   src={logoImg} 
                   alt="Home Defend Logo" 
-                  className={`h-20 w-auto transition-all ${isScrolled ? '' : 'brightness-0 invert'}`} 
+                  className={`h-20 w-auto transition-all`} 
                 />
               </div>
             </a>
