@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { Scan, ShieldAlert } from 'lucide-react';
 import imgConcrete from '@assets/generated_images/concrete_storm_shelter_exterior.png';
 import imgRebar from '@assets/generated_images/steel_rebar_cage_structure_for_shelter.png';
-import imgDestruction from '@assets/generated_images/destroyed_home_after_tornado.png';
-import imgSafe from '@assets/generated_images/family_safe_in_underground_shelter_interior.png';
+import imgClosed from '@assets/generated_images/underground_concrete_shelter_closed_buried_ground.png';
+import imgOpen from '@assets/generated_images/shelter_with_open_door_showing_interior_access.png';
 
 export default function XrayTech() {
   const [sliderPosition, setSliderPosition] = useState(50);
@@ -146,14 +146,6 @@ export default function XrayTech() {
 
         {/* Before/After Image Comparison Section */}
         <div className="mt-32 pt-24 border-t border-white/20">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl font-sans font-bold leading-tight mb-6">
-              Why This <span className="text-[#FFD700]">Decision</span> Matters
-            </h2>
-            <p className="text-xl text-stone-300 leading-relaxed">
-              Drag the slider to see the difference.
-            </p>
-          </div>
 
           <div className="max-w-4xl mx-auto">
             {/* Before/After Slider */}
@@ -165,29 +157,29 @@ export default function XrayTech() {
               onMouseDown={handleOutcomeMouseDown}
               onTouchStart={handleOutcomeMouseDown}
             >
-              {/* Before - Without Shelter */}
+              {/* Before - Closed Shelter */}
               <img 
-                src={imgDestruction} 
-                alt="Without shelter" 
+                src={imgClosed} 
+                alt="Shelter closed" 
                 className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
               />
               
-              <div className="absolute bottom-4 left-4 bg-red-600/80 backdrop-blur px-4 py-2 rounded text-sm font-bold uppercase tracking-widest text-white">
-                Without Shelter
+              <div className="absolute bottom-4 left-4 bg-stone-800/80 backdrop-blur px-4 py-2 rounded text-sm font-bold uppercase tracking-widest text-white">
+                Closed
               </div>
 
-              {/* After - With Shelter (Clipped) */}
+              {/* After - Open Shelter (Clipped) */}
               <div 
                 className="absolute inset-0 w-full h-full overflow-hidden"
                 style={{ clipPath: `inset(0 ${100 - outcomeSliderPosition}% 0 0)` }}
               >
                 <img 
-                  src={imgSafe} 
-                  alt="With shelter" 
+                  src={imgOpen} 
+                  alt="Shelter open" 
                   className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
                 />
                  <div className="absolute bottom-4 right-4 bg-green-600/80 backdrop-blur px-4 py-2 rounded text-sm font-bold uppercase tracking-widest text-white">
-                   With Shelter
+                   Open
                  </div>
               </div>
 

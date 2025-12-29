@@ -27,7 +27,7 @@ export default function Home() {
       case 'hero':
         return <HeroSlider key={section.id} />;
       case '3d-viewer':
-        return <InteractiveShelter3D key={section.id} />;
+        return null;
       case 'parallax-scroll':
         return (
           <ParallaxSection 
@@ -139,14 +139,11 @@ export default function Home() {
                   <p className="text-lg text-muted-foreground">{section.content}</p>
                </div>
                
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
                  {section.specs?.map((spec: any, idx: number) => (
-                   <div key={idx} className="bg-[#fdfaf5] p-6 rounded-xl border border-[#3E2723]/10 hover:shadow-md transition-shadow">
-                      <div className="flex items-center gap-3 mb-3 text-[#FFD700]">
-                        {idx % 3 === 0 ? <Hammer size={24} className="text-[#3E2723]" /> : idx % 3 === 1 ? <Ruler size={24} className="text-[#3E2723]" /> : <Shield size={24} className="text-[#3E2723]" />}
-                        <h4 className="font-bold text-[#3E2723] text-sm uppercase tracking-wider">{spec.label}</h4>
-                      </div>
-                      <p className="text-2xl font-extrabold text-[#3E2723]">{spec.value}</p>
+                   <div key={idx} className="bg-white border-l-4 border-[#FFD700] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                      <h4 className="font-bold text-[#3E2723] text-sm uppercase tracking-wider mb-3">{spec.label}</h4>
+                      <p className="text-3xl font-extrabold text-[#3E2723]">{spec.value}</p>
                    </div>
                  ))}
                </div>
