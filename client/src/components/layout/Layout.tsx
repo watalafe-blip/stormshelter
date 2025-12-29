@@ -120,8 +120,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+        <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
@@ -142,42 +142,48 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </SheetContent>
           </Sheet>
 
-          {/* Logo */}
-          <Link href="/">
-            <a className={`text-2xl font-bold tracking-tight flex items-center gap-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
-              <img src={logoImg} alt="Home Defend Logo" className="h-10 w-auto" />
-              <span className="text-[#3E2723]">{theme.storeName}</span>
-            </a>
-          </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-[#3E2723]/80 uppercase tracking-wide">
-             {theme.headerMenu.map(link => (
+          {/* Left Nav */}
+          <nav className="hidden md:flex flex-1 items-center gap-8 text-sm font-bold text-[#3E2723]/80 uppercase tracking-wide">
+             {theme.headerMenu.slice(0, 2).map(link => (
                 <Link key={link.id} href={link.url}>
-                   <a className="hover:text-[#3E2723] transition-colors hover:underline decoration-2 decoration-[#FFD700] underline-offset-4">{link.label}</a>
+                   <a className="hover:text-[#3E2723] transition-colors hover:underline decoration-2 decoration-[#E69138] underline-offset-4">{link.label}</a>
                 </Link>
              ))}
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center gap-2">
-            <div className="hidden md:flex items-center gap-2 mr-4 text-sm font-bold text-[#3E2723]">
-               <Phone size={16} className="text-[#E69138]" />
-               <span>1-800-DEFEND-1</span>
-            </div>
-            
-            <Button 
-              className="hidden md:flex bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold"
-              onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Secure My Shelter
-            </Button>
-            
-            <Link href="/admin">
-              <Button variant="ghost" size="icon" title="Admin Demo">
-                <User className="h-5 w-5 text-[#3E2723]" />
+          {/* Centered Logo */}
+          <Link href="/">
+            <a className={`text-2xl font-bold tracking-tight flex items-center justify-center gap-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
+              <div className="bg-white rounded-full p-2 relative z-10">
+                <img src={logoImg} alt="Home Defend Logo" className="h-16 w-auto mix-blend-multiply" />
+              </div>
+            </a>
+          </Link>
+
+          {/* Right Nav & Actions */}
+          <div className="flex-1 flex items-center justify-end gap-6">
+            <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-[#3E2723]/80 uppercase tracking-wide mr-4">
+               {theme.headerMenu.slice(2).map(link => (
+                  <Link key={link.id} href={link.url}>
+                     <a className="hover:text-[#3E2723] transition-colors hover:underline decoration-2 decoration-[#E69138] underline-offset-4">{link.label}</a>
+                  </Link>
+               ))}
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <Button 
+                className="hidden lg:flex bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+                onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Secure My Shelter
               </Button>
-            </Link>
+              
+              <Link href="/admin">
+                <Button variant="ghost" size="icon" title="Admin Demo">
+                  <User className="h-5 w-5 text-[#3E2723]" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
         
