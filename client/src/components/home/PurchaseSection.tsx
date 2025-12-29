@@ -162,12 +162,12 @@ export default function PurchaseSection() {
               </div>
 
               <div className="space-y-4 pt-4 border-t border-dashed border-gray-200">
-                 <div className="flex justify-between items-center">
-                    <span className="font-medium text-stone-600">Deposit Due Now:</span>
+                 <div className="flex justify-between items-center bg-stone-50 p-3 rounded-lg">
+                    <span className="font-bold text-stone-700">Deposit Due Today:</span>
                     <span className="text-3xl font-bold text-[#3E2723]">${depositAmount}</span>
                  </div>
-                 <div className="flex justify-between items-center text-sm text-muted-foreground">
-                    <span>Balance at Shipping:</span>
+                 <div className="flex justify-between items-center text-sm text-muted-foreground px-2">
+                    <span>Remaining Balance (due before shipping):</span>
                     <span className={shippingCost ? "font-bold text-[#E69138]" : ""}>
                       ${(remainingBalance + (shippingCost || 0)).toLocaleString()}
                       {shippingCost ? " (inc. shipping)" : " + shipping"}
@@ -175,16 +175,31 @@ export default function PurchaseSection() {
                  </div>
               </div>
 
-              <Button 
-                onClick={handlePurchase} 
-                className="w-full h-16 text-xl font-bold bg-[#E69138] hover:bg-[#D4842F] text-[#3E2723] shadow-lg hover:shadow-xl transition-all"
-              >
-                Secure My Shelter
-              </Button>
-              
-              <p className="text-xs text-center text-muted-foreground flex items-center justify-center gap-1">
-                <CreditCard size={12} /> 100% Secure Payment Processing
-              </p>
+              <div className="space-y-3">
+                <Button 
+                  onClick={handlePurchase} 
+                  className="w-full h-16 text-xl font-bold bg-[#E69138] hover:bg-[#D4842F] text-[#3E2723] shadow-lg hover:shadow-xl transition-all"
+                >
+                  Secure My Spot
+                </Button>
+                
+                <div className="text-center space-y-2">
+                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+                    We Accept
+                  </p>
+                  <div className="flex justify-center gap-3 opacity-70">
+                    <div className="flex items-center gap-1 text-xs font-bold text-stone-600 bg-stone-100 px-2 py-1 rounded">
+                      <CreditCard size={12} /> Credit Cards
+                    </div>
+                    <div className="flex items-center gap-1 text-xs font-bold text-stone-600 bg-stone-100 px-2 py-1 rounded">
+                      <span>🏦</span> Wire Transfer
+                    </div>
+                    <div className="flex items-center gap-1 text-xs font-bold text-stone-600 bg-stone-100 px-2 py-1 rounded">
+                      <span>📝</span> Check
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
 
