@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { useStore } from '@/lib/storeContext';
 import { useState, useEffect } from 'react';
-import logoImg from '@assets/images_1766611330812.png';
+import logoImg from '@assets/images_1766984422155.png';
 import PurchaseNotification from '@/components/home/PurchaseNotification';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -131,11 +131,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const headerBgClass = isScrolled 
     ? "bg-white/95 backdrop-blur shadow-md text-[#3E2723]" 
-    : "bg-[#E69138] text-white border-transparent"; // Brand Orange
+    : "bg-transparent text-white border-transparent"; // Transparent on top
 
   const navLinkClass = isScrolled
     ? "hover:text-[#E69138] text-[#3E2723]"
-    : "hover:text-[#3E2723] text-white";
+    : "hover:text-[#E69138] text-white";
 
   const outlineButtonClass = isScrolled
     ? "border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
@@ -144,8 +144,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <PurchaseNotification />
-      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${headerBgClass}`}>
-        <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+      <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${headerBgClass}`}>
+        <div className="container mx-auto px-4 h-24 flex items-center justify-between">
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
@@ -178,11 +178,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Center: Logo */}
           <Link href="/">
             <a className={`text-2xl font-bold tracking-tight flex items-center justify-center gap-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
-              <div className={`rounded-full p-2 relative z-10 transition-all duration-300 ${isScrolled ? 'bg-white' : 'bg-transparent'}`}>
+              <div className={`p-2 transition-all duration-300 transform ${isScrolled ? 'scale-90' : 'scale-110'}`}>
                 <img 
                   src={logoImg} 
                   alt="Home Defend Logo" 
-                  className={`h-16 w-auto transition-all ${isScrolled ? 'mix-blend-multiply' : 'brightness-0 invert'}`} 
+                  className={`h-20 w-auto transition-all ${isScrolled ? '' : 'brightness-0 invert'}`} 
                 />
               </div>
             </a>
@@ -200,7 +200,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </Button>
 
               <Button 
-                className={`hidden lg:flex font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 ${isScrolled ? 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F]' : 'bg-transparent border border-white text-white hover:bg-white hover:text-[#E69138]'}`}
+                className={`hidden lg:flex font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 ${isScrolled ? 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F]' : 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] border-none'}`}
                 onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Secure My Shelter
