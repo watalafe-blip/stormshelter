@@ -224,47 +224,40 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      <footer className="bg-muted/30 border-t border-border py-12 md:py-16">
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <footer className="bg-[#3E2723] text-white border-t border-[#E69138]/20 py-12 md:py-16">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-4">
-            <h3 className="text-lg font-serif font-bold">LuxeStore</h3>
-            <p className="text-sm text-muted-foreground">
-              Premium curated goods for the modern lifestyle. Quality, design, and service.
+            <h3 className="text-lg font-bold flex items-center gap-2">
+              <img src={logoImg} alt="Home Defend Logo" className="h-8 w-auto brightness-0 invert" />
+              Home Defend
+            </h3>
+            <p className="text-sm text-stone-300 max-w-xs">
+              Protecting families with FEMA-certified concrete storm shelters. Built to survive the worst, so you can too.
             </p>
           </div>
           <div>
-            <h4 className="font-medium mb-4">Shop</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="/shop/new">New Arrivals</Link></li>
-              <li><Link href="/shop/bestsellers">Best Sellers</Link></li>
-              <li><Link href="/shop/home">Home</Link></li>
-              <li><Link href="/shop/fashion">Fashion</Link></li>
+            <h4 className="font-bold text-[#E69138] mb-4 uppercase tracking-wider text-sm">Navigation</h4>
+            <ul className="space-y-2 text-sm text-stone-300">
+              <li><Link href="/"><a className="hover:text-white transition-colors">Home</a></Link></li>
+              <li><Link href="/shop"><a className="hover:text-white transition-colors">Shop Shelters</a></Link></li>
+              <li><Link href="/about"><a className="hover:text-white transition-colors">About Us</a></Link></li>
+              <li><Link href="/contact"><a className="hover:text-white transition-colors">Contact</a></Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-medium mb-4">Support</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="/contact">Contact Us</Link></li>
-              <li><Link href="/faq">FAQs</Link></li>
-              <li><Link href="/shipping">Shipping Info</Link></li>
-              <li><Link href="/returns">Returns</Link></li>
+            <h4 className="font-bold text-[#E69138] mb-4 uppercase tracking-wider text-sm">Customer Support</h4>
+            <ul className="space-y-2 text-sm text-stone-300">
+              <li><Link href="/contact"><a className="hover:text-white transition-colors">Contact Us</a></Link></li>
+              <li><Link href="/faq"><a className="hover:text-white transition-colors">FAQs</a></Link></li>
+              <li><Link href="/shipping"><a className="hover:text-white transition-colors">Shipping & Delivery</a></Link></li>
+              <li><Link href="/returns"><a className="hover:text-white transition-colors">Returns & Warranty</a></Link></li>
             </ul>
-          </div>
-          <div>
-            <h4 className="font-medium mb-4">Newsletter</h4>
-            <div className="flex gap-2">
-              <Input placeholder="Enter your email" className="bg-background" />
-              <Button>Join</Button>
-            </div>
-            <p className="text-xs text-muted-foreground mt-4">
-              Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
-            </p>
           </div>
         </div>
-        <div className="container mx-auto px-4 mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground flex flex-col md:flex-row justify-between items-center gap-4">
-          <span>&copy; {new Date().getFullYear()} LuxeStore. All rights reserved.</span>
-          <Link href="/admin" className="text-xs text-muted-foreground hover:text-primary underline decoration-dotted">
-            Admin Panel Login
+        <div className="container mx-auto px-4 mt-12 pt-8 border-t border-[#E69138]/20 text-center text-sm text-stone-400 flex flex-col md:flex-row justify-between items-center gap-4">
+          <span>&copy; {new Date().getFullYear()} Home Defend. All rights reserved.</span>
+          <Link href="/admin" className="text-xs text-stone-500 hover:text-[#E69138] transition-colors">
+            Admin Login
           </Link>
         </div>
       </footer>

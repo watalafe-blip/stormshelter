@@ -212,26 +212,7 @@ export default function Home() {
           </section>
         );
       case 'newsletter':
-        return (
-          <section key={section.id} className="py-24 bg-stone-900 text-white">
-            <div className="container mx-auto px-4 text-center max-w-3xl">
-              <h2 className={`text-4xl font-bold mb-6 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
-                Join the Vitality Club
-              </h2>
-              <p className="text-lg text-stone-300 mb-8">
-                Sign up for our newsletter and receive expert wellness guides, early access to new technology, and exclusive member offers.
-              </p>
-              <div className="flex max-w-md mx-auto gap-2">
-                 <input 
-                   type="email" 
-                   placeholder="Enter your email address" 
-                   className="flex-1 bg-white/10 border border-white/20 rounded-md px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50"
-                 />
-                 <Button className="bg-white text-stone-900 hover:bg-white/90">Subscribe</Button>
-              </div>
-            </div>
-          </section>
-        );
+        return null; // Disabled
       case 'new-arrivals':
         return (
           <section key={section.id} className="py-16 container mx-auto px-4">
