@@ -66,7 +66,7 @@ export default function HowItWorks() {
               >
                 {/* Content Side */}
                 <div className={`flex-1 ${idx % 2 === 0 ? 'md:text-right md:pr-16' : 'md:text-left md:pl-16'} pl-20 md:pl-0`}>
-                  <h3 className="text-2xl font-bold text-white mb-2">{step.title}</h3>
+                  <h3 className="text-2xl font-bold text-white mb-2"><span className="text-[#E69138] mr-2">{idx + 1}.</span> {step.title}</h3>
                   <p className="text-stone-400 leading-relaxed">
                     {step.description}
                   </p>
@@ -77,9 +77,6 @@ export default function HowItWorks() {
                   <div className="w-16 h-16 rounded-full bg-stone-800 border-4 border-stone-900 shadow-[0_0_0_4px_#292524] flex items-center justify-center relative z-10 group">
                     <div className="absolute inset-0 rounded-full border border-[#E69138]/30 group-hover:border-[#E69138] transition-colors"></div>
                     <step.icon size={24} className="text-[#E69138]" />
-                    <div className="absolute -right-2 -top-2 w-6 h-6 rounded-full bg-[#E69138] text-[#3E2723] flex items-center justify-center text-xs font-bold">
-                      {idx + 1}
-                    </div>
                   </div>
                 </div>
 

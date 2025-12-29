@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star, Play } from 'lucide-react';
+import interviewVideo from '@assets/generated_videos/reporter_interviewing_family.mp4';
 
 export default function Testimonials() {
   const testimonials = [
@@ -33,6 +34,37 @@ export default function Testimonials() {
           <p className="text-lg text-muted-foreground">
             From families who trusted Home Defend to protect what matters most.
           </p>
+        </div>
+
+        {/* Featured Video Story */}
+        <div className="mb-20 max-w-5xl mx-auto">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-video bg-black group cursor-pointer">
+            <video 
+              src={interviewVideo} 
+              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+            
+            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E69138] text-[#3E2723] text-sm font-bold tracking-wider uppercase mb-3">
+                Featured Story
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold mb-2">The Johnson Family's Story</h3>
+              <p className="text-stone-200 max-w-2xl">
+                "We never thought a tornado would hit our street. Having the shelter right there made the difference between panic and a plan."
+              </p>
+            </div>
+
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 pointer-events-none">
+               <div className="w-16 h-16 bg-[#E69138] rounded-full flex items-center justify-center pl-1 shadow-lg">
+                 <Play className="fill-[#3E2723] text-[#3E2723]" size={32} />
+               </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
