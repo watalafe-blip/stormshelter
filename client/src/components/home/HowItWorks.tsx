@@ -7,27 +7,27 @@ export default function HowItWorks() {
     {
       icon: CreditCard,
       title: "1. Secure Your Spot",
-      description: "A fully refundable $500 deposit locks in your production slot."
+      description: "Non-refundable $500 deposit locks your slot."
     },
     {
       icon: Calendar,
       title: "2. Schedule Delivery",
-      description: "Choose a delivery window that fits your life. We work around you."
+      description: "Choose a delivery window that works for you."
     },
     {
       icon: Download,
       title: "3. Prep Your Site",
-      description: "Download our site prep guide for your contractor."
+      description: "Get our guide for your contractor."
     },
     {
       icon: CheckCircle2,
       title: "4. Finalize Payment",
-      description: "Complete your balance payment prior to shipping."
+      description: "Balance due prior to shipping."
     },
     {
       icon: Truck,
       title: "5. Delivery Day",
-      description: "Your shelter arrives within 1 week of your scheduled date."
+      description: "Arrives within 1 week of date."
     }
   ];
 

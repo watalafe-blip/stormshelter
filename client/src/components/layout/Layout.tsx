@@ -1,20 +1,31 @@
 
 import { Link, useLocation } from 'wouter';
-import { ShoppingBag, Menu, X, Search, User, LayoutDashboard, Box, FileText, CreditCard, Settings, Users, Phone, Shield } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, User, LayoutDashboard, Box, FileText, CreditCard, Settings, Users, Phone, Shield, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { useStore } from '@/lib/storeContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import logoImg from '@assets/images_1766611330812.png';
+import PurchaseNotification from '@/components/home/PurchaseNotification';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { theme } = useStore();
 
   const isAdmin = location.startsWith('/admin');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const AdminSidebarLinks = () => (
     <>
@@ -118,14 +129,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     );
   }
 
+  const headerBgClass = isScrolled 
+    ? "bg-white/95 backdrop-blur shadow-md text-[#3E2723]" 
+    : "bg-[#2d4040] text-white border-transparent"; // Using a dark teal/slate similar to reference image
+
+  const navLinkClass = isScrolled
+    ? "hover:text-[#E69138] text-[#3E2723]"
+    : "hover:text-[#E69138] text-white";
+
+  const outlineButtonClass = isScrolled
+    ? "border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
+    : "border-white text-white hover:bg-white hover:text-[#2d4040]";
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+      <PurchaseNotification />
+      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${headerBgClass}`}>
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon" className={`md:hidden ${isScrolled ? '' : 'text-white hover:bg-white/10'}`}>
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
@@ -143,10 +167,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Sheet>
 
           {/* Left Nav */}
-          <nav className="hidden md:flex flex-1 items-center gap-8 text-sm font-bold text-[#3E2723]/80 uppercase tracking-wide">
+          <nav className="hidden md:flex flex-1 items-center gap-8 text-sm font-bold uppercase tracking-wide">
              {theme.headerMenu.slice(0, 2).map(link => (
                 <Link key={link.id} href={link.url}>
-                   <a className="hover:text-[#3E2723] transition-colors hover:underline decoration-2 decoration-[#E69138] underline-offset-4">{link.label}</a>
+                   <a className={`transition-colors hover:underline decoration-2 decoration-[#E69138] underline-offset-4 ${navLinkClass}`}>{link.label}</a>
                 </Link>
              ))}
           </nav>
@@ -154,33 +178,46 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Centered Logo */}
           <Link href="/">
             <a className={`text-2xl font-bold tracking-tight flex items-center justify-center gap-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
-              <div className="bg-white rounded-full p-2 relative z-10">
-                <img src={logoImg} alt="Home Defend Logo" className="h-16 w-auto mix-blend-multiply" />
+              <div className={`rounded-full p-2 relative z-10 transition-all duration-300 ${isScrolled ? 'bg-white' : 'bg-transparent'}`}>
+                {/* Logo with mix-blend-multiply works well on white, but for dark bg we might need brightness filter or just remove mix-blend if it's a transparent png */}
+                <img 
+                  src={logoImg} 
+                  alt="Home Defend Logo" 
+                  className={`h-16 w-auto transition-all ${isScrolled ? 'mix-blend-multiply' : 'brightness-0 invert'}`} 
+                />
               </div>
             </a>
           </Link>
 
           {/* Right Nav & Actions */}
           <div className="flex-1 flex items-center justify-end gap-6">
-            <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-[#3E2723]/80 uppercase tracking-wide mr-4">
+            <nav className="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-wide mr-4">
                {theme.headerMenu.slice(2).map(link => (
                   <Link key={link.id} href={link.url}>
-                     <a className="hover:text-[#3E2723] transition-colors hover:underline decoration-2 decoration-[#E69138] underline-offset-4">{link.label}</a>
+                     <a className={`transition-colors hover:underline decoration-2 decoration-[#E69138] underline-offset-4 ${navLinkClass}`}>{link.label}</a>
                   </Link>
                ))}
             </nav>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Button 
-                className="hidden lg:flex bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+                variant="outline"
+                className={`hidden lg:flex font-bold transition-all ${outlineButtonClass}`}
+                onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Calculate Shipping
+              </Button>
+
+              <Button 
+                className={`hidden lg:flex font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 ${isScrolled ? 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F]' : 'bg-transparent border border-white text-white hover:bg-white hover:text-[#2d4040]'}`}
                 onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Secure My Shelter
               </Button>
               
               <Link href="/admin">
-                <Button variant="ghost" size="icon" title="Admin Demo">
-                  <User className="h-5 w-5 text-[#3E2723]" />
+                <Button variant="ghost" size="icon" title="Admin Demo" className={isScrolled ? '' : 'text-white hover:bg-white/10'}>
+                  <User className="h-5 w-5" />
                 </Button>
               </Link>
             </div>
@@ -249,3 +286,4 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
