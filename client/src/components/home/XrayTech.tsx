@@ -5,7 +5,7 @@ import imgRebar from '@assets/generated_images/steel_rebar_cage_structure_for_sh
 import imgClosed from '@assets/generated_images/underground_concrete_shelter_closed_buried_ground.png';
 import imgOpen from '@assets/generated_images/shelter_with_open_door_showing_interior_access.png';
 import imgDestroyed from '@assets/generated_images/destroyed_home_after_tornado.png';
-import imgProtected from '@assets/generated_images/small_underground_shelter_cutaway_with_man_reading.png';
+import imgProtected from '@assets/Copilot_20251228_211116_1766981162862.png';
 
 export default function XrayTech() {
   const [sliderPosition, setSliderPosition] = useState(50);
