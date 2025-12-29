@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Scan, ShieldAlert } from 'lucide-react';
-import imgConcrete from '@assets/generated_images/concrete_storm_shelter_exterior.png';
 import imgRebar from '@assets/generated_images/steel_rebar_cage_structure_for_shelter.png';
 import imgClosed from '@assets/generated_images/underground_concrete_shelter_closed_buried_ground.png';
 import imgOpen from '@assets/generated_images/shelter_with_open_door_showing_interior_access.png';
+import imgDestroyed from '@assets/generated_images/destroyed_home_after_tornado.png';
+import imgProtected from '@assets/generated_images/family_home_protected_safe_with_storm_shelter.png';
 
 export default function XrayTech() {
   const [sliderPosition, setSliderPosition] = useState(50);
@@ -86,7 +87,7 @@ export default function XrayTech() {
             </div>
           </div>
 
-          {/* Interactive X-Ray Slider */}
+          {/* Before/After Impact Slider */}
           <div className="flex-1 w-full max-w-xl mx-auto">
             <div 
               ref={containerRef}
@@ -96,30 +97,29 @@ export default function XrayTech() {
               onMouseDown={handleMouseDown}
               onTouchStart={handleMouseDown}
             >
-              {/* Background Image (Concrete) */}
+              {/* Before - Destroyed Home */}
               <img 
-                src={imgConcrete} 
-                alt="Concrete Exterior" 
+                src={imgDestroyed} 
+                alt="Home destroyed" 
                 className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
               />
               
-              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur px-3 py-1 rounded text-xs font-bold uppercase tracking-widest text-white/70">
-                Exterior
+              <div className="absolute top-4 left-4 bg-red-600/80 backdrop-blur px-3 py-1 rounded text-xs font-bold uppercase tracking-widest text-white shadow-lg">
+                Without Shelter
               </div>
 
-              {/* Foreground Image (Rebar/X-Ray) - Clipped */}
+              {/* After - Protected Home (Clipped) */}
               <div 
                 className="absolute inset-0 w-full h-full overflow-hidden"
                 style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
               >
                 <img 
-                  src={imgRebar} 
-                  alt="Internal Structure" 
-                  className="absolute inset-0 w-full h-full object-cover pointer-events-none scale-105" // Slight scale to emphasize 'inside'
+                  src={imgProtected} 
+                  alt="Home protected" 
+                  className="absolute inset-0 w-full h-full object-cover pointer-events-none"
                 />
-                 <div className="absolute inset-0 bg-red-900/20 mix-blend-overlay pointer-events-none"></div>
-                 <div className="absolute top-4 left-4 bg-red-600/80 backdrop-blur px-3 py-1 rounded text-xs font-bold uppercase tracking-widest text-white shadow-lg animate-pulse">
-                   <ShieldAlert size={12} className="inline mr-1" /> Structural Scan
+                 <div className="absolute top-4 right-4 bg-green-600/80 backdrop-blur px-3 py-1 rounded text-xs font-bold uppercase tracking-widest text-white shadow-lg">
+                   With Shelter
                  </div>
               </div>
 
@@ -136,7 +136,7 @@ export default function XrayTech() {
               {/* Instruction Hint */}
               <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none">
                  <span className="bg-black/50 backdrop-blur text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider">
-                    Drag to X-Ray
+                    Drag to Compare
                  </span>
               </div>
             </div>

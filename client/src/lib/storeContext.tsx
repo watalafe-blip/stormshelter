@@ -60,7 +60,7 @@ export interface ShippingProfile {
 
 export interface HomePageSection {
   id: string;
-  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text' | '3d-viewer' | 'parallax-scroll' | 'specs-detail' | 'xray-tech' | 'purchase-section';
+  type: 'hero' | 'category-grid' | 'featured-products' | 'new-arrivals' | 'newsletter' | 'text-block' | 'image-text' | '3d-viewer' | 'parallax-scroll' | 'specs-detail' | 'xray-tech' | 'purchase-section' | 'testimonials';
   title?: string;
   content?: any;
   image?: string;
@@ -174,6 +174,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       {
          id: 'buy-now',
          type: 'purchase-section',
+         enabled: true
+      },
+      {
+         id: 'testimonials',
+         type: 'testimonials',
          enabled: true
       },
       { id: 'text-install', type: 'text-block', title: 'Installation & Delivery', content: 'Shipped directly from Missouri. Delivery is $4 per mile for locations outside of Missouri. You are responsible for unloading and installation at your site.', enabled: true },

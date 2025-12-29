@@ -8,7 +8,7 @@ import { useStore } from '@/lib/storeContext';
 import ParallaxSection from '@/components/home/ParallaxSection';
 import XrayTech from '@/components/home/XrayTech';
 import PurchaseSection from '@/components/home/PurchaseSection';
-import InteractiveShelter3D from '@/components/home/InteractiveShelter3D';
+import Testimonials from '@/components/home/Testimonials';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2, Ruler, Hammer, Shield } from 'lucide-react';
 
@@ -154,6 +154,8 @@ export default function Home() {
         return <XrayTech key={section.id} />;
       case 'purchase-section':
         return <PurchaseSection key={section.id} />;
+      case 'testimonials':
+        return <Testimonials key={section.id} />;
       case 'text-block':
         return (
           <section key={section.id} className="py-20 bg-[#3E2723] text-white">
