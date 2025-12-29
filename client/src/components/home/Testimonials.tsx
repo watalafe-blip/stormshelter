@@ -16,7 +16,7 @@ export default function Testimonials() {
       rating: 5
     },
     {
-      text: "Installation was straightforward, and the team was professional throughout. Now our family sleeps better at night knowing we have a real, tested solution in our backyard.",
+      text: "The delivery coordination was flawless, and the team provided excellent guidance for our contractor. Now our family sleeps better at night knowing we have a real, tested solution in our backyard.",
       author: "Jennifer Chen",
       location: "Kansas",
       rating: 5

@@ -168,7 +168,10 @@ export default function PurchaseSection() {
                  </div>
                  <div className="flex justify-between items-center text-sm text-muted-foreground">
                     <span>Balance at Shipping:</span>
-                    <span>${remainingBalance.toLocaleString()}</span>
+                    <span className={shippingCost ? "font-bold text-[#E69138]" : ""}>
+                      ${(remainingBalance + (shippingCost || 0)).toLocaleString()}
+                      {shippingCost ? " (inc. shipping)" : " + shipping"}
+                    </span>
                  </div>
               </div>
 

@@ -4,23 +4,23 @@ import { Package, Truck, RotateCcw, HeadphonesIcon } from 'lucide-react';
 const features = [
   {
     icon: Truck,
-    title: "Free, Safe Shipping",
-    description: "Available for all local deliveries. We use only trusted shipping carriers to ensure safe, speedy delivery."
+    title: "Installation & Delivery",
+    description: "We deliver directly to your site. You arrange the offloading (forklift/crane). Comprehensive installation guide included for your contractor."
   },
   {
     icon: Package,
-    title: "In Stock & Ready to ship",
-    description: "All orders are shipped within 1-2 business days."
+    title: "Production Priority",
+    description: "Your deposit secures your spot in our manufacturing queue."
   },
   {
     icon: RotateCcw,
-    title: "Hassle Free Returns",
-    description: "Free hassle returns within 30 days."
+    title: "Lifetime Support",
+    description: "We stand by our shelters forever. Any questions, any time."
   },
   {
     icon: HeadphonesIcon,
-    title: "Amazing Customer Service",
-    description: "We pride ourselves on our excellent customer service. Questions? Call Us! (833) 906-1077"
+    title: "Expert Guidance",
+    description: "Need help planning your site prep? Call our engineering team directly. (833) 906-1077"
   }
 ];
 

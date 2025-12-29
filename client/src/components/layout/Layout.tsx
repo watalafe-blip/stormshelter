@@ -162,20 +162,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Actions */}
           <div className="flex items-center gap-2">
             <div className="hidden md:flex items-center gap-2 mr-4 text-sm font-bold text-[#3E2723]">
-               <Phone size={16} className="text-[#FFD700]" />
+               <Phone size={16} className="text-[#E69138]" />
                <span>1-800-DEFEND-1</span>
             </div>
             
             <Link href="/admin">
               <Button variant="ghost" size="icon" title="Admin Demo">
                 <User className="h-5 w-5 text-[#3E2723]" />
-              </Button>
-            </Link>
-
-            <Link href="/cart">
-              <Button variant="ghost" size="icon" className="relative text-[#3E2723]">
-                <ShoppingBag className="h-5 w-5" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] bg-[#FFD700] text-[#3E2723]">0</Badge>
               </Button>
             </Link>
           </div>
