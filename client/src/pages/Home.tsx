@@ -8,6 +8,7 @@ import { useStore } from '@/lib/storeContext';
 import ParallaxSection from '@/components/home/ParallaxSection';
 import XrayTech from '@/components/home/XrayTech';
 import HowItWorks from '@/components/home/HowItWorks';
+import TechnicalSpecs from '@/components/home/TechnicalSpecs';
 import PurchaseSection from '@/components/home/PurchaseSection';
 import Testimonials from '@/components/home/Testimonials';
 import { Button } from '@/components/ui/button';
@@ -179,6 +180,10 @@ export default function Home() {
                       <p className="text-sm text-stone-500 leading-relaxed">{spec.description}</p>
                    </motion.div>
                  ))}
+               </div>
+               
+               <div className="mt-16 pt-8 border-t border-[#3E2723]/10">
+                 <TechnicalSpecs />
                </div>
             </div>
           </section>
