@@ -165,14 +165,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         title: 'Engineered Specifications',
         content: 'Built with the highest grade materials to ensure survival in the most extreme conditions.',
         specs: [
-          { label: 'Concrete Strength', value: '6,000 PSI Cured', description: 'Twice as strong as a normal driveway or sidewalk.' },
+          { label: 'Concrete Strength', value: '5,000 PSI Cured', description: 'Twice as strong as a normal driveway or sidewalk.' },
           { label: 'Wall Thickness', value: '4 Inches Reinforced', description: 'Solid walls that stop flying debris instantly.' },
           { label: 'Floor Thickness', value: '4 Inches Poured', description: 'A solid foundation that will never crack or shift.' },
           { label: 'Roof Thickness', value: '5 Inches Sloped', description: 'Extra thick and angled so heavy debris slides right off.' },
-          { label: 'Rebar Reinforcement', value: '#3 & #4 Grade 60 Steel', description: 'A steel skeleton inside the walls specifically for tornadoes.' },
-          { label: 'Door Construction', value: '10 Gauge Steel / 3-Point Lock', description: 'Like a bank vault door for your family.' },
+          { label: 'Rebar Reinforcement', value: '1/2” Rebar @ 12” Centers', description: 'A steel skeleton inside the walls specifically for tornadoes.' },
+          { label: 'Door Construction', value: '12 Gauge Steel / 3-Point Lock', description: 'Like a bank vault door for your family.' },
           { label: 'Dimensions (Outer)', value: '80" W x 104" L x 85" H', description: 'Spacious interior with 6\'4" headroom.' },
-          { label: 'Weight', value: 'Approx. 12,000 lbs', description: 'So heavy that even a massive tornado cannot lift it.' }
+          { label: 'Weight', value: 'Approx. 15,000 lbs', description: 'So heavy that even a massive tornado cannot lift it.' }
         ],
         enabled: true
       },
