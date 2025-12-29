@@ -126,11 +126,20 @@ export default function TechnicalSpecs() {
                   </Button>
                 </div>
                 
-                <div className="pt-6 border-t border-stone-100">
-                  <p className="text-sm text-stone-500 mb-2">Need help? Check availability in your area:</p>
-                  <a href="tel:888-262-7383" className="flex items-center gap-2 text-xl font-bold text-[#E69138] hover:underline">
-                    <Phone size={24} /> 888-262-7383
-                  </a>
+                <div className="pt-6 border-t border-stone-100 space-y-4">
+                  <Button 
+                    className="w-full bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold h-12 text-lg"
+                    onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Secure Your Spot
+                  </Button>
+                  
+                  <div>
+                    <p className="text-sm text-stone-500 mb-2">Need help? Check availability in your area:</p>
+                    <a href="tel:888-262-7383" className="flex items-center gap-2 text-xl font-bold text-[#E69138] hover:underline">
+                      <Phone size={24} /> 888-262-7383
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

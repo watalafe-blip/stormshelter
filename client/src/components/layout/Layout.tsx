@@ -166,6 +166,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                <span>1-800-DEFEND-1</span>
             </div>
             
+            <Button 
+              className="hidden md:flex bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold"
+              onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Secure My Shelter
+            </Button>
+            
             <Link href="/admin">
               <Button variant="ghost" size="icon" title="Admin Demo">
                 <User className="h-5 w-5 text-[#3E2723]" />
