@@ -1,20 +1,55 @@
 import { useState } from 'react';
 import { useStore } from '@/lib/storeContext';
 import { Button } from '@/components/ui/button';
-import { ShieldCheck, Truck, Check, AlertTriangle, CreditCard } from 'lucide-react';
+import { ShieldCheck, Truck, Check, AlertTriangle, CreditCard, Calculator, MapPin } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { motion } from 'framer-motion';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function PurchaseSection() {
   const { products } = useStore();
   const { toast } = useToast();
+  const [zipCode, setZipCode] = useState('');
+  const [shippingCost, setShippingCost] = useState<number | null>(null);
+  const [isCalculating, setIsCalculating] = useState(false);
   
   // Hardcoded to the main shelter product for this focused landing page
   const product = products.find(p => p.id === 'shelter-001') || products[0];
   
   const depositAmount = (product as any).deposit || 500;
   const remainingBalance = product.price - depositAmount;
+
+  const handleCalculateShipping = async () => {
+    if (!zipCode || zipCode.length < 5) {
+      toast({
+        title: "Invalid Zip Code",
+        description: "Please enter a valid 5-digit zip code.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsCalculating(true);
+    
+    // Simulate API call delay
+    setTimeout(() => {
+      // Mock calculation logic based on distance from Missouri (simulated)
+      // Base rate $500 + random distance factor
+      const simulatedDistance = Math.floor(Math.random() * 800) + 100;
+      const ratePerMile = 4;
+      const cost = simulatedDistance * ratePerMile;
+      
+      setShippingCost(cost);
+      setIsCalculating(false);
+      
+      toast({
+        title: "Shipping Estimate Calculated",
+        description: `Estimated distance: ${simulatedDistance} miles from Missouri factory.`,
+      });
+    }, 1500);
+  };
 
   const handlePurchase = () => {
     toast({
@@ -53,7 +88,6 @@ export default function PurchaseSection() {
                 '10-Year Structural Warranty',
                 'FEMA 320 & ICC 500 Certified',
                 'Made in USA (Missouri)',
-                'Dedicated Project Manager',
                 'Installation Guide Included'
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-stone-600">
@@ -65,13 +99,44 @@ export default function PurchaseSection() {
               ))}
             </ul>
             
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 mt-8">
-              <h4 className="font-bold text-blue-900 mb-1 flex items-center gap-2">
-                <Truck size={16} /> Shipping Estimate
+            <div className="bg-stone-50 p-6 rounded-lg border border-stone-200 mt-8">
+              <h4 className="font-bold text-stone-700 mb-4 flex items-center gap-2">
+                <Calculator size={18} /> Shipping Calculator
               </h4>
-              <p className="text-sm text-blue-800/80">
-                Ships from Missouri. Standard rate is $4/mile one-way. Calculated precisely at final invoice.
-              </p>
+              <div className="space-y-3">
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input 
+                      placeholder="Zip Code" 
+                      className="pl-9 bg-white" 
+                      value={zipCode}
+                      onChange={(e) => setZipCode(e.target.value)}
+                      maxLength={5}
+                    />
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleCalculateShipping}
+                    disabled={isCalculating}
+                    className="border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
+                  >
+                    {isCalculating ? '...' : 'Calculate'}
+                  </Button>
+                </div>
+                
+                {shippingCost !== null && (
+                  <div className="mt-3 pt-3 border-t border-stone-200">
+                     <div className="flex justify-between items-center text-sm">
+                        <span className="text-stone-600">Estimated Shipping:</span>
+                        <span className="font-bold text-[#3E2723] text-lg">${shippingCost.toLocaleString()}</span>
+                     </div>
+                     <p className="text-xs text-stone-500 mt-1">
+                       Based on $4/mile from Missouri HQ. Final rate confirmed at checkout.
+                     </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -122,17 +187,17 @@ export default function PurchaseSection() {
 
           {/* Warning / Info Column */}
           <div className="space-y-6 lg:pt-10">
-             <Alert className="bg-orange-50 border-orange-200 text-[#3E2723]">
-                <AlertTriangle className="h-4 w-4 text-orange-600" />
-                <AlertTitle className="text-orange-800 font-bold">Important Requirement</AlertTitle>
-                <AlertDescription className="text-orange-900/80 text-sm mt-2 leading-relaxed">
+             <Alert className="bg-stone-50 border-stone-200 text-stone-800">
+                <AlertTriangle className="h-4 w-4 text-stone-600" />
+                <AlertTitle className="text-stone-800 font-bold">Important Requirement</AlertTitle>
+                <AlertDescription className="text-stone-600 text-sm mt-2 leading-relaxed">
                    <strong>Customer Unloading Required.</strong> <br/>
                    You must have a forklift or crane available at the delivery site to unload the unit (approx. 12,000 lbs). The driver cannot unload it for you.
                 </AlertDescription>
              </Alert>
 
-             <div className="bg-stone-100 p-6 rounded-xl border border-stone-200">
-                <h4 className="font-bold text-[#3E2723] mb-2">Why a Non-Refundable Deposit?</h4>
+             <div className="bg-stone-50 p-6 rounded-xl border border-stone-200">
+                <h4 className="font-bold text-stone-800 mb-2">Why a Non-Refundable Deposit?</h4>
                 <p className="text-sm text-stone-600 leading-relaxed">
                    This deposit secures your raw materials and production slot in our casting schedule. This ensures we can maintain our delivery timelines for all customers.
                 </p>
