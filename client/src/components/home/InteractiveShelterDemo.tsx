@@ -399,7 +399,7 @@ export default function InteractiveShelterDemo() {
           <Hole isFilled={isFilled} />
           
           <Shelter 
-            position={[2, -1.2, 0]} 
+            position={[2, -1.9, 0]} 
           />
 
           <OrbitControls 
