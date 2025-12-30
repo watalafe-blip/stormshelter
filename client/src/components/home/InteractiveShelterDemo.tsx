@@ -14,50 +14,60 @@ const MODEL_URL = '/models/shelter.glb';
 
 function Interior({ isActive }: { isActive: boolean }) {
   // Dimensions based on Stock #706900
-  // Total Length: 104" (~2.64m) -> scaled to ~2.6 game units
-  // Total Width: 80" (~2m) -> scaled to ~2 game units
-  // Total Height: 85" (2.15m) -> scaled to ~2.15 game units
-  // Top Slant Height: 36" (~0.9m)
-  // Bottom Box Height: 49" (~1.25m)
   
   return (
     <group position={[2, -1.9, 0]} visible={isActive}>
-       {/* Main Room (Concrete) */}
+       {/* Main Room (Concrete) - Darker for mood */}
        <mesh position={[0, -1.2, 0]} receiveShadow>
          <boxGeometry args={[2, 2.2, 2.6]} />
-         <meshStandardMaterial color="#8c8c8c" side={THREE.BackSide} roughness={0.9} />
+         <meshStandardMaterial color="#3a3a3a" side={THREE.BackSide} roughness={0.9} />
        </mesh>
        
-       {/* Stairs - Repositioned for new size */}
-       <group position={[0, -2.2, 0.8]} rotation={[0, Math.PI, 0]}>
-         {[...Array(6)].map((_, i) => (
+       {/* Stairs - Repositioned to lead up to surface */}
+       {/* Rotated 180: +Z in loop moves towards -Z in scene (Back of shelter?) */}
+       <group position={[0, -0.5, 1.2]} rotation={[0, Math.PI, 0]}>
+         {[...Array(8)].map((_, i) => (
            <mesh key={i} position={[0, i * 0.2, i * 0.2]} receiveShadow>
-             <boxGeometry args={[0.8, 0.2, 0.2]} />
-             <meshStandardMaterial color="#757575" roughness={0.8} />
+             <boxGeometry args={[0.8, 0.05, 0.25]} />
+             <meshStandardMaterial color="#555" roughness={0.7} />
            </mesh>
          ))}
        </group>
 
-       {/* Handrail - Adjusted */}
-       <group position={[0.45, -2.2, 0.8]} rotation={[0, Math.PI, 0]}>
-          {/* Rail */}
-          <mesh position={[0, 1.2, 0.6]} rotation={[Math.PI / 4, 0, 0]} castShadow>
-            <cylinderGeometry args={[0.03, 0.03, 2.8]} />
-            <meshStandardMaterial color="#424242" roughness={0.4} metalness={0.6} />
+       {/* Right Handrail */}
+       <group position={[0.45, -0.5, 1.2]} rotation={[0, Math.PI, 0]}>
+          <mesh position={[0, 1.2, 0.8]} rotation={[Math.PI / 4, 0, 0]} castShadow>
+            <cylinderGeometry args={[0.02, 0.02, 3.5]} />
+            <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
           </mesh>
-          {/* Posts */}
           <mesh position={[0, 0.4, 0]} castShadow>
-             <cylinderGeometry args={[0.02, 0.02, 1.0]} />
-             <meshStandardMaterial color="#424242" roughness={0.4} metalness={0.6} />
+             <cylinderGeometry args={[0.015, 0.015, 1.0]} />
+             <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
           </mesh>
-          <mesh position={[0, 1.4, 1.2]} castShadow>
-             <cylinderGeometry args={[0.02, 0.02, 1.0]} />
-             <meshStandardMaterial color="#424242" roughness={0.4} metalness={0.6} />
+          <mesh position={[0, 1.4, 1.6]} castShadow>
+             <cylinderGeometry args={[0.015, 0.015, 1.0]} />
+             <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
+          </mesh>
+       </group>
+
+       {/* Left Handrail */}
+       <group position={[-0.45, -0.5, 1.2]} rotation={[0, Math.PI, 0]}>
+          <mesh position={[0, 1.2, 0.8]} rotation={[Math.PI / 4, 0, 0]} castShadow>
+            <cylinderGeometry args={[0.02, 0.02, 3.5]} />
+            <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
+          </mesh>
+          <mesh position={[0, 0.4, 0]} castShadow>
+             <cylinderGeometry args={[0.015, 0.015, 1.0]} />
+             <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
+          </mesh>
+          <mesh position={[0, 1.4, 1.6]} castShadow>
+             <cylinderGeometry args={[0.015, 0.015, 1.0]} />
+             <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
           </mesh>
        </group>
        
-       {/* Interior Light - Warmer industrial feel */}
-       <pointLight position={[0, -0.5, 0]} intensity={1.5} distance={6} color="#fffde7" />
+       {/* Interior Light - Warmer industrial feel, lower intensity to match dark mood */}
+       <pointLight position={[0, 0, 0]} intensity={0.8} distance={6} color="#fffde7" />
     </group>
   );
 }
@@ -107,8 +117,10 @@ function Shelter({ position, isOpen }: any) {
 function CameraController({ isInside }: { isInside: boolean }) {
   const { camera, controls } = useThree() as any;
   const initialPos = useRef(new THREE.Vector3(0, 5, 10));
-  const insidePos = new THREE.Vector3(2, -1.5, 2); // Looking into the hole
-  const insideTarget = new THREE.Vector3(2, -2.5, 0); // Looking down/at stairs
+  // Updated positions to look down the stairs
+  // Hole is at [2, -1.9, 0]. Stairs top is roughly near [2, 0, -0.5] based on Interior adjustments
+  const insidePos = new THREE.Vector3(2, 0.8, -1.8); // Positioned at the "entrance" / top of stairs
+  const insideTarget = new THREE.Vector3(2, -2.5, 1); // Looking down into the room
 
   useFrame((state) => {
     const targetPos = isInside ? insidePos : initialPos.current;
