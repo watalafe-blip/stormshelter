@@ -31,6 +31,24 @@ function Interior({ isActive }: { isActive: boolean }) {
            </mesh>
          ))}
        </group>
+
+       {/* Handrail */}
+       <group position={[0.4, -2.5, 1]} rotation={[0, Math.PI, 0]}>
+          {/* Rail */}
+          <mesh position={[0, 1.2, 0.6]} rotation={[Math.PI / 4, 0, 0]} castShadow>
+            <cylinderGeometry args={[0.04, 0.04, 2.5]} />
+            <meshStandardMaterial color="#424242" roughness={0.4} metalness={0.6} />
+          </mesh>
+          {/* Posts */}
+          <mesh position={[0, 0.5, 0]} castShadow>
+             <cylinderGeometry args={[0.03, 0.03, 1.2]} />
+             <meshStandardMaterial color="#424242" roughness={0.4} metalness={0.6} />
+          </mesh>
+          <mesh position={[0, 1.5, 1.2]} castShadow>
+             <cylinderGeometry args={[0.03, 0.03, 1.2]} />
+             <meshStandardMaterial color="#424242" roughness={0.4} metalness={0.6} />
+          </mesh>
+       </group>
        
        {/* Interior Light */}
        <pointLight position={[0, -1, 0]} intensity={2} distance={5} color="#ffd54f" />
