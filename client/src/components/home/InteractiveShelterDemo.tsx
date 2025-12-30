@@ -4,7 +4,7 @@ import { useGLTF, Environment, ContactShadows, OrbitControls, useCursor, Html, F
 import { useSpring, animated } from '@react-spring/three';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { Wind, Shovel, Trees, Home as HomeIcon, AlertTriangle } from 'lucide-react';
+import { Wind, Shovel, Trees, Home as HomeIcon, AlertTriangle, DoorOpen } from 'lucide-react';
 import * as THREE from 'three';
 
 // --- Assets ---
@@ -12,13 +12,40 @@ const MODEL_URL = '/models/shelter.glb';
 
 // --- Sub-components ---
 
-function Shelter({ position }: any) {
+function Interior({ isActive }: { isActive: boolean }) {
+  // Simple procedural interior in case the model is empty
+  return (
+    <group position={[2, -1.9, 0]} visible={isActive}>
+       {/* Interior Room */}
+       <mesh position={[0, -1.5, 0]} receiveShadow>
+         <boxGeometry args={[1.8, 2.5, 3]} />
+         <meshStandardMaterial color="#b0bec5" side={THREE.BackSide} />
+       </mesh>
+       
+       {/* Stairs */}
+       <group position={[0, -2.5, 1]} rotation={[0, Math.PI, 0]}>
+         {[...Array(5)].map((_, i) => (
+           <mesh key={i} position={[0, i * 0.25, i * 0.25]} receiveShadow>
+             <boxGeometry args={[1, 0.25, 0.25]} />
+             <meshStandardMaterial color="#90a4ae" />
+           </mesh>
+         ))}
+       </group>
+       
+       {/* Interior Light */}
+       <pointLight position={[0, -1, 0]} intensity={2} distance={5} color="#ffd54f" />
+    </group>
+  );
+}
+
+function Shelter({ position, isOpen }: any) {
   const { scene } = useGLTF(MODEL_URL);
+  const doorRef = useRef<THREE.Object3D | null>(null);
   
   // Clone scene to avoid mutation issues if used multiple times (though here it's once)
   const clone = React.useMemo(() => scene.clone(), [scene]);
 
-  // Adjust material to look like concrete
+  // Adjust material to look like concrete & find door
   useEffect(() => {
     clone.traverse((child: any) => {
       if (child.isMesh) {
@@ -30,14 +57,48 @@ function Shelter({ position }: any) {
            child.material.color = new THREE.Color('#8c8c8c');
         }
       }
+      // Try to find door object - common names
+      if (child.name.toLowerCase().includes('door') || child.name.toLowerCase().includes('lid')) {
+        doorRef.current = child;
+      }
     });
   }, [clone]);
+
+  // Animate Door
+  useFrame(() => {
+    if (doorRef.current) {
+        // Rotate door if found (simple pivot assumption)
+        const targetRot = isOpen ? -Math.PI / 2 : 0;
+        doorRef.current.rotation.x = THREE.MathUtils.lerp(doorRef.current.rotation.x, targetRot, 0.1);
+    }
+  });
 
   return (
     <group position={position}>
       <primitive object={clone} scale={2} rotation={[0, Math.PI / 4, 0]} />
     </group>
   );
+}
+
+function CameraController({ isInside }: { isInside: boolean }) {
+  const { camera, controls } = useThree() as any;
+  const initialPos = useRef(new THREE.Vector3(0, 5, 10));
+  const insidePos = new THREE.Vector3(2, -1.5, 2); // Looking into the hole
+  const insideTarget = new THREE.Vector3(2, -2.5, 0); // Looking down/at stairs
+
+  useFrame((state) => {
+    const targetPos = isInside ? insidePos : initialPos.current;
+    const targetLook = isInside ? insideTarget : new THREE.Vector3(0, 0, 0);
+
+    state.camera.position.lerp(targetPos, 0.05);
+    
+    if (controls) {
+        controls.target.lerp(targetLook, 0.05);
+        controls.update();
+    }
+  });
+
+  return null;
 }
 
 function DebrisItem({ children, startPos, delay = 0 }: any) {
@@ -309,6 +370,7 @@ export default function InteractiveShelterDemo() {
   const [sceneType, setSceneType] = useState<'backyard' | 'campsite'>('backyard');
   const [isTornado, setIsTornado] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
+  const [isInside, setIsInside] = useState(false);
 
   const handleBackfill = () => {
     setIsFilled(true);
@@ -317,6 +379,7 @@ export default function InteractiveShelterDemo() {
   const reset = () => {
     setIsFilled(false);
     setIsTornado(false);
+    setIsInside(false);
   };
 
   return (
@@ -359,6 +422,14 @@ export default function InteractiveShelterDemo() {
               >
                 {isTornado ? <><Wind className="mr-2 animate-pulse" /> Tornado Active!</> : <><Wind className="mr-2" /> Activate Tornado</>}
               </Button>
+              
+              <Button 
+                variant={isInside ? "secondary" : "outline"}
+                className="w-full"
+                onClick={() => setIsInside(!isInside)}
+              >
+                <DoorOpen className="mr-2" /> {isInside ? "Exit Shelter" : "View Inside"}
+              </Button>
            </div>
         </div>
 
@@ -394,18 +465,24 @@ export default function InteractiveShelterDemo() {
             shadow-mapSize={[1024, 1024]} 
           />
           
+          <CameraController isInside={isInside} />
+          
           <EnvironmentScene type={sceneType} isTornado={isTornado} />
 
           <Hole isFilled={isFilled} />
           
+          <Interior isActive={isInside} />
+          
           <Shelter 
             position={[2, -1.9, 0]} 
+            isOpen={isInside}
           />
 
           <OrbitControls 
             enableZoom={false} 
             minPolarAngle={0} 
             maxPolarAngle={Math.PI / 2.2} 
+            enabled={!isInside} // Disable manual control when inside to stick to view
           />
         </Canvas>
       </div>
