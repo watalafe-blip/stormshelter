@@ -155,12 +155,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </SheetTrigger>
             <SheetContent side="left">
               <nav className="flex flex-col gap-4 mt-8">
-                <Link href="/"><a className="text-lg font-medium">Home</a></Link>
-                <Link href="/shop"><a className="text-lg font-medium">Shop</a></Link>
-                <Link href="/about"><a className="text-lg font-medium">About</a></Link>
-                <Link href="/contact"><a className="text-lg font-medium">Contact</a></Link>
+                <Link href="/" className="text-lg font-medium">Home</Link>
+                <Link href="/shop" className="text-lg font-medium">Shop</Link>
+                <Link href="/about" className="text-lg font-medium">About</Link>
+                <Link href="/contact" className="text-lg font-medium">Contact</Link>
                 <div className="pt-4 border-t border-border mt-4">
-                   <Link href="/admin"><a className="text-lg font-medium text-primary flex items-center gap-2"><Settings size={18} /> Admin Dashboard</a></Link>
+                   <Link href="/admin" className="text-lg font-medium text-primary flex items-center gap-2"><Settings size={18} /> Admin Dashboard</Link>
                 </div>
               </nav>
             </SheetContent>
@@ -169,15 +169,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Left: Nav Links */}
           <nav className="hidden md:flex flex-1 items-center gap-8 text-sm font-bold uppercase tracking-wide">
              {theme.headerMenu.map(link => (
-                <Link key={link.id} href={link.url}>
-                   <a className={`transition-colors hover:underline decoration-2 decoration-[#3E2723] underline-offset-4 ${navLinkClass}`}>{link.label}</a>
+                <Link key={link.id} href={link.url} className={`transition-colors hover:underline decoration-2 decoration-[#3E2723] underline-offset-4 ${navLinkClass}`}>
+                   {link.label}
                 </Link>
              ))}
           </nav>
 
           {/* Center: Logo */}
-          <Link href="/">
-            <a className={`text-2xl font-bold tracking-tight flex items-center justify-center gap-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
+          <Link href="/" className={`text-2xl font-bold tracking-tight flex items-center justify-center gap-2 ${theme.typography.heading === 'serif' ? 'font-serif' : 'font-sans'}`}>
               <div className={`p-2 transition-all duration-300 transform ${isScrolled ? 'scale-90' : 'scale-110'}`}>
                 <img 
                   src={logoImg} 
@@ -185,7 +184,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   className={`h-20 w-auto transition-all`} 
                 />
               </div>
-            </a>
           </Link>
 
           {/* Right: Actions */}
@@ -238,19 +236,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div>
             <h4 className="font-bold text-[#E69138] mb-4 uppercase tracking-wider text-sm">Navigation</h4>
             <ul className="space-y-2 text-sm text-stone-300">
-              <li><Link href="/"><a className="hover:text-white transition-colors">Home</a></Link></li>
-              <li><Link href="/shop"><a className="hover:text-white transition-colors">Shop Shelters</a></Link></li>
-              <li><Link href="/about"><a className="hover:text-white transition-colors">About Us</a></Link></li>
-              <li><Link href="/contact"><a className="hover:text-white transition-colors">Contact</a></Link></li>
+              <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
+              <li><Link href="/shop" className="hover:text-white transition-colors">Shop Shelters</Link></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-[#E69138] mb-4 uppercase tracking-wider text-sm">Customer Support</h4>
             <ul className="space-y-2 text-sm text-stone-300">
-              <li><Link href="/contact"><a className="hover:text-white transition-colors">Contact Us</a></Link></li>
-              <li><Link href="/faq"><a className="hover:text-white transition-colors">FAQs</a></Link></li>
-              <li><Link href="/shipping"><a className="hover:text-white transition-colors">Shipping & Delivery</a></Link></li>
-              <li><Link href="/returns"><a className="hover:text-white transition-colors">Returns & Warranty</a></Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
+              <li><Link href="/faq" className="hover:text-white transition-colors">FAQs</Link></li>
+              <li><Link href="/shipping" className="hover:text-white transition-colors">Shipping & Delivery</Link></li>
+              <li><Link href="/returns" className="hover:text-white transition-colors">Returns & Warranty</Link></li>
             </ul>
           </div>
         </div>

@@ -18,6 +18,8 @@ import { motion } from 'framer-motion';
 import blueprintImg from '@assets/shelter-blueprint.png';
 import cutawayImg from '@assets/shelter-cutaway.png';
 
+import InteractiveShelterDemo from '@/components/home/InteractiveShelterDemo';
+
 export default function Home() {
   const { products, theme } = useStore();
   const topPicks = products.filter(p => p.isTopPick);
@@ -30,6 +32,8 @@ export default function Home() {
 
   const renderSection = (section: any) => {
     switch (section.type) {
+      case 'interactive-demo':
+        return <InteractiveShelterDemo key={section.id} />;
       case 'hero':
         return <HeroSlider key={section.id} />;
       case '3d-viewer':
