@@ -54,8 +54,102 @@ function DebrisItem({ children, startPos, delay = 0 }: any) {
   return <group ref={ref} position={startPos}>{children}</group>;
 }
 
+function Bench({ position = [0, 0, 0], rotation = [0, 0, 0], windIntensity }: any) {
+  const ref = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+     if (!ref.current) return;
+     // Shake
+     if (windIntensity >= 2 && windIntensity < 4) {
+        ref.current.rotation.x = rotation[0] + Math.sin(state.clock.elapsedTime * 15) * 0.05 * (windIntensity - 1);
+     }
+     // Fly away
+     if (windIntensity >= 4) {
+        ref.current.position.y += 0.1;
+        ref.current.position.x += 0.2;
+        ref.current.rotation.z += 0.1;
+        ref.current.rotation.x += 0.05;
+     } else {
+        // Reset
+        ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, position[1], 0.1);
+        ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, position[0], 0.1);
+        ref.current.rotation.copy(new THREE.Euler(...rotation));
+     }
+  });
+
+  return (
+    <group ref={ref} position={position} rotation={rotation}>
+       <mesh position={[0, 0.25, 0]} castShadow>
+         <boxGeometry args={[1.5, 0.1, 0.5]} />
+         <meshStandardMaterial color="#8d6e63" />
+       </mesh>
+       <mesh position={[0, 0.75, -0.25]} rotation={[0.2, 0, 0]} castShadow>
+         <boxGeometry args={[1.5, 0.5, 0.1]} />
+         <meshStandardMaterial color="#8d6e63" />
+       </mesh>
+       {/* Legs */}
+       <mesh position={[-0.6, 0.2, 0.2]}>
+          <boxGeometry args={[0.1, 0.4, 0.1]} />
+          <meshStandardMaterial color="#4e342e" />
+       </mesh>
+       <mesh position={[0.6, 0.2, 0.2]}>
+          <boxGeometry args={[0.1, 0.4, 0.1]} />
+          <meshStandardMaterial color="#4e342e" />
+       </mesh>
+       <mesh position={[-0.6, 0.2, -0.2]}>
+          <boxGeometry args={[0.1, 0.4, 0.1]} />
+          <meshStandardMaterial color="#4e342e" />
+       </mesh>
+       <mesh position={[0.6, 0.2, -0.2]}>
+          <boxGeometry args={[0.1, 0.4, 0.1]} />
+          <meshStandardMaterial color="#4e342e" />
+       </mesh>
+    </group>
+  );
+}
+
+function Shed({ position = [0, 0, 0], rotation = [0, 0, 0], windIntensity }: any) {
+    const ref = useRef<THREE.Group>(null);
+    
+    useFrame((state) => {
+        if (!ref.current) return;
+        if (windIntensity >= 3 && windIntensity < 5) {
+             ref.current.rotation.z = Math.sin(state.clock.elapsedTime * 20) * 0.02 * (windIntensity - 2);
+        }
+        if (windIntensity >= 5) {
+             ref.current.position.y += 0.15;
+             ref.current.position.x += 0.25;
+             ref.current.rotation.z += 0.05;
+             ref.current.rotation.y += 0.05;
+        } else {
+            ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, position[1], 0.1);
+            ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, position[0], 0.1);
+            if (windIntensity < 3) ref.current.rotation.z = 0;
+        }
+    });
+
+    return (
+        <group ref={ref} position={position} rotation={rotation}>
+            <mesh position={[0, 1, 0]} castShadow>
+                <boxGeometry args={[2, 2, 2]} />
+                <meshStandardMaterial color="#795548" />
+            </mesh>
+            <mesh position={[0, 2.5, 0]} rotation={[0, Math.PI/4, 0]}>
+                <coneGeometry args={[2, 1, 4]} />
+                <meshStandardMaterial color="#3e2723" />
+            </mesh>
+            <mesh position={[0, 0.9, 1.01]}>
+                <planeGeometry args={[0.8, 1.6]} />
+                <meshStandardMaterial color="#5d4037" />
+            </mesh>
+        </group>
+    );
+}
+
 function Interior({ isActive }: { isActive: boolean }) {
-  // ... existing Interior code ...
+  // Dimensions based on Stock #706900
+  // Added shelves and bench inside
+  
   return (
     <group position={[2, -1.9, 0]} visible={isActive}>
        {/* Main Room (Concrete) - Darker for mood */}
@@ -63,6 +157,43 @@ function Interior({ isActive }: { isActive: boolean }) {
          <boxGeometry args={[2, 2.2, 2.6]} />
          <meshStandardMaterial color="#3a3a3a" side={THREE.BackSide} roughness={0.9} />
        </mesh>
+       
+       {/* Interior Bench */}
+       <group position={[-0.7, -2.0, 0]}>
+         <mesh position={[0, 0.4, 0]} castShadow>
+            <boxGeometry args={[0.5, 0.05, 2]} />
+            <meshStandardMaterial color="#555" />
+         </mesh>
+         <mesh position={[0, 0.2, 0.9]}>
+            <boxGeometry args={[0.4, 0.4, 0.1]} />
+            <meshStandardMaterial color="#444" />
+         </mesh>
+         <mesh position={[0, 0.2, -0.9]}>
+            <boxGeometry args={[0.4, 0.4, 0.1]} />
+            <meshStandardMaterial color="#444" />
+         </mesh>
+       </group>
+
+       {/* Shelves with supplies */}
+       <group position={[0.8, -1.5, -1]}>
+         <mesh position={[0, 0, 0]}>
+            <boxGeometry args={[0.4, 0.05, 1]} />
+            <meshStandardMaterial color="#666" metalness={0.5} />
+         </mesh>
+         {/* Cans/Supplies */}
+         <mesh position={[0, 0.15, -0.3]}>
+            <cylinderGeometry args={[0.08, 0.08, 0.2]} />
+            <meshStandardMaterial color="red" />
+         </mesh>
+         <mesh position={[0.1, 0.15, -0.1]}>
+            <cylinderGeometry args={[0.08, 0.08, 0.2]} />
+            <meshStandardMaterial color="blue" />
+         </mesh>
+         <mesh position={[-0.05, 0.15, 0.2]}>
+            <cylinderGeometry args={[0.08, 0.08, 0.2]} />
+            <meshStandardMaterial color="green" />
+         </mesh>
+       </group>
        
        {/* Stairs */}
        <group position={[0, -0.5, 1.2]} rotation={[0, Math.PI, 0]}>
@@ -364,14 +495,33 @@ function EnvironmentScene({ type, isTornado, windIntensity, xRayMode }: any) {
            )}
         </group>
       ) : (
-        // Backyard Fence
+        // Backyard Fence & Items
         <group>
+           {/* Fence */}
            {windIntensity < 3 && [...Array(10)].map((_, i) => (
              <mesh key={i} position={[-8, -1, i * 2 - 8]} castShadow>
                <boxGeometry args={[0.2, 2, 1.8]} />
                <meshStandardMaterial color="#8d6e63" />
              </mesh>
            ))}
+           
+           {/* Backyard Items that fly away */}
+           <Shed position={[-5, -1, -5]} rotation={[0, -0.5, 0]} windIntensity={windIntensity} />
+           <Bench position={[-2, -1.5, 3]} rotation={[0, 1, 0]} windIntensity={windIntensity} />
+           
+           {/* Backyard Tree */}
+           {windIntensity < 4 && (
+             <group position={[-6, 0, 5]}>
+                <mesh position={[0, 2, 0]}>
+                   <coneGeometry args={[1.5, 4, 8]} />
+                   <meshStandardMaterial color="#2e7d32" />
+                </mesh>
+                <mesh position={[0, 0, 0]}>
+                   <cylinderGeometry args={[0.3, 0.4, 1.5]} />
+                   <meshStandardMaterial color="#5d4037" />
+                </mesh>
+             </group>
+           )}
         </group>
       )}
 
