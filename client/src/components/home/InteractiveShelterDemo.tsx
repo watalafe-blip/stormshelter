@@ -90,21 +90,21 @@ function Hole({ isFilled, onFill }: any) {
 
   return (
     <group position={[2, -1.9, 0]}>
-      {/* The Hole Visual */}
+      {/* The Hole Visual - Square */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <circleGeometry args={[1.8, 32]} />
-        <meshStandardMaterial color="#2a2a2a" depthWrite={false} />
+        <planeGeometry args={[2.5, 3.5]} />
+        <meshStandardMaterial color="#1a1a1a" depthWrite={false} />
       </mesh>
       
-      {/* Dirt Pile / Backfill Visual */}
+      {/* Dirt Pile / Backfill Visual - Square */}
       <animated.group scale={scale}>
          <mesh position={[0, 0.2, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-           <circleGeometry args={[2, 32]} />
+           <planeGeometry args={[2.8, 3.8]} />
            <meshStandardMaterial color="#5d4037" roughness={1} />
          </mesh>
          {/* Grass on top */}
          <mesh position={[0, 0.21, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-           <circleGeometry args={[1.9, 32]} />
+           <planeGeometry args={[2.7, 3.7]} />
            <meshStandardMaterial color="#4caf50" roughness={1} />
          </mesh>
       </animated.group>
@@ -112,10 +112,125 @@ function Hole({ isFilled, onFill }: any) {
   );
 }
 
+function Debris({ isTornado }: { isTornado: boolean }) {
+  const group = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+    if (!group.current || !isTornado) return;
+    
+    group.current.children.forEach((child, i) => {
+      // Orbit logic
+      const time = state.clock.getElapsedTime();
+      const radius = 5 + Math.sin(time * 0.5 + i) * 2;
+      const angle = time * (1 + i * 0.1) + i * (Math.PI * 2 / 5);
+      
+      child.position.x = Math.cos(angle) * radius;
+      child.position.z = Math.sin(angle) * radius;
+      child.position.y = 2 + Math.sin(time * 2 + i) * 1.5;
+      
+      child.rotation.x += 0.05;
+      child.rotation.y += 0.05;
+    });
+  });
+
+  if (!isTornado) return null;
+
+  return (
+    <group ref={group}>
+      {/* Flying Car */}
+      <group>
+        <mesh castShadow>
+          <boxGeometry args={[1, 0.5, 2]} />
+          <meshStandardMaterial color="red" />
+        </mesh>
+        <mesh position={[0, 0.4, 0]}>
+          <boxGeometry args={[0.8, 0.4, 1]} />
+          <meshStandardMaterial color="#880000" />
+        </mesh>
+      </group>
+      
+      {/* Flying Tree */}
+      <group>
+        <mesh position={[0, 0.5, 0]}>
+          <coneGeometry args={[0.5, 2, 8]} />
+          <meshStandardMaterial color="#2e7d32" />
+        </mesh>
+        <mesh position={[0, -0.5, 0]}>
+          <cylinderGeometry args={[0.1, 0.1, 1]} />
+          <meshStandardMaterial color="#5d4037" />
+        </mesh>
+      </group>
+
+      {/* Flying Wood Planks */}
+      {[...Array(3)].map((_, i) => (
+        <mesh key={i} castShadow>
+          <boxGeometry args={[0.2, 0.1, 2]} />
+          <meshStandardMaterial color="#d7ccc8" />
+        </mesh>
+      ))}
+      
+      {/* Random Metal Sheets */}
+      {[...Array(2)].map((_, i) => (
+        <mesh key={`m-${i}`} castShadow>
+          <planeGeometry args={[1, 1]} />
+          <meshStandardMaterial color="#b0bec5" side={THREE.DoubleSide} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+function RVTrailer() {
+  return (
+    <group position={[-4, -1.2, -3]} rotation={[0, 0.5, 0]}>
+      {/* Body */}
+      <mesh position={[0, 1, 0]} castShadow>
+        <boxGeometry args={[2.5, 2, 5]} />
+        <meshStandardMaterial color="#f5f5f5" />
+      </mesh>
+      {/* Stripe */}
+      <mesh position={[0, 1, 0]}>
+        <boxGeometry args={[2.55, 0.2, 5.1]} />
+        <meshStandardMaterial color="#E69138" />
+      </mesh>
+      {/* Windows */}
+      <mesh position={[1.3, 1.2, 0]}>
+        <boxGeometry args={[0.1, 0.8, 2]} />
+        <meshStandardMaterial color="#333" />
+      </mesh>
+      {/* Wheels */}
+      <mesh position={[1, 0, 1]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.4, 0.4, 0.5, 16]} />
+        <meshStandardMaterial color="#1a1a1a" />
+      </mesh>
+      <mesh position={[-1, 0, 1]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.4, 0.4, 0.5, 16]} />
+        <meshStandardMaterial color="#1a1a1a" />
+      </mesh>
+      <mesh position={[1, 0, -1]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.4, 0.4, 0.5, 16]} />
+        <meshStandardMaterial color="#1a1a1a" />
+      </mesh>
+      <mesh position={[-1, 0, -1]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.4, 0.4, 0.5, 16]} />
+        <meshStandardMaterial color="#1a1a1a" />
+      </mesh>
+    </group>
+  );
+}
+
 function EnvironmentScene({ type, isTornado }: { type: 'backyard' | 'campsite', isTornado: boolean }) {
   const { scene } = useThree();
+  const windLines = useRef<THREE.Group>(null);
   
-  useEffect(() => {
+  useFrame((state) => {
+    if (isTornado && windLines.current) {
+        windLines.current.children.forEach((line, i) => {
+            line.position.x -= 0.5;
+            if (line.position.x < -20) line.position.x = 20;
+        });
+    }
+    
     if (isTornado) {
       scene.background = new THREE.Color('#1a1a1a');
       scene.fog = new THREE.Fog('#1a1a1a', 5, 20);
@@ -123,7 +238,7 @@ function EnvironmentScene({ type, isTornado }: { type: 'backyard' | 'campsite', 
       scene.background = new THREE.Color(type === 'backyard' ? '#87CEEB' : '#2d4040');
       scene.fog = null;
     }
-  }, [type, isTornado, scene]);
+  });
 
   return (
     <>
@@ -133,32 +248,50 @@ function EnvironmentScene({ type, isTornado }: { type: 'backyard' | 'campsite', 
         <meshStandardMaterial color={type === 'backyard' ? "#4caf50" : "#5d4037"} />
       </mesh>
 
-      {/* Simple Trees/Decor */}
-      {type === 'campsite' && (
+      {/* Scene Specifics */}
+      {type === 'campsite' ? (
         <>
-           <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5} position={[-5, 0, -5]}>
+           <RVTrailer />
+           <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5} position={[-6, 0, 4]}>
              <mesh castShadow receiveShadow>
                <coneGeometry args={[1, 4, 8]} />
                <meshStandardMaterial color="#2e7d32" />
              </mesh>
            </Float>
-           <Float speed={3} rotationIntensity={0.2} floatIntensity={0.5} position={[6, 0, -6]}>
-             <mesh castShadow receiveShadow>
-               <coneGeometry args={[1.5, 5, 8]} />
-               <meshStandardMaterial color="#1b5e20" />
-             </mesh>
-           </Float>
         </>
+      ) : (
+        // Backyard Fence
+        <group>
+           {[...Array(10)].map((_, i) => (
+             <mesh key={i} position={[-8, -1, i * 2 - 8]} castShadow>
+               <boxGeometry args={[0.2, 2, 1.8]} />
+               <meshStandardMaterial color="#8d6e63" />
+             </mesh>
+           ))}
+        </group>
       )}
 
-      {/* Tornado Effect */}
+      {/* Tornado Effect & Debris */}
       {isTornado && (
-         <group position={[-10, 0, -10]}>
-            <mesh position={[0, 5, 0]}>
-               <coneGeometry args={[3, 10, 16, 1, true]} />
-               <meshStandardMaterial color="#333" transparent opacity={0.8} side={THREE.DoubleSide} wireframe />
-            </mesh>
-            {/* Debris particles could go here */}
+         <group>
+            <group position={[-10, 0, -10]}>
+                <mesh position={[0, 5, 0]}>
+                   <coneGeometry args={[4, 12, 16, 1, true]} />
+                   <meshStandardMaterial color="#333" transparent opacity={0.8} side={THREE.DoubleSide} wireframe />
+                </mesh>
+            </group>
+            
+            <Debris isTornado={isTornado} />
+            
+            {/* Wind Lines */}
+            <group ref={windLines}>
+                {[...Array(20)].map((_, i) => (
+                    <mesh key={i} position={[Math.random() * 40 - 20, Math.random() * 10, Math.random() * 20 - 10]} rotation={[0, 0, Math.PI / 2]}>
+                        <cylinderGeometry args={[0.02, 0.02, 2]} />
+                        <meshBasicMaterial color="#ffffff" transparent opacity={0.3} />
+                    </mesh>
+                ))}
+            </group>
          </group>
       )}
     </>
