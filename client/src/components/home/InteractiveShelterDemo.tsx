@@ -117,10 +117,9 @@ function Shelter({ position, isOpen }: any) {
 function CameraController({ isInside }: { isInside: boolean }) {
   const { camera, controls } = useThree() as any;
   const initialPos = useRef(new THREE.Vector3(0, 5, 10));
-  // Updated positions to look down the stairs
-  // Hole is at [2, -1.9, 0]. Stairs top is roughly near [2, 0, -0.5] based on Interior adjustments
-  const insidePos = new THREE.Vector3(2, 0.8, -1.8); // Positioned at the "entrance" / top of stairs
-  const insideTarget = new THREE.Vector3(2, -2.5, 1); // Looking down into the room
+  // Updated positions to look down the stairs - moved back to show more space (less zoomed in)
+  const insidePos = new THREE.Vector3(2, 2.5, -4); 
+  const insideTarget = new THREE.Vector3(2, -2.5, 0.5); // Looking into the center of the room
 
   useFrame((state) => {
     const targetPos = isInside ? insidePos : initialPos.current;
@@ -515,9 +514,7 @@ export default function InteractiveShelterDemo() {
           />
 
           <OrbitControls 
-            enableZoom={true} 
-            minDistance={5}
-            maxDistance={20}
+            enableZoom={false} 
             minPolarAngle={0} 
             maxPolarAngle={Math.PI / 2.2} 
             enabled={!isInside} // Disable manual control when inside to stick to view
