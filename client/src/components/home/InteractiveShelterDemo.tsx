@@ -90,21 +90,41 @@ function Hole({ isFilled, onFill }: any) {
 
   return (
     <group position={[2, -1.9, 0]}>
-      {/* The Hole Visual - Square */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[2.5, 3.5]} />
-        <meshStandardMaterial color="#1a1a1a" depthWrite={false} />
-      </mesh>
+      {/* The Hole Visual - Deeper appearance with box interior */}
+      <group>
+        {/* Bottom */}
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+          <planeGeometry args={[2, 3]} />
+          <meshStandardMaterial color="#000000" />
+        </mesh>
+        {/* Sides to give depth illusion */}
+        <mesh position={[-1, -0.25, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
+          <planeGeometry args={[3, 0.5]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+        <mesh position={[1, -0.25, 0]} rotation={[0, -Math.PI / 2, 0]} receiveShadow>
+          <planeGeometry args={[3, 0.5]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+        <mesh position={[0, -0.25, -1.5]} rotation={[0, 0, 0]} receiveShadow>
+          <planeGeometry args={[2, 0.5]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+        <mesh position={[0, -0.25, 1.5]} rotation={[0, Math.PI, 0]} receiveShadow>
+          <planeGeometry args={[2, 0.5]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+      </group>
       
-      {/* Dirt Pile / Backfill Visual - Square */}
+      {/* Dirt Pile / Backfill Visual - Matches Hole Size */}
       <animated.group scale={scale}>
          <mesh position={[0, 0.2, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-           <planeGeometry args={[2.8, 3.8]} />
+           <planeGeometry args={[2.5, 3.5]} />
            <meshStandardMaterial color="#5d4037" roughness={1} />
          </mesh>
          {/* Grass on top */}
          <mesh position={[0, 0.21, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-           <planeGeometry args={[2.7, 3.7]} />
+           <planeGeometry args={[2.4, 3.4]} />
            <meshStandardMaterial color="#4caf50" roughness={1} />
          </mesh>
       </animated.group>
@@ -112,77 +132,92 @@ function Hole({ isFilled, onFill }: any) {
   );
 }
 
-function Debris({ isTornado }: { isTornado: boolean }) {
-  const group = useRef<THREE.Group>(null);
+function DebrisItem({ children, startPos, delay = 0 }: any) {
+  const ref = useRef<THREE.Group>(null);
+  const [impact, setImpact] = useState(false);
   
   useFrame((state) => {
-    if (!group.current || !isTornado) return;
+    if (!ref.current) return;
     
-    group.current.children.forEach((child, i) => {
-      // Orbit logic
-      const time = state.clock.getElapsedTime();
-      const radius = 5 + Math.sin(time * 0.5 + i) * 2;
-      const angle = time * (1 + i * 0.1) + i * (Math.PI * 2 / 5);
+    const time = state.clock.getElapsedTime();
+    if (time < delay) return;
+
+    // Move towards shelter at [2, 0, 0]
+    const target = new THREE.Vector3(2, 0.5, 0);
+    const dir = target.clone().sub(ref.current.position).normalize();
+    const dist = ref.current.position.distanceTo(target);
+
+    if (dist > 1.5 && !impact) {
+      ref.current.position.add(dir.multiplyScalar(0.15)); // Speed
+      ref.current.rotation.x += 0.1;
+      ref.current.rotation.y += 0.1;
+    } else {
+      // Hit! Bounce off randomly
+      if (!impact) setImpact(true);
+      ref.current.position.y += 0.1;
+      ref.current.position.x += (Math.random() - 0.5) * 0.2;
+      ref.current.rotation.z += 0.2;
       
-      child.position.x = Math.cos(angle) * radius;
-      child.position.z = Math.sin(angle) * radius;
-      child.position.y = 2 + Math.sin(time * 2 + i) * 1.5;
-      
-      child.rotation.x += 0.05;
-      child.rotation.y += 0.05;
-    });
+      // Reset if too far or after some time to loop
+      if (ref.current.position.y > 10) {
+         ref.current.position.copy(startPos);
+         setImpact(false);
+      }
+    }
   });
 
+  return <group ref={ref} position={startPos}>{children}</group>;
+}
+
+function Debris({ isTornado }: { isTornado: boolean }) {
   if (!isTornado) return null;
 
   return (
-    <group ref={group}>
-      {/* Flying Car */}
-      <group>
-        <mesh castShadow>
-          <boxGeometry args={[1, 0.5, 2]} />
-          <meshStandardMaterial color="red" />
-        </mesh>
-        <mesh position={[0, 0.4, 0]}>
-          <boxGeometry args={[0.8, 0.4, 1]} />
-          <meshStandardMaterial color="#880000" />
-        </mesh>
-      </group>
+    <group>
+      {/* Flying Car hitting shelter */}
+      <DebrisItem startPos={new THREE.Vector3(-10, 5, 5)}>
+        <group scale={0.8}>
+          <mesh castShadow>
+            <boxGeometry args={[1, 0.5, 2]} />
+            <meshStandardMaterial color="red" />
+          </mesh>
+          <mesh position={[0, 0.4, 0]}>
+            <boxGeometry args={[0.8, 0.4, 1]} />
+            <meshStandardMaterial color="#880000" />
+          </mesh>
+        </group>
+      </DebrisItem>
       
       {/* Flying Tree */}
-      <group>
-        <mesh position={[0, 0.5, 0]}>
-          <coneGeometry args={[0.5, 2, 8]} />
-          <meshStandardMaterial color="#2e7d32" />
-        </mesh>
-        <mesh position={[0, -0.5, 0]}>
-          <cylinderGeometry args={[0.1, 0.1, 1]} />
-          <meshStandardMaterial color="#5d4037" />
-        </mesh>
-      </group>
+      <DebrisItem startPos={new THREE.Vector3(-8, 8, -5)} delay={1}>
+        <group scale={0.6}>
+          <mesh position={[0, 0.5, 0]}>
+            <coneGeometry args={[0.5, 2, 8]} />
+            <meshStandardMaterial color="#2e7d32" />
+          </mesh>
+          <mesh position={[0, -0.5, 0]}>
+            <cylinderGeometry args={[0.1, 0.1, 1]} />
+            <meshStandardMaterial color="#5d4037" />
+          </mesh>
+        </group>
+      </DebrisItem>
 
-      {/* Flying Wood Planks */}
-      {[...Array(3)].map((_, i) => (
-        <mesh key={i} castShadow>
-          <boxGeometry args={[0.2, 0.1, 2]} />
-          <meshStandardMaterial color="#d7ccc8" />
-        </mesh>
-      ))}
-      
-      {/* Random Metal Sheets */}
-      {[...Array(2)].map((_, i) => (
-        <mesh key={`m-${i}`} castShadow>
-          <planeGeometry args={[1, 1]} />
-          <meshStandardMaterial color="#b0bec5" side={THREE.DoubleSide} />
-        </mesh>
+      {/* Flying Wood Planks - Multiple */}
+      {[...Array(5)].map((_, i) => (
+        <DebrisItem key={i} startPos={new THREE.Vector3(-12 - i, 4 + i, (Math.random() - 0.5) * 10)} delay={i * 0.5}>
+           <mesh castShadow>
+              <boxGeometry args={[0.2, 0.1, 2]} />
+              <meshStandardMaterial color="#d7ccc8" />
+           </mesh>
+        </DebrisItem>
       ))}
     </group>
   );
 }
 
-function RVTrailer() {
+function RVTrailer({ position = [0, 0, 0], rotation = [0, 0, 0] }: { position?: [number, number, number], rotation?: [number, number, number] }) {
   return (
-    <group position={[-4, -1.2, -3]} rotation={[0, 0.5, 0]}>
+    <group position={position} rotation={rotation}>
       {/* Body */}
       <mesh position={[0, 1, 0]} castShadow>
         <boxGeometry args={[2.5, 2, 5]} />
@@ -226,8 +261,8 @@ function EnvironmentScene({ type, isTornado }: { type: 'backyard' | 'campsite', 
   useFrame((state) => {
     if (isTornado && windLines.current) {
         windLines.current.children.forEach((line, i) => {
-            line.position.x -= 0.5;
-            if (line.position.x < -20) line.position.x = 20;
+            line.position.x -= 0.8; // Faster wind
+            if (line.position.x < -30) line.position.x = 30;
         });
     }
     
@@ -250,15 +285,22 @@ function EnvironmentScene({ type, isTornado }: { type: 'backyard' | 'campsite', 
 
       {/* Scene Specifics */}
       {type === 'campsite' ? (
-        <>
-           <RVTrailer />
-           <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5} position={[-6, 0, 4]}>
+        <group>
+           {/* Row of Trailers closely packed */}
+           <RVTrailer position={[-3, -1.2, -4]} rotation={[0, 0.2, 0]} />
+           <RVTrailer position={[-7, -1.2, -4]} rotation={[0, 0.1, 0]} />
+           <RVTrailer position={[-3, -1.2, 4]} rotation={[0, -0.2, 0]} />
+           <RVTrailer position={[-7, -1.2, 4]} rotation={[0, -0.1, 0]} />
+           <RVTrailer position={[-11, -1.2, 0]} rotation={[0, 0, 0]} />
+           
+           {/* Some trees in between */}
+           <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5} position={[-5, 0, 0]}>
              <mesh castShadow receiveShadow>
-               <coneGeometry args={[1, 4, 8]} />
+               <coneGeometry args={[0.8, 3, 8]} />
                <meshStandardMaterial color="#2e7d32" />
              </mesh>
            </Float>
-        </>
+        </group>
       ) : (
         // Backyard Fence
         <group>
@@ -274,10 +316,14 @@ function EnvironmentScene({ type, isTornado }: { type: 'backyard' | 'campsite', 
       {/* Tornado Effect & Debris */}
       {isTornado && (
          <group>
-            <group position={[-10, 0, -10]}>
+            <group position={[-15, 0, -10]}>
                 <mesh position={[0, 5, 0]}>
-                   <coneGeometry args={[4, 12, 16, 1, true]} />
-                   <meshStandardMaterial color="#333" transparent opacity={0.8} side={THREE.DoubleSide} wireframe />
+                   <coneGeometry args={[5, 14, 16, 1, true]} />
+                   <meshStandardMaterial color="#222" transparent opacity={0.6} side={THREE.DoubleSide} />
+                </mesh>
+                 <mesh position={[0, 5, 0]} rotation={[0, 1, 0]}>
+                   <coneGeometry args={[4, 14, 16, 1, true]} />
+                   <meshStandardMaterial color="#111" transparent opacity={0.5} side={THREE.DoubleSide} wireframe />
                 </mesh>
             </group>
             
@@ -285,10 +331,10 @@ function EnvironmentScene({ type, isTornado }: { type: 'backyard' | 'campsite', 
             
             {/* Wind Lines */}
             <group ref={windLines}>
-                {[...Array(20)].map((_, i) => (
-                    <mesh key={i} position={[Math.random() * 40 - 20, Math.random() * 10, Math.random() * 20 - 10]} rotation={[0, 0, Math.PI / 2]}>
-                        <cylinderGeometry args={[0.02, 0.02, 2]} />
-                        <meshBasicMaterial color="#ffffff" transparent opacity={0.3} />
+                {[...Array(40)].map((_, i) => (
+                    <mesh key={i} position={[Math.random() * 60 - 30, Math.random() * 10, Math.random() * 30 - 15]} rotation={[0, 0, Math.PI / 2]}>
+                        <cylinderGeometry args={[0.02, 0.02, 3]} />
+                        <meshBasicMaterial color="#ffffff" transparent opacity={0.2} />
                     </mesh>
                 ))}
             </group>
