@@ -12,12 +12,9 @@ const MODEL_URL = '/models/shelter.glb';
 
 // --- Sub-components ---
 
-function Shelter({ position, isDragging, onDragStart, onDragEnd, isBuried, onSnapToHole }: any) {
+function Shelter({ position }: any) {
   const { scene } = useGLTF(MODEL_URL);
-  const ref = useRef<THREE.Group>(null);
-  const [hovered, setHover] = useState(false);
-  useCursor(hovered);
-
+  
   // Clone scene to avoid mutation issues if used multiple times (though here it's once)
   const clone = React.useMemo(() => scene.clone(), [scene]);
 
@@ -36,98 +33,9 @@ function Shelter({ position, isDragging, onDragStart, onDragEnd, isBuried, onSna
     });
   }, [clone]);
 
-  useFrame((state) => {
-    if (!ref.current) return;
-    
-    // Drag logic (simplified plane drag)
-    if (isDragging) {
-      const raycaster = state.raycaster;
-      const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-      const target = new THREE.Vector3();
-      raycaster.ray.intersectPlane(plane, target);
-      if (target) {
-        // Limit drag area
-        ref.current.position.x = Math.max(-4, Math.min(4, target.x));
-        ref.current.position.z = Math.max(-4, Math.min(4, target.z));
-        
-        // Check distance to hole (hole is at [2, -0.5, 0])
-        const dist = ref.current.position.distanceTo(new THREE.Vector3(2, 0, 0));
-        if (dist < 1.5) {
-           onSnapToHole();
-        }
-      }
-    } else if (isBuried) {
-       // Lerp to hole position
-       ref.current.position.lerp(new THREE.Vector3(2, -1.2, 0), 0.1);
-    } else {
-       // Return to start or stay put? Let's just stay put for now or animate slightly
-    }
-  });
-
   return (
-    <group 
-      ref={ref} 
-      position={position} 
-      onPointerOver={() => setHover(true)}
-      onPointerOut={() => setHover(false)}
-      onPointerDown={(e) => {
-        e.stopPropagation();
-        if (!isBuried) onDragStart();
-      }}
-      onPointerUp={(e) => {
-        e.stopPropagation();
-        onDragEnd();
-      }}
-      scale={isBuried ? 1 : 1.1} // Pop effect
-    >
+    <group position={position}>
       <primitive object={clone} scale={2} rotation={[0, Math.PI / 4, 0]} />
-    </group>
-  );
-}
-
-function Hole({ isFilled, onFill }: any) {
-  const { scale } = useSpring({ scale: isFilled ? 1 : 0, config: { tension: 170, friction: 26 } });
-
-  return (
-    <group position={[2, -1.9, 0]}>
-      {/* The Hole Visual - Deeper appearance with box interior */}
-      <group>
-        {/* Bottom */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
-          <planeGeometry args={[2, 3]} />
-          <meshStandardMaterial color="#000000" />
-        </mesh>
-        {/* Sides to give depth illusion */}
-        <mesh position={[-1, -0.25, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
-          <planeGeometry args={[3, 0.5]} />
-          <meshStandardMaterial color="#1a1a1a" />
-        </mesh>
-        <mesh position={[1, -0.25, 0]} rotation={[0, -Math.PI / 2, 0]} receiveShadow>
-          <planeGeometry args={[3, 0.5]} />
-          <meshStandardMaterial color="#1a1a1a" />
-        </mesh>
-        <mesh position={[0, -0.25, -1.5]} rotation={[0, 0, 0]} receiveShadow>
-          <planeGeometry args={[2, 0.5]} />
-          <meshStandardMaterial color="#1a1a1a" />
-        </mesh>
-        <mesh position={[0, -0.25, 1.5]} rotation={[0, Math.PI, 0]} receiveShadow>
-          <planeGeometry args={[2, 0.5]} />
-          <meshStandardMaterial color="#1a1a1a" />
-        </mesh>
-      </group>
-      
-      {/* Dirt Pile / Backfill Visual - Matches Hole Size */}
-      <animated.group scale={scale}>
-         <mesh position={[0, 0.2, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-           <planeGeometry args={[2.5, 3.5]} />
-           <meshStandardMaterial color="#5d4037" roughness={1} />
-         </mesh>
-         {/* Grass on top */}
-         <mesh position={[0, 0.21, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-           <planeGeometry args={[2.4, 3.4]} />
-           <meshStandardMaterial color="#4caf50" roughness={1} />
-         </mesh>
-      </animated.group>
     </group>
   );
 }
@@ -135,6 +43,8 @@ function Hole({ isFilled, onFill }: any) {
 function DebrisItem({ children, startPos, delay = 0 }: any) {
   const ref = useRef<THREE.Group>(null);
   const [impact, setImpact] = useState(false);
+  // Randomize target offset slightly so items hit different parts of shelter
+  const targetOffset = React.useMemo(() => new THREE.Vector3((Math.random() - 0.5) * 1.5, 0, (Math.random() - 0.5) * 1.5), []);
   
   useFrame((state) => {
     if (!ref.current) return;
@@ -142,24 +52,27 @@ function DebrisItem({ children, startPos, delay = 0 }: any) {
     const time = state.clock.getElapsedTime();
     if (time < delay) return;
 
-    // Move towards shelter at [2, 0, 0]
-    const target = new THREE.Vector3(2, 0.5, 0);
+    // Move towards shelter at [2, 0.5, 0] + offset
+    const baseTarget = new THREE.Vector3(2, 0.5, 0);
+    const target = baseTarget.clone().add(targetOffset);
+    
     const dir = target.clone().sub(ref.current.position).normalize();
     const dist = ref.current.position.distanceTo(target);
 
     if (dist > 1.5 && !impact) {
-      ref.current.position.add(dir.multiplyScalar(0.15)); // Speed
+      ref.current.position.add(dir.multiplyScalar(0.25)); // Increased speed for impact
       ref.current.rotation.x += 0.1;
       ref.current.rotation.y += 0.1;
     } else {
       // Hit! Bounce off randomly
       if (!impact) setImpact(true);
-      ref.current.position.y += 0.1;
-      ref.current.position.x += (Math.random() - 0.5) * 0.2;
-      ref.current.rotation.z += 0.2;
+      ref.current.position.y += 0.2;
+      ref.current.position.x += (Math.random() - 0.5) * 0.4;
+      ref.current.position.z += (Math.random() - 0.5) * 0.4;
+      ref.current.rotation.z += 0.4;
       
       // Reset if too far or after some time to loop
-      if (ref.current.position.y > 10) {
+      if (ref.current.position.y > 15) {
          ref.current.position.copy(startPos);
          setImpact(false);
       }
@@ -202,9 +115,9 @@ function Debris({ isTornado }: { isTornado: boolean }) {
         </group>
       </DebrisItem>
 
-      {/* Flying Wood Planks - Multiple */}
-      {[...Array(5)].map((_, i) => (
-        <DebrisItem key={i} startPos={new THREE.Vector3(-12 - i, 4 + i, (Math.random() - 0.5) * 10)} delay={i * 0.5}>
+      {/* Flying Wood Planks - Multiple from different angles */}
+      {[...Array(8)].map((_, i) => (
+        <DebrisItem key={i} startPos={new THREE.Vector3((Math.random() - 0.5) * 20 - 10, 4 + i, (Math.random() - 0.5) * 20)} delay={i * 0.3}>
            <mesh castShadow>
               <boxGeometry args={[0.2, 0.1, 2]} />
               <meshStandardMaterial color="#d7ccc8" />
@@ -344,28 +257,64 @@ function EnvironmentScene({ type, isTornado }: { type: 'backyard' | 'campsite', 
   );
 }
 
-// --- Main Component ---
+function Hole({ isFilled, onFill }: any) {
+  const { scale } = useSpring({ scale: isFilled ? 1 : 0, config: { tension: 170, friction: 26 } });
 
+  return (
+    <group position={[2, -1.9, 0]}>
+      {/* The Hole Visual - Deeper appearance with box interior */}
+      <group>
+        {/* Bottom */}
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+          <planeGeometry args={[2, 3]} />
+          <meshStandardMaterial color="#000000" />
+        </mesh>
+        {/* Sides to give depth illusion */}
+        <mesh position={[-1, -0.25, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
+          <planeGeometry args={[3, 0.5]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+        <mesh position={[1, -0.25, 0]} rotation={[0, -Math.PI / 2, 0]} receiveShadow>
+          <planeGeometry args={[3, 0.5]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+        <mesh position={[0, -0.25, -1.5]} rotation={[0, 0, 0]} receiveShadow>
+          <planeGeometry args={[2, 0.5]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+        <mesh position={[0, -0.25, 1.5]} rotation={[0, Math.PI, 0]} receiveShadow>
+          <planeGeometry args={[2, 0.5]} />
+          <meshStandardMaterial color="#1a1a1a" />
+        </mesh>
+      </group>
+      
+      {/* Dirt Pile / Backfill Visual - Matches Hole Size */}
+      <animated.group scale={scale}>
+         <mesh position={[0, 0.2, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+           <planeGeometry args={[2.5, 3.5]} />
+           <meshStandardMaterial color="#5d4037" roughness={1} />
+         </mesh>
+         {/* Grass on top */}
+         <mesh position={[0, 0.21, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+           <planeGeometry args={[2.4, 3.4]} />
+           <meshStandardMaterial color="#4caf50" roughness={1} />
+         </mesh>
+      </animated.group>
+    </group>
+  );
+}
+
+// --- Main Component ---
 export default function InteractiveShelterDemo() {
   const [sceneType, setSceneType] = useState<'backyard' | 'campsite'>('backyard');
   const [isTornado, setIsTornado] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isBuried, setIsBuried] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
-  const handleSnapToHole = () => {
-    setIsDragging(false);
-    setIsBuried(true);
-  };
-
   const handleBackfill = () => {
-    if (isBuried) {
-      setIsFilled(true);
-    }
+    setIsFilled(true);
   };
 
   const reset = () => {
-    setIsBuried(false);
     setIsFilled(false);
     setIsTornado(false);
   };
@@ -374,7 +323,7 @@ export default function InteractiveShelterDemo() {
     <section className="py-20 bg-stone-100 overflow-hidden">
       <div className="container mx-auto px-4 mb-8 text-center">
         <h2 className="text-4xl font-bold text-[#3E2723] mb-4">Experience the Protection</h2>
-        <p className="text-lg text-stone-600">Drag the shelter into the hole to install it. Switch modes to see it in action!</p>
+        <p className="text-lg text-stone-600">See how our shelters withstand extreme conditions. Activate the tornado simulation below!</p>
       </div>
 
       <div className="relative w-full h-[600px] bg-stone-200 rounded-3xl overflow-hidden border-4 border-[#3E2723]/10 shadow-2xl max-w-6xl mx-auto">
@@ -414,19 +363,13 @@ export default function InteractiveShelterDemo() {
         </div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-4">
-           {!isBuried && (
-             <div className="bg-black/70 text-white px-6 py-3 rounded-full font-bold animate-bounce pointer-events-none">
-               👇 Drag the shelter to the hole!
-             </div>
-           )}
-           
-           {isBuried && !isFilled && (
+           {!isFilled && (
              <Button 
                size="lg" 
                className="bg-[#E69138] hover:bg-[#D4842F] text-[#3E2723] font-bold shadow-xl scale-110"
                onClick={handleBackfill}
              >
-               <Shovel className="mr-2" /> Backfill Dirt
+               <Shovel className="mr-2" /> Secure Shelter (Backfill)
              </Button>
            )}
 
@@ -456,19 +399,13 @@ export default function InteractiveShelterDemo() {
           <Hole isFilled={isFilled} />
           
           <Shelter 
-            position={isBuried ? [2, -1.2, 0] : [-2, -1.5, 0]} 
-            isDragging={isDragging}
-            isBuried={isBuried}
-            onDragStart={() => setIsDragging(true)}
-            onDragEnd={() => setIsDragging(false)}
-            onSnapToHole={handleSnapToHole}
+            position={[2, -1.2, 0]} 
           />
 
           <OrbitControls 
             enableZoom={false} 
             minPolarAngle={0} 
             maxPolarAngle={Math.PI / 2.2} 
-            enabled={!isDragging} // Disable camera rotation while dragging
           />
         </Canvas>
       </div>
