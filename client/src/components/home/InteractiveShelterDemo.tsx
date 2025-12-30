@@ -13,45 +13,51 @@ const MODEL_URL = '/models/shelter.glb';
 // --- Sub-components ---
 
 function Interior({ isActive }: { isActive: boolean }) {
-  // Simple procedural interior in case the model is empty
+  // Dimensions based on Stock #706900
+  // Total Length: 104" (~2.64m) -> scaled to ~2.6 game units
+  // Total Width: 80" (~2m) -> scaled to ~2 game units
+  // Total Height: 85" (2.15m) -> scaled to ~2.15 game units
+  // Top Slant Height: 36" (~0.9m)
+  // Bottom Box Height: 49" (~1.25m)
+  
   return (
     <group position={[2, -1.9, 0]} visible={isActive}>
-       {/* Interior Room */}
-       <mesh position={[0, -1.5, 0]} receiveShadow>
-         <boxGeometry args={[1.8, 2.5, 3]} />
-         <meshStandardMaterial color="#b0bec5" side={THREE.BackSide} />
+       {/* Main Room (Concrete) */}
+       <mesh position={[0, -1.2, 0]} receiveShadow>
+         <boxGeometry args={[2, 2.2, 2.6]} />
+         <meshStandardMaterial color="#8c8c8c" side={THREE.BackSide} roughness={0.9} />
        </mesh>
        
-       {/* Stairs */}
-       <group position={[0, -2.5, 1]} rotation={[0, Math.PI, 0]}>
-         {[...Array(5)].map((_, i) => (
-           <mesh key={i} position={[0, i * 0.25, i * 0.25]} receiveShadow>
-             <boxGeometry args={[1, 0.25, 0.25]} />
-             <meshStandardMaterial color="#90a4ae" />
+       {/* Stairs - Repositioned for new size */}
+       <group position={[0, -2.2, 0.8]} rotation={[0, Math.PI, 0]}>
+         {[...Array(6)].map((_, i) => (
+           <mesh key={i} position={[0, i * 0.2, i * 0.2]} receiveShadow>
+             <boxGeometry args={[0.8, 0.2, 0.2]} />
+             <meshStandardMaterial color="#757575" roughness={0.8} />
            </mesh>
          ))}
        </group>
 
-       {/* Handrail */}
-       <group position={[0.4, -2.5, 1]} rotation={[0, Math.PI, 0]}>
+       {/* Handrail - Adjusted */}
+       <group position={[0.45, -2.2, 0.8]} rotation={[0, Math.PI, 0]}>
           {/* Rail */}
           <mesh position={[0, 1.2, 0.6]} rotation={[Math.PI / 4, 0, 0]} castShadow>
-            <cylinderGeometry args={[0.04, 0.04, 2.5]} />
+            <cylinderGeometry args={[0.03, 0.03, 2.8]} />
             <meshStandardMaterial color="#424242" roughness={0.4} metalness={0.6} />
           </mesh>
           {/* Posts */}
-          <mesh position={[0, 0.5, 0]} castShadow>
-             <cylinderGeometry args={[0.03, 0.03, 1.2]} />
+          <mesh position={[0, 0.4, 0]} castShadow>
+             <cylinderGeometry args={[0.02, 0.02, 1.0]} />
              <meshStandardMaterial color="#424242" roughness={0.4} metalness={0.6} />
           </mesh>
-          <mesh position={[0, 1.5, 1.2]} castShadow>
-             <cylinderGeometry args={[0.03, 0.03, 1.2]} />
+          <mesh position={[0, 1.4, 1.2]} castShadow>
+             <cylinderGeometry args={[0.02, 0.02, 1.0]} />
              <meshStandardMaterial color="#424242" roughness={0.4} metalness={0.6} />
           </mesh>
        </group>
        
-       {/* Interior Light */}
-       <pointLight position={[0, -1, 0]} intensity={2} distance={5} color="#ffd54f" />
+       {/* Interior Light - Warmer industrial feel */}
+       <pointLight position={[0, -0.5, 0]} intensity={1.5} distance={6} color="#fffde7" />
     </group>
   );
 }
@@ -497,7 +503,9 @@ export default function InteractiveShelterDemo() {
           />
 
           <OrbitControls 
-            enableZoom={false} 
+            enableZoom={true} 
+            minDistance={5}
+            maxDistance={20}
             minPolarAngle={0} 
             maxPolarAngle={Math.PI / 2.2} 
             enabled={!isInside} // Disable manual control when inside to stick to view
