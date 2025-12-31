@@ -3,6 +3,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { ShieldCheck, Ruler, Hammer, Download, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import excavateImg from '@assets/generated_images/excavation_pit_for_shelter.png';
+import drainTileImg from '@assets/generated_images/drain_tile_installation.png';
+import setShelterImg from '@assets/generated_images/setting_shelter_on_gravel.png';
+import backfillImg from '@assets/generated_images/backfill_and_grading_complete.png';
+
+const installationSteps = [
+  { step: 1, title: "Excavate", description: "Dig to 52\" depth (111\" x 87\")", image: excavateImg },
+  { step: 2, title: "Drain Tile", description: "Install drainage around base", image: drainTileImg },
+  { step: 3, title: "Set Shelter", description: "Place on 6\" gravel base", image: setShelterImg },
+  { step: 4, title: "Backfill", description: "Grade soil away from shelter", image: backfillImg },
+];
 
 export default function TechnicalSpecs() {
   return (
@@ -70,44 +81,51 @@ export default function TechnicalSpecs() {
             </Card>
           </div>
 
-          {/* Installation Process */}
+          {/* Installation Process with Images */}
           <div>
             <h3 className="text-2xl font-bold text-[#3E2723] mb-6 flex items-center gap-2">
               <Hammer className="text-[#E69138]" /> Installation
             </h3>
             
-            <div className="grid md:grid-cols-2 gap-8 items-start">
-              <div className="space-y-4 text-stone-700">
-                <div className="flex gap-3">
-                  <div className="w-7 h-7 rounded-full bg-[#3E2723] text-white flex items-center justify-center font-bold shrink-0 text-sm">1</div>
-                  <p><strong>Excavate</strong> to 52" depth (111" x 87")</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              {installationSteps.map((item) => (
+                <div key={item.step} className="bg-white rounded-xl overflow-hidden border border-stone-200 shadow-sm">
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover"
+                      data-testid={`img-installation-step-${item.step}`}
+                    />
+                  </div>
+                  <div className="p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-6 h-6 rounded-full bg-[#3E2723] text-white flex items-center justify-center font-bold text-xs">
+                        {item.step}
+                      </div>
+                      <span className="font-bold text-[#3E2723]">{item.title}</span>
+                    </div>
+                    <p className="text-sm text-stone-600">{item.description}</p>
+                  </div>
                 </div>
-                <div className="flex gap-3">
-                  <div className="w-7 h-7 rounded-full bg-[#3E2723] text-white flex items-center justify-center font-bold shrink-0 text-sm">2</div>
-                  <p>Install <strong>drain tile</strong> around base</p>
-                </div>
-                <div className="flex gap-3">
-                  <div className="w-7 h-7 rounded-full bg-[#3E2723] text-white flex items-center justify-center font-bold shrink-0 text-sm">3</div>
-                  <p>Set shelter on 6" gravel base</p>
-                </div>
-                <div className="flex gap-3">
-                  <div className="w-7 h-7 rounded-full bg-[#3E2723] text-white flex items-center justify-center font-bold shrink-0 text-sm">4</div>
-                  <p>Backfill and slope soil away</p>
-                </div>
-              </div>
+              ))}
+            </div>
 
-              <div className="bg-white p-6 rounded-xl border border-stone-200 shadow-sm space-y-4">
-                <h4 className="font-bold text-[#3E2723] text-lg">Resources</h4>
-                <Button variant="outline" className="w-full justify-start gap-3 h-11 text-stone-700 border-stone-300 hover:bg-stone-50 hover:text-[#E69138]">
-                  <Download size={18} /> Installation Guide
-                </Button>
-                <Button variant="outline" className="w-full justify-start gap-3 h-11 text-stone-700 border-stone-300 hover:bg-stone-50 hover:text-[#E69138]">
-                  <Download size={18} /> Product Catalog
-                </Button>
+            <div className="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <h4 className="font-bold text-[#3E2723] text-lg">Resources</h4>
+                  <Button variant="outline" className="w-full justify-start gap-3 h-11 text-stone-700 border-stone-300 hover:bg-stone-50 hover:text-[#E69138]">
+                    <Download size={18} /> Installation Guide
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start gap-3 h-11 text-stone-700 border-stone-300 hover:bg-stone-50 hover:text-[#E69138]">
+                    <Download size={18} /> Product Catalog
+                  </Button>
+                </div>
                 
-                <div className="pt-4 border-t border-stone-100 space-y-3">
+                <div className="space-y-3">
                   <Button 
-                    className="w-full bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold h-11 text-lg"
+                    className="w-full bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold h-12 text-lg"
                     onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
                   >
                     Secure Your Spot
