@@ -764,8 +764,8 @@ export default function InteractiveShelterDemo() {
           />
 
           <OrbitControls 
-            enableZoom={true} 
-            minDistance={2}
+            enableZoom={true} // Allow zoom in/out even inside
+            minDistance={0.5} // Allow getting very close inside
             maxDistance={25}
             minPolarAngle={0} 
             maxPolarAngle={Math.PI / 1.8} 
