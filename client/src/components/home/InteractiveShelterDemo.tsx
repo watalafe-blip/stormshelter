@@ -1,17 +1,20 @@
-import React, { useState, useRef, useEffect, useMemo, Suspense } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useMemo, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, Environment, OrbitControls, Float } from '@react-three/drei';
 import { useSpring, animated } from '@react-spring/three';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { Wind, Shovel, Trees, Home as HomeIcon, AlertTriangle, DoorOpen, Eye, EyeOff, Gauge } from 'lucide-react';
+import { Wind, Shovel, Trees, Home as HomeIcon, AlertTriangle, DoorOpen, Eye, EyeOff, Gauge, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as THREE from 'three';
 
 const MODEL_URL = '/models/shelter.glb';
 
 // ============================================
-// UTILITY FUNCTIONS FOR VIRTUAL TOUR
+// UNIT HELPERS FOR VIRTUAL TOUR
 // ============================================
+
+const ft = (v: number) => v * 0.3048;
+const inch = (v: number) => v * 0.0254;
 
 function clamp01(x: number) {
   return Math.max(0, Math.min(1, x));
@@ -36,69 +39,148 @@ function cameraFromSpherical(target: THREE.Vector3, spherical: THREE.Spherical) 
 }
 
 // ============================================
-// VIRTUAL TOUR COMPONENTS (Interior View)
+// VIRTUAL TOUR COMPONENTS (Improved Interior View)
 // ============================================
 
+const DIM_FT = {
+  width: 4.5,
+  length: 8.0,
+  height: 6.5,
+};
+
+const HATCH_IN = { width: 32, height: 48, thickness: 2.0 };
+const MAN_BACK_FT = 1.5;
+
 function VirtualTourMan() {
+  const jacketMat = useMemo(() => new THREE.MeshStandardMaterial({ color: "#1f1f1f", roughness: 0.9 }), []);
+  const pantsMat = useMemo(() => new THREE.MeshStandardMaterial({ color: "#2f4b7c", roughness: 0.9 }), []);
+  const skinMat = useMemo(() => new THREE.MeshStandardMaterial({ color: "#cfa37b", roughness: 0.85 }), []);
+  const shoeMat = useMemo(() => new THREE.MeshStandardMaterial({ color: "#0f0f0f", roughness: 0.95 }), []);
+
   return (
-    <group position={[0.0, 0, 0.9]} rotation={[0, Math.PI, 0]}>
-      <mesh position={[0, 0.95, 0]}>
-        <cylinderGeometry args={[0.22, 0.24, 1.35, 18]} />
-        <meshStandardMaterial color={"#1f3f66"} roughness={0.85} />
-      </mesh>
-      <mesh position={[0, 1.75, 0]}>
-        <sphereGeometry args={[0.16, 18, 18]} />
-        <meshStandardMaterial color={"#cfa37b"} roughness={0.9} />
-      </mesh>
+    <group>
+      <mesh material={jacketMat} position={[0, 1.18, 0]}><capsuleGeometry args={[0.23, 0.85, 8, 18]} /></mesh>
+      <mesh material={pantsMat} position={[0, 0.78, 0]}><capsuleGeometry args={[0.20, 0.45, 8, 18]} /></mesh>
+      <mesh material={skinMat} position={[0, 1.63, 0]}><capsuleGeometry args={[0.065, 0.12, 6, 14]} /></mesh>
+      <mesh material={skinMat} position={[0, 1.83, 0]}><sphereGeometry args={[0.16, 22, 22]} /></mesh>
+      <mesh material={jacketMat} position={[-0.32, 1.22, 0]} rotation={[0, 0, 0.08]}><capsuleGeometry args={[0.07, 0.62, 8, 16]} /></mesh>
+      <mesh material={jacketMat} position={[0.32, 1.22, 0]} rotation={[0, 0, -0.08]}><capsuleGeometry args={[0.07, 0.62, 8, 16]} /></mesh>
+      <mesh material={skinMat} position={[-0.34, 0.86, 0.03]}><sphereGeometry args={[0.06, 16, 16]} /></mesh>
+      <mesh material={skinMat} position={[0.34, 0.86, 0.03]}><sphereGeometry args={[0.06, 16, 16]} /></mesh>
+      <mesh material={pantsMat} position={[-0.11, 0.40, 0]}><capsuleGeometry args={[0.085, 0.72, 8, 16]} /></mesh>
+      <mesh material={pantsMat} position={[0.11, 0.40, 0]}><capsuleGeometry args={[0.085, 0.72, 8, 16]} /></mesh>
+      <mesh material={shoeMat} position={[-0.11, 0.04, 0.06]}><boxGeometry args={[0.14, 0.08, 0.28]} /></mesh>
+      <mesh material={shoeMat} position={[0.11, 0.04, 0.06]}><boxGeometry args={[0.14, 0.08, 0.28]} /></mesh>
     </group>
   );
 }
 
-function VirtualTourShelter() {
-  const wallMat = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#cfcfcf", roughness: 0.9, metalness: 0.0 }),
-    []
+function VirtualTourShelter({ hatchClosed, ghostWalls }: { hatchClosed: boolean; ghostWalls: boolean }) {
+  const W = ft(DIM_FT.width);
+  const L = ft(DIM_FT.length);
+  const H = ft(DIM_FT.height);
+
+  const concrete = useMemo(
+    () => new THREE.MeshStandardMaterial({
+      color: "#cdcdcd", roughness: 0.98, metalness: 0.0, side: THREE.DoubleSide,
+      transparent: ghostWalls, opacity: ghostWalls ? 0.28 : 1.0, depthWrite: !ghostWalls,
+    }),
+    [ghostWalls]
   );
-  const steelMat = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#444", roughness: 0.35, metalness: 0.85 }),
-    []
-  );
+
+  const steel = useMemo(() => new THREE.MeshStandardMaterial({ color: "#9a9a9a", roughness: 0.35, metalness: 0.5, side: THREE.DoubleSide }), []);
+  const darkSteel = useMemo(() => new THREE.MeshStandardMaterial({ color: "#4f4f4f", roughness: 0.5, metalness: 0.45, side: THREE.DoubleSide }), []);
+  const ledMat = useMemo(() => new THREE.MeshStandardMaterial({ color: "#f7f7f7", emissive: new THREE.Color("#ffffff"), emissiveIntensity: 4.0, roughness: 0.2, metalness: 0.0 }), []);
+  const outsideMat = useMemo(() => new THREE.MeshBasicMaterial({ color: "#efefef", side: THREE.DoubleSide }), []);
+
+  const wallAngle = 0.18;
+  const openingZ = -L / 2;
+  const landingZ = L / 2 - ft(1.25);
+  const stairTopZ = openingZ + ft(1.2);
+  const runTotal = landingZ - stairTopZ;
+  const stepCount = 9;
+  const stepRise = (H - ft(1.2)) / stepCount;
+  const stepRun = runTotal / stepCount;
+  const stairStartY = ft(0.25);
+  const stairStartZ = landingZ - ft(2.2);
+  const hatchW = inch(HATCH_IN.width);
+  const hatchH = inch(HATCH_IN.height);
+  const hatchT = inch(HATCH_IN.thickness);
+  const hatchY = H - ft(0.25);
+  const ledY = H - ft(0.55);
 
   return (
     <group>
-      <mesh material={wallMat} position={[0, 1, 0]}>
-        <boxGeometry args={[3.2, 2.2, 4.2]} />
-      </mesh>
-      <mesh position={[0, 1, 0]}>
-        <boxGeometry args={[3.05, 2.05, 4.05]} />
-        <meshStandardMaterial color={"#ffffff"} roughness={1} transparent opacity={0.92} />
-      </mesh>
-      <mesh material={wallMat} position={[0, 0.02, 0]}>
-        <boxGeometry args={[3.1, 0.05, 4.0]} />
-      </mesh>
-      <group position={[-0.7, 0.15, -0.8]} rotation={[0, 0.15, 0]}>
-        {[0, 1, 2, 3, 4].map((i) => (
-          <mesh key={i} material={steelMat} position={[0, i * 0.17, i * 0.28]}>
-            <boxGeometry args={[0.9, 0.06, 0.28]} />
+      <mesh material={concrete} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}><planeGeometry args={[W + ft(2.0), L + ft(2.0)]} /></mesh>
+      <mesh material={concrete} position={[0, H / 2, L / 2]} rotation={[0, Math.PI, 0]}><planeGeometry args={[W + ft(2.0), H]} /></mesh>
+      <mesh material={concrete} position={[-W / 2, H / 2, 0]} rotation={[0, Math.PI / 2 + wallAngle, 0]}><planeGeometry args={[L + ft(2.0), H]} /></mesh>
+      <mesh material={concrete} position={[W / 2, H / 2, 0]} rotation={[0, -Math.PI / 2 - wallAngle, 0]}><planeGeometry args={[L + ft(2.0), H]} /></mesh>
+      <mesh material={concrete} position={[0, H - ft(0.15), openingZ - ft(0.05)]}><boxGeometry args={[W + ft(1.0), ft(0.25), ft(0.25)]} /></mesh>
+
+      {!hatchClosed && (
+        <mesh material={outsideMat} position={[0, H - ft(0.4), openingZ - ft(2.0)]}><planeGeometry args={[W + ft(12), H + ft(12)]} /></mesh>
+      )}
+
+      <mesh material={darkSteel} position={[0, ft(0.12), landingZ + ft(0.25)]}><boxGeometry args={[W - ft(1.0), ft(0.18), ft(3.2)]} /></mesh>
+
+      <group>
+        {Array.from({ length: stepCount }).map((_, i) => (
+          <mesh key={i} material={darkSteel} position={[0, stairStartY + i * stepRise, stairStartZ - i * stepRun]}>
+            <boxGeometry args={[W - ft(1.05), ft(0.18), stepRun * 0.95]} />
           </mesh>
         ))}
-        <mesh material={steelMat} position={[0.45, 0.55, 0.65]} rotation={[0, 0, -0.25]}>
-          <cylinderGeometry args={[0.02, 0.02, 1.4, 16]} />
-        </mesh>
       </group>
-      <group position={[0, 2.05, -1.5]}>
-        <mesh material={steelMat} position={[-0.65, 0, 0]} rotation={[0, 0.9, 0]}>
-          <boxGeometry args={[1.2, 0.08, 1.4]} />
-        </mesh>
-        <mesh material={steelMat} position={[0.65, 0, 0]} rotation={[0, -0.9, 0]}>
-          <boxGeometry args={[1.2, 0.08, 1.4]} />
-        </mesh>
+
+      <group position={[0, ledY, ft(0.2)]}>
+        <mesh material={darkSteel} position={[0, 0, 0]}><cylinderGeometry args={[ft(0.55), ft(0.55), ft(0.06), 40]} /></mesh>
+        <mesh material={ledMat} position={[0, -ft(0.04), 0]}><cylinderGeometry args={[ft(0.50), ft(0.50), ft(0.04), 40]} /></mesh>
       </group>
-      <VirtualTourMan />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-        <planeGeometry args={[40, 40]} />
-        <meshStandardMaterial color={"#1a1a1a"} roughness={1} />
-      </mesh>
+
+      {!hatchClosed ? (
+        <group position={[0, hatchY, openingZ - ft(0.2)]}>
+          <group position={[-(hatchW / 2 + ft(0.6)), ft(0.2), -ft(0.8)]} rotation={[0.0, 0.75, -0.12]}>
+            <mesh material={steel}><boxGeometry args={[hatchW, hatchT, hatchH]} /></mesh>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <mesh key={`leafL-${i}`} material={darkSteel} position={[0, -hatchH / 2 + (i + 1) * (hatchH / 4), hatchT / 2 + ft(0.03)]}>
+                <boxGeometry args={[hatchW * 0.88, ft(0.06), ft(0.06)]} />
+              </mesh>
+            ))}
+          </group>
+          <group position={[hatchW / 2 + ft(0.6), ft(0.2), -ft(0.8)]} rotation={[0.0, -0.75, 0.12]}>
+            <mesh material={steel}><boxGeometry args={[hatchW, hatchT, hatchH]} /></mesh>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <mesh key={`leafR-${i}`} material={darkSteel} position={[0, -hatchH / 2 + (i + 1) * (hatchH / 4), hatchT / 2 + ft(0.03)]}>
+                <boxGeometry args={[hatchW * 0.88, ft(0.06), ft(0.06)]} />
+              </mesh>
+            ))}
+          </group>
+        </group>
+      ) : (
+        <group position={[0, hatchY, openingZ - ft(0.05)]}>
+          <mesh material={steel}><boxGeometry args={[hatchW, hatchH, hatchT]} /></mesh>
+          {Array.from({ length: 4 }).map((_, i) => (
+            <mesh key={`ribH-${i}`} material={darkSteel} position={[0, -hatchH / 2 + (i + 1) * (hatchH / 5), hatchT / 2 + ft(0.03)]}>
+              <boxGeometry args={[hatchW * 0.92, ft(0.06), ft(0.06)]} />
+            </mesh>
+          ))}
+          {Array.from({ length: 3 }).map((_, i) => (
+            <mesh key={`ribV-${i}`} material={darkSteel} position={[-hatchW / 2 + (i + 1) * (hatchW / 4), 0, hatchT / 2 + ft(0.03)]}>
+              <boxGeometry args={[ft(0.06), hatchH * 0.92, ft(0.06)]} />
+            </mesh>
+          ))}
+          {Array.from({ length: 3 }).map((_, i) => (
+            <mesh key={`hinge-${i}`} material={darkSteel} position={[-hatchW / 2 - ft(0.04), -hatchH / 2 + (i + 1) * (hatchH / 4), 0]} rotation={[0, 0, Math.PI / 2]}>
+              <cylinderGeometry args={[ft(0.04), ft(0.04), ft(0.14), 18]} />
+            </mesh>
+          ))}
+          <mesh material={darkSteel} position={[hatchW / 2 - ft(0.10), 0, hatchT / 2 + ft(0.05)]}><boxGeometry args={[ft(0.06), hatchH * 0.78, ft(0.04)]} /></mesh>
+          <mesh material={darkSteel} position={[hatchW / 2 - ft(0.22), 0, hatchT / 2 + ft(0.05)]}><boxGeometry args={[ft(0.06), hatchH * 0.78, ft(0.04)]} /></mesh>
+        </group>
+      )}
+
+      <group position={[0, 0, landingZ + ft(0.10) + ft(MAN_BACK_FT)]} rotation={[0, Math.PI, 0]} scale={((H - inch(2)) / 2.02)}>
+        <VirtualTourMan />
+      </group>
     </group>
   );
 }
@@ -108,77 +190,143 @@ interface Pose {
   lookAt: [number, number, number];
 }
 
-function VirtualTourControls({ pose }: { pose: Pose | null }) {
+interface ControlsApi {
+  nudgeYaw: (delta: number) => void;
+  nudgeZoom: (factor: number) => void;
+}
+
+function VirtualTourControls({ pose, orbitYawRangeRad = Math.PI * 2, target, apiRef }: { pose: Pose | null; orbitYawRangeRad?: number; target: [number, number, number]; apiRef: React.MutableRefObject<ControlsApi | null> }) {
   const { camera, gl } = useThree();
-  const targetRef = useRef(new THREE.Vector3(0, 1.0, 0));
-  const sphericalRef = useRef(new THREE.Spherical(3.9, 1.2, 0.7));
-  const desiredRef = useRef(new THREE.Spherical(3.9, 1.2, 0.7));
-  const draggingRef = useRef(false);
-  const lastRef = useRef({ x: 0, y: 0 });
+  const targetRef = useRef(new THREE.Vector3(target[0], target[1], target[2]));
+  const sphericalRef = useRef(new THREE.Spherical(3.6, 1.2, 0.0));
+  const desiredRef = useRef(new THREE.Spherical(3.6, 1.2, 0.0));
+  const baseThetaRef = useRef<number | null>(null);
+  const pointersRef = useRef(new Map<number, { x: number; y: number }>());
+  const lastSingleRef = useRef({ x: 0, y: 0 });
+  const pinchRef = useRef({ active: false, dist: 0, baseRadius: 0 });
   const tweenRef = useRef<any>(null);
 
   useEffect(() => {
-    const t = targetRef.current;
-    const s = getSphericalFromCamera(camera.position, t);
+    const s = getSphericalFromCamera(camera.position, targetRef.current);
     sphericalRef.current.copy(s);
     desiredRef.current.copy(s);
+    if (baseThetaRef.current == null) baseThetaRef.current = s.theta;
   }, [camera]);
 
   useEffect(() => {
     if (!pose) return;
-    const fromCam = camera.position.clone();
-    const fromTgt = targetRef.current.clone();
-    const toCam = new THREE.Vector3(pose.camPos[0], pose.camPos[1], pose.camPos[2]);
-    const toTgt = new THREE.Vector3(pose.lookAt[0], pose.lookAt[1], pose.lookAt[2]);
-    tweenRef.current = { t: 0, duration: 0.85, fromCam, fromTgt, toCam, toTgt };
+    tweenRef.current = {
+      t: 0, duration: 0.9,
+      fromCam: camera.position.clone(),
+      fromTgt: targetRef.current.clone(),
+      toCam: new THREE.Vector3(pose.camPos[0], pose.camPos[1], pose.camPos[2]),
+      toTgt: new THREE.Vector3(pose.lookAt[0], pose.lookAt[1], pose.lookAt[2]),
+    };
   }, [pose, camera]);
 
   useEffect(() => {
     const el = gl.domElement;
     if (!el) return;
     const ROTATE_SPEED = 0.004;
-    const ZOOM_SPEED = 0.001;
-    const MIN_DIST = 0.8;
-    const MAX_DIST = 12;
+    const MIN_DIST = 0.9;
+    const MAX_DIST = 18;
+
+    const getTwo = () => {
+      const vals = Array.from(pointersRef.current.values());
+      return vals.length >= 2 ? [vals[0], vals[1]] : null;
+    };
+    const dist2 = (a: { x: number; y: number }, b: { x: number; y: number }) => Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+
+    function interruptFlight() {
+      tweenRef.current = null;
+      const s = getSphericalFromCamera(camera.position, targetRef.current);
+      sphericalRef.current.copy(s);
+      desiredRef.current.copy(s);
+      if (baseThetaRef.current == null) baseThetaRef.current = s.theta;
+    }
+
+    function clampYaw() {
+      const base = baseThetaRef.current ?? desiredRef.current.theta;
+      const half = orbitYawRangeRad / 2;
+      desiredRef.current.theta = THREE.MathUtils.clamp(desiredRef.current.theta, base - half, base + half);
+    }
 
     function onPointerDown(e: PointerEvent) {
-      draggingRef.current = true;
-      lastRef.current = { x: e.clientX, y: e.clientY };
-    }
-    function onPointerMove(e: PointerEvent) {
-      if (!draggingRef.current) return;
-      const dx = e.clientX - lastRef.current.x;
-      const dy = e.clientY - lastRef.current.y;
-      lastRef.current = { x: e.clientX, y: e.clientY };
-      if (tweenRef.current) return;
-      const d = desiredRef.current;
-      d.theta -= dx * ROTATE_SPEED;
-      d.phi -= dy * ROTATE_SPEED;
-      d.phi = THREE.MathUtils.clamp(d.phi, 0.001, Math.PI - 0.001);
-    }
-    function onPointerUp() {
-      draggingRef.current = false;
-    }
-    function onWheel(e: WheelEvent) {
-      e.preventDefault();
-      if (tweenRef.current) return;
-      const d = desiredRef.current;
-      d.radius *= 1 + e.deltaY * ZOOM_SPEED;
-      d.radius = THREE.MathUtils.clamp(d.radius, MIN_DIST, MAX_DIST);
+      pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      lastSingleRef.current = { x: e.clientX, y: e.clientY };
+      if (pointersRef.current.size >= 2) {
+        const two = getTwo();
+        if (two) pinchRef.current = { active: true, dist: dist2(two[0], two[1]), baseRadius: desiredRef.current.radius };
+      } else {
+        pinchRef.current.active = false;
+      }
+      interruptFlight();
     }
 
-    el.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", onPointerUp);
+    function onPointerMove(e: PointerEvent) {
+      if (!pointersRef.current.has(e.pointerId)) return;
+      pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pointersRef.current.size >= 2) {
+        const two = getTwo();
+        if (!two) return;
+        if (!pinchRef.current.active) {
+          pinchRef.current = { active: true, dist: dist2(two[0], two[1]), baseRadius: desiredRef.current.radius };
+        }
+        const newDist = dist2(two[0], two[1]);
+        const ratio = pinchRef.current.dist > 0 ? pinchRef.current.dist / newDist : 1;
+        desiredRef.current.radius = THREE.MathUtils.clamp(pinchRef.current.baseRadius * ratio, MIN_DIST, MAX_DIST);
+        return;
+      }
+      const dx = e.clientX - lastSingleRef.current.x;
+      const dy = e.clientY - lastSingleRef.current.y;
+      lastSingleRef.current = { x: e.clientX, y: e.clientY };
+      desiredRef.current.theta -= dx * ROTATE_SPEED;
+      desiredRef.current.phi -= dy * ROTATE_SPEED;
+      desiredRef.current.phi = THREE.MathUtils.clamp(desiredRef.current.phi, 0.25, Math.PI - 0.25);
+      clampYaw();
+    }
+
+    function onPointerUp(e: PointerEvent) {
+      pointersRef.current.delete(e.pointerId);
+      if (pointersRef.current.size < 2) pinchRef.current.active = false;
+    }
+
+    function onWheel(e: WheelEvent) {
+      e.preventDefault();
+      interruptFlight();
+      desiredRef.current.radius = THREE.MathUtils.clamp(desiredRef.current.radius * (1 + e.deltaY * 0.001), MIN_DIST, MAX_DIST);
+    }
+
+    el.addEventListener("pointerdown", onPointerDown, { passive: true });
+    el.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerup", onPointerUp, { passive: true });
     el.addEventListener("wheel", onWheel, { passive: false });
 
     return () => {
       el.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointermove", onPointerMove);
+      el.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);
       el.removeEventListener("wheel", onWheel);
     };
-  }, [gl]);
+  }, [gl, camera, orbitYawRangeRad]);
+
+  useEffect(() => {
+    if (!apiRef) return;
+    apiRef.current = {
+      nudgeYaw: (deltaTheta: number) => {
+        tweenRef.current = null;
+        desiredRef.current.theta += deltaTheta;
+        const base = baseThetaRef.current ?? desiredRef.current.theta;
+        const half = orbitYawRangeRad / 2;
+        desiredRef.current.theta = THREE.MathUtils.clamp(desiredRef.current.theta, base - half, base + half);
+      },
+      nudgeZoom: (factor: number) => {
+        tweenRef.current = null;
+        desiredRef.current.radius = THREE.MathUtils.clamp(desiredRef.current.radius * factor, 0.9, 18);
+      },
+    };
+    return () => { if (apiRef) apiRef.current = null; };
+  }, [apiRef, orbitYawRangeRad]);
 
   useFrame((_, delta) => {
     const tw = tweenRef.current;
@@ -193,6 +341,7 @@ function VirtualTourControls({ pose }: { pose: Pose | null }) {
         const s = getSphericalFromCamera(camera.position, targetRef.current);
         sphericalRef.current.copy(s);
         desiredRef.current.copy(s);
+        if (baseThetaRef.current == null) baseThetaRef.current = s.theta;
       }
       return;
     }
@@ -202,12 +351,36 @@ function VirtualTourControls({ pose }: { pose: Pose | null }) {
     s.radius = THREE.MathUtils.lerp(s.radius, d.radius, damp);
     s.theta = THREE.MathUtils.lerp(s.theta, d.theta, damp);
     s.phi = THREE.MathUtils.lerp(s.phi, d.phi, damp);
-    const nextCam = cameraFromSpherical(targetRef.current, s);
-    camera.position.copy(nextCam);
+    camera.position.copy(cameraFromSpherical(targetRef.current, s));
     camera.lookAt(targetRef.current);
   });
 
   return null;
+}
+
+function VirtualTourScene({ setPose, hatchClosed, ghostWalls }: { setPose: (p: Pose) => void; hatchClosed: boolean; ghostWalls: boolean }) {
+  const H = ft(DIM_FT.height);
+  const L = ft(DIM_FT.length);
+  const openingZ = -L / 2;
+  const hatchY = H - ft(0.25);
+  const ambient = 0.95;
+  const hemi = 0.9;
+
+  return (
+    <>
+      <color attach="background" args={["#151515"]} />
+      <ambientLight intensity={ambient} />
+      <hemisphereLight intensity={hemi} />
+      <pointLight position={[0, ft(6.15), ft(0.2)]} intensity={9.5} distance={40} />
+      <pointLight position={[0, ft(5.6), ft(0.2)]} intensity={3.5} distance={22} />
+      {!hatchClosed && (
+        <spotLight position={[0, ft(9.0), -ft(9.0)]} angle={0.8} penumbra={0.75} intensity={10} distance={50} />
+      )}
+      <Suspense fallback={null}>
+        <VirtualTourShelter hatchClosed={hatchClosed} ghostWalls={ghostWalls} />
+      </Suspense>
+    </>
+  );
 }
 
 // ============================================
@@ -266,14 +439,8 @@ function Bench({ position = [0, 0, 0], rotation = [0, 0, 0], windIntensity }: an
   });
   return (
     <group ref={ref} position={position} rotation={rotation}>
-       <mesh position={[0, 0.25, 0]} castShadow>
-         <boxGeometry args={[1.5, 0.1, 0.5]} />
-         <meshStandardMaterial color="#8d6e63" />
-       </mesh>
-       <mesh position={[0, 0.75, -0.25]} rotation={[0.2, 0, 0]} castShadow>
-         <boxGeometry args={[1.5, 0.5, 0.1]} />
-         <meshStandardMaterial color="#8d6e63" />
-       </mesh>
+       <mesh position={[0, 0.25, 0]} castShadow><boxGeometry args={[1.5, 0.1, 0.5]} /><meshStandardMaterial color="#8d6e63" /></mesh>
+       <mesh position={[0, 0.75, -0.25]} rotation={[0.2, 0, 0]} castShadow><boxGeometry args={[1.5, 0.5, 0.1]} /><meshStandardMaterial color="#8d6e63" /></mesh>
        <mesh position={[-0.6, 0.2, 0.2]}><boxGeometry args={[0.1, 0.4, 0.1]} /><meshStandardMaterial color="#4e342e" /></mesh>
        <mesh position={[0.6, 0.2, 0.2]}><boxGeometry args={[0.1, 0.4, 0.1]} /><meshStandardMaterial color="#4e342e" /></mesh>
        <mesh position={[-0.6, 0.2, -0.2]}><boxGeometry args={[0.1, 0.4, 0.1]} /><meshStandardMaterial color="#4e342e" /></mesh>
@@ -525,6 +692,26 @@ export default function InteractiveShelterDemo() {
   const [windIntensity, setWindIntensity] = useState(0);
   const [xRayMode, setXRayMode] = useState(false);
   const [tourPose, setTourPose] = useState<Pose | null>(null);
+  const [hatchClosed, setHatchClosed] = useState(false);
+  const [ghostWalls, setGhostWalls] = useState(true);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const controlsApiRef = useRef<ControlsApi | null>(null);
+  const holdTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [ready, setReady] = useState(false);
+
+  useLayoutEffect(() => {
+    if (containerRef.current) setReady(true);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (holdTimerRef.current) {
+        clearInterval(holdTimerRef.current);
+        holdTimerRef.current = null;
+      }
+    };
+  }, []);
 
   const handleBackfill = () => setIsFilled(true);
 
@@ -535,16 +722,36 @@ export default function InteractiveShelterDemo() {
     setWindIntensity(0);
     setXRayMode(false);
     setTourPose(null);
+    setHatchClosed(false);
+    setGhostWalls(true);
   };
+
+  const startCam: [number, number, number] = [0, ft(3.2), ft(5.5)];
+  const startLook: [number, number, number] = [0, ft(4.0), -ft(1.0)];
 
   const enterInterior = () => {
     setIsInside(true);
-    setTourPose({ camPos: [2.2, 1.4, 3.0], lookAt: [0, 1.0, 0] });
+    setTourPose({ camPos: startCam, lookAt: startLook });
   };
 
   const exitInterior = () => {
     setIsInside(false);
     setTourPose(null);
+  };
+
+  const YAW_STEP = THREE.MathUtils.degToRad(12);
+  const startHold = (dir: number) => {
+    stopHold();
+    controlsApiRef.current?.nudgeYaw(dir * YAW_STEP);
+    holdTimerRef.current = setInterval(() => {
+      controlsApiRef.current?.nudgeYaw(dir * YAW_STEP * 0.5);
+    }, 45);
+  };
+  const stopHold = () => {
+    if (holdTimerRef.current) {
+      clearInterval(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
   };
 
   return (
@@ -554,7 +761,7 @@ export default function InteractiveShelterDemo() {
         <p className="text-lg text-stone-600">See how our shelters withstand extreme conditions. Activate the tornado simulation below!</p>
       </div>
 
-      <div className="relative w-full h-[600px] bg-stone-200 rounded-3xl overflow-hidden border-4 border-[#3E2723]/10 shadow-2xl max-w-6xl mx-auto">
+      <div ref={containerRef} className="relative w-full h-[600px] bg-stone-200 rounded-3xl overflow-hidden border-4 border-[#3E2723]/10 shadow-2xl max-w-6xl mx-auto">
         
         {!isInside && (
           <div className="absolute top-4 left-4 z-10 flex flex-col gap-3">
@@ -591,23 +798,51 @@ export default function InteractiveShelterDemo() {
         )}
 
         {isInside && (
-          <div className="absolute top-4 left-4 z-10 flex flex-wrap gap-2">
-            <div className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20">
-              Drag to look • Scroll to zoom • Click buttons
+          <div className="absolute top-4 left-4 right-4 z-10 flex flex-wrap gap-2 items-center pointer-events-none">
+            <div className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 pointer-events-auto">
+              Drag to look • Scroll to zoom • Turn around (±180°)
             </div>
-            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer" onClick={() => setTourPose({ camPos: [2.2, 1.4, 3.0], lookAt: [0, 1.0, 0] })}>
+            <div className="flex gap-1 pointer-events-auto">
+              <button 
+                className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer"
+                onMouseDown={() => startHold(-1)}
+                onMouseUp={stopHold}
+                onMouseLeave={stopHold}
+                onTouchStart={(e) => { e.preventDefault(); startHold(-1); }}
+                onTouchEnd={stopHold}
+              >
+                <ChevronLeft size={16} className="inline" /> Turn
+              </button>
+              <button 
+                className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer"
+                onMouseDown={() => startHold(1)}
+                onMouseUp={stopHold}
+                onMouseLeave={stopHold}
+                onTouchStart={(e) => { e.preventDefault(); startHold(1); }}
+                onTouchEnd={stopHold}
+              >
+                Turn <ChevronRight size={16} className="inline" />
+              </button>
+            </div>
+            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer pointer-events-auto" onClick={() => setTourPose({ camPos: startCam, lookAt: startLook })}>
               Reset
             </button>
-            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer" onClick={() => setTourPose({ camPos: [0.0, 1.9, 0.2], lookAt: [0.0, 2.0, -1.5] })}>
-              Door
+            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer pointer-events-auto" onClick={() => setTourPose({ camPos: [0, ft(5.2), -ft(1.0)], lookAt: [0, ft(6.0), -ft(4.0)] })}>
+              Hatch
             </button>
-            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer" onClick={() => setTourPose({ camPos: [-2.2, 1.2, 1.6], lookAt: [-0.7, 0.9, -0.4] })}>
+            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer pointer-events-auto" onClick={() => setTourPose({ camPos: [-ft(4.0), ft(3.2), ft(1.5)], lookAt: [0, ft(3.2), -ft(0.8)] })}>
               Stairs
             </button>
-            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer" onClick={() => setTourPose({ camPos: [2.2, 1.4, 2.4], lookAt: [0.2, 1.0, 0.2] })}>
-              Interior
+            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer pointer-events-auto" onClick={() => setTourPose({ camPos: [0, ft(3.0), ft(6.5)], lookAt: [0, ft(3.0), ft(3.0)] })}>
+              Back
             </button>
-            <Button variant="outline" size="sm" className="bg-white text-[#3E2723]" onClick={exitInterior}>
+            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer pointer-events-auto" onClick={() => setHatchClosed(!hatchClosed)}>
+              {hatchClosed ? "Open Hatch" : "Close Hatch"}
+            </button>
+            <button className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-white text-sm border border-white/20 hover:bg-black/80 cursor-pointer pointer-events-auto" onClick={() => setGhostWalls(!ghostWalls)}>
+              {ghostWalls ? "Walls: Transparent" : "Walls: Solid"}
+            </button>
+            <Button variant="outline" size="sm" className="bg-white text-[#3E2723] pointer-events-auto" onClick={exitInterior}>
               <DoorOpen className="mr-2" /> Exit Shelter
             </Button>
           </div>
@@ -631,16 +866,22 @@ export default function InteractiveShelterDemo() {
           </div>
         )}
 
-        {isInside ? (
-          <Canvas camera={{ position: [2.2, 1.4, 3.0], fov: 52 }} gl={{ antialias: true }}>
-            <VirtualTourControls pose={tourPose} />
-            <ambientLight intensity={0.55} />
-            <directionalLight position={[5, 6, 4]} intensity={1.15} />
-            <Suspense fallback={null}>
-              <VirtualTourShelter />
-            </Suspense>
+        {isInside && ready && containerRef.current ? (
+          <Canvas
+            camera={{ position: startCam, fov: 62, near: 0.05, far: 200 }}
+            gl={{ antialias: true }}
+            eventSource={containerRef.current}
+            eventPrefix="client"
+            onCreated={({ gl }) => {
+              gl.toneMapping = THREE.ACESFilmicToneMapping;
+              gl.toneMappingExposure = 1.35;
+              if ("outputColorSpace" in gl && THREE.SRGBColorSpace) (gl as any).outputColorSpace = THREE.SRGBColorSpace;
+            }}
+          >
+            <VirtualTourControls pose={tourPose} orbitYawRangeRad={Math.PI * 2} target={[0, ft(4.0), ft(1.0)]} apiRef={controlsApiRef} />
+            <VirtualTourScene setPose={setTourPose} hatchClosed={hatchClosed} ghostWalls={ghostWalls} />
           </Canvas>
-        ) : (
+        ) : !isInside ? (
           <Canvas shadows camera={{ position: [0, 5, 10], fov: 45 }}>
             <Environment preset={isTornado || windIntensity > 3 ? "night" : "park"} />
             <ambientLight intensity={isTornado || windIntensity > 3 ? 0.2 : 0.8} />
@@ -650,7 +891,7 @@ export default function InteractiveShelterDemo() {
             <Shelter position={[2, -1.9, 0]} isOpen={false} />
             <OrbitControls enableZoom={true} minDistance={3} maxDistance={25} minPolarAngle={0.2} maxPolarAngle={Math.PI / 1.5} enablePan={false} />
           </Canvas>
-        )}
+        ) : null}
       </div>
     </section>
   );
