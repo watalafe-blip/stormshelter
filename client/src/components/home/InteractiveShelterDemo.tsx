@@ -192,151 +192,116 @@ function Person({ lookingUp = false }: { lookingUp?: boolean }) {
 }
 
 function Interior({ isActive }: { isActive: boolean }) {
-  const concreteColor = "#7a7a7a";
-  const concreteColorDark = "#5a5a5a";
-  const floorColor = "#4a4a4a";
+  const concreteColor = "#888888";
+  const concreteColorDark = "#666666";
+  const floorColor = "#555555";
+  
+  if (!isActive) return null;
   
   return (
-    <group position={[2, -1.9, 0]} visible={isActive}>
+    <group position={[2, -2.5, 0]}>
        
-       {/* FLOOR */}
-       <mesh position={[0, -1.2, 0.5]} receiveShadow>
-         <boxGeometry args={[2.2, 0.15, 3.5]} />
+       {/* FLOOR - main room */}
+       <mesh position={[0, 0, 0]} receiveShadow>
+         <boxGeometry args={[2.5, 0.1, 3]} />
          <meshStandardMaterial color={floorColor} roughness={0.95} />
        </mesh>
 
-       {/* CEILING */}
-       <mesh position={[0, 1.4, 0.5]} receiveShadow>
-         <boxGeometry args={[2.2, 0.15, 3.5]} />
-         <meshStandardMaterial color={concreteColorDark} roughness={0.9} side={THREE.DoubleSide} />
-       </mesh>
-
        {/* LEFT WALL */}
-       <mesh position={[-1.05, 0.1, 0.5]} receiveShadow>
-         <boxGeometry args={[0.15, 2.5, 3.5]} />
-         <meshStandardMaterial color={concreteColor} roughness={0.85} side={THREE.DoubleSide} />
+       <mesh position={[-1.2, 1, 0]} receiveShadow>
+         <boxGeometry args={[0.1, 2, 3]} />
+         <meshStandardMaterial color={concreteColor} roughness={0.85} />
        </mesh>
        
        {/* RIGHT WALL */}
-       <mesh position={[1.05, 0.1, 0.5]} receiveShadow>
-         <boxGeometry args={[0.15, 2.5, 3.5]} />
-         <meshStandardMaterial color={concreteColor} roughness={0.85} side={THREE.DoubleSide} />
+       <mesh position={[1.2, 1, 0]} receiveShadow>
+         <boxGeometry args={[0.1, 2, 3]} />
+         <meshStandardMaterial color={concreteColor} roughness={0.85} />
        </mesh>
        
        {/* BACK WALL */}
-       <mesh position={[0, 0.1, 2.2]} receiveShadow>
-         <boxGeometry args={[2.2, 2.5, 0.15]} />
-         <meshStandardMaterial color={concreteColorDark} roughness={0.9} side={THREE.DoubleSide} />
+       <mesh position={[0, 1, 1.45]} receiveShadow>
+         <boxGeometry args={[2.5, 2, 0.1]} />
+         <meshStandardMaterial color={concreteColorDark} roughness={0.9} />
        </mesh>
        
-       {/* FRONT WALL - with opening for stairs */}
-       <mesh position={[0, -0.6, -1.2]} receiveShadow>
-         <boxGeometry args={[2.2, 1.2, 0.15]} />
-         <meshStandardMaterial color={concreteColor} roughness={0.9} side={THREE.DoubleSide} />
+       {/* FRONT WALL - partial, below stair opening */}
+       <mesh position={[0, 0.4, -1.45]} receiveShadow>
+         <boxGeometry args={[2.5, 0.8, 0.1]} />
+         <meshStandardMaterial color={concreteColor} roughness={0.9} />
        </mesh>
 
-       {/* STAIRWELL WALLS */}
-       <mesh position={[-0.55, 0.8, -1.8]} receiveShadow>
-          <boxGeometry args={[0.15, 3.5, 1.5]} /> 
-          <meshStandardMaterial color={concreteColor} roughness={0.85} side={THREE.DoubleSide} />
-       </mesh>
-       <mesh position={[0.55, 0.8, -1.8]} receiveShadow>
-          <boxGeometry args={[0.15, 3.5, 1.5]} /> 
-          <meshStandardMaterial color={concreteColor} roughness={0.85} side={THREE.DoubleSide} />
-       </mesh>
-
-       {/* STAIRS - going up toward door */}
-       <group position={[0, -1.1, -0.8]}>
-         {[...Array(8)].map((_, i) => (
-           <mesh key={i} position={[0, i * 0.32, -i * 0.35]} receiveShadow castShadow>
-             <boxGeometry args={[0.95, 0.12, 0.35]} />
+       {/* STAIRWELL - going up and forward */}
+       <group position={[0, 0, -1.5]}>
+         {/* Stair treads */}
+         {[...Array(7)].map((_, i) => (
+           <mesh key={i} position={[0, 0.1 + i * 0.35, -i * 0.4]} receiveShadow castShadow>
+             <boxGeometry args={[1, 0.1, 0.4]} />
              <meshStandardMaterial color={concreteColorDark} roughness={0.9} />
            </mesh>
          ))}
-       </group>
-
-       {/* HANDRAILS - metal pipes along stairs */}
-       <group position={[0, 0, -1.0]}>
-         {/* Left rail */}
-         <mesh position={[-0.4, 0.3, -0.5]} rotation={[-0.75, 0, 0]} castShadow>
-            <cylinderGeometry args={[0.025, 0.025, 3.2]} />
-            <meshStandardMaterial color="#2a2a2a" roughness={0.3} metalness={0.9} />
+         
+         {/* Left stairwell wall */}
+         <mesh position={[-0.55, 1.3, -1.2]} receiveShadow>
+           <boxGeometry args={[0.1, 2.5, 2.8]} />
+           <meshStandardMaterial color={concreteColor} roughness={0.85} />
          </mesh>
-         {/* Right rail */}
-         <mesh position={[0.4, 0.3, -0.5]} rotation={[-0.75, 0, 0]} castShadow>
-            <cylinderGeometry args={[0.025, 0.025, 3.2]} />
-            <meshStandardMaterial color="#2a2a2a" roughness={0.3} metalness={0.9} />
+         
+         {/* Right stairwell wall */}
+         <mesh position={[0.55, 1.3, -1.2]} receiveShadow>
+           <boxGeometry args={[0.1, 2.5, 2.8]} />
+           <meshStandardMaterial color={concreteColor} roughness={0.85} />
          </mesh>
-         {/* Rail posts */}
-         {[0, 1, 2, 3].map((i) => (
-           <group key={i}>
-             <mesh position={[-0.4, -0.5 + i * 0.6, 0.2 - i * 0.5]} castShadow>
-               <cylinderGeometry args={[0.02, 0.02, 0.8]} />
-               <meshStandardMaterial color="#2a2a2a" roughness={0.3} metalness={0.9} />
-             </mesh>
-             <mesh position={[0.4, -0.5 + i * 0.6, 0.2 - i * 0.5]} castShadow>
-               <cylinderGeometry args={[0.02, 0.02, 0.8]} />
-               <meshStandardMaterial color="#2a2a2a" roughness={0.3} metalness={0.9} />
-             </mesh>
-           </group>
-         ))}
-       </group>
-
-       {/* DOOR at top of stairs */}
-       <group position={[0, 1.6, -2.5]}>
-         {/* Door frame */}
-         <mesh position={[0, 0.4, 0]} rotation={[-0.3, 0, 0]}>
-           <boxGeometry args={[1.1, 0.08, 0.9]} />
-           <meshStandardMaterial color="#404040" roughness={0.7} metalness={0.3} />
+         
+         {/* Handrails */}
+         <mesh position={[-0.4, 1.2, -1]} rotation={[-0.7, 0, 0]} castShadow>
+           <cylinderGeometry args={[0.03, 0.03, 3]} />
+           <meshStandardMaterial color="#333" roughness={0.3} metalness={0.8} />
          </mesh>
-         {/* Door opening - bright light from outside */}
-         <mesh position={[0, 0.45, 0.1]} rotation={[-0.3, 0, 0]}>
-           <planeGeometry args={[0.9, 0.7]} />
-           <meshBasicMaterial color="#b8d4e8" />
-         </mesh>
-         {/* Door hinges */}
-         <mesh position={[-0.45, 0.35, -0.1]} rotation={[-0.3, 0, 0]}>
-           <boxGeometry args={[0.08, 0.15, 0.1]} />
-           <meshStandardMaterial color="#333" metalness={0.8} />
-         </mesh>
-         <mesh position={[0.45, 0.35, -0.1]} rotation={[-0.3, 0, 0]}>
-           <boxGeometry args={[0.08, 0.15, 0.1]} />
-           <meshStandardMaterial color="#333" metalness={0.8} />
+         <mesh position={[0.4, 1.2, -1]} rotation={[-0.7, 0, 0]} castShadow>
+           <cylinderGeometry args={[0.03, 0.03, 3]} />
+           <meshStandardMaterial color="#333" roughness={0.3} metalness={0.8} />
          </mesh>
        </group>
 
-       {/* PERSON standing on floor, facing the stairs/door */}
-       <group position={[0, -1.1, 0.5]} rotation={[0, Math.PI, 0]}>
+       {/* DOOR opening at top - light from outside */}
+       <mesh position={[0, 2.6, -4]} rotation={[-0.5, 0, 0]}>
+         <planeGeometry args={[1, 1.2]} />
+         <meshBasicMaterial color="#87ceeb" />
+       </mesh>
+
+       {/* PERSON standing on floor, facing stairs */}
+       <group position={[0, 0.05, 0.3]}>
          <Person lookingUp={true} />
        </group>
 
-       {/* BENCH along back wall */}
-       <group position={[-0.5, -1.1, 1.6]}>
-         <mesh position={[0, 0.25, 0]} castShadow>
-            <boxGeometry args={[0.6, 0.08, 0.9]} />
-            <meshStandardMaterial color="#5a5a5a" roughness={0.9} />
+       {/* BENCH on side */}
+       <group position={[0.7, 0.05, 0.8]}>
+         <mesh position={[0, 0.2, 0]} castShadow>
+           <boxGeometry args={[0.4, 0.05, 0.8]} />
+           <meshStandardMaterial color="#666" roughness={0.9} />
          </mesh>
-         <mesh position={[0.25, 0.12, 0.35]}>
-            <boxGeometry args={[0.08, 0.25, 0.08]} />
-            <meshStandardMaterial color="#4a4a4a" />
+         <mesh position={[0.15, 0.1, 0.3]}>
+           <boxGeometry args={[0.08, 0.2, 0.08]} />
+           <meshStandardMaterial color="#555" />
          </mesh>
-         <mesh position={[-0.25, 0.12, 0.35]}>
-            <boxGeometry args={[0.08, 0.25, 0.08]} />
-            <meshStandardMaterial color="#4a4a4a" />
+         <mesh position={[-0.15, 0.1, 0.3]}>
+           <boxGeometry args={[0.08, 0.2, 0.08]} />
+           <meshStandardMaterial color="#555" />
          </mesh>
-         <mesh position={[0.25, 0.12, -0.35]}>
-            <boxGeometry args={[0.08, 0.25, 0.08]} />
-            <meshStandardMaterial color="#4a4a4a" />
+         <mesh position={[0.15, 0.1, -0.3]}>
+           <boxGeometry args={[0.08, 0.2, 0.08]} />
+           <meshStandardMaterial color="#555" />
          </mesh>
-         <mesh position={[-0.25, 0.12, -0.35]}>
-            <boxGeometry args={[0.08, 0.25, 0.08]} />
-            <meshStandardMaterial color="#4a4a4a" />
+         <mesh position={[-0.15, 0.1, -0.3]}>
+           <boxGeometry args={[0.08, 0.2, 0.08]} />
+           <meshStandardMaterial color="#555" />
          </mesh>
        </group>
 
        {/* Interior lighting */}
-       <pointLight position={[0, 0.8, 0.5]} intensity={0.8} distance={6} color="#fff8e7" />
-       <pointLight position={[0, 1.5, -2]} intensity={1.2} distance={4} color="#87ceeb" />
+       <pointLight position={[0, 1.5, 0]} intensity={1} distance={5} color="#fff8e7" />
+       <pointLight position={[0, 2.5, -3]} intensity={1.5} distance={4} color="#87ceeb" />
     </group>
   );
 }
@@ -384,10 +349,10 @@ function CameraController({ isInside }: { isInside: boolean }) {
 
   useEffect(() => {
     if (isInside) {
-      // Bird's eye view - camera above and behind, looking down into the shelter
-      // This shows the full interior: person, stairs, door from above
-      targetPos.current.set(2, 3, 5);       // Higher up and further back
-      targetLook.current.set(2, -2, -1);    // Looking down into the shelter
+      // Bird's eye view - camera positioned to see inside the shelter
+      // Interior is at [2, -2.5, 0]
+      targetPos.current.set(2, 2, 4);       // Above and behind
+      targetLook.current.set(2, -1.5, -1);  // Looking at the interior
     } else {
       targetPos.current.set(0, 5, 10);
       targetLook.current.set(0, 0, 0);
