@@ -146,6 +146,39 @@ function Shed({ position = [0, 0, 0], rotation = [0, 0, 0], windIntensity }: any
     );
 }
 
+function Person() {
+  return (
+    <group position={[0, -1.2, 2]} rotation={[0, Math.PI, 0]}>
+       {/* Legs */}
+       <mesh position={[-0.15, 0.45, 0]} castShadow>
+         <capsuleGeometry args={[0.12, 0.9, 4, 8]} />
+         <meshStandardMaterial color="#2c3e50" roughness={0.9} />
+       </mesh>
+       <mesh position={[0.15, 0.45, 0]} castShadow>
+         <capsuleGeometry args={[0.12, 0.9, 4, 8]} />
+         <meshStandardMaterial color="#2c3e50" roughness={0.9} />
+       </mesh>
+       
+       {/* Torso (Jacket) */}
+       <mesh position={[0, 1.1, 0]} castShadow>
+         <capsuleGeometry args={[0.25, 0.7, 4, 8]} />
+         <meshStandardMaterial color="#1a1a1a" roughness={1} />
+       </mesh>
+
+       {/* Head/Hood */}
+       <mesh position={[0, 1.55, 0]} castShadow>
+         <sphereGeometry args={[0.18, 16, 16]} />
+         <meshStandardMaterial color="#111" roughness={1} />
+       </mesh>
+       {/* Cap brim implication */}
+       <mesh position={[0, 1.6, 0.15]} rotation={[0.2, 0, 0]}>
+          <cylinderGeometry args={[0.12, 0.12, 0.02, 16]} />
+          <meshStandardMaterial color="#000" />
+       </mesh>
+    </group>
+  )
+}
+
 function Interior({ isActive }: { isActive: boolean }) {
   // Dimensions based on Stock #706900
   // Improved geometry to match reference photo:
@@ -155,6 +188,9 @@ function Interior({ isActive }: { isActive: boolean }) {
   
   return (
     <group position={[2, -1.9, 0]} visible={isActive}>
+       {/* Person Standing at bottom looking up */}
+       <Person />
+
        {/* Main Room Floor */}
        <mesh position={[0, -1.2, 0.5]} receiveShadow>
          <boxGeometry args={[2.2, 0.2, 3]} />
@@ -176,10 +212,10 @@ function Interior({ isActive }: { isActive: boolean }) {
          <boxGeometry args={[0.1, 2.4, 3]} />
          <meshStandardMaterial color="#444" roughness={0.8} />
        </mesh>
-       {/* Back Wall */}
-       <mesh position={[0, 0, 2]} receiveShadow>
+       {/* Back Wall - BEHIND CAMERA */}
+       <mesh position={[0, 0, 2.5]} receiveShadow>
          <boxGeometry args={[2.2, 2.4, 0.1]} />
-         <meshStandardMaterial color="#444" roughness={0.8} />
+         <meshStandardMaterial color="#333" roughness={0.9} />
        </mesh>
        
        {/* STAIRWELL GEOMETRY (The "Look Up" view) */}
@@ -306,14 +342,35 @@ function CameraController({ isInside }: { isInside: boolean }) {
 
   useEffect(() => {
     if (isInside) {
-      // POSITION: At the back of the room (bottom of stairs is Z=1.0)
-      // Interior origin is [2, -1.9, 0]
-      // Stairs are in Interior relative to origin.
-      // We want to be at [2, -3, 2] roughly (back of room)
-      // Looking at [2, 0, -2] (Up the stairs towards sky)
+      // POSITION: Behind the person, slightly above head height
+      // Person is at [0, -1.2, 2] relative to Interior Group [2, -1.9, 0]
+      // Global Person Pos = [2, -3.1, 2]
       
-      targetPos.current.set(2, -3, 1.5); 
-      targetLook.current.set(2, 0, -2); // Look UP and OUT
+      // Camera should be further back in Z? No, person is facing Z negative (towards 0).
+      // Person rotation is [0, PI, 0] -> Rotated 180 degrees.
+      // So Person local Z+ is actually Global Z- ? 
+      // Let's re-verify rotation. 
+      // Group rotation [0, PI, 0].
+      // Local [0, 0, 1] -> Global [0, 0, -1].
+      
+      // Person is at local [0, -1.2, 2]. Global = [2 + 0, -1.9 - 1.2, 0 - 2] = [2, -3.1, -2] ??
+      // Rotation Y=PI: x' = -x, z' = -z.
+      // Interior Group has no rotation.
+      // Person Group has rotation Y=PI.
+      // Person Mesh inside Person Group.
+      
+      // Let's assume Person is standing at back of room looking at stairs.
+      // Stairs are at local [0, -1, 1] relative to Interior. 
+      // Wait, Stairs had rotation PI too.
+      
+      // Let's simplify.
+      // Interior Group Origin: [2, -1.9, 0]
+      // Stairs lead "up" and "forward".
+      // Let's place camera at [2, -2.5, 2.5] (Back of room)
+      // Looking at [2, -1, -2] (Top of stairs/Outside)
+      
+      targetPos.current.set(2, -2.5, 2.8); 
+      targetLook.current.set(2, -1, -5); // Look UP and OUT towards horizon
     } else {
       targetPos.current.set(0, 5, 10);
       targetLook.current.set(0, 0, 0);
