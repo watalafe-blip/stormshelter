@@ -148,34 +148,100 @@ function Shed({ position = [0, 0, 0], rotation = [0, 0, 0], windIntensity }: any
 
 function Interior({ isActive }: { isActive: boolean }) {
   // Dimensions based on Stock #706900
-  // Added shelves and bench inside
+  // Improved geometry to match reference photo:
+  // - Concrete stairwell walls
+  // - Stairs leading up to light
+  // - Better positioning
   
   return (
     <group position={[2, -1.9, 0]} visible={isActive}>
-       {/* Main Room (Concrete) - Darker for mood */}
-       <mesh position={[0, -1.2, 0]} receiveShadow>
-         <boxGeometry args={[2, 2.2, 2.6]} />
-         <meshStandardMaterial color="#3a3a3a" side={THREE.BackSide} roughness={0.9} />
+       {/* Main Room Floor */}
+       <mesh position={[0, -1.2, 0.5]} receiveShadow>
+         <boxGeometry args={[2.2, 0.2, 3]} />
+         <meshStandardMaterial color="#555" roughness={0.9} />
+       </mesh>
+
+       {/* Main Room Ceiling (Partial, to let light in for demo but show enclosure) */}
+       <mesh position={[0, 1.2, 1]} receiveShadow>
+         <boxGeometry args={[2.2, 0.2, 2]} />
+         <meshStandardMaterial color="#444" roughness={0.9} />
+       </mesh>
+
+       {/* Side Walls of Main Room */}
+       <mesh position={[-1.05, 0, 0.5]} receiveShadow>
+         <boxGeometry args={[0.1, 2.4, 3]} />
+         <meshStandardMaterial color="#444" roughness={0.8} />
+       </mesh>
+       <mesh position={[1.05, 0, 0.5]} receiveShadow>
+         <boxGeometry args={[0.1, 2.4, 3]} />
+         <meshStandardMaterial color="#444" roughness={0.8} />
+       </mesh>
+       {/* Back Wall */}
+       <mesh position={[0, 0, 2]} receiveShadow>
+         <boxGeometry args={[2.2, 2.4, 0.1]} />
+         <meshStandardMaterial color="#444" roughness={0.8} />
        </mesh>
        
+       {/* STAIRWELL GEOMETRY (The "Look Up" view) */}
+       {/* Based on reference: Thick concrete walls on either side of stairs */}
+       
+       {/* Left Stair Wall (from bottom looking up) */}
+       <mesh position={[-0.6, 0.5, -0.5]} rotation={[0, 0, 0]} receiveShadow>
+          <boxGeometry args={[0.4, 4, 3]} /> 
+          <meshStandardMaterial color="#777" roughness={0.7} />
+       </mesh>
+       
+       {/* Right Stair Wall */}
+       <mesh position={[0.6, 0.5, -0.5]} rotation={[0, 0, 0]} receiveShadow>
+          <boxGeometry args={[0.4, 4, 3]} /> 
+          <meshStandardMaterial color="#777" roughness={0.7} />
+       </mesh>
+
+       {/* Sloped Ceiling of Stairwell? No, it's open to sky mostly, but framed */}
+       {/* Reference shows angled concrete tops of walls maybe? */}
+       
+       {/* Stairs - Repositioned to lead up to surface */}
+       {/* Rotated 180: +Z in loop moves towards -Z in scene (Back of shelter?) */}
+       {/* Adjusted to match the new walls */}
+       <group position={[0, -1.0, 1.0]} rotation={[0, Math.PI, 0]}>
+         {[...Array(10)].map((_, i) => (
+           <mesh key={i} position={[0, i * 0.2, i * 0.25]} receiveShadow castShadow>
+             <boxGeometry args={[0.8, 0.1, 0.25]} />
+             <meshStandardMaterial color="#666" roughness={0.8} />
+           </mesh>
+         ))}
+       </group>
+
+       {/* Handrails - Metal pipes on walls */}
+       {/* Left Rail */}
+       <mesh position={[-0.35, 0.2, -0.2]} rotation={[-Math.PI / 4.5, 0, 0]} castShadow>
+          <cylinderGeometry args={[0.02, 0.02, 4]} />
+          <meshStandardMaterial color="#333" roughness={0.4} metalness={0.8} />
+       </mesh>
+       {/* Right Rail */}
+       <mesh position={[0.35, 0.2, -0.2]} rotation={[-Math.PI / 4.5, 0, 0]} castShadow>
+          <cylinderGeometry args={[0.02, 0.02, 4]} />
+          <meshStandardMaterial color="#333" roughness={0.4} metalness={0.8} />
+       </mesh>
+
        {/* Interior Bench */}
-       <group position={[-0.7, -2.0, 0]}>
+       <group position={[-0.6, -1.0, 1.5]}>
          <mesh position={[0, 0.4, 0]} castShadow>
-            <boxGeometry args={[0.5, 0.05, 2]} />
+            <boxGeometry args={[0.5, 0.05, 1]} />
             <meshStandardMaterial color="#555" />
          </mesh>
-         <mesh position={[0, 0.2, 0.9]}>
+         <mesh position={[0, 0.2, 0.4]}>
             <boxGeometry args={[0.4, 0.4, 0.1]} />
             <meshStandardMaterial color="#444" />
          </mesh>
-         <mesh position={[0, 0.2, -0.9]}>
+         <mesh position={[0, 0.2, -0.4]}>
             <boxGeometry args={[0.4, 0.4, 0.1]} />
             <meshStandardMaterial color="#444" />
          </mesh>
        </group>
 
        {/* Shelves with supplies */}
-       <group position={[0.8, -1.5, -1]}>
+       <group position={[0.6, -0.5, 1.5]}>
          <mesh position={[0, 0, 0]}>
             <boxGeometry args={[0.4, 0.05, 1]} />
             <meshStandardMaterial color="#666" metalness={0.5} />
@@ -189,56 +255,10 @@ function Interior({ isActive }: { isActive: boolean }) {
             <cylinderGeometry args={[0.08, 0.08, 0.2]} />
             <meshStandardMaterial color="blue" />
          </mesh>
-         <mesh position={[-0.05, 0.15, 0.2]}>
-            <cylinderGeometry args={[0.08, 0.08, 0.2]} />
-            <meshStandardMaterial color="green" />
-         </mesh>
        </group>
        
-       {/* Stairs */}
-       <group position={[0, -0.5, 1.2]} rotation={[0, Math.PI, 0]}>
-         {[...Array(8)].map((_, i) => (
-           <mesh key={i} position={[0, i * 0.2, i * 0.2]} receiveShadow>
-             <boxGeometry args={[0.8, 0.05, 0.25]} />
-             <meshStandardMaterial color="#555" roughness={0.7} />
-           </mesh>
-         ))}
-       </group>
-
-       {/* Right Handrail */}
-       <group position={[0.45, -0.5, 1.2]} rotation={[0, Math.PI, 0]}>
-          <mesh position={[0, 1.2, 0.8]} rotation={[Math.PI / 4, 0, 0]} castShadow>
-            <cylinderGeometry args={[0.02, 0.02, 3.5]} />
-            <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
-          </mesh>
-          <mesh position={[0, 0.4, 0]} castShadow>
-             <cylinderGeometry args={[0.015, 0.015, 1.0]} />
-             <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
-          </mesh>
-          <mesh position={[0, 1.4, 1.6]} castShadow>
-             <cylinderGeometry args={[0.015, 0.015, 1.0]} />
-             <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
-          </mesh>
-       </group>
-
-       {/* Left Handrail */}
-       <group position={[-0.45, -0.5, 1.2]} rotation={[0, Math.PI, 0]}>
-          <mesh position={[0, 1.2, 0.8]} rotation={[Math.PI / 4, 0, 0]} castShadow>
-            <cylinderGeometry args={[0.02, 0.02, 3.5]} />
-            <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
-          </mesh>
-          <mesh position={[0, 0.4, 0]} castShadow>
-             <cylinderGeometry args={[0.015, 0.015, 1.0]} />
-             <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
-          </mesh>
-          <mesh position={[0, 1.4, 1.6]} castShadow>
-             <cylinderGeometry args={[0.015, 0.015, 1.0]} />
-             <meshStandardMaterial color="#cccccc" roughness={0.2} metalness={0.8} />
-          </mesh>
-       </group>
-       
-       {/* Interior Light */}
-       <pointLight position={[0, 0, 0]} intensity={0.8} distance={6} color="#fffde7" />
+       {/* Interior Light - Warmer industrial feel */}
+       <pointLight position={[0, 0, 1]} intensity={0.5} distance={5} color="#fffde7" />
     </group>
   );
 }
@@ -286,15 +306,14 @@ function CameraController({ isInside }: { isInside: boolean }) {
 
   useEffect(() => {
     if (isInside) {
-      // Move inside near the bottom of stairs, looking back at the door
-      // Room center is [2, -3.1, 0] roughly.
-      // Door/Stairs is at [2, -1.9, 1.2] relative to hole? No, stairs start at Z=1.2 in interior group.
-      // Interior group is at [2, -1.9, 0].
-      // So stairs start at [2, -2.4, 1.2] world space?
+      // POSITION: At the back of the room (bottom of stairs is Z=1.0)
+      // Interior origin is [2, -1.9, 0]
+      // Stairs are in Interior relative to origin.
+      // We want to be at [2, -3, 2] roughly (back of room)
+      // Looking at [2, 0, -2] (Up the stairs towards sky)
       
-      // Let's place camera in the corner of the room looking towards the stairs/door
-      targetPos.current.set(2, -2.5, -1); 
-      targetLook.current.set(2, -2, 1); // Look towards stairs
+      targetPos.current.set(2, -3, 1.5); 
+      targetLook.current.set(2, 0, -2); // Look UP and OUT
     } else {
       targetPos.current.set(0, 5, 10);
       targetLook.current.set(0, 0, 0);
@@ -302,28 +321,13 @@ function CameraController({ isInside }: { isInside: boolean }) {
   }, [isInside]);
 
   useFrame((state) => {
-    // Only smooth lerp when transitioning between modes, otherwise let controls handle it
-    // But for simplicity, we'll just snap controls target when mode changes, 
-    // and let user orbit freely if controls are enabled.
-    
-    // We only force position if we are "transitioning" or if we want to lock it.
-    // If we want free look inside, we shouldn't force camera position every frame.
-    
-    // Simple approach: When `isInside` changes, we lerp to the new start point.
-    // After that, we let OrbitControls take over.
-    
-    // Ideally we'd use a spring or tween, but simple lerp works if we conditionally apply it.
-    // Since we want free rotation inside, we only lerp the TARGET of the controls?
-    
     if (controls) {
        // Smoothly move the OrbitControls target
        controls.target.lerp(targetLook.current, 0.1);
        controls.update();
     }
     
-    // Smoothly move camera to start position? 
-    // If user moves camera, this fights them.
-    // Let's just lerp if distance is large (snap back on mode change)
+    // Smoothly move camera
     if (state.camera.position.distanceTo(targetPos.current) > 0.5) {
        state.camera.position.lerp(targetPos.current, 0.05);
     }
