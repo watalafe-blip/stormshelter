@@ -305,8 +305,8 @@ function Interior({ isActive }: { isActive: boolean }) {
          </mesh>
        </group>
 
-       {/* PERSON standing on floor, looking up at door/stairs */}
-       <group position={[0.3, -1.1, 1.2]} rotation={[0, -0.3, 0]}>
+       {/* PERSON standing on floor, facing the stairs/door */}
+       <group position={[0, -1.1, 0.5]} rotation={[0, Math.PI, 0]}>
          <Person lookingUp={true} />
        </group>
 
@@ -384,11 +384,12 @@ function CameraController({ isInside }: { isInside: boolean }) {
 
   useEffect(() => {
     if (isInside) {
-      // Position camera in back corner of shelter, looking toward stairs/door
-      // Interior is at [2, -1.9, 0]
-      // Camera at back-right corner, slightly elevated, looking at stairs
-      targetPos.current.set(3.5, -1.0, 2.5); 
-      targetLook.current.set(2, -0.5, -1.5); 
+      // Interior group is at [2, -1.9, 0]
+      // Camera should be INSIDE the room at back, looking toward stairs/door
+      // Back of room is at z=2.2 (local), so global z = 0 + 2 = 2
+      // Camera position: inside room near back wall, looking toward front where stairs are
+      targetPos.current.set(2, -1.5, 1.8);  // Inside room, slightly above floor
+      targetLook.current.set(2, 0, -2);     // Looking toward door/stairs
     } else {
       targetPos.current.set(0, 5, 10);
       targetLook.current.set(0, 0, 0);
@@ -823,12 +824,13 @@ export default function InteractiveShelterDemo() {
 
           <OrbitControls 
             enableZoom={true}
-            minDistance={1.5}
+            minDistance={1}
             maxDistance={25}
-            minPolarAngle={0.1} 
-            maxPolarAngle={Math.PI / 1.6} 
+            minPolarAngle={0.2} 
+            maxPolarAngle={Math.PI / 1.5} 
             enablePan={false}
-            enabled={true} 
+            enabled={true}
+            rotateSpeed={0.5}
           />
         </Canvas>
       </div>
