@@ -384,12 +384,10 @@ function CameraController({ isInside }: { isInside: boolean }) {
 
   useEffect(() => {
     if (isInside) {
-      // Interior group is at [2, -1.9, 0]
-      // Camera should be INSIDE the room at back, looking toward stairs/door
-      // Back of room is at z=2.2 (local), so global z = 0 + 2 = 2
-      // Camera position: inside room near back wall, looking toward front where stairs are
-      targetPos.current.set(2, -1.5, 1.8);  // Inside room, slightly above floor
-      targetLook.current.set(2, 0, -2);     // Looking toward door/stairs
+      // Bird's eye view - camera above and behind, looking down into the shelter
+      // This shows the full interior: person, stairs, door from above
+      targetPos.current.set(2, 3, 5);       // Higher up and further back
+      targetLook.current.set(2, -2, -1);    // Looking down into the shelter
     } else {
       targetPos.current.set(0, 5, 10);
       targetLook.current.set(0, 0, 0);
