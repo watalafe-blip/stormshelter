@@ -349,10 +349,11 @@ function CameraController({ isInside }: { isInside: boolean }) {
 
   useEffect(() => {
     if (isInside) {
-      // Bird's eye view - camera positioned to see inside the shelter
-      // Interior is at [2, -2.5, 0]
-      targetPos.current.set(2, 2, 4);       // Above and behind
-      targetLook.current.set(2, -1.5, -1);  // Looking at the interior
+      // INSIDE the shelter - first person view standing in the room
+      // Interior floor is at y = -2.5, so eye level is around y = -1
+      // Standing at back of room (z = 1), looking toward stairs (z = -2)
+      targetPos.current.set(2, -1, 1);      // Inside room, eye level
+      targetLook.current.set(2, -1.5, -3);  // Looking at stairs/door
     } else {
       targetPos.current.set(0, 5, 10);
       targetLook.current.set(0, 0, 0);
