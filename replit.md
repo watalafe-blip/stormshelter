@@ -1,0 +1,79 @@
+# LuxeStore - Storm Shelter E-commerce Platform
+
+## Overview
+
+This is a full-stack e-commerce application built for selling underground concrete storm shelters. The platform features an immersive product experience with 3D interactive demos, virtual tours, and a premium shopping interface. The application follows a monorepo structure with a React frontend and Express backend, using PostgreSQL for data persistence.
+
+## User Preferences
+
+Preferred communication style: Simple, everyday language.
+
+## System Architecture
+
+### Frontend Architecture
+- **Framework**: React 18 with TypeScript
+- **Routing**: Wouter (lightweight React router)
+- **State Management**: React Context API for global store state, TanStack Query for server state
+- **Styling**: Tailwind CSS v4 with shadcn/ui component library (New York style)
+- **3D Graphics**: React Three Fiber with Three.js for interactive shelter demos and virtual tours
+- **Animations**: Framer Motion for page transitions and parallax effects, React Spring for 3D animations
+- **Typography**: Playfair Display (headings) and Inter (body text) from Google Fonts
+
+### Backend Architecture
+- **Runtime**: Node.js with Express
+- **Language**: TypeScript with ESM modules
+- **Build Tool**: esbuild for server bundling, Vite for client
+- **API Pattern**: RESTful endpoints prefixed with `/api`
+- **Development**: Hot module replacement via Vite middleware
+
+### Data Storage
+- **Database**: PostgreSQL via Neon serverless driver (`@neondatabase/serverless`)
+- **ORM**: Drizzle ORM with Zod schema validation
+- **Schema Location**: `shared/schema.ts` contains database table definitions
+- **Migrations**: Drizzle Kit for schema migrations (`drizzle-kit push`)
+- **In-Memory Fallback**: `MemStorage` class in `server/storage.ts` for development without database
+
+### Project Structure
+```
+├── client/           # React frontend application
+│   ├── src/
+│   │   ├── components/  # UI components (shadcn/ui + custom)
+│   │   ├── pages/       # Route page components
+│   │   ├── hooks/       # Custom React hooks
+│   │   └── lib/         # Utilities, mock data, store context
+├── server/           # Express backend
+│   ├── index.ts      # Server entry point
+│   ├── routes.ts     # API route definitions
+│   ├── storage.ts    # Data access layer interface
+│   └── vite.ts       # Vite dev server integration
+├── shared/           # Shared code between client/server
+│   └── schema.ts     # Drizzle database schema
+└── migrations/       # Database migration files
+```
+
+### Key Design Patterns
+- **Storage Interface**: `IStorage` interface in `server/storage.ts` abstracts data access, allowing easy swap between in-memory and database implementations
+- **Shared Schema**: Database schema and TypeScript types are defined once in `shared/schema.ts` and used by both frontend and backend
+- **Component Library**: shadcn/ui components in `client/src/components/ui/` provide consistent, accessible UI primitives
+- **Theme System**: CSS custom properties with Tailwind for light/dark mode and customizable theming
+
+## External Dependencies
+
+### Database
+- **Neon PostgreSQL**: Serverless PostgreSQL database accessed via `DATABASE_URL` environment variable
+- **Connection**: Uses `@neondatabase/serverless` driver optimized for edge/serverless environments
+
+### Frontend Libraries
+- **3D Rendering**: `@react-three/fiber`, `@react-three/drei`, `three` for WebGL shelter visualization
+- **Animation**: `framer-motion` for UI animations, `@react-spring/three` for 3D object animations
+- **UI Components**: Full shadcn/ui component suite with Radix UI primitives
+
+### Build & Development
+- **Vite**: Frontend build tool with React plugin
+- **Tailwind CSS**: Utility-first CSS framework with `@tailwindcss/vite` plugin
+- **TypeScript**: Strict mode enabled across the entire codebase
+
+### Replit-Specific
+- **Error Overlay**: `@replit/vite-plugin-runtime-error-modal` for development error display
+- **Cartographer**: `@replit/vite-plugin-cartographer` for file navigation in development
+- **Dev Banner**: `@replit/vite-plugin-dev-banner` for development environment indicator
