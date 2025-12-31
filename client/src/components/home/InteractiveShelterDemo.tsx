@@ -148,7 +148,7 @@ function Shed({ position = [0, 0, 0], rotation = [0, 0, 0], windIntensity }: any
 
 function Person() {
   return (
-    <group position={[0, -1.2, 2]} rotation={[0, Math.PI, 0]}>
+    <group position={[0, -1.2, 1.2]} rotation={[0, Math.PI, 0]}>
        {/* Legs */}
        <mesh position={[-0.15, 0.45, 0]} castShadow>
          <capsuleGeometry args={[0.12, 0.9, 4, 8]} />
@@ -181,80 +181,76 @@ function Person() {
 
 function Interior({ isActive }: { isActive: boolean }) {
   // Dimensions based on Stock #706900
-  // Improved geometry to match reference photo:
-  // - Concrete stairwell walls
-  // - Stairs leading up to light
-  // - Better positioning
+  // Improved geometry to match reference photo and ensure enclosure
   
   return (
     <group position={[2, -1.9, 0]} visible={isActive}>
-       {/* Person Standing at bottom looking up */}
+       {/* Person Standing in middle looking up */}
        <Person />
 
        {/* Main Room Floor */}
-       <mesh position={[0, -1.2, 0.5]} receiveShadow>
-         <boxGeometry args={[2.2, 0.2, 3]} />
+       <mesh position={[0, -1.3, 0.75]} receiveShadow>
+         <boxGeometry args={[2.4, 0.2, 3.8]} />
          <meshStandardMaterial color="#555" roughness={0.9} />
        </mesh>
 
-       {/* Main Room Ceiling (Partial, to let light in for demo but show enclosure) */}
-       <mesh position={[0, 1.2, 1]} receiveShadow>
-         <boxGeometry args={[2.2, 0.2, 2]} />
-         <meshStandardMaterial color="#444" roughness={0.9} />
+       {/* Main Room Ceiling (Partial/Framing) */}
+       <mesh position={[0, 1.3, 1]} receiveShadow>
+         <boxGeometry args={[2.4, 0.2, 3.5]} />
+         <meshStandardMaterial color="#444" roughness={0.9} side={THREE.DoubleSide} />
        </mesh>
 
-       {/* Side Walls of Main Room */}
-       <mesh position={[-1.05, 0, 0.5]} receiveShadow>
-         <boxGeometry args={[0.1, 2.4, 3]} />
-         <meshStandardMaterial color="#444" roughness={0.8} />
+       {/* Side Walls of Main Room - Extended to cover full length */}
+       <mesh position={[-1.1, 0, 0.75]} receiveShadow>
+         <boxGeometry args={[0.2, 2.6, 3.8]} />
+         <meshStandardMaterial color="#444" roughness={0.8} side={THREE.DoubleSide} />
        </mesh>
-       <mesh position={[1.05, 0, 0.5]} receiveShadow>
-         <boxGeometry args={[0.1, 2.4, 3]} />
-         <meshStandardMaterial color="#444" roughness={0.8} />
-       </mesh>
-       {/* Back Wall - BEHIND CAMERA */}
-       <mesh position={[0, 0, 2.5]} receiveShadow>
-         <boxGeometry args={[2.2, 2.4, 0.1]} />
-         <meshStandardMaterial color="#333" roughness={0.9} />
+       <mesh position={[1.1, 0, 0.75]} receiveShadow>
+         <boxGeometry args={[0.2, 2.6, 3.8]} />
+         <meshStandardMaterial color="#444" roughness={0.8} side={THREE.DoubleSide} />
        </mesh>
        
-       {/* STAIRWELL GEOMETRY (The "Look Up" view) */}
-       {/* Based on reference: Thick concrete walls on either side of stairs */}
-       
-       {/* Left Stair Wall (from bottom looking up) */}
-       <mesh position={[-0.6, 0.5, -0.5]} rotation={[0, 0, 0]} receiveShadow>
-          <boxGeometry args={[0.4, 4, 3]} /> 
-          <meshStandardMaterial color="#777" roughness={0.7} />
+       {/* Back Wall - Solid closure */}
+       <mesh position={[0, 0, 2.6]} receiveShadow>
+         <boxGeometry args={[2.4, 2.6, 0.2]} />
+         <meshStandardMaterial color="#333" roughness={0.9} side={THREE.DoubleSide} />
        </mesh>
        
-       {/* Right Stair Wall */}
-       <mesh position={[0.6, 0.5, -0.5]} rotation={[0, 0, 0]} receiveShadow>
-          <boxGeometry args={[0.4, 4, 3]} /> 
-          <meshStandardMaterial color="#777" roughness={0.7} />
+       {/* Front Wall (Lower part, below stairs/opening) */}
+       <mesh position={[0, -0.5, -1.1]} receiveShadow>
+         <boxGeometry args={[2.4, 1.5, 0.2]} />
+         <meshStandardMaterial color="#333" roughness={0.9} side={THREE.DoubleSide} />
+       </mesh>
+       
+       {/* STAIRWELL GEOMETRY */}
+       
+       {/* Left Stair Wall (Upper) */}
+       <mesh position={[-0.7, 1.0, -1.0]} rotation={[0, 0, 0]} receiveShadow>
+          <boxGeometry args={[0.4, 4.0, 3.0]} /> 
+          <meshStandardMaterial color="#777" roughness={0.7} side={THREE.DoubleSide} />
+       </mesh>
+       
+       {/* Right Stair Wall (Upper) */}
+       <mesh position={[0.7, 1.0, -1.0]} rotation={[0, 0, 0]} receiveShadow>
+          <boxGeometry args={[0.4, 4.0, 3.0]} /> 
+          <meshStandardMaterial color="#777" roughness={0.7} side={THREE.DoubleSide} />
        </mesh>
 
-       {/* Sloped Ceiling of Stairwell? No, it's open to sky mostly, but framed */}
-       {/* Reference shows angled concrete tops of walls maybe? */}
-       
-       {/* Stairs - Repositioned to lead up to surface */}
-       {/* Rotated 180: +Z in loop moves towards -Z in scene (Back of shelter?) */}
-       {/* Adjusted to match the new walls */}
+       {/* Stairs */}
        <group position={[0, -1.0, 1.0]} rotation={[0, Math.PI, 0]}>
          {[...Array(10)].map((_, i) => (
            <mesh key={i} position={[0, i * 0.2, i * 0.25]} receiveShadow castShadow>
-             <boxGeometry args={[0.8, 0.1, 0.25]} />
+             <boxGeometry args={[0.9, 0.1, 0.25]} />
              <meshStandardMaterial color="#666" roughness={0.8} />
            </mesh>
          ))}
        </group>
 
-       {/* Handrails - Metal pipes on walls */}
-       {/* Left Rail */}
+       {/* Handrails */}
        <mesh position={[-0.35, 0.2, -0.2]} rotation={[-Math.PI / 4.5, 0, 0]} castShadow>
           <cylinderGeometry args={[0.02, 0.02, 4]} />
           <meshStandardMaterial color="#333" roughness={0.4} metalness={0.8} />
        </mesh>
-       {/* Right Rail */}
        <mesh position={[0.35, 0.2, -0.2]} rotation={[-Math.PI / 4.5, 0, 0]} castShadow>
           <cylinderGeometry args={[0.02, 0.02, 4]} />
           <meshStandardMaterial color="#333" roughness={0.4} metalness={0.8} />
@@ -276,24 +272,7 @@ function Interior({ isActive }: { isActive: boolean }) {
          </mesh>
        </group>
 
-       {/* Shelves with supplies */}
-       <group position={[0.6, -0.5, 1.5]}>
-         <mesh position={[0, 0, 0]}>
-            <boxGeometry args={[0.4, 0.05, 1]} />
-            <meshStandardMaterial color="#666" metalness={0.5} />
-         </mesh>
-         {/* Cans/Supplies */}
-         <mesh position={[0, 0.15, -0.3]}>
-            <cylinderGeometry args={[0.08, 0.08, 0.2]} />
-            <meshStandardMaterial color="red" />
-         </mesh>
-         <mesh position={[0.1, 0.15, -0.1]}>
-            <cylinderGeometry args={[0.08, 0.08, 0.2]} />
-            <meshStandardMaterial color="blue" />
-         </mesh>
-       </group>
-       
-       {/* Interior Light - Warmer industrial feel */}
+       {/* Interior Light */}
        <pointLight position={[0, 0, 1]} intensity={0.5} distance={5} color="#fffde7" />
     </group>
   );
@@ -342,35 +321,14 @@ function CameraController({ isInside }: { isInside: boolean }) {
 
   useEffect(() => {
     if (isInside) {
-      // POSITION: Behind the person, slightly above head height
-      // Person is at [0, -1.2, 2] relative to Interior Group [2, -1.9, 0]
-      // Global Person Pos = [2, -3.1, 2]
+      // POSITION: At the back of the room, looking up.
+      // Interior Origin: [2, -1.9, 0]
+      // Camera Local: [0, -0.3, 2.2]
+      // Global: [2, -2.2, 2.2]
+      // Look: [2, -1, -5] (Towards horizon/stairs)
       
-      // Camera should be further back in Z? No, person is facing Z negative (towards 0).
-      // Person rotation is [0, PI, 0] -> Rotated 180 degrees.
-      // So Person local Z+ is actually Global Z- ? 
-      // Let's re-verify rotation. 
-      // Group rotation [0, PI, 0].
-      // Local [0, 0, 1] -> Global [0, 0, -1].
-      
-      // Person is at local [0, -1.2, 2]. Global = [2 + 0, -1.9 - 1.2, 0 - 2] = [2, -3.1, -2] ??
-      // Rotation Y=PI: x' = -x, z' = -z.
-      // Interior Group has no rotation.
-      // Person Group has rotation Y=PI.
-      // Person Mesh inside Person Group.
-      
-      // Let's assume Person is standing at back of room looking at stairs.
-      // Stairs are at local [0, -1, 1] relative to Interior. 
-      // Wait, Stairs had rotation PI too.
-      
-      // Let's simplify.
-      // Interior Group Origin: [2, -1.9, 0]
-      // Stairs lead "up" and "forward".
-      // Let's place camera at [2, -2.5, 2.5] (Back of room)
-      // Looking at [2, -1, -2] (Top of stairs/Outside)
-      
-      targetPos.current.set(2, -2.5, 2.8); 
-      targetLook.current.set(2, -1, -5); // Look UP and OUT towards horizon
+      targetPos.current.set(2, -2.2, 2.2); 
+      targetLook.current.set(2, -0.5, -5); 
     } else {
       targetPos.current.set(0, 5, 10);
       targetLook.current.set(0, 0, 0);
