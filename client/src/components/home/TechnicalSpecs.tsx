@@ -9,7 +9,7 @@ import setShelterImg from '@assets/generated_images/shelter_being_crane_lowered.
 import backfillImg from '@assets/generated_images/installed_buried_storm_shelter.png';
 
 const installationSteps = [
-  { step: 1, title: "Excavate", description: "Dig to 52\" depth (111\" x 87\")", image: excavateImg },
+  { step: 1, title: "Excavate", description: "Dig to 49\" depth (111\" x 87\")", image: excavateImg },
   { step: 2, title: "Drain Tile", description: "Install drainage around base", image: drainTileImg },
   { step: 3, title: "Set Shelter", description: "Place on 6\" gravel base", image: setShelterImg },
   { step: 4, title: "Backfill", description: "Grade soil away from shelter", image: backfillImg },
