@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Truck, Shield, Wind, Lock, Fan } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Heart, Home, Clock, Award, MapPin } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'wouter';
 
@@ -99,27 +100,49 @@ export default function ProductGallery() {
             <div className="grid grid-cols-2 gap-3">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-[#E69138]/10 flex items-center justify-center">
-                  <Wind className="w-4 h-4 text-[#E69138]" />
+                  <Heart className="w-4 h-4 text-[#E69138]" />
                 </div>
-                <span className="text-sm text-[#3E2723]">EF5 Rated (250+ MPH)</span>
+                <span className="text-sm text-[#3E2723]">Peace of Mind</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-[#E69138]/10 flex items-center justify-center">
-                  <Shield className="w-4 h-4 text-[#E69138]" />
+                  <Home className="w-4 h-4 text-[#E69138]" />
                 </div>
-                <span className="text-sm text-[#3E2723]">5,000 PSI Concrete</span>
+                <span className="text-sm text-[#3E2723]">Adds Home Value</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-[#E69138]/10 flex items-center justify-center">
-                  <Lock className="w-4 h-4 text-[#E69138]" />
+                  <Clock className="w-4 h-4 text-[#E69138]" />
                 </div>
-                <span className="text-sm text-[#3E2723]">3-Point Locking Door</span>
+                <span className="text-sm text-[#3E2723]">1-Day Installation</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-[#E69138]/10 flex items-center justify-center">
-                  <Fan className="w-4 h-4 text-[#E69138]" />
+                  <Award className="w-4 h-4 text-[#E69138]" />
                 </div>
-                <span className="text-sm text-[#3E2723]">Turbine Ventilation</span>
+                <span className="text-sm text-[#3E2723]">10-Year Warranty</span>
+              </div>
+            </div>
+            
+            <div className="bg-stone-100 rounded-lg p-3">
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input 
+                    placeholder="Enter zip for shipping estimate" 
+                    className="pl-9 bg-white text-sm h-9" 
+                    maxLength={5}
+                    data-testid="shipping-zip-input"
+                  />
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
+                  data-testid="calculate-shipping-btn"
+                >
+                  Calculate
+                </Button>
               </div>
             </div>
             
@@ -145,10 +168,6 @@ export default function ProductGallery() {
               </Link>
             </div>
             
-            <div className="flex items-center gap-2 text-sm text-stone-500">
-              <Truck className="w-4 h-4" />
-              <span>Ships from Missouri · Flatbed delivery</span>
-            </div>
           </div>
         </div>
       </div>
