@@ -533,6 +533,34 @@ export default function Booking() {
                 </div>
               </div>
 
+              <div className="pt-6 border-t" data-testid="whop-checkout-container">
+                <h3 className="font-medium mb-4">Complete Your Payment</h3>
+                <div className="rounded-lg overflow-hidden border border-gray-200 min-h-[500px]">
+                  <WhopCheckoutEmbed
+                    planId="plan_0uXfZPdIAvES2"
+                    returnUrl={`${window.location.origin}/checkout/complete`}
+                    theme="dark"
+                    prefill={{
+                      email: customerInfo.email,
+                      address: {
+                        name: customerInfo.name,
+                        country: "US",
+                        line1: address.street,
+                        city: address.city,
+                        state: address.state,
+                        postalCode: address.zip
+                      }
+                    }}
+                    fallback={
+                      <div className="flex items-center justify-center py-12">
+                        <Loader2 className="w-6 h-6 animate-spin text-[#E69138]" />
+                        <span className="ml-2 text-gray-600">Loading checkout...</span>
+                      </div>
+                    }
+                  />
+                </div>
+              </div>
+
               <div className="space-y-3 pt-4 border-t">
                 <div className="flex items-start space-x-3">
                   <Checkbox 
@@ -558,61 +586,15 @@ export default function Booking() {
                 </div>
               </div>
 
-              {!showCheckout ? (
-                <div className="flex gap-3 pt-4">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setStep('address')}
-                    data-testid="btn-back-address"
-                  >
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Back
-                  </Button>
-                  <Button 
-                    className="flex-1 bg-[#E69138] hover:bg-[#d4812f]"
-                    disabled={!canSubmit || isSubmitting}
-                    onClick={handleProceedToCheckout}
-                    data-testid="btn-proceed-checkout"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing...
-                      </>
-                    ) : (
-                      <>
-                        Proceed to Payment <ArrowRight className="w-4 h-4 ml-2" />
-                      </>
-                    )}
-                  </Button>
-                </div>
-              ) : (
-                <div className="pt-6 border-t" data-testid="whop-checkout-container">
-                  <h3 className="font-medium mb-4 text-center">Complete Your Payment</h3>
-                  <div className="rounded-lg overflow-hidden border border-gray-200">
-                    <WhopCheckoutEmbed
-                      planId="plan_0uXfZPdIAvES2"
-                      returnUrl={getReturnUrl()}
-                      theme="light"
-                      prefill={{
-                        email: customerInfo.email
-                      }}
-                      fallback={
-                        <div className="flex items-center justify-center py-12">
-                          <Loader2 className="w-6 h-6 animate-spin text-[#E69138]" />
-                          <span className="ml-2 text-gray-600">Loading checkout...</span>
-                        </div>
-                      }
-                    />
-                  </div>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setShowCheckout(false)}
-                    className="mt-4 w-full"
-                    data-testid="btn-back-form"
-                  >
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to Form
-                  </Button>
-                </div>
-              )}
+              <div className="pt-4">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setStep('address')}
+                  data-testid="btn-back-address"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                </Button>
+              </div>
             </CardContent>
           </Card>
         )}
