@@ -7,15 +7,13 @@ import { Link } from 'wouter';
 
 import realShelterPhoto from '@assets/Office-SI-Storm-Shelter_(1)_1767252448693.jpg';
 import dimensionDiagram from '@assets/Screenshot_2025-12-28_at_4.24.14_PM_1767252552004.png';
-import hatchDoorOpen from '@assets/generated_images/x-brace_hatch_door_open_strut.png';
-import closedHatch from '@assets/generated_images/closed_hatch_top_view.png';
+import interiorView from '@assets/ChatGPT_Image_Dec_31,_2025,_01_02_10_AM_1767253312476.png';
 import lifestyleBackyard from '@assets/generated_images/lifestyle_backyard_closed_hatch.png';
 import certificationBadge from '@assets/generated_images/fema_certification_badge.png';
 
 const galleryImages = [
   { src: realShelterPhoto, alt: 'Storm shelter with door open - actual product', label: 'Actual Photo' },
-  { src: hatchDoorOpen, alt: 'Shelter with hatch door open', label: 'Hatch Open' },
-  { src: closedHatch, alt: 'Shelter with hatch closed', label: 'Closed' },
+  { src: interiorView, alt: 'Interior view with stairs', label: 'Interior' },
   { src: lifestyleBackyard, alt: 'Installed in suburban backyard', label: 'Lifestyle' },
   { src: dimensionDiagram, alt: 'Shelter dimensions and specifications', label: 'Dimensions' },
 ];
