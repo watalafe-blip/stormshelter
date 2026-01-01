@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, ArrowRight, CalendarDays, MapPin, CreditCard, Truck, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
@@ -423,41 +422,21 @@ export default function Booking() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CreditCard className="w-5 h-5 text-[#E69138]" />
-                Payment Options
+                Secure Your Shelter
               </CardTitle>
               <CardDescription>
-                Choose how you'd like to pay
+                Pay your $500 deposit to reserve your production slot
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div>
-                <Label className="text-base font-medium">Payment Option</Label>
-                <RadioGroup 
-                  value={paymentOption} 
-                  onValueChange={(v) => setPaymentOption(v as 'deposit' | 'full')}
-                  className="mt-3 space-y-3"
-                >
-                  <label className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                    paymentOption === 'deposit' ? 'border-[#E69138] bg-orange-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
-                    <RadioGroupItem value="deposit" id="deposit" className="mr-3" />
-                    <div className="flex-1">
-                      <p className="font-medium">$500 Deposit (Non-Refundable)</p>
-                      <p className="text-sm text-gray-500">Reserve your slot, pay the rest before delivery</p>
-                    </div>
-                    <span className="font-bold text-lg">$500</span>
-                  </label>
-                  <label className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                    paymentOption === 'full' ? 'border-[#E69138] bg-orange-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
-                    <RadioGroupItem value="full" id="full" className="mr-3" />
-                    <div className="flex-1">
-                      <p className="font-medium">Pay in Full</p>
-                      <p className="text-sm text-gray-500">Complete payment now, includes shipping</p>
-                    </div>
-                    <span className="font-bold text-lg">${totalForFull.toLocaleString()}</span>
-                  </label>
-                </RadioGroup>
+              <div className="p-4 bg-[#E69138]/10 border border-[#E69138] rounded-lg">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-bold text-lg text-[#3E2723]">$500 Deposit (Non-Refundable)</p>
+                    <p className="text-sm text-gray-600">Reserve your slot - remaining balance will be invoiced before delivery</p>
+                  </div>
+                  <span className="font-bold text-2xl text-[#E69138]">$500</span>
+                </div>
               </div>
 
               <div className="p-4 bg-stone-50 rounded-lg">
@@ -476,26 +455,22 @@ export default function Booking() {
                     <span>${totalForFull.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between font-bold text-lg pt-2 border-t mt-2 text-[#E69138]">
-                    <span>Due Now ({paymentOption === 'deposit' ? 'Deposit' : 'Full Payment'})</span>
-                    <span>${amountDueNow.toLocaleString()}</span>
+                    <span>Due Now (Deposit)</span>
+                    <span>${depositAmount.toLocaleString()}</span>
                   </div>
-                  {paymentOption === 'deposit' && (
-                    <div className="flex justify-between text-gray-500 text-xs">
-                      <span>Remaining balance due before delivery</span>
-                      <span>${(totalForFull - depositAmount).toLocaleString()}</span>
-                    </div>
-                  )}
+                  <div className="flex justify-between text-gray-500 text-xs">
+                    <span>Remaining balance invoiced before delivery</span>
+                    <span>${(totalForFull - depositAmount).toLocaleString()}</span>
+                  </div>
                 </div>
               </div>
 
-              {paymentOption === 'deposit' && (
-                <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
-                  <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                  <p className="text-sm text-amber-800">
-                    <strong>Important:</strong> The $500 deposit is non-refundable. It secures your production slot and raw materials.
-                  </p>
-                </div>
-              )}
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
+                <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <p className="text-sm text-amber-800">
+                  <strong>Important:</strong> The $500 deposit is non-refundable. It secures your production slot and raw materials. You will receive an invoice for the remaining balance (product + shipping) before delivery.
+                </p>
+              </div>
 
               <div className="space-y-4 pt-4 border-t">
                 <h3 className="font-medium">Contact Information</h3>
@@ -539,7 +514,7 @@ export default function Booking() {
                   <WhopCheckoutEmbed
                     planId="plan_0uXfZPdIAvES2"
                     returnUrl={`${window.location.origin}/checkout/complete`}
-                    theme="dark"
+                    theme="light"
                     prefill={{
                       email: customerInfo.email,
                       address: {
