@@ -13,6 +13,7 @@ import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
 import Confirmation from "@/pages/Confirmation";
 import CheckoutComplete from "@/pages/CheckoutComplete";
+import Booking from "@/pages/Booking";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Layout from "@/components/layout/Layout";
 
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/cart" component={Cart} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/checkout/complete" component={CheckoutComplete} />
+      <Route path="/booking" component={Booking} />
       <Route path="/confirmation" component={Confirmation} />
       <Route path="/admin">
         <Layout>
