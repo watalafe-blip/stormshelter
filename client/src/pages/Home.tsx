@@ -19,6 +19,7 @@ import blueprintImg from '@assets/shelter-blueprint.png';
 import cutawayImg from '@assets/shelter-cutaway.png';
 
 import InteractiveShelterDemo from '@/components/home/InteractiveShelterDemo';
+import ProductGallery from '@/components/home/ProductGallery';
 
 export default function Home() {
   const { products, theme } = useStore();
@@ -34,6 +35,8 @@ export default function Home() {
     switch (section.type) {
       case 'interactive-demo':
         return <InteractiveShelterDemo key={section.id} />;
+      case 'product-gallery':
+        return <ProductGallery key={section.id} />;
       case 'hero':
         return <HeroSlider key={section.id} />;
       case '3d-viewer':
