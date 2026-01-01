@@ -112,7 +112,6 @@ export default function Booking() {
     try {
       const bookingData = {
         selectedDate: format(selectedDate, 'yyyy-MM-dd'),
-        slotId: '',
         customerName: customerInfo.name,
         customerEmail: customerInfo.email,
         customerPhone: customerInfo.phone,
@@ -120,12 +119,7 @@ export default function Booking() {
         deliveryCity: address.city,
         deliveryState: address.state,
         deliveryZip: address.zip,
-        milesFromHq: shippingInfo.miles.toString(),
-        shippingFee: shippingInfo.shippingFee.toString(),
-        productPrice: productPrice.toString(),
-        totalDue: paymentOption === 'full' 
-          ? (productPrice + shippingInfo.shippingFee).toString()
-          : depositAmount.toString(),
+        milesFromHq: shippingInfo.miles,
         paymentOption,
         notes: null
       };
@@ -139,7 +133,8 @@ export default function Booking() {
       if (response.ok) {
         setLocation('/checkout');
       } else {
-        console.error('Booking failed');
+        const errorData = await response.json();
+        console.error('Booking failed:', errorData);
       }
     } catch (error) {
       console.error('Error creating booking:', error);

@@ -1,6 +1,9 @@
 
 import { Link, useRoute } from 'wouter';
-import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit, Loader2, Save, FileText, CreditCard, RefreshCw, XCircle, CheckCircle, Palette, Mail, LayoutTemplate, Image as ImageIcon } from 'lucide-react';
+import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit, Loader2, Save, FileText, CreditCard, RefreshCw, XCircle, CheckCircle, Palette, Mail, LayoutTemplate, Image as ImageIcon, CalendarDays, MapPin, Phone, Clock } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { format } from 'date-fns';
+import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -37,6 +40,407 @@ import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
+
+interface Booking {
+  id: string;
+  slotId: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  deliveryAddress: string;
+  deliveryCity: string;
+  deliveryState: string;
+  deliveryZip: string;
+  milesFromHq: string;
+  shippingFee: string;
+  productPrice: string;
+  totalDue: string;
+  paymentOption: 'deposit' | 'full';
+  paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
+  bookingStatus: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  whopCheckoutId: string | null;
+  notes: string | null;
+  createdAt: string;
+}
+
+interface DeliverySlot {
+  id: string;
+  date: string;
+  capacity: number;
+  reservedCount: number;
+  isEnabled: number;
+}
+
+function BookingsPage() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [slotCapacity, setSlotCapacity] = useState<number>(3);
+  const [isUpdatingSlot, setIsUpdatingSlot] = useState(false);
+
+  const { data: bookings = [], isLoading } = useQuery<Booking[]>({
+    queryKey: ['/api/bookings'],
+    queryFn: async () => {
+      const res = await fetch('/api/bookings');
+      return res.json();
+    }
+  });
+
+  const { data: slots = [] } = useQuery<DeliverySlot[]>({
+    queryKey: ['/api/availability'],
+    queryFn: async () => {
+      const res = await fetch('/api/availability');
+      return res.json();
+    }
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const res = await fetch(`/api/bookings/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/bookings'] });
+      toast({ title: "Status Updated", description: "Booking status has been changed." });
+      setSelectedBooking(null);
+    }
+  });
+
+  const updatePaymentMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const res = await fetch(`/api/bookings/${id}/payment-status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/bookings'] });
+      toast({ title: "Payment Updated", description: "Payment status has been changed." });
+    }
+  });
+
+  const updateSlotCapacity = async () => {
+    if (!selectedDate) return;
+    setIsUpdatingSlot(true);
+    try {
+      await fetch('/api/slots', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          date: format(selectedDate, 'yyyy-MM-dd'),
+          capacity: slotCapacity
+        })
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/availability'] });
+      toast({ title: "Capacity Updated", description: `Set ${slotCapacity} slots for ${format(selectedDate, 'MMM d, yyyy')}` });
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to update capacity", variant: "destructive" });
+    }
+    setIsUpdatingSlot(false);
+  };
+
+  const getSlotForDate = (date: Date) => {
+    const dateStr = format(date, 'yyyy-MM-dd');
+    return slots.find(s => s.date === dateStr);
+  };
+
+  const getStatusBadgeVariant = (status: string) => {
+    switch (status) {
+      case 'confirmed': return 'default';
+      case 'completed': return 'default';
+      case 'pending': return 'secondary';
+      case 'cancelled': return 'destructive';
+      default: return 'outline';
+    }
+  };
+
+  const getPaymentBadgeVariant = (status: string) => {
+    switch (status) {
+      case 'paid': return 'default';
+      case 'pending': return 'secondary';
+      case 'failed': return 'destructive';
+      case 'refunded': return 'outline';
+      default: return 'outline';
+    }
+  };
+
+  return (
+    <div className="p-8 space-y-8 animate-in fade-in duration-500">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-serif font-bold">Delivery Bookings</h1>
+          <p className="text-muted-foreground">Manage storm shelter delivery reservations.</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-1">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CalendarDays className="w-5 h-5" />
+              Slot Management
+            </CardTitle>
+            <CardDescription>Set delivery capacity per day</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={setSelectedDate}
+              className="rounded-md border"
+              modifiers={{
+                booked: slots.filter(s => s.reservedCount > 0).map(s => new Date(s.date + 'T12:00:00'))
+              }}
+              modifiersStyles={{
+                booked: { backgroundColor: '#fef3c7', color: '#92400e' }
+              }}
+            />
+            
+            {selectedDate && (
+              <div className="p-4 bg-stone-50 rounded-lg space-y-3">
+                <p className="font-medium">{format(selectedDate, 'EEEE, MMMM d, yyyy')}</p>
+                {(() => {
+                  const slot = getSlotForDate(selectedDate);
+                  return (
+                    <div className="text-sm text-muted-foreground">
+                      {slot ? (
+                        <span>{slot.reservedCount} of {slot.capacity} booked</span>
+                      ) : (
+                        <span>No reservations yet</span>
+                      )}
+                    </div>
+                  );
+                })()}
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="capacity" className="whitespace-nowrap">Max Capacity:</Label>
+                  <Input 
+                    id="capacity"
+                    type="number" 
+                    min={1} 
+                    max={10}
+                    value={slotCapacity}
+                    onChange={(e) => setSlotCapacity(parseInt(e.target.value) || 3)}
+                    className="w-20"
+                  />
+                  <Button 
+                    size="sm" 
+                    onClick={updateSlotCapacity}
+                    disabled={isUpdatingSlot}
+                  >
+                    {isUpdatingSlot ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Save'}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>All Bookings</CardTitle>
+            <CardDescription>{bookings.length} total reservations</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="w-6 h-6 animate-spin" />
+              </div>
+            ) : bookings.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                No bookings yet. Customers can book at /booking
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Customer</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Miles</TableHead>
+                    <TableHead>Payment</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Total</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {bookings.map((booking) => (
+                    <TableRow key={booking.id}>
+                      <TableCell>
+                        <div className="font-medium">{booking.customerName}</div>
+                        <div className="text-xs text-muted-foreground">{booking.customerEmail}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm">{booking.deliveryCity}, {booking.deliveryState}</div>
+                      </TableCell>
+                      <TableCell>{parseFloat(booking.milesFromHq).toFixed(0)} mi</TableCell>
+                      <TableCell>
+                        <Badge variant={getPaymentBadgeVariant(booking.paymentStatus)} className="capitalize">
+                          {booking.paymentStatus}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusBadgeVariant(booking.bookingStatus)} className="capitalize">
+                          {booking.bookingStatus}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="font-medium">${parseFloat(booking.totalDue).toLocaleString()}</TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="ghost" size="sm" onClick={() => setSelectedBooking(booking)}>
+                          View
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      <Sheet open={!!selectedBooking} onOpenChange={(open) => !open && setSelectedBooking(null)}>
+        <SheetContent className="sm:max-w-lg overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>Booking Details</SheetTitle>
+            <SheetDescription>
+              Created {selectedBooking && format(new Date(selectedBooking.createdAt), 'MMM d, yyyy h:mm a')}
+            </SheetDescription>
+          </SheetHeader>
+          
+          {selectedBooking && (
+            <div className="space-y-6 py-4">
+              <div className="flex gap-2">
+                <Badge variant={getStatusBadgeVariant(selectedBooking.bookingStatus)} className="capitalize">
+                  {selectedBooking.bookingStatus}
+                </Badge>
+                <Badge variant={getPaymentBadgeVariant(selectedBooking.paymentStatus)} className="capitalize">
+                  Payment: {selectedBooking.paymentStatus}
+                </Badge>
+              </div>
+
+              <div className="space-y-4">
+                <div className="border rounded-lg p-4">
+                  <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wider mb-3">Customer</h3>
+                  <div className="space-y-2">
+                    <p className="font-medium">{selectedBooking.customerName}</p>
+                    <p className="text-sm flex items-center gap-2">
+                      <Mail className="w-4 h-4" /> {selectedBooking.customerEmail}
+                    </p>
+                    <p className="text-sm flex items-center gap-2">
+                      <Phone className="w-4 h-4" /> {selectedBooking.customerPhone}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wider mb-3">Delivery</h3>
+                  <div className="space-y-2">
+                    <p className="text-sm flex items-start gap-2">
+                      <MapPin className="w-4 h-4 mt-0.5" />
+                      <span>
+                        {selectedBooking.deliveryAddress}<br />
+                        {selectedBooking.deliveryCity}, {selectedBooking.deliveryState} {selectedBooking.deliveryZip}
+                      </span>
+                    </p>
+                    <p className="text-sm">
+                      <strong>{parseFloat(selectedBooking.milesFromHq).toFixed(0)}</strong> miles from Grandview, MO
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wider mb-3">Payment</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span>Product</span>
+                      <span>${parseFloat(selectedBooking.productPrice).toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Shipping</span>
+                      <span>${parseFloat(selectedBooking.shippingFee).toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between pt-2 border-t font-bold">
+                      <span>{selectedBooking.paymentOption === 'deposit' ? 'Deposit Due' : 'Total Due'}</span>
+                      <span>${parseFloat(selectedBooking.totalDue).toLocaleString()}</span>
+                    </div>
+                    {selectedBooking.paymentOption === 'deposit' && (
+                      <p className="text-muted-foreground text-xs pt-2">
+                        Remaining balance: ${(parseFloat(selectedBooking.productPrice) + parseFloat(selectedBooking.shippingFee) - parseFloat(selectedBooking.totalDue)).toLocaleString()}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-4 border-t">
+                <Label>Update Payment Status</Label>
+                <div className="flex gap-2">
+                  <Button 
+                    size="sm" 
+                    variant={selectedBooking.paymentStatus === 'paid' ? 'default' : 'outline'}
+                    onClick={() => updatePaymentMutation.mutate({ id: selectedBooking.id, status: 'paid' })}
+                  >
+                    <CheckCircle className="w-4 h-4 mr-1" /> Paid
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant={selectedBooking.paymentStatus === 'pending' ? 'secondary' : 'outline'}
+                    onClick={() => updatePaymentMutation.mutate({ id: selectedBooking.id, status: 'pending' })}
+                  >
+                    <Clock className="w-4 h-4 mr-1" /> Pending
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant={selectedBooking.paymentStatus === 'refunded' ? 'outline' : 'outline'}
+                    onClick={() => updatePaymentMutation.mutate({ id: selectedBooking.id, status: 'refunded' })}
+                  >
+                    <RefreshCw className="w-4 h-4 mr-1" /> Refunded
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Update Booking Status</Label>
+                <div className="flex gap-2 flex-wrap">
+                  <Button 
+                    size="sm"
+                    onClick={() => updateStatusMutation.mutate({ id: selectedBooking.id, status: 'confirmed' })}
+                    disabled={selectedBooking.bookingStatus === 'confirmed'}
+                  >
+                    Confirm
+                  </Button>
+                  <Button 
+                    size="sm"
+                    variant="outline"
+                    onClick={() => updateStatusMutation.mutate({ id: selectedBooking.id, status: 'completed' })}
+                    disabled={selectedBooking.bookingStatus === 'completed'}
+                  >
+                    Mark Complete
+                  </Button>
+                  <Button 
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => updateStatusMutation.mutate({ id: selectedBooking.id, status: 'cancelled' })}
+                    disabled={selectedBooking.bookingStatus === 'cancelled'}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const [, params] = useRoute('/admin/:page?');
@@ -978,6 +1382,10 @@ export default function AdminDashboard() {
            </Card>
         </div>
      );
+  }
+
+  if (page === 'bookings') {
+    return <BookingsPage />;
   }
 
   // Default Dashboard View

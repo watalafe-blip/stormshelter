@@ -1,11 +1,12 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertBookingSchema } from "@shared/schema";
 import { z } from "zod";
 
 const GRANDVIEW_MO_COORDS = { lat: 38.8814, lng: -94.5314 };
 const SHIPPING_RATE_PER_MILE = 6;
+const PRODUCT_PRICE = 4999;
+const DEPOSIT_AMOUNT = 500;
 
 function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 3959;
@@ -17,6 +18,20 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   return R * c;
 }
+
+const bookingRequestSchema = z.object({
+  selectedDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
+  customerName: z.string().min(1, "Name is required"),
+  customerEmail: z.string().email("Invalid email"),
+  customerPhone: z.string().min(1, "Phone is required"),
+  deliveryAddress: z.string().min(1, "Address is required"),
+  deliveryCity: z.string().min(1, "City is required"),
+  deliveryState: z.string().min(1, "State is required"),
+  deliveryZip: z.string().min(5, "ZIP is required"),
+  milesFromHq: z.string().or(z.number()).transform(v => parseFloat(String(v))).refine(v => v >= 1 && v <= 3000, "Invalid distance"),
+  paymentOption: z.enum(["deposit", "full"]),
+  notes: z.string().nullable().optional()
+});
 
 export async function registerRoutes(
   httpServer: Server,
@@ -81,9 +96,9 @@ export async function registerRoutes(
 
   app.post("/api/bookings", async (req, res) => {
     try {
-      const validatedData = insertBookingSchema.parse(req.body);
+      const validatedData = bookingRequestSchema.parse(req.body);
       
-      const slot = await storage.getSlotByDate(req.body.selectedDate);
+      const slot = await storage.getSlotByDate(validatedData.selectedDate);
       if (!slot) {
         return res.status(400).json({ error: "Selected date is not available" });
       }
@@ -91,9 +106,26 @@ export async function registerRoutes(
         return res.status(400).json({ error: "No availability on selected date" });
       }
       
+      const shippingFee = Math.round(validatedData.milesFromHq * SHIPPING_RATE_PER_MILE * 100) / 100;
+      const totalDue = validatedData.paymentOption === 'deposit' 
+        ? DEPOSIT_AMOUNT 
+        : PRODUCT_PRICE + shippingFee;
+      
       const booking = await storage.createBooking({
-        ...validatedData,
-        slotId: slot.id
+        slotId: slot.id,
+        customerName: validatedData.customerName,
+        customerEmail: validatedData.customerEmail,
+        customerPhone: validatedData.customerPhone,
+        deliveryAddress: validatedData.deliveryAddress,
+        deliveryCity: validatedData.deliveryCity,
+        deliveryState: validatedData.deliveryState,
+        deliveryZip: validatedData.deliveryZip,
+        milesFromHq: validatedData.milesFromHq.toString(),
+        shippingFee: shippingFee.toString(),
+        productPrice: PRODUCT_PRICE.toString(),
+        totalDue: totalDue.toString(),
+        paymentOption: validatedData.paymentOption,
+        notes: validatedData.notes || null
       });
       
       await storage.incrementSlotReservation(slot.id);

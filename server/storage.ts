@@ -59,7 +59,7 @@ export class MemStorage implements IStorage {
 
   async getAvailableSlots(fromDate: string): Promise<DeliverySlot[]> {
     return Array.from(this.slots.values()).filter(
-      (slot) => slot.date >= fromDate && slot.isEnabled === 1 && slot.reservedCount < slot.capacity
+      (slot) => slot.date >= fromDate && slot.isEnabled === 1
     );
   }
 
