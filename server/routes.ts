@@ -98,10 +98,7 @@ export async function registerRoutes(
     try {
       const validatedData = bookingRequestSchema.parse(req.body);
       
-      const slot = await storage.getSlotByDate(validatedData.selectedDate);
-      if (!slot) {
-        return res.status(400).json({ error: "Selected date is not available" });
-      }
+      const slot = await storage.getOrCreateSlot(validatedData.selectedDate, 3);
       if (slot.reservedCount >= slot.capacity) {
         return res.status(400).json({ error: "No availability on selected date" });
       }
