@@ -7,7 +7,7 @@ import { Link } from 'wouter';
 
 import realShelterPhoto from '@assets/Office-SI-Storm-Shelter_(1)_1767252448693.jpg';
 import dimensionDiagram from '@assets/Screenshot_2025-12-28_at_4.24.14_PM_1767252552004.png';
-import hatchDoorOpen from '@assets/generated_images/hatch_door_opening_upward.png';
+import hatchDoorOpen from '@assets/generated_images/x-brace_hatch_door_open_strut.png';
 import closedHatch from '@assets/generated_images/closed_hatch_top_view.png';
 import lifestyleBackyard from '@assets/generated_images/lifestyle_backyard_closed_hatch.png';
 import certificationBadge from '@assets/generated_images/fema_certification_badge.png';
