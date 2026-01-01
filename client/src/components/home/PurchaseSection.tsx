@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useStore } from '@/lib/storeContext';
 import { Button } from '@/components/ui/button';
-import { ShieldCheck, Truck, Check, AlertTriangle, CreditCard, Calculator, MapPin } from 'lucide-react';
+import { ShieldCheck, Truck, Check, AlertTriangle, CreditCard, MapPin } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { motion } from 'framer-motion';
@@ -99,45 +99,6 @@ export default function PurchaseSection() {
               ))}
             </ul>
             
-            <div className="bg-stone-50 p-6 rounded-lg border border-stone-200 mt-8">
-              <h4 className="font-bold text-stone-700 mb-4 flex items-center gap-2">
-                <Calculator size={18} /> Shipping Calculator
-              </h4>
-              <div className="space-y-3">
-                <div className="flex gap-2">
-                  <div className="relative flex-1">
-                    <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input 
-                      placeholder="Zip Code" 
-                      className="pl-9 bg-white" 
-                      value={zipCode}
-                      onChange={(e) => setZipCode(e.target.value)}
-                      maxLength={5}
-                    />
-                  </div>
-                  <Button 
-                    variant="outline" 
-                    onClick={handleCalculateShipping}
-                    disabled={isCalculating}
-                    className="border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
-                  >
-                    {isCalculating ? '...' : 'Calculate'}
-                  </Button>
-                </div>
-                
-                {shippingCost !== null && (
-                  <div className="mt-3 pt-3 border-t border-stone-200">
-                     <div className="flex justify-between items-center text-sm">
-                        <span className="text-stone-600">Estimated Shipping:</span>
-                        <span className="font-bold text-[#3E2723] text-lg">${shippingCost.toLocaleString()}</span>
-                     </div>
-                     <p className="text-xs text-stone-500 mt-1">
-                       Based on $6/mile from Missouri HQ. Final rate confirmed at checkout.
-                     </p>
-                  </div>
-                )}
-              </div>
-            </div>
           </div>
 
           {/* Main Card */}
@@ -172,6 +133,36 @@ export default function PurchaseSection() {
                       ${(remainingBalance + (shippingCost || 0)).toLocaleString()}
                       {shippingCost ? " (inc. shipping)" : " + shipping"}
                     </span>
+                 </div>
+                 
+                 <div className="bg-stone-100 p-3 rounded-lg">
+                   <div className="flex gap-2">
+                     <div className="relative flex-1">
+                       <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                       <Input 
+                         placeholder="Zip code" 
+                         className="pl-9 bg-white text-sm h-9" 
+                         value={zipCode}
+                         onChange={(e) => setZipCode(e.target.value)}
+                         maxLength={5}
+                       />
+                     </div>
+                     <Button 
+                       variant="outline" 
+                       size="sm"
+                       onClick={handleCalculateShipping}
+                       disabled={isCalculating}
+                       className="border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
+                     >
+                       {isCalculating ? '...' : 'Shipping'}
+                     </Button>
+                   </div>
+                   {shippingCost !== null && (
+                     <div className="mt-2 text-center text-sm">
+                       <span className="text-stone-600">Est. shipping: </span>
+                       <span className="font-bold text-[#3E2723]">${shippingCost.toLocaleString()}</span>
+                     </div>
+                   )}
                  </div>
               </div>
 

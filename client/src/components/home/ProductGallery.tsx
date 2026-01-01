@@ -147,7 +147,7 @@ export default function ProductGallery() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/product/shelter-001" className="flex-1">
+              <a href="#technical-specs" className="flex-1">
                 <Button 
                   size="lg" 
                   className="w-full h-12 text-base font-bold bg-[#E69138] hover:bg-[#D4842F] text-white"
@@ -155,8 +155,8 @@ export default function ProductGallery() {
                 >
                   View Details
                 </Button>
-              </Link>
-              <Link href="/product/shelter-001" className="flex-1">
+              </a>
+              <a href="#purchase" className="flex-1">
                 <Button 
                   size="lg" 
                   variant="outline"
@@ -165,7 +165,7 @@ export default function ProductGallery() {
                 >
                   $500 Deposit
                 </Button>
-              </Link>
+              </a>
             </div>
             
           </div>
