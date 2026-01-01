@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Truck } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Truck, Shield, Wind, Lock, Fan } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'wouter';
 
@@ -96,10 +96,31 @@ export default function ProductGallery() {
               <span className="text-lg text-stone-400 line-through">$5,999</span>
             </div>
             
-            <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-stone-600">
-              <span>80"W × 104"L × 85"H</span>
-              <span>5,000 PSI Concrete</span>
-              <span>Steel Door</span>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-[#E69138]/10 flex items-center justify-center">
+                  <Wind className="w-4 h-4 text-[#E69138]" />
+                </div>
+                <span className="text-sm text-[#3E2723]">EF5 Rated (250+ MPH)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-[#E69138]/10 flex items-center justify-center">
+                  <Shield className="w-4 h-4 text-[#E69138]" />
+                </div>
+                <span className="text-sm text-[#3E2723]">5,000 PSI Concrete</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-[#E69138]/10 flex items-center justify-center">
+                  <Lock className="w-4 h-4 text-[#E69138]" />
+                </div>
+                <span className="text-sm text-[#3E2723]">3-Point Locking Door</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-[#E69138]/10 flex items-center justify-center">
+                  <Fan className="w-4 h-4 text-[#E69138]" />
+                </div>
+                <span className="text-sm text-[#3E2723]">Turbine Ventilation</span>
+              </div>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
