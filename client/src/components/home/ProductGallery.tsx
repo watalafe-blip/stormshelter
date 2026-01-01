@@ -7,18 +7,16 @@ import { Link } from 'wouter';
 
 import realShelterPhoto from '@assets/Office-SI-Storm-Shelter_(1)_1767252448693.jpg';
 import dimensionDiagram from '@assets/Screenshot_2025-12-28_at_4.24.14_PM_1767252552004.png';
-import mainProductAccurate from '@assets/generated_images/main_product_accurate_design.png';
-import doorOpenView from '@assets/generated_images/door_open_backyard_view.png';
-import sideProfileView from '@assets/generated_images/side_profile_angle_view.png';
-import lifestyleSuburban from '@assets/generated_images/lifestyle_suburban_backyard.png';
+import hatchDoorOpen from '@assets/generated_images/hatch_door_opening_upward.png';
+import closedHatch from '@assets/generated_images/closed_hatch_top_view.png';
+import lifestyleBackyard from '@assets/generated_images/lifestyle_backyard_closed_hatch.png';
 import certificationBadge from '@assets/generated_images/fema_certification_badge.png';
 
 const galleryImages = [
   { src: realShelterPhoto, alt: 'Storm shelter with door open - actual product', label: 'Actual Photo' },
-  { src: mainProductAccurate, alt: 'Storm shelter product view', label: 'Product View' },
-  { src: doorOpenView, alt: 'Shelter with door open in backyard', label: 'Door Open' },
-  { src: sideProfileView, alt: 'Side profile view', label: 'Side View' },
-  { src: lifestyleSuburban, alt: 'Installed in suburban backyard', label: 'Lifestyle' },
+  { src: hatchDoorOpen, alt: 'Shelter with hatch door open', label: 'Hatch Open' },
+  { src: closedHatch, alt: 'Shelter with hatch closed', label: 'Closed' },
+  { src: lifestyleBackyard, alt: 'Installed in suburban backyard', label: 'Lifestyle' },
   { src: dimensionDiagram, alt: 'Shelter dimensions and specifications', label: 'Dimensions' },
 ];
 
