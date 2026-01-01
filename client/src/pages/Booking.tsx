@@ -206,7 +206,7 @@ export default function Booking() {
                 Choose your preferred installation date (minimum 7 days from today)
               </CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col items-center px-8 pb-8">
+            <CardContent className="px-6 pb-8">
               <Calendar
                 mode="single"
                 selected={selectedDate}
@@ -217,7 +217,7 @@ export default function Booking() {
                   }
                 }}
                 disabled={isDateDisabled}
-                className="rounded-md border p-4 scale-125 origin-top my-6"
+                className="w-full rounded-md border p-6 [&_table]:w-full [&_td]:p-3 [&_th]:p-3 [&_button]:w-full [&_button]:h-12 [&_button]:text-base"
                 data-testid="calendar"
               />
               
