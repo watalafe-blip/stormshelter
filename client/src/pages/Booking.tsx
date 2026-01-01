@@ -196,37 +196,42 @@ export default function Booking() {
         </div>
 
         {step === 'date' && (
-          <Card className="max-w-md mx-auto" data-testid="step-date">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CalendarDays className="w-5 h-5 text-[#E69138]" />
+          <Card className="max-w-2xl mx-auto" data-testid="step-date">
+            <CardHeader className="text-center">
+              <CardTitle className="flex items-center justify-center gap-2 text-xl">
+                <CalendarDays className="w-6 h-6 text-[#E69138]" />
                 Select Delivery Date
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-base">
                 Choose your preferred installation date (minimum 7 days from today)
               </CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col items-center">
+            <CardContent className="flex flex-col items-center px-8 pb-8">
               <Calendar
                 mode="single"
                 selected={selectedDate}
-                onSelect={setSelectedDate}
+                onSelect={(date) => {
+                  setSelectedDate(date);
+                  if (date) {
+                    setTimeout(() => setStep('address'), 300);
+                  }
+                }}
                 disabled={isDateDisabled}
-                className="rounded-md border"
+                className="rounded-md border p-4 scale-125 origin-top my-6"
                 data-testid="calendar"
               />
               
               {selectedDate && (
-                <div className="mt-4 p-4 bg-stone-50 rounded-lg w-full" data-testid="slot-info">
-                  <p className="font-medium text-gray-900">
+                <div className="mt-8 p-4 bg-stone-50 rounded-lg w-full text-center" data-testid="slot-info">
+                  <p className="font-medium text-gray-900 text-lg">
                     {format(selectedDate, 'EEEE, MMMM d, yyyy')}
                   </p>
                   {isLoadingSlot ? (
-                    <p className="text-sm text-gray-500 flex items-center gap-2">
+                    <p className="text-sm text-gray-500 flex items-center justify-center gap-2 mt-1">
                       <Loader2 className="w-4 h-4 animate-spin" /> Checking availability...
                     </p>
                   ) : slotInfo ? (
-                    <p className={`text-sm ${slotInfo.available > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    <p className={`text-sm mt-1 ${slotInfo.available > 0 ? 'text-green-600' : 'text-red-600'}`}>
                       {slotInfo.available > 0 
                         ? `${slotInfo.available} of ${slotInfo.total} slots available`
                         : 'No slots available - please select another date'}
@@ -234,15 +239,6 @@ export default function Booking() {
                   ) : null}
                 </div>
               )}
-
-              <Button 
-                className="w-full mt-6 bg-[#E69138] hover:bg-[#d4812f]"
-                disabled={!canProceedFromDate}
-                onClick={() => setStep('address')}
-                data-testid="btn-next-address"
-              >
-                Continue <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
             </CardContent>
           </Card>
         )}
