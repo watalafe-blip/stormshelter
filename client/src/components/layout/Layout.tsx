@@ -197,12 +197,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Calculate Shipping
               </Button>
 
-              <Button 
-                className={`hidden lg:flex font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 ${isScrolled ? 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F]' : 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] border-none'}`}
-                onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                Secure My Shelter
-              </Button>
+              <Link href="/booking">
+                <Button 
+                  className={`hidden lg:flex font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 ${isScrolled ? 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F]' : 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] border-none'}`}
+                >
+                  Secure My Shelter
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

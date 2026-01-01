@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'wouter';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
 import { ShieldCheck, Ruler, Hammer, Download, Phone } from 'lucide-react';
@@ -124,12 +125,13 @@ export default function TechnicalSpecs() {
                 </div>
                 
                 <div className="space-y-3">
-                  <Button 
-                    className="w-full bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold h-12 text-lg"
-                    onClick={() => document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth' })}
-                  >
-                    Secure Your Spot
-                  </Button>
+                  <Link href="/booking">
+                    <Button 
+                      className="w-full bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold h-12 text-lg"
+                    >
+                      Secure Your Spot
+                    </Button>
+                  </Link>
                   
                   <a href="tel:888-262-7383" className="flex items-center justify-center gap-2 text-lg font-bold text-[#E69138] hover:underline">
                     <Phone size={20} /> 888-262-7383

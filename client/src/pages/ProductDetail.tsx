@@ -1,5 +1,5 @@
 
-import { useRoute } from "wouter";
+import { useRoute, Link } from "wouter";
 import { useStore } from "@/lib/storeContext";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -117,9 +117,11 @@ export default function ProductDetail() {
                     </AlertDescription>
                  </Alert>
 
-                 <Button onClick={handleAddToCart} size="lg" className="w-full h-16 text-xl font-bold bg-[#3E2723] hover:bg-[#5D4037] text-white shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
-                    Secure Your Unit - Pay ${depositAmount} Deposit
-                 </Button>
+                 <Link href="/booking">
+                   <Button size="lg" className="w-full h-16 text-xl font-bold bg-[#3E2723] hover:bg-[#5D4037] text-white shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                      Secure Your Unit - Pay ${depositAmount} Deposit
+                   </Button>
+                 </Link>
                  
                  <p className="text-center text-xs text-muted-foreground flex items-center justify-center gap-1">
                     <ShieldCheck size={12} /> Secure 256-bit SSL Encrypted Payment
