@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useStore } from '@/lib/storeContext';
 import { Button } from '@/components/ui/button';
-import { ShieldCheck, Truck, Check, AlertTriangle, CreditCard, MapPin } from 'lucide-react';
+import { ShieldCheck, Check, AlertTriangle, CreditCard, MapPin } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { motion } from 'framer-motion';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Link } from 'wouter';
 
 export default function PurchaseSection() {
   const { products } = useStore();
@@ -49,14 +49,6 @@ export default function PurchaseSection() {
         description: `Estimated distance: ${simulatedDistance} miles from Missouri factory.`,
       });
     }, 1500);
-  };
-
-  const handlePurchase = () => {
-    toast({
-      title: "Deposit Added to Cart",
-      description: "Proceeding to secure checkout...",
-    });
-    // In a real app, this would redirect to checkout
   };
 
   if (!product) return null;
@@ -167,12 +159,13 @@ export default function PurchaseSection() {
               </div>
 
               <div className="space-y-3">
-                <Button 
-                  onClick={handlePurchase} 
-                  className="w-full h-16 text-xl font-bold bg-[#E69138] hover:bg-[#D4842F] text-[#3E2723] shadow-lg hover:shadow-xl transition-all"
-                >
-                  Secure My Spot
-                </Button>
+                <Link href="/checkout">
+                  <Button 
+                    className="w-full h-16 text-xl font-bold bg-[#E69138] hover:bg-[#D4842F] text-[#3E2723] shadow-lg hover:shadow-xl transition-all"
+                  >
+                    Secure My Spot
+                  </Button>
+                </Link>
                 
                 <div className="text-center space-y-2">
                   <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">

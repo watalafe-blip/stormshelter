@@ -12,6 +12,7 @@ import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
 import Confirmation from "@/pages/Confirmation";
+import CheckoutComplete from "@/pages/CheckoutComplete";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Layout from "@/components/layout/Layout";
 
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/product/:id" component={ProductDetail} />
       <Route path="/cart" component={Cart} />
       <Route path="/checkout" component={Checkout} />
+      <Route path="/checkout/complete" component={CheckoutComplete} />
       <Route path="/confirmation" component={Confirmation} />
       <Route path="/admin">
         <Layout>
