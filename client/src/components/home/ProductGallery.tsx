@@ -5,25 +5,15 @@ import { ChevronLeft, ChevronRight, Shield, Truck, CheckCircle2 } from 'lucide-r
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'wouter';
 
-import mainProduct from '@assets/generated_images/main_product_white_background.png';
-import frontView from '@assets/generated_images/front_view_doors_open.png';
-import sideView from '@assets/generated_images/side_profile_view.png';
+import realShelterPhoto from '@assets/Office-SI-Storm-Shelter_(1)_1767252448693.jpg';
+import dimensionDiagram from '@assets/Screenshot_2025-12-28_at_4.24.14_PM_1767252552004.png';
 import lifestyleBackyard from '@assets/generated_images/lifestyle_backyard_installed.png';
-import scaleReference from '@assets/generated_images/scale_reference_with_person.png';
-import interiorView from '@assets/generated_images/interior_view_stairs.png';
-import doorDetail from '@assets/generated_images/door_detail_closeup.png';
-import ventDetail from '@assets/generated_images/ventilation_cap_detail.png';
 import certificationBadge from '@assets/generated_images/fema_certification_badge.png';
 
 const galleryImages = [
-  { src: mainProduct, alt: 'Storm shelter main view', label: 'Main View' },
-  { src: frontView, alt: 'Front view with doors open', label: 'Doors Open' },
-  { src: sideView, alt: 'Side profile view', label: 'Side Profile' },
-  { src: lifestyleBackyard, alt: 'Installed in backyard', label: 'Installed' },
-  { src: scaleReference, alt: 'Size reference with person', label: 'Size Reference' },
-  { src: interiorView, alt: 'Interior view', label: 'Interior' },
-  { src: doorDetail, alt: 'Steel door detail', label: 'Door Detail' },
-  { src: ventDetail, alt: 'Ventilation cap', label: 'Ventilation' },
+  { src: realShelterPhoto, alt: 'Storm shelter with door open - actual product', label: 'Product Photo' },
+  { src: dimensionDiagram, alt: 'Shelter dimensions and specifications', label: 'Dimensions' },
+  { src: lifestyleBackyard, alt: 'Installed in backyard setting', label: 'Lifestyle' },
 ];
 
 export default function ProductGallery() {
