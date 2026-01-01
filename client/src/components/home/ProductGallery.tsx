@@ -166,7 +166,7 @@ export default function ProductGallery() {
                   className="w-full h-14 text-lg font-bold border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
                   data-testid="reserve-deposit-btn"
                 >
-                  Reserve with $500 Deposit
+                  $500 Deposit
                 </Button>
               </Link>
             </div>
