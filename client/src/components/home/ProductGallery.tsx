@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Shield, Truck, CheckCircle2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Truck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'wouter';
 
@@ -9,7 +9,6 @@ import realShelterPhoto from '@assets/Office-SI-Storm-Shelter_(1)_1767252448693.
 import dimensionDiagram from '@assets/Screenshot_2025-12-28_at_4.24.14_PM_1767252552004.png';
 import interiorView from '@assets/ChatGPT_Image_Dec_31,_2025,_01_02_10_AM_1767253312476.png';
 import lifestyleBackyard from '@assets/generated_images/lifestyle_backyard_closed_hatch.png';
-import certificationBadge from '@assets/generated_images/fema_certification_badge.png';
 
 const galleryImages = [
   { src: realShelterPhoto, alt: 'Storm shelter with door open - actual product', label: 'Actual Photo' },
@@ -81,89 +80,43 @@ export default function ProductGallery() {
             </div>
           </div>
           
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Badge className="bg-[#E69138] hover:bg-[#D4842F] text-white">Stock #706900</Badge>
-                <Badge variant="outline" className="border-green-600 text-green-700">In Stock</Badge>
-              </div>
+          <div className="space-y-5">
+            <div className="space-y-2">
+              <Badge variant="outline" className="border-green-600 text-green-700">In Stock</Badge>
               <h2 className="text-3xl md:text-4xl font-bold text-[#3E2723]">
-                Slope Top Underground Concrete Storm Shelter
+                Underground Concrete Storm Shelter
               </h2>
-              <p className="text-lg text-stone-600">
-                FEMA-compliant, Texas Tech tested storm shelter built to withstand EF5 tornadoes. 
-                Protect your family with 5,000 PSI reinforced concrete construction.
+              <p className="text-stone-600">
+                FEMA-compliant, EF5 rated. Protects against 250+ MPH winds.
               </p>
             </div>
             
             <div className="flex items-baseline gap-3">
               <span className="text-4xl font-black text-[#3E2723]" data-testid="product-price">$4,999</span>
-              <span className="text-xl text-stone-400 line-through">$5,999</span>
-              <Badge className="bg-red-500 text-white">Save $1,000</Badge>
+              <span className="text-lg text-stone-400 line-through">$5,999</span>
             </div>
             
-            <div className="bg-stone-100 rounded-xl p-4 space-y-2">
-              <h4 className="font-semibold text-[#3E2723] flex items-center gap-2">
-                <Shield className="w-5 h-5 text-[#E69138]" />
-                Key Specifications
-              </h4>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-stone-500">Exterior:</span>
-                  <span className="font-medium text-[#3E2723]">80"W × 104"L × 85"H</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-stone-500">Interior:</span>
-                  <span className="font-medium text-[#3E2723]">77"W × 101"L</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-stone-500">Wall Thickness:</span>
-                  <span className="font-medium text-[#3E2723]">4 inches</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-stone-500">Concrete:</span>
-                  <span className="font-medium text-[#3E2723]">5,000 PSI</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              {[
-                'EF5 Tornado Rated - Survives 250+ MPH winds',
-                '12 Gauge Steel Door with 3-Point Locking',
-                'Turbine Ventilation Cap for fresh air',
-                'Non-slip steel stairs with handrail',
-              ].map((feature, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-[#3E2723]">
-                  <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span>{feature}</span>
-                </div>
-              ))}
-            </div>
-            
-            <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <Truck className="w-6 h-6 text-blue-600" />
-              <div className="text-sm">
-                <span className="font-semibold text-blue-800">Ships from Missouri</span>
-                <span className="text-blue-600"> · Flatbed delivery required</span>
-              </div>
+            <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-stone-600">
+              <span>80"W × 104"L × 85"H</span>
+              <span>5,000 PSI Concrete</span>
+              <span>Steel Door</span>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
               <Link href="/product/shelter-001" className="flex-1">
                 <Button 
                   size="lg" 
-                  className="w-full h-14 text-lg font-bold bg-[#E69138] hover:bg-[#D4842F] text-white"
+                  className="w-full h-12 text-base font-bold bg-[#E69138] hover:bg-[#D4842F] text-white"
                   data-testid="view-details-btn"
                 >
-                  View Full Details
+                  View Details
                 </Button>
               </Link>
               <Link href="/product/shelter-001" className="flex-1">
                 <Button 
                   size="lg" 
                   variant="outline"
-                  className="w-full h-14 text-lg font-bold border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
+                  className="w-full h-12 text-base font-bold border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
                   data-testid="reserve-deposit-btn"
                 >
                   $500 Deposit
@@ -171,13 +124,9 @@ export default function ProductGallery() {
               </Link>
             </div>
             
-            <div className="flex justify-center">
-              <img 
-                src={certificationBadge} 
-                alt="FEMA Certified - Texas Tech Tested" 
-                className="h-16 object-contain"
-                data-testid="certification-badge"
-              />
+            <div className="flex items-center gap-2 text-sm text-stone-500">
+              <Truck className="w-4 h-4" />
+              <span>Ships from Missouri · Flatbed delivery</span>
             </div>
           </div>
         </div>
