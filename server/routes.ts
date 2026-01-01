@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { z } from "zod";
 
 const GRANDVIEW_MO_COORDS = { lat: 38.8814, lng: -94.5314 };
-const SHIPPING_RATE_PER_MILE = 6;
+const SHIPPING_RATE_PER_MILE = 5.2;
 const PRODUCT_PRICE = 4999;
 const DEPOSIT_AMOUNT = 500;
 

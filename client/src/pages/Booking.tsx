@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ArrowLeft, ArrowRight, CalendarDays, MapPin, CreditCard, Truck, CheckCircle, Loader2 } from 'lucide-react';
+import { Checkbox } from "@/components/ui/checkbox";
+import { ArrowLeft, ArrowRight, CalendarDays, MapPin, CreditCard, Truck, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
+import logoImg from '@assets/images-Photoroom_1766984801727.png';
 
 type Step = 'date' | 'address' | 'payment';
 
@@ -39,6 +41,10 @@ export default function Booking() {
     phone: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [agreedTerms, setAgreedTerms] = useState(false);
+  const [agreedRefund, setAgreedRefund] = useState(false);
+  const [addressSuggestions, setAddressSuggestions] = useState<Array<{display: string, city: string, state: string, zip: string}>>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const productPrice = 4999;
   const depositAmount = 500;
@@ -148,19 +154,60 @@ export default function Booking() {
 
   const canProceedFromDate = selectedDate && slotInfo && slotInfo.available > 0;
   const canProceedFromAddress = address.street && address.city && address.state && address.zip && shippingInfo;
-  const canSubmit = customerInfo.name && customerInfo.email && customerInfo.phone;
+  const canSubmit = customerInfo.name && customerInfo.email && customerInfo.phone && agreedTerms && agreedRefund;
 
   const totalForFull = shippingInfo ? productPrice + shippingInfo.shippingFee : productPrice;
+  const amountDueNow = paymentOption === 'deposit' ? depositAmount : totalForFull;
+
+  const searchAddress = async (query: string) => {
+    if (query.length < 3) {
+      setAddressSuggestions([]);
+      return;
+    }
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&countrycodes=us&format=json&addressdetails=1&limit=5`
+      );
+      const data = await response.json();
+      const suggestions = data.map((item: any) => ({
+        display: item.display_name,
+        city: item.address?.city || item.address?.town || item.address?.village || '',
+        state: item.address?.state || '',
+        zip: item.address?.postcode || ''
+      })).filter((s: any) => s.city && s.state);
+      setAddressSuggestions(suggestions);
+      setShowSuggestions(true);
+    } catch (error) {
+      console.error('Error searching address:', error);
+    }
+  };
+
+  const selectSuggestion = (suggestion: {display: string, city: string, state: string, zip: string}) => {
+    const streetPart = suggestion.display.split(',')[0];
+    setAddress({
+      street: streetPart,
+      city: suggestion.city,
+      state: suggestion.state,
+      zip: suggestion.zip
+    });
+    setShowSuggestions(false);
+    setAddressSuggestions([]);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white" data-testid="booking-page">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <Link href="/">
-          <button className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8" data-testid="back-home">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </button>
-        </Link>
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/">
+            <button className="flex items-center gap-2 text-gray-600 hover:text-gray-900" data-testid="back-home">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </button>
+          </Link>
+          <Link href="/">
+            <img src={logoImg} alt="Home Defend" className="h-16 w-auto" />
+          </Link>
+        </div>
 
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Schedule Your Delivery</h1>
@@ -255,15 +302,34 @@ export default function Booking() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div>
+              <div className="relative">
                 <Label htmlFor="street">Street Address</Label>
                 <Input 
                   id="street"
-                  placeholder="123 Main Street"
+                  placeholder="Start typing your address..."
                   value={address.street}
-                  onChange={(e) => setAddress({ ...address, street: e.target.value })}
+                  onChange={(e) => {
+                    setAddress({ ...address, street: e.target.value });
+                    searchAddress(e.target.value);
+                  }}
+                  onFocus={() => addressSuggestions.length > 0 && setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                   data-testid="input-street"
                 />
+                {showSuggestions && addressSuggestions.length > 0 && (
+                  <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
+                    {addressSuggestions.map((suggestion, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 border-b border-gray-100 last:border-0"
+                        onClick={() => selectSuggestion(suggestion)}
+                      >
+                        {suggestion.display}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -317,7 +383,7 @@ export default function Booking() {
                   <p className="text-lg font-bold text-blue-900 mt-1">
                     Shipping: ${shippingInfo.shippingFee.toLocaleString()}
                   </p>
-                  <p className="text-xs text-blue-600 mt-1">Calculated at $6/mile</p>
+                  <p className="text-xs text-blue-600 mt-1">Calculated at $5.20/mile</p>
                 </div>
               )}
 
@@ -354,24 +420,6 @@ export default function Booking() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="p-4 bg-stone-50 rounded-lg">
-                <h3 className="font-medium mb-2">Order Summary</h3>
-                <div className="space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span>Storm Shelter #706900</span>
-                    <span>${productPrice.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Shipping ({shippingInfo?.miles.toFixed(0)} mi)</span>
-                    <span>${shippingInfo?.shippingFee.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between font-bold pt-2 border-t mt-2">
-                    <span>Total</span>
-                    <span>${totalForFull.toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
-
               <div>
                 <Label className="text-base font-medium">Payment Option</Label>
                 <RadioGroup 
@@ -384,7 +432,7 @@ export default function Booking() {
                   }`}>
                     <RadioGroupItem value="deposit" id="deposit" className="mr-3" />
                     <div className="flex-1">
-                      <p className="font-medium">$500 Deposit</p>
+                      <p className="font-medium">$500 Deposit (Non-Refundable)</p>
                       <p className="text-sm text-gray-500">Reserve your slot, pay the rest before delivery</p>
                     </div>
                     <span className="font-bold text-lg">$500</span>
@@ -401,6 +449,43 @@ export default function Booking() {
                   </label>
                 </RadioGroup>
               </div>
+
+              <div className="p-4 bg-stone-50 rounded-lg">
+                <h3 className="font-medium mb-2">Order Summary</h3>
+                <div className="space-y-1 text-sm">
+                  <div className="flex justify-between">
+                    <span>Storm Shelter #706900</span>
+                    <span>${productPrice.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Shipping ({shippingInfo?.miles.toFixed(0)} mi)</span>
+                    <span>${shippingInfo?.shippingFee.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between pt-2 border-t mt-2">
+                    <span>Order Total</span>
+                    <span>${totalForFull.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between font-bold text-lg pt-2 border-t mt-2 text-[#E69138]">
+                    <span>Due Now ({paymentOption === 'deposit' ? 'Deposit' : 'Full Payment'})</span>
+                    <span>${amountDueNow.toLocaleString()}</span>
+                  </div>
+                  {paymentOption === 'deposit' && (
+                    <div className="flex justify-between text-gray-500 text-xs">
+                      <span>Remaining balance due before delivery</span>
+                      <span>${(totalForFull - depositAmount).toLocaleString()}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {paymentOption === 'deposit' && (
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
+                  <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <p className="text-sm text-amber-800">
+                    <strong>Important:</strong> The $500 deposit is non-refundable. It secures your production slot and raw materials.
+                  </p>
+                </div>
+              )}
 
               <div className="space-y-4 pt-4 border-t">
                 <h3 className="font-medium">Contact Information</h3>
@@ -435,6 +520,31 @@ export default function Booking() {
                     onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
                     data-testid="input-phone"
                   />
+                </div>
+              </div>
+
+              <div className="space-y-3 pt-4 border-t">
+                <div className="flex items-start space-x-3">
+                  <Checkbox 
+                    id="terms" 
+                    checked={agreedTerms}
+                    onCheckedChange={(checked) => setAgreedTerms(checked === true)}
+                    data-testid="checkbox-terms"
+                  />
+                  <label htmlFor="terms" className="text-sm text-gray-600 leading-tight cursor-pointer">
+                    I agree to the <a href="#" className="text-[#E69138] underline">Terms and Conditions</a> including the delivery requirements and customer unloading responsibility.
+                  </label>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Checkbox 
+                    id="refund" 
+                    checked={agreedRefund}
+                    onCheckedChange={(checked) => setAgreedRefund(checked === true)}
+                    data-testid="checkbox-refund"
+                  />
+                  <label htmlFor="refund" className="text-sm text-gray-600 leading-tight cursor-pointer">
+                    I understand and accept the <a href="#" className="text-[#E69138] underline">Return Policy</a>. The $500 deposit is non-refundable once the order is placed.
+                  </label>
                 </div>
               </div>
 
