@@ -46,3 +46,8 @@ waitForPort = 5000
 
 [agent]
 mockupState = "FULLSTACK"
+
+[userenv]
+
+[userenv.shared]
+WHOP_PLAN_ID = "plan_0uXfZPdIAvES2"

@@ -10,6 +10,7 @@ import { ArrowLeft, ArrowRight, CalendarDays, MapPin, CreditCard, Truck, CheckCi
 import { Link, useLocation } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import logoImg from '@assets/images-Photoroom_1766984801727.png';
+import { WhopCheckoutEmbed } from "@whop/checkout/react";
 
 type Step = 'date' | 'address' | 'payment';
 
@@ -45,6 +46,8 @@ export default function Booking() {
   const [agreedRefund, setAgreedRefund] = useState(false);
   const [addressSuggestions, setAddressSuggestions] = useState<Array<{display: string, city: string, state: string, zip: string}>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [bookingId, setBookingId] = useState<number | null>(null);
 
   const productPrice = 4999;
   const depositAmount = 500;
@@ -111,7 +114,7 @@ export default function Booking() {
     }
   }, [address.zip]);
 
-  const handleSubmit = async () => {
+  const handleProceedToCheckout = async () => {
     if (!selectedDate || !shippingInfo) return;
     
     setIsSubmitting(true);
@@ -137,7 +140,9 @@ export default function Booking() {
       });
 
       if (response.ok) {
-        setLocation('/checkout');
+        const booking = await response.json();
+        setBookingId(booking.id);
+        setShowCheckout(true);
       } else {
         const errorData = await response.json();
         console.error('Booking failed:', errorData);
@@ -146,6 +151,11 @@ export default function Booking() {
       console.error('Error creating booking:', error);
     }
     setIsSubmitting(false);
+  };
+
+  const getReturnUrl = () => {
+    const baseUrl = window.location.origin;
+    return `${baseUrl}/checkout/complete?bookingId=${bookingId}`;
   };
 
   const isDateDisabled = (date: Date) => {
@@ -548,31 +558,61 @@ export default function Booking() {
                 </div>
               </div>
 
-              <div className="flex gap-3 pt-4">
-                <Button 
-                  variant="outline" 
-                  onClick={() => setStep('address')}
-                  data-testid="btn-back-address"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" /> Back
-                </Button>
-                <Button 
-                  className="flex-1 bg-[#E69138] hover:bg-[#d4812f]"
-                  disabled={!canSubmit || isSubmitting}
-                  onClick={handleSubmit}
-                  data-testid="btn-proceed-checkout"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing...
-                    </>
-                  ) : (
-                    <>
-                      Proceed to Checkout <ArrowRight className="w-4 h-4 ml-2" />
-                    </>
-                  )}
-                </Button>
-              </div>
+              {!showCheckout ? (
+                <div className="flex gap-3 pt-4">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setStep('address')}
+                    data-testid="btn-back-address"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                  </Button>
+                  <Button 
+                    className="flex-1 bg-[#E69138] hover:bg-[#d4812f]"
+                    disabled={!canSubmit || isSubmitting}
+                    onClick={handleProceedToCheckout}
+                    data-testid="btn-proceed-checkout"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing...
+                      </>
+                    ) : (
+                      <>
+                        Proceed to Payment <ArrowRight className="w-4 h-4 ml-2" />
+                      </>
+                    )}
+                  </Button>
+                </div>
+              ) : (
+                <div className="pt-6 border-t" data-testid="whop-checkout-container">
+                  <h3 className="font-medium mb-4 text-center">Complete Your Payment</h3>
+                  <div className="rounded-lg overflow-hidden border border-gray-200">
+                    <WhopCheckoutEmbed
+                      planId="plan_0uXfZPdIAvES2"
+                      returnUrl={getReturnUrl()}
+                      theme="light"
+                      prefill={{
+                        email: customerInfo.email
+                      }}
+                      fallback={
+                        <div className="flex items-center justify-center py-12">
+                          <Loader2 className="w-6 h-6 animate-spin text-[#E69138]" />
+                          <span className="ml-2 text-gray-600">Loading checkout...</span>
+                        </div>
+                      }
+                    />
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowCheckout(false)}
+                    className="mt-4 w-full"
+                    data-testid="btn-back-form"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to Form
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
