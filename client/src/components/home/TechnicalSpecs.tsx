@@ -5,7 +5,7 @@ import { ShieldCheck, Ruler, Hammer, Download, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import excavateImg from '@assets/generated_images/excavation_pit_for_shelter.png';
 import drainTileImg from '@assets/generated_images/drain_tile_installation.png';
-import setShelterImg from '@assets/generated_images/shelter_set_in_ground_view.png';
+import setShelterImg from '@assets/generated_images/buried_shelter_with_excavator.png';
 import backfillImg from '@assets/generated_images/installed_buried_storm_shelter.png';
 
 const installationSteps = [
