@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import Layout from '@/components/layout/Layout';
 import familyCouple from '@assets/generated_images/country_couple_family_business_portrait.png';
 import helpingVictims from '@assets/generated_images/founders_helping_tornado_victims.png';
-import shelterInstall from '@assets/generated_images/storm_shelter_installation_worksite.png';
 
 export default function About() {
   return (
@@ -106,35 +105,6 @@ export default function About() {
         </section>
 
         <section className="py-24 bg-stone-50">
-          <div className="max-w-4xl mx-auto px-6">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <img 
-                  src={shelterInstall} 
-                  alt="Professional shelter installation" 
-                  className="w-full rounded-2xl"
-                  data-testid="img-installation"
-                />
-              </div>
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-[#3E2723] mb-6">Professional installation</h2>
-                <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
-                  <p>
-                    Our team handles everything from delivery to installation. 
-                    We use professional equipment to safely place your shelter 
-                    exactly where you need it.
-                  </p>
-                  <p>
-                    You don't lift a finger. We show up, we install, and you 
-                    have peace of mind for life.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-24">
           <div className="max-w-3xl mx-auto px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-[#3E2723] mb-8">What we believe</h2>
             <div className="space-y-12">

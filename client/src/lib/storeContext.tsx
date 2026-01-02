@@ -137,10 +137,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       body: 'sans'
     },
     headerMenu: [
-      { id: '1', label: 'Home', url: '/', type: 'url' },
-      { id: '2', label: 'Slope Shelter', url: '/product/shelter-001', type: 'url' },
-      { id: '3', label: 'About Us', url: '/about', type: 'page' },
-      { id: '4', label: 'Contact Us', url: '/contact', type: 'page' },
+      { id: '1', label: 'About Us', url: '/about', type: 'page' },
+      { id: '2', label: 'Contact Us', url: '/contact', type: 'page' },
     ],
     footerMenu: [
       { id: '1', label: 'Shipping Policy', url: '/shipping', type: 'page' },
