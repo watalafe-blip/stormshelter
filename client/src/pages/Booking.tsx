@@ -168,7 +168,7 @@ export default function Booking() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-[1fr,400px] gap-8">
+        <div className="grid md:grid-cols-[1fr_400px] gap-8">
           <div className="space-y-6">
             <Card>
               <CardHeader className="pb-4">
@@ -397,7 +397,7 @@ export default function Booking() {
               </CardContent>
             </Card>
 
-            <div className="lg:hidden">
+            <div className="md:hidden">
               <Link href="/">
                 <Button variant="outline" className="w-full">
                   <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
@@ -406,7 +406,7 @@ export default function Booking() {
             </div>
           </div>
 
-          <div className="lg:sticky lg:top-8 h-fit">
+          <div className="md:sticky md:top-8 h-fit">
             <Card>
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg">Order Summary</CardTitle>
