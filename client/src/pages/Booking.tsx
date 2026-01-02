@@ -41,14 +41,18 @@ export default function Booking() {
   const [addressSuggestions, setAddressSuggestions] = useState<Array<{display: string, city: string, state: string, zip: string}>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
-  const [billingAddress, setBillingAddress] = useState({
+  const [billingInfo, setBillingInfo] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
     street: '',
     city: '',
     state: '',
     zip: ''
   });
 
-  const productPrice = 4999;
+  const productPrice = 4599;
   const depositAmount = 500;
   const today = startOfDay(new Date());
   const minDate = addDays(today, 7);
@@ -155,7 +159,8 @@ export default function Booking() {
   };
 
   const billingValid = billingSameAsShipping || 
-    (billingAddress.street && billingAddress.city && billingAddress.state && billingAddress.zip);
+    (billingInfo.name && billingInfo.email && billingInfo.phone &&
+     billingInfo.street && billingInfo.city && billingInfo.state && billingInfo.zip);
   
   const isFormValid = selectedDate && 
     address.street && address.city && address.state && address.zip && 
@@ -164,7 +169,9 @@ export default function Booking() {
     billingValid &&
     agreedTerms && agreedRefund;
   
-  const effectiveBillingAddress = billingSameAsShipping ? address : billingAddress;
+  const effectiveBillingAddress = billingSameAsShipping 
+    ? { ...address, name: customerInfo.name } 
+    : { street: billingInfo.street, city: billingInfo.city, state: billingInfo.state, zip: billingInfo.zip, name: billingInfo.name };
 
   return (
     <div className="min-h-screen bg-stone-100" data-testid="booking-page">
@@ -351,36 +358,85 @@ export default function Booking() {
                       data-testid="checkbox-billing-same"
                     />
                     <label htmlFor="billingSame" className="text-sm text-gray-700 cursor-pointer">
-                      Billing address same as shipping address
+                      Billing information same as shipping
                     </label>
                   </div>
 
                   {!billingSameAsShipping && (
-                    <div className="space-y-3">
-                      <Label className="text-sm font-medium">Billing Address</Label>
-                      <Input 
-                        placeholder="Street Address"
-                        value={billingAddress.street}
-                        onChange={(e) => setBillingAddress({ ...billingAddress, street: e.target.value })}
-                        data-testid="input-billing-street"
-                      />
+                    <div className="space-y-4">
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="billingName">Full Name</Label>
+                          <Input 
+                            id="billingName"
+                            placeholder="John Smith"
+                            value={billingInfo.name}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, name: e.target.value })}
+                            data-testid="input-billing-name"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="billingCompany">Company (optional)</Label>
+                          <Input 
+                            id="billingCompany"
+                            placeholder="Company name"
+                            value={billingInfo.company}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, company: e.target.value })}
+                            data-testid="input-billing-company"
+                          />
+                        </div>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="billingEmail">Email</Label>
+                          <Input 
+                            id="billingEmail"
+                            type="email"
+                            placeholder="email@example.com"
+                            value={billingInfo.email}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, email: e.target.value })}
+                            data-testid="input-billing-email"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="billingPhone">Phone</Label>
+                          <Input 
+                            id="billingPhone"
+                            type="tel"
+                            placeholder="(555) 123-4567"
+                            value={billingInfo.phone}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
+                            data-testid="input-billing-phone"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label htmlFor="billingStreet">Billing Address</Label>
+                        <Input 
+                          id="billingStreet"
+                          placeholder="Street Address"
+                          value={billingInfo.street}
+                          onChange={(e) => setBillingInfo({ ...billingInfo, street: e.target.value })}
+                          data-testid="input-billing-street"
+                        />
+                      </div>
                       <div className="grid grid-cols-3 gap-3">
                         <Input 
                           placeholder="City"
-                          value={billingAddress.city}
-                          onChange={(e) => setBillingAddress({ ...billingAddress, city: e.target.value })}
+                          value={billingInfo.city}
+                          onChange={(e) => setBillingInfo({ ...billingInfo, city: e.target.value })}
                           data-testid="input-billing-city"
                         />
                         <Input 
                           placeholder="State"
-                          value={billingAddress.state}
-                          onChange={(e) => setBillingAddress({ ...billingAddress, state: e.target.value })}
+                          value={billingInfo.state}
+                          onChange={(e) => setBillingInfo({ ...billingInfo, state: e.target.value })}
                           data-testid="input-billing-state"
                         />
                         <Input 
                           placeholder="ZIP"
-                          value={billingAddress.zip}
-                          onChange={(e) => setBillingAddress({ ...billingAddress, zip: e.target.value })}
+                          value={billingInfo.zip}
+                          onChange={(e) => setBillingInfo({ ...billingInfo, zip: e.target.value })}
                           data-testid="input-billing-zip"
                         />
                       </div>
