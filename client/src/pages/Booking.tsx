@@ -41,8 +41,7 @@ export default function Booking() {
   const [agreedRefund, setAgreedRefund] = useState(false);
   const [addressSuggestions, setAddressSuggestions] = useState<Array<{display: string, city: string, state: string, zip: string}>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [showMobileSummary, setShowMobileSummary] = useState(false);
-  const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
+    const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
   const [billingInfo, setBillingInfo] = useState({
     name: '',
     company: '',
@@ -187,57 +186,6 @@ export default function Booking() {
             <span>Secure Checkout</span>
           </div>
         </div>
-      </div>
-
-      <div className="md:hidden bg-stone-50 border-b border-stone-200">
-        <button 
-          onClick={() => setShowMobileSummary(!showMobileSummary)}
-          className="w-full px-4 py-4 flex items-center justify-between"
-          data-testid="mobile-summary-toggle"
-        >
-          <div className="flex items-center gap-2 text-[#E69138]">
-            <span className="text-sm font-medium">Order summary</span>
-            <ChevronDown className={`w-4 h-4 transition-transform ${showMobileSummary ? 'rotate-180' : ''}`} />
-          </div>
-          <span className="text-lg font-semibold">${totalForFull.toLocaleString()}</span>
-        </button>
-        {showMobileSummary && (
-          <div className="px-4 pb-4 space-y-3">
-            <div className="flex gap-4">
-              <div className="w-16 h-16 bg-stone-100 rounded-lg flex items-center justify-center">
-                <img src={logoImg} alt="Storm Shelter" className="w-12 h-12 object-contain" />
-              </div>
-              <div className="flex-1">
-                <p className="font-medium text-gray-900 text-sm">Underground Storm Shelter</p>
-                <p className="text-xs text-gray-500">Stock #706900</p>
-                <p className="text-sm font-medium mt-1">${productPrice.toLocaleString()}</p>
-              </div>
-            </div>
-            <div className="border-t pt-3 space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Subtotal</span>
-                <span>${productPrice.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Shipping</span>
-                <span>{shippingInfo ? `$${shippingInfo.shippingFee.toLocaleString()}` : 'Enter address'}</span>
-              </div>
-              <div className="flex justify-between pt-2 border-t font-medium">
-                <span>Total</span>
-                <span>${totalForFull.toLocaleString()}</span>
-              </div>
-            </div>
-            <div className="border-t pt-3 space-y-2">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-600">Due today (deposit)</span>
-                <span className="font-medium">${depositAmount}</span>
-              </div>
-              <p className="text-xs text-gray-500">
-                Remaining balance of ${(totalForFull - depositAmount).toLocaleString()} will be invoiced before delivery.
-              </p>
-            </div>
-          </div>
-        )}
       </div>
 
       <div className="bg-white border-b border-stone-200 py-3">
@@ -527,58 +475,13 @@ export default function Booking() {
                 <CardTitle className="text-lg">Complete Your Payment</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="rounded-lg border-2 border-[#E69138] bg-orange-50/50 p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded bg-[#E69138] flex items-center justify-center">
-                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                      <span className="font-medium text-gray-900">Credit card</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/100px-Visa_Inc._logo.svg.png" alt="Visa" className="h-6 object-contain" />
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/100px-Mastercard-logo.svg.png" alt="Mastercard" className="h-6 object-contain" />
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/American_Express_logo_%282018%29.svg/100px-American_Express_logo_%282018%29.svg.png" alt="Amex" className="h-6 object-contain" />
-                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">+5</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3 pb-4 border-b">
-                  <div className="flex items-start space-x-3">
-                    <div className="mt-0.5 w-5 h-5 rounded border-2 border-[#3E2723] bg-white flex items-center justify-center flex-shrink-0 cursor-pointer" onClick={() => setAgreedTerms(!agreedTerms)}>
-                      {agreedTerms && (
-                        <svg className="w-3.5 h-3.5 text-[#3E2723]" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                    </div>
-                    <label className="text-sm text-gray-600 leading-tight cursor-pointer" onClick={() => setAgreedTerms(!agreedTerms)}>
-                      I agree to the <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] underline" onClick={(e) => e.stopPropagation()}>Terms and Conditions</a> including the delivery requirements.
-                    </label>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="mt-0.5 w-5 h-5 rounded border-2 border-[#3E2723] bg-white flex items-center justify-center flex-shrink-0 cursor-pointer" onClick={() => setAgreedRefund(!agreedRefund)}>
-                      {agreedRefund && (
-                        <svg className="w-3.5 h-3.5 text-[#3E2723]" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                    </div>
-                    <label className="text-sm text-gray-600 leading-tight cursor-pointer" onClick={() => setAgreedRefund(!agreedRefund)}>
-                      I understand the $500 deposit is non-refundable once the order is placed.
-                    </label>
-                  </div>
-                </div>
-
                 <div className="rounded-lg overflow-hidden border border-gray-200 min-h-[400px]">
                   <WhopCheckoutEmbed
                     planId="plan_0uXfZPdIAvES2"
                     returnUrl={`${window.location.origin}/checkout/complete`}
                     theme="light"
-                    hideTermsAndConditions={false}
+                    hideTermsAndConditions={true}
+                    hideEmail={true}
                     prefill={{
                       email: customerInfo.email,
                       address: {
@@ -599,23 +502,42 @@ export default function Booking() {
                   />
                 </div>
 
+                <div className="space-y-3 pb-4 border-b">
+                  <div className="flex items-start space-x-3">
+                    <div className="mt-0.5 w-5 h-5 rounded border-2 border-[#E69138] bg-white flex items-center justify-center flex-shrink-0 cursor-pointer" onClick={() => setAgreedTerms(!agreedTerms)}>
+                      {agreedTerms && (
+                        <svg className="w-3.5 h-3.5 text-[#E69138]" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <label className="text-sm text-gray-600 leading-tight cursor-pointer" onClick={() => setAgreedTerms(!agreedTerms)}>
+                      I agree to the <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] underline" onClick={(e) => e.stopPropagation()}>Terms and Conditions</a> including the delivery requirements.
+                    </label>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="mt-0.5 w-5 h-5 rounded border-2 border-[#E69138] bg-white flex items-center justify-center flex-shrink-0 cursor-pointer" onClick={() => setAgreedRefund(!agreedRefund)}>
+                      {agreedRefund && (
+                        <svg className="w-3.5 h-3.5 text-[#E69138]" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <label className="text-sm text-gray-600 leading-tight cursor-pointer" onClick={() => setAgreedRefund(!agreedRefund)}>
+                      I understand the $500 deposit is non-refundable once the order is placed.
+                    </label>
+                  </div>
+                </div>
+
                 <div className="flex items-center justify-center gap-2 text-gray-500 text-sm pt-2">
                   <Lock className="w-4 h-4" />
                   <span>Secure and encrypted</span>
                 </div>
               </CardContent>
             </Card>
-
-            <div className="md:hidden">
-              <Link href="/">
-                <Button className="w-full bg-[#E69138] hover:bg-[#D4802F] text-white">
-                  Pay Now
-                </Button>
-              </Link>
-            </div>
           </div>
 
-          <div className="md:sticky md:top-8 h-fit">
+          <div className="hidden md:block md:sticky md:top-8 h-fit">
             <Card>
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg">Order Summary</CardTitle>
@@ -673,14 +595,6 @@ export default function Booking() {
                     </div>
                   </div>
                 )}
-
-                <div className="hidden lg:block pt-4">
-                  <Link href="/">
-                    <Button className="w-full bg-[#E69138] hover:bg-[#D4802F] text-white">
-                      Pay Now
-                    </Button>
-                  </Link>
-                </div>
               </CardContent>
             </Card>
           </div>
