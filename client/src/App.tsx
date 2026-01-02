@@ -18,6 +18,12 @@ import AdminDashboard from "@/pages/admin/AdminDashboard";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Layout from "@/components/layout/Layout";
+import ScarcityPopup, { useCartAbandonmentTracking } from "@/components/ScarcityPopup";
+
+function CartTracker() {
+  useCartAbandonmentTracking();
+  return null;
+}
 
 function Router() {
   return (
@@ -55,6 +61,8 @@ function App() {
       <StoreProvider>
         <TooltipProvider>
           <Toaster />
+          <CartTracker />
+          <ScarcityPopup />
           <Router />
         </TooltipProvider>
       </StoreProvider>

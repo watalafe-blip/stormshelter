@@ -121,11 +121,24 @@ export class MemStorage implements IStorage {
   async createBooking(insertBooking: InsertBooking): Promise<Booking> {
     const id = randomUUID();
     const booking: Booking = {
-      ...insertBooking,
       id,
+      customerName: insertBooking.customerName,
+      customerEmail: insertBooking.customerEmail,
+      customerPhone: insertBooking.customerPhone,
+      deliveryAddress: insertBooking.deliveryAddress,
+      deliveryCity: insertBooking.deliveryCity,
+      deliveryState: insertBooking.deliveryState,
+      deliveryZip: insertBooking.deliveryZip,
+      slotId: insertBooking.slotId,
+      milesFromHq: insertBooking.milesFromHq,
+      shippingFee: insertBooking.shippingFee,
+      productPrice: insertBooking.productPrice || "4999",
+      totalDue: insertBooking.totalDue,
+      paymentOption: insertBooking.paymentOption as "deposit" | "full",
       paymentStatus: "pending",
       bookingStatus: "pending",
       whopCheckoutId: null,
+      notes: insertBooking.notes || null,
       createdAt: new Date()
     };
     this.bookingsMap.set(id, booking);
@@ -166,11 +179,12 @@ export class MemStorage implements IStorage {
   async createCartSession(session: InsertCartSession): Promise<CartSession> {
     const id = randomUUID();
     const cartSession: CartSession = {
-      ...session,
       id,
-      status: session.status || "active",
+      sessionToken: session.sessionToken,
+      customerEmail: session.customerEmail || null,
+      status: (session.status as "active" | "abandoned" | "converted") || "active",
       potentialSavings: session.potentialSavings || "400",
-      lastActivityAt: new Date(),
+      lastActivityAt: session.lastActivityAt || new Date(),
       createdAt: new Date()
     };
     this.cartSessionsMap.set(id, cartSession);
@@ -206,9 +220,13 @@ export class MemStorage implements IStorage {
   async createEmailReminder(reminder: InsertEmailReminder): Promise<EmailReminder> {
     const id = randomUUID();
     const emailReminder: EmailReminder = {
-      ...reminder,
       id,
-      status: reminder.status || "pending",
+      cartSessionId: reminder.cartSessionId,
+      customerEmail: reminder.customerEmail,
+      reminderType: reminder.reminderType || "shipping_discount",
+      discountAmount: reminder.discountAmount || "400",
+      expiresAt: reminder.expiresAt,
+      status: (reminder.status as "pending" | "sent" | "expired" | "redeemed") || "pending",
       sentAt: null,
       createdAt: new Date()
     };
@@ -309,7 +327,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createBooking(insertBooking: InsertBooking): Promise<Booking> {
-    const result = await this.db.insert(bookings).values(insertBooking).returning();
+    const result = await this.db.insert(bookings).values(insertBooking as any).returning();
     return result[0];
   }
 
@@ -337,7 +355,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createCartSession(session: InsertCartSession): Promise<CartSession> {
-    const result = await this.db.insert(cartSessions).values(session).returning();
+    const result = await this.db.insert(cartSessions).values(session as any).returning();
     return result[0];
   }
 
@@ -364,7 +382,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createEmailReminder(reminder: InsertEmailReminder): Promise<EmailReminder> {
-    const result = await this.db.insert(emailReminders).values(reminder).returning();
+    const result = await this.db.insert(emailReminders).values(reminder as any).returning();
     return result[0];
   }
 
