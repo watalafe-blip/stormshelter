@@ -2,7 +2,7 @@ import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Layout from '@/components/layout/Layout';
-import familyCouple from '@assets/generated_images/country_couple_family_business_portrait.png';
+import familyCouple from '@assets/generated_images/couple_at_shelter_manufacturing_facility.png';
 import helpingVictims from '@assets/generated_images/founders_helping_tornado_victims.png';
 
 export default function About() {
