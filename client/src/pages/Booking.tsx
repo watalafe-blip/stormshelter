@@ -368,7 +368,7 @@ export default function Booking() {
                   </div>
                 </div>
 
-                {isFormValid ? (
+                {isFormValid && (
                   <div className="rounded-lg overflow-hidden border border-gray-200 min-h-[400px]">
                     <WhopCheckoutEmbed
                       planId="plan_0uXfZPdIAvES2"
@@ -392,10 +392,6 @@ export default function Booking() {
                         </div>
                       }
                     />
-                  </div>
-                ) : (
-                  <div className="p-6 bg-stone-50 rounded-lg border border-stone-200 text-center">
-                    <p className="text-gray-500">Complete all fields above to proceed with payment</p>
                   </div>
                 )}
               </CardContent>
