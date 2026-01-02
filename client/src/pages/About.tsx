@@ -2,6 +2,8 @@ import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Layout from '@/components/layout/Layout';
+import teamMemberMale from '@assets/generated_images/missouri_businessman_professional_headshot.png';
+import teamMemberFemale from '@assets/generated_images/professional_businesswoman_headshot_portrait.png';
 
 export default function About() {
   return (
@@ -89,6 +91,47 @@ export default function About() {
                 <p className="text-lg text-slate-600 leading-relaxed">
                   We stand behind our construction. If there's ever a structural issue with 
                   your shelter, we'll make it right. Period.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-24 bg-gradient-to-b from-white to-slate-50">
+          <div className="max-w-3xl mx-auto px-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Our leadership</h2>
+            <p className="text-lg text-slate-600 mb-12">
+              The people behind Home Defend Pro.
+            </p>
+            <div className="grid md:grid-cols-2 gap-12">
+              <div>
+                <img 
+                  src={teamMemberMale} 
+                  alt="Robert Mitchell - Founder & CEO" 
+                  className="w-full aspect-square object-cover rounded-2xl mb-6"
+                  data-testid="img-team-robert"
+                />
+                <h3 className="text-xl font-semibold text-slate-900">Robert Mitchell</h3>
+                <p className="text-[#E69138] font-medium mb-3">Founder & CEO</p>
+                <p className="text-slate-600 leading-relaxed">
+                  Born and raised in Missouri, Robert founded Home Defend Pro after losing 
+                  his childhood home to a tornado. He's dedicated the last 17 years to 
+                  making storm protection accessible to every family.
+                </p>
+              </div>
+              <div>
+                <img 
+                  src={teamMemberFemale} 
+                  alt="Sarah Collins - COO" 
+                  className="w-full aspect-square object-cover rounded-2xl mb-6"
+                  data-testid="img-team-sarah"
+                />
+                <h3 className="text-xl font-semibold text-slate-900">Sarah Collins</h3>
+                <p className="text-[#E69138] font-medium mb-3">Chief Operations Officer</p>
+                <p className="text-slate-600 leading-relaxed">
+                  Sarah oversees all delivery operations and customer experience. Her 
+                  background in logistics has helped streamline our delivery process, 
+                  getting shelters to families faster than ever.
                 </p>
               </div>
             </div>
