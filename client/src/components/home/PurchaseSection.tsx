@@ -80,7 +80,7 @@ export default function PurchaseSection() {
                 '10-Year Structural Warranty',
                 'FEMA 320 & ICC 500 Certified',
                 'Made in USA (Missouri)',
-                'Installation Guide Included'
+                'Expert Support Included'
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-stone-600">
                   <div className="w-6 h-6 rounded-full bg-[#E69138]/10 flex items-center justify-center shrink-0">

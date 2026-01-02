@@ -49,7 +49,7 @@ export const bookings = pgTable("bookings", {
   deliveryZip: text("delivery_zip").notNull(),
   milesFromHq: decimal("miles_from_hq", { precision: 10, scale: 2 }).notNull(),
   shippingFee: decimal("shipping_fee", { precision: 10, scale: 2 }).notNull(),
-  productPrice: decimal("product_price", { precision: 10, scale: 2 }).notNull().default("4999"),
+  productPrice: decimal("product_price", { precision: 10, scale: 2 }).notNull().default("4599"),
   totalDue: decimal("total_due", { precision: 10, scale: 2 }).notNull(),
   paymentOption: text("payment_option").notNull().$type<"deposit" | "full">(),
   paymentStatus: text("payment_status").notNull().$type<"pending" | "paid" | "failed" | "refunded">().default("pending"),

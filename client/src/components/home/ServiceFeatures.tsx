@@ -4,8 +4,8 @@ import { Package, Truck, RotateCcw, HeadphonesIcon } from 'lucide-react';
 const features = [
   {
     icon: Truck,
-    title: "Installation & Delivery",
-    description: "We deliver directly to your site. You arrange the offloading (forklift/crane). Comprehensive installation guide included for your contractor."
+    title: "Direct Delivery",
+    description: "We deliver directly to your site. You arrange the offloading (forklift/crane required)."
   },
   {
     icon: Package,

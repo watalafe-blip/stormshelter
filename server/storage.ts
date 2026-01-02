@@ -113,7 +113,7 @@ export class MemStorage implements IStorage {
       slotId: insertBooking.slotId,
       milesFromHq: insertBooking.milesFromHq,
       shippingFee: insertBooking.shippingFee,
-      productPrice: insertBooking.productPrice || "4999",
+      productPrice: insertBooking.productPrice || "4599",
       totalDue: insertBooking.totalDue,
       paymentOption: insertBooking.paymentOption as "deposit" | "full",
       paymentStatus: "pending",

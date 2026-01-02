@@ -87,13 +87,15 @@ function BookingsPage() {
     }
   });
 
-  const { data: slots = [] } = useQuery<DeliverySlot[]>({
+  const { data: slotsData = [] } = useQuery<DeliverySlot[]>({
     queryKey: ['/api/availability'],
     queryFn: async () => {
       const res = await fetch('/api/availability');
-      return res.json();
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
     }
   });
+  const slots = Array.isArray(slotsData) ? slotsData : [];
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: string; status: string }) => {

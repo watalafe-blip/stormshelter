@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'wouter';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
-import { ShieldCheck, Ruler, Hammer, Download, Phone } from 'lucide-react';
+import { ShieldCheck, Ruler, Hammer, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import excavateImg from '@assets/generated_images/excavation_pit_for_shelter.png';
 import drainTileImg from '@assets/generated_images/drain_tile_installation.png';
@@ -113,30 +113,18 @@ export default function TechnicalSpecs() {
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <h4 className="font-bold text-[#3E2723] text-lg">Resources</h4>
-                  <Button variant="outline" className="w-full justify-start gap-3 h-11 text-stone-700 border-stone-300 hover:bg-stone-50 hover:text-[#E69138]">
-                    <Download size={18} /> Installation Guide
+              <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <Link href="/booking">
+                  <Button 
+                    className="bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold h-12 text-lg px-8"
+                  >
+                    Secure Your Spot
                   </Button>
-                  <Button variant="outline" className="w-full justify-start gap-3 h-11 text-stone-700 border-stone-300 hover:bg-stone-50 hover:text-[#E69138]">
-                    <Download size={18} /> Product Catalog
-                  </Button>
-                </div>
+                </Link>
                 
-                <div className="space-y-3">
-                  <Link href="/booking">
-                    <Button 
-                      className="w-full bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold h-12 text-lg"
-                    >
-                      Secure Your Spot
-                    </Button>
-                  </Link>
-                  
-                  <a href="tel:888-262-7383" className="flex items-center justify-center gap-2 text-lg font-bold text-[#E69138] hover:underline">
-                    <Phone size={20} /> 888-262-7383
-                  </a>
-                </div>
+                <a href="tel:833-906-1077" className="flex items-center justify-center gap-2 text-lg font-bold text-[#E69138] hover:underline">
+                  <Phone size={20} /> (833) 906-1077
+                </a>
               </div>
             </div>
           </div>
