@@ -656,6 +656,7 @@ export default function Booking() {
       <div className="border-t border-stone-200 bg-white py-6">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm">
+            <Link href="/about" className="text-[#E69138] hover:underline">About Us</Link>
             <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] hover:underline">Refund policy</a>
             <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] hover:underline">Shipping</a>
             <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] hover:underline">Privacy policy</a>
