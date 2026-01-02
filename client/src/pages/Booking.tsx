@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CalendarDays, Truck, Loader2, ShieldCheck, Star, Lock } from 'lucide-react';
+import { CalendarDays, Truck, Loader2, ShieldCheck, Star, Lock, ChevronDown, ChevronUp } from 'lucide-react';
 import { Link } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import logoImg from '@assets/images-Photoroom_1766984801727.png';
@@ -39,6 +39,7 @@ export default function Booking() {
   const [addressSuggestions, setAddressSuggestions] = useState<Array<{display: string, city: string, state: string, zip: string}>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
+  const [mobileOrderOpen, setMobileOrderOpen] = useState(false);
   const [billingInfo, setBillingInfo] = useState({
     name: '',
     company: '',
@@ -214,6 +215,84 @@ export default function Booking() {
               <span className="text-xs md:text-sm text-gray-600">150,000+ 5 Star Reviews</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Order Summary - Collapsible */}
+      <div className="md:hidden bg-stone-50 border-b border-stone-200">
+        <div className="max-w-7xl mx-auto px-4">
+          <button 
+            onClick={() => setMobileOrderOpen(!mobileOrderOpen)}
+            className="w-full flex items-center justify-between py-4"
+            data-testid="mobile-order-toggle"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-[#E69138] font-medium">Order summary</span>
+              {mobileOrderOpen ? (
+                <ChevronUp className="w-4 h-4 text-[#E69138]" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-[#E69138]" />
+              )}
+            </div>
+            <span className="font-bold text-lg">${depositAmount.toLocaleString()}</span>
+          </button>
+          
+          {mobileOrderOpen && (
+            <div className="pb-4 space-y-4">
+              <div className="flex gap-4">
+                <div className="w-16 h-16 bg-stone-100 rounded-lg flex items-center justify-center">
+                  <img 
+                    src={logoImg} 
+                    alt="Storm Shelter" 
+                    className="w-12 h-12 object-contain"
+                  />
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-gray-900 text-sm">Underground Storm Shelter</p>
+                  <p className="text-xs text-gray-500">Stock #706900</p>
+                  <p className="text-sm font-medium mt-1">${productPrice.toLocaleString()}</p>
+                </div>
+              </div>
+
+              <div className="border-t pt-3 space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Subtotal</span>
+                  <span>${productPrice.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">
+                    Shipping {shippingInfo ? `(${shippingInfo.miles.toFixed(0)} mi)` : ''}
+                  </span>
+                  <span>
+                    {shippingInfo ? `$${shippingInfo.shippingFee.toLocaleString()}` : 'Enter address'}
+                  </span>
+                </div>
+                <div className="flex justify-between pt-2 border-t font-medium">
+                  <span>Total</span>
+                  <span>${totalForFull.toLocaleString()}</span>
+                </div>
+              </div>
+
+              <div className="border-t pt-3 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Due today (deposit)</span>
+                  <span className="font-medium">${depositAmount}</span>
+                </div>
+                <p className="text-xs text-gray-500">
+                  Remaining balance of ${(totalForFull - depositAmount).toLocaleString()} will be invoiced before delivery.
+                </p>
+              </div>
+
+              {selectedDate && (
+                <div className="border-t pt-3">
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-gray-600">Delivery date</span>
+                    <span>{format(selectedDate, 'MMM d, yyyy')}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -484,7 +563,7 @@ export default function Booking() {
                 <CardTitle className="text-lg">Complete Your Payment</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="min-h-[400px] whop-checkout-container" ref={checkoutContainerRef}>
+                <div className="min-h-[400px] w-full whop-checkout-container" ref={checkoutContainerRef}>
                   <div
                     key={customerInfo.email} // Re-render when email changes to update prefill in HTML embed
                     data-whop-checkout-plan-id="plan_0uXfZPdIAvES2"
