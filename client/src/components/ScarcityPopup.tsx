@@ -9,10 +9,12 @@ interface ScarcityPopupProps {
   expiresAt?: Date | null;
 }
 
-export default function ScarcityPopup({ discountAmount = 400, expiresAt }: ScarcityPopupProps) {
+export default function ScarcityPopup({ discountAmount: defaultDiscount = 400 }: ScarcityPopupProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [isDismissed, setIsDismissed] = useState(false);
+  const [reminderExpiry, setReminderExpiry] = useState<Date | null>(null);
+  const [discount, setDiscount] = useState(defaultDiscount);
 
   useEffect(() => {
     const dismissed = localStorage.getItem('scarcity_popup_dismissed');
@@ -37,6 +39,12 @@ export default function ScarcityPopup({ discountAmount = 400, expiresAt }: Scarc
           const reminderData = await reminderRes.json();
           
           if (reminderData.hasActiveReminder) {
+            if (reminderData.expiresAt) {
+              setReminderExpiry(new Date(reminderData.expiresAt));
+            }
+            if (reminderData.discountAmount) {
+              setDiscount(parseFloat(reminderData.discountAmount));
+            }
             setTimeout(() => setIsVisible(true), 2000);
           }
         }
@@ -49,12 +57,11 @@ export default function ScarcityPopup({ discountAmount = 400, expiresAt }: Scarc
   }, []);
 
   useEffect(() => {
-    if (!expiresAt) return;
+    if (!reminderExpiry) return;
 
     const updateTimeLeft = () => {
       const now = new Date();
-      const expiry = new Date(expiresAt);
-      const diff = expiry.getTime() - now.getTime();
+      const diff = reminderExpiry.getTime() - now.getTime();
       
       if (diff <= 0) {
         setTimeLeft('Expired');
@@ -69,7 +76,7 @@ export default function ScarcityPopup({ discountAmount = 400, expiresAt }: Scarc
     updateTimeLeft();
     const interval = setInterval(updateTimeLeft, 60000);
     return () => clearInterval(interval);
-  }, [expiresAt]);
+  }, [reminderExpiry]);
 
   const handleDismiss = () => {
     setIsDismissed(true);
@@ -106,7 +113,7 @@ export default function ScarcityPopup({ discountAmount = 400, expiresAt }: Scarc
             
             <div className="p-4 space-y-3">
               <p className="text-[#3E2723] font-semibold text-lg">
-                Complete your deposit today and save <span className="text-[#E69138] font-bold">${discountAmount}</span> on shipping!
+                Complete your deposit today and save <span className="text-[#E69138] font-bold">${discount}</span> on shipping!
               </p>
               
               {timeLeft && timeLeft !== 'Expired' && (
@@ -165,9 +172,10 @@ export function useCartAbandonmentTracking() {
     const handleBeforeUnload = () => {
       const email = localStorage.getItem('customer_email');
       if (sessionToken) {
+        const blob = new Blob([JSON.stringify({ email })], { type: 'application/json' });
         navigator.sendBeacon(
           `/api/cart-sessions/${sessionToken}/abandon`,
-          JSON.stringify({ email })
+          blob
         );
       }
     };

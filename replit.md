@@ -77,3 +77,30 @@ Preferred communication style: Simple, everyday language.
 - **Error Overlay**: `@replit/vite-plugin-runtime-error-modal` for development error display
 - **Cartographer**: `@replit/vite-plugin-cartographer` for file navigation in development
 - **Dev Banner**: `@replit/vite-plugin-dev-banner` for development environment indicator
+
+## Recent Changes (January 2026)
+
+### Cart Abandonment System
+- Added `cart_sessions` and `email_reminders` database tables for tracking abandoned carts
+- Cart session tracking via localStorage token
+- Scarcity popup shows $400 shipping discount offer when user returns after abandoning cart
+- 24-hour expiring discount reminders
+
+### Email Integration (Pending)
+- Email reminder system is ready but email service (Resend) was not configured
+- To enable: Set up Resend integration via Replit integrations panel
+- System will send reminder emails for abandoned carts with 24-hour discount offers
+
+### Admin Features
+- Bookings management at `/admin/bookings` with full CRUD operations
+- Calendar-based slot management
+- Payment and booking status tracking
+- Demo bookings added to database for demonstration
+
+## User Preferences & Design Decisions
+- **Brand Colors**: Orange (#E69138) for primary actions, Brown (#3E2723) for text/accents
+- **Design Style**: Premium SaaS aesthetic (Stripe/Linear style) - no cards, borders, or template elements; generous whitespace
+- **Family Business Positioning**: Midwest heartland, husband/wife team from Kansas City area
+- **Navigation**: "Slope Storm Shelter" link for SEO, About Us, Contact Us
+- **No year references**: Removed all "2025" mentions to keep content evergreen
+- **No professional installation**: Service not provided by company
