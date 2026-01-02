@@ -187,17 +187,22 @@ export default function Booking() {
 
   return (
     <div className="min-h-screen bg-stone-100" data-testid="booking-page">
-      <div className="bg-white border-b border-stone-200 py-4">
+      <header className="bg-white border-b border-stone-200 py-4">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <Link href="/">
-            <img src={headerLogoImg} alt="Home Defend Pro" className="h-10 w-auto" />
+            <img src={headerLogoImg} alt="Home Defend Pro" className="h-10 w-auto cursor-pointer" />
           </Link>
+          <nav className="hidden md:flex items-center gap-8">
+            <Link href="/" className="text-gray-600 hover:text-[#E69138] transition-colors">Home</Link>
+            <Link href="/about" className="text-gray-600 hover:text-[#E69138] transition-colors">About Us</Link>
+            <Link href="/contact" className="text-gray-600 hover:text-[#E69138] transition-colors">Contact</Link>
+          </nav>
           <div className="flex items-center gap-2 text-sm text-stone-600">
             <ShieldCheck className="w-4 h-4" />
             <span>Secure Checkout</span>
           </div>
         </div>
-      </div>
+      </header>
 
       <div className="bg-white border-b border-stone-200 py-3">
         <div className="max-w-7xl mx-auto px-4">
@@ -210,9 +215,6 @@ export default function Booking() {
               {[1,2,3,4,5].map(i => (
                 <Star key={i} className="w-4 h-4 fill-[#E69138] text-[#E69138]" />
               ))}
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs md:text-sm text-gray-600">150,000+ 5 Star Reviews</span>
             </div>
           </div>
         </div>
