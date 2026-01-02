@@ -59,6 +59,7 @@ interface Booking {
   paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
   bookingStatus: 'pending' | 'confirmed' | 'completed' | 'cancelled';
   whopCheckoutId: string | null;
+  paymentMethod: string | null;
   notes: string | null;
   createdAt: string;
 }
@@ -265,7 +266,7 @@ function BookingsPage() {
                     <TableHead>Booking ID</TableHead>
                     <TableHead>Customer</TableHead>
                     <TableHead>Location</TableHead>
-                    <TableHead>Deposit</TableHead>
+                    <TableHead>Payment</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Created</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
@@ -289,9 +290,16 @@ function BookingsPage() {
                         <div className="text-xs text-muted-foreground">{booking.deliveryCity}, {booking.deliveryState} {booking.deliveryZip}</div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={getPaymentBadgeVariant(booking.paymentStatus)} className="capitalize">
-                          {booking.paymentStatus === 'paid' ? '$500 Paid' : booking.paymentStatus}
-                        </Badge>
+                        <div className="space-y-1">
+                          <Badge variant={getPaymentBadgeVariant(booking.paymentStatus)} className="capitalize">
+                            {booking.paymentStatus === 'paid' ? '$500 Paid' : booking.paymentStatus}
+                          </Badge>
+                          {booking.paymentMethod && (
+                            <div className="text-xs text-muted-foreground font-mono">
+                              {booking.paymentMethod}
+                            </div>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell>
                         <Badge variant={getStatusBadgeVariant(booking.bookingStatus)} className="capitalize">
@@ -372,6 +380,12 @@ function BookingsPage() {
                 <div className="border rounded-lg p-4">
                   <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wider mb-3">Payment</h3>
                   <div className="space-y-2 text-sm">
+                    {selectedBooking.paymentMethod && (
+                      <div className="flex items-center gap-2 py-2 px-3 bg-stone-50 rounded-md mb-3">
+                        <CreditCard className="w-4 h-4 text-muted-foreground" />
+                        <span className="font-mono text-sm">{selectedBooking.paymentMethod}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between">
                       <span>Product</span>
                       <span>${parseFloat(selectedBooking.productPrice).toLocaleString()}</span>

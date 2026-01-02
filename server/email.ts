@@ -3,6 +3,58 @@ import { Resend } from 'resend';
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
+const CONTACT_EMAIL = 'info@homedefendpro.com';
+
+interface ContactFormData {
+  firstName: string;
+  lastName?: string;
+  email: string;
+  message: string;
+}
+
+export async function sendContactFormEmail(data: ContactFormData): Promise<boolean> {
+  if (!resend) {
+    console.log('Email service not configured (RESEND_API_KEY missing). Contact form submission from:', data.email);
+    return false;
+  }
+  
+  try {
+    const fullName = data.lastName ? `${data.firstName} ${data.lastName}` : data.firstName;
+    
+    const { error } = await resend.emails.send({
+      from: 'Home Defend Pro <noreply@homedefendpro.com>',
+      to: [CONTACT_EMAIL],
+      replyTo: data.email,
+      subject: `Contact Form: ${fullName}`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <body style="font-family: sans-serif; padding: 20px; color: #333;">
+          <h2 style="color: #E69138;">New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${fullName}</p>
+          <p><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
+          <p><strong>Message:</strong></p>
+          <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; white-space: pre-wrap;">${data.message}</div>
+          <hr style="margin: 24px 0; border: none; border-top: 1px solid #ddd;" />
+          <p style="color: #666; font-size: 12px;">This message was sent from the Home Defend Pro contact form.</p>
+        </body>
+        </html>
+      `
+    });
+
+    if (error) {
+      console.error('Failed to send contact form email:', error);
+      return false;
+    }
+
+    console.log('Contact form email sent from:', data.email);
+    return true;
+  } catch (error) {
+    console.error('Error sending contact form email:', error);
+    return false;
+  }
+}
+
 interface BookingEmailData {
   customerName: string;
   customerEmail: string;

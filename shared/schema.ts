@@ -55,6 +55,7 @@ export const bookings = pgTable("bookings", {
   paymentStatus: text("payment_status").notNull().$type<"pending" | "paid" | "failed" | "refunded">().default("pending"),
   bookingStatus: text("booking_status").notNull().$type<"pending" | "confirmed" | "completed" | "cancelled">().default("pending"),
   whopCheckoutId: text("whop_checkout_id"),
+  paymentMethod: text("payment_method"),
   notes: text("notes"),
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
 });

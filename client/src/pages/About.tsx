@@ -9,13 +9,13 @@ export default function About() {
   return (
     <Layout>
       <div className="bg-white" data-testid="about-page">
-        <section className="pt-32 pb-20 md:pt-40 md:pb-28">
+        <section className="pt-24 pb-12 md:pt-28 md:pb-16">
           <div className="max-w-3xl mx-auto px-6 text-center">
-            <p className="text-[#E69138] font-medium text-sm tracking-wide uppercase mb-4">About Us</p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#3E2723] leading-tight tracking-tight mb-6">
+            <p className="text-[#E69138] font-medium text-sm tracking-wide uppercase mb-3">About Us</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#3E2723] leading-tight tracking-tight mb-4">
               Protecting families since 2008
             </h1>
-            <p className="text-xl text-stone-600 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg text-stone-600 leading-relaxed max-w-2xl mx-auto">
               We build concrete underground storm shelters engineered to withstand 
               the most extreme weather conditions. Simple as that.
             </p>

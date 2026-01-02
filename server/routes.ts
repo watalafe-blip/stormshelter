@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { sendBookingConfirmation } from "./email";
+import { sendBookingConfirmation, sendContactFormEmail } from "./email";
 
 const GRANDVIEW_MO_COORDS = { lat: 38.8814, lng: -94.5314 };
 const SHIPPING_RATE_PER_MILE = 5.2;
@@ -208,6 +208,23 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error updating booking status:", error);
       res.status(500).json({ error: "Failed to update booking status" });
+    }
+  });
+
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const { firstName, lastName, email, message } = req.body;
+      
+      if (!firstName || !email || !message) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      await sendContactFormEmail({ firstName, lastName, email, message });
+      
+      res.json({ success: true, message: "Contact form submitted" });
+    } catch (error) {
+      console.error("Error processing contact form:", error);
+      res.status(500).json({ error: "Failed to process contact form" });
     }
   });
 

@@ -112,20 +112,15 @@ export default function TechnicalSpecs() {
               ))}
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
-              <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-                <Link href="/booking">
-                  <Button 
-                    className="bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F] font-bold h-12 text-lg px-8"
-                  >
-                    Secure Your Spot
-                  </Button>
-                </Link>
-                
-                <a href="tel:833-906-1077" className="flex items-center justify-center gap-2 text-lg font-bold text-[#E69138] hover:underline">
-                  <Phone size={20} /> (833) 906-1077
-                </a>
-              </div>
+            <div className="text-center pt-4">
+              <Link href="/booking">
+                <span className="inline-flex items-center gap-2 text-lg font-bold text-[#E69138] hover:underline cursor-pointer">
+                  Ready to protect your family? Secure your spot →
+                </span>
+              </Link>
+              <p className="mt-2 text-stone-500">
+                Questions? Call <a href="tel:833-906-1077" className="font-medium text-[#3E2723] hover:underline">(833) 906-1077</a>
+              </p>
             </div>
           </div>
 

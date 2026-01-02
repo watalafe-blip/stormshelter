@@ -119,6 +119,7 @@ export class MemStorage implements IStorage {
       paymentStatus: "pending",
       bookingStatus: "pending",
       whopCheckoutId: null,
+      paymentMethod: null,
       notes: insertBooking.notes || null,
       createdAt: new Date()
     };

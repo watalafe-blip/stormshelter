@@ -158,16 +158,16 @@ export default function PurchaseSection() {
                  </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <Link href="/booking">
                   <Button 
                     className="w-full h-16 text-xl font-bold bg-[#E69138] hover:bg-[#D4842F] text-[#3E2723] shadow-lg hover:shadow-xl transition-all"
                   >
-                    Secure My Spot
+                    Secure My Spot — $500 Deposit
                   </Button>
                 </Link>
                 
-                <div className="text-center space-y-2">
+                <div className="text-center space-y-2 pt-4 mt-4 border-t border-dashed border-gray-200">
                   <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
                     We Accept
                   </p>
