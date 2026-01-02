@@ -368,21 +368,7 @@ export default function Booking() {
                   </div>
                 </div>
 
-                {!isFormValid ? (
-                  <div className="p-6 bg-stone-50 rounded-lg border border-stone-200 text-center">
-                    <p className="text-gray-600 mb-3">Please complete the following to proceed:</p>
-                    <ul className="text-sm text-gray-500 space-y-1">
-                      {!selectedDate && <li>Select a delivery date</li>}
-                      {!customerInfo.name && <li>Enter your full name</li>}
-                      {!customerInfo.email && <li>Enter your email address</li>}
-                      {!customerInfo.phone && <li>Enter your phone number</li>}
-                      {(!address.street || !address.city || !address.state || !address.zip) && <li>Enter your delivery address</li>}
-                      {!shippingInfo && address.zip && <li>Wait for shipping calculation</li>}
-                      {!agreedTerms && <li>Agree to Terms and Conditions</li>}
-                      {!agreedRefund && <li>Acknowledge the refund policy</li>}
-                    </ul>
-                  </div>
-                ) : (
+                {isFormValid ? (
                   <div className="rounded-lg overflow-hidden border border-gray-200 min-h-[400px]">
                     <WhopCheckoutEmbed
                       planId="plan_0uXfZPdIAvES2"
@@ -406,6 +392,10 @@ export default function Booking() {
                         </div>
                       }
                     />
+                  </div>
+                ) : (
+                  <div className="p-6 bg-stone-50 rounded-lg border border-stone-200 text-center">
+                    <p className="text-gray-500">Complete all fields above to proceed with payment</p>
                   </div>
                 )}
               </CardContent>
