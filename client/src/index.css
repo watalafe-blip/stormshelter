@@ -161,3 +161,18 @@
   }
 }
 
+/* Force Whop checkout embed to full width */
+.whop-checkout-container {
+  width: 100% !important;
+}
+
+.whop-checkout-container > div,
+.whop-checkout-container iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+[data-whop-checkout-plan-id] {
+  width: 100% !important;
+}
+
