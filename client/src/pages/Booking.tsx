@@ -573,33 +573,31 @@ export default function Booking() {
                   </div>
                 </div>
 
-                {isFormValid && (
-                  <div className="rounded-lg overflow-hidden border border-gray-200 min-h-[400px]">
-                    <WhopCheckoutEmbed
-                      planId="plan_0uXfZPdIAvES2"
-                      returnUrl={`${window.location.origin}/checkout/complete`}
-                      theme="light"
-                      hideTermsAndConditions={false}
-                      prefill={{
-                        email: customerInfo.email,
-                        address: {
-                          name: customerInfo.name,
-                          country: "US",
-                          line1: effectiveBillingAddress.street,
-                          city: effectiveBillingAddress.city,
-                          state: effectiveBillingAddress.state,
-                          postalCode: effectiveBillingAddress.zip
-                        }
-                      }}
-                      fallback={
-                        <div className="flex items-center justify-center py-12">
-                          <Loader2 className="w-6 h-6 animate-spin text-[#E69138]" />
-                          <span className="ml-2 text-gray-600">Loading payment form...</span>
-                        </div>
+                <div className="rounded-lg overflow-hidden border border-gray-200 min-h-[400px]">
+                  <WhopCheckoutEmbed
+                    planId="plan_0uXfZPdIAvES2"
+                    returnUrl={`${window.location.origin}/checkout/complete`}
+                    theme="light"
+                    hideTermsAndConditions={false}
+                    prefill={{
+                      email: customerInfo.email,
+                      address: {
+                        name: customerInfo.name,
+                        country: "US",
+                        line1: effectiveBillingAddress.street,
+                        city: effectiveBillingAddress.city,
+                        state: effectiveBillingAddress.state,
+                        postalCode: effectiveBillingAddress.zip
                       }
-                    />
-                  </div>
-                )}
+                    }}
+                    fallback={
+                      <div className="flex items-center justify-center py-12">
+                        <Loader2 className="w-6 h-6 animate-spin text-[#E69138]" />
+                        <span className="ml-2 text-gray-600">Loading payment form...</span>
+                      </div>
+                    }
+                  />
+                </div>
 
                 <div className="flex items-center justify-center gap-2 text-gray-500 text-sm pt-2">
                   <Lock className="w-4 h-4" />
