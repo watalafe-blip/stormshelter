@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CalendarDays, Truck, Loader2, ShieldCheck, ChevronDown, Star, Award, Lock } from 'lucide-react';
+import { CalendarDays, Truck, Loader2, ShieldCheck, Star, Lock } from 'lucide-react';
 import { Link } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import logoImg from '@assets/images-Photoroom_1766984801727.png';
@@ -37,11 +37,9 @@ export default function Booking() {
     phone: ''
   });
   
-  const [agreedTerms, setAgreedTerms] = useState(false);
-  const [agreedRefund, setAgreedRefund] = useState(false);
   const [addressSuggestions, setAddressSuggestions] = useState<Array<{display: string, city: string, state: string, zip: string}>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-    const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
+  const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
   const [billingInfo, setBillingInfo] = useState({
     name: '',
     company: '',
@@ -167,8 +165,7 @@ export default function Booking() {
     address.street && address.city && address.state && address.zip && 
     customerInfo.name && customerInfo.email && customerInfo.phone &&
     shippingInfo &&
-    billingValid &&
-    agreedTerms && agreedRefund;
+    billingValid;
   
   const effectiveBillingAddress = billingSameAsShipping 
     ? { ...address, name: customerInfo.name } 
@@ -194,10 +191,6 @@ export default function Booking() {
             <div className="flex items-center gap-2">
               <span className="text-lg md:text-xl font-bold text-gray-900">2,000,000+</span>
               <span className="text-xs md:text-sm text-gray-600">HAPPY CUSTOMERS</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Award className="w-4 h-4 text-gray-700" />
-              <span className="text-xs md:text-sm text-gray-600">Award Winning</span>
             </div>
             <div className="flex items-center gap-1">
               {[1,2,3,4,5].map(i => (
@@ -475,7 +468,7 @@ export default function Booking() {
                 <CardTitle className="text-lg">Complete Your Payment</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="rounded-lg overflow-hidden border border-gray-200 min-h-[400px]">
+                <div className="min-h-[400px] whop-checkout-container">
                   <WhopCheckoutEmbed
                     planId="plan_0uXfZPdIAvES2"
                     returnUrl={`${window.location.origin}/checkout/complete`}
@@ -502,32 +495,13 @@ export default function Booking() {
                   />
                 </div>
 
-                <div className="space-y-3 pb-4 border-b">
-                  <div className="flex items-start space-x-3">
-                    <div className="mt-0.5 w-5 h-5 rounded border-2 border-[#E69138] bg-white flex items-center justify-center flex-shrink-0 cursor-pointer" onClick={() => setAgreedTerms(!agreedTerms)}>
-                      {agreedTerms && (
-                        <svg className="w-3.5 h-3.5 text-[#E69138]" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                    </div>
-                    <label className="text-sm text-gray-600 leading-tight cursor-pointer" onClick={() => setAgreedTerms(!agreedTerms)}>
-                      I agree to the <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] underline" onClick={(e) => e.stopPropagation()}>Terms and Conditions</a> including the delivery requirements.
-                    </label>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="mt-0.5 w-5 h-5 rounded border-2 border-[#E69138] bg-white flex items-center justify-center flex-shrink-0 cursor-pointer" onClick={() => setAgreedRefund(!agreedRefund)}>
-                      {agreedRefund && (
-                        <svg className="w-3.5 h-3.5 text-[#E69138]" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                    </div>
-                    <label className="text-sm text-gray-600 leading-tight cursor-pointer" onClick={() => setAgreedRefund(!agreedRefund)}>
-                      I understand the $500 deposit is non-refundable once the order is placed.
-                    </label>
-                  </div>
-                </div>
+                <p className="text-xs text-gray-500 text-center">
+                  You can update your delivery details anytime before your scheduled delivery date.
+                </p>
+
+                <p className="text-xs text-gray-500 text-center pb-4 border-b">
+                  By clicking purchase, you agree to our <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] underline">Terms and Conditions</a> and acknowledge that the $500 deposit is non-refundable.
+                </p>
 
                 <div className="flex items-center justify-center gap-2 text-gray-500 text-sm pt-2">
                   <Lock className="w-4 h-4" />
