@@ -228,5 +228,49 @@ export async function registerRoutes(
     }
   });
 
+  // Whop webhook endpoint for payment events
+  app.post("/api/webhooks/whop", async (req, res) => {
+    try {
+      const { action, data } = req.body;
+      
+      console.log("Whop webhook received:", action, JSON.stringify(data, null, 2));
+      
+      if (action === "payment.succeeded") {
+        // Extract card info from Whop payload
+        const cardBrand = data?.card_brand || data?.payment_method?.card?.brand;
+        const cardLast4 = data?.card_last_4 || data?.payment_method?.card?.last4;
+        const checkoutId = data?.checkout_id || data?.id;
+        const membershipId = data?.membership;
+        const userEmail = data?.user?.email;
+        
+        if (cardBrand && cardLast4) {
+          // Format payment method string like "Visa ••••6568"
+          const formattedBrand = cardBrand.charAt(0).toUpperCase() + cardBrand.slice(1).toLowerCase();
+          const paymentMethod = `${formattedBrand} ••••${cardLast4}`;
+          
+          // Find booking by email (since we may not have checkout ID stored yet)
+          const allBookings = await storage.getAllBookings();
+          const booking = allBookings.find(b => 
+            b.customerEmail.toLowerCase() === userEmail?.toLowerCase() && 
+            b.paymentStatus === "pending"
+          );
+          
+          if (booking) {
+            await storage.updateBookingPaymentMethod(booking.id, paymentMethod, checkoutId);
+            await storage.updateBookingPaymentStatus(booking.id, "paid");
+            console.log(`Updated booking ${booking.id} with payment method: ${paymentMethod}`);
+          } else {
+            console.log("No matching pending booking found for email:", userEmail);
+          }
+        }
+      }
+      
+      res.json({ received: true });
+    } catch (error) {
+      console.error("Whop webhook error:", error);
+      res.status(500).json({ error: "Webhook processing failed" });
+    }
+  });
+
   return httpServer;
 }

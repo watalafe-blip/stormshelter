@@ -24,9 +24,11 @@ export interface IStorage {
   
   createBooking(booking: InsertBooking): Promise<Booking>;
   getBooking(id: string): Promise<Booking | undefined>;
+  getBookingByWhopCheckoutId(checkoutId: string): Promise<Booking | undefined>;
   getAllBookings(): Promise<Booking[]>;
   updateBookingPaymentStatus(id: string, status: "pending" | "paid" | "failed" | "refunded"): Promise<Booking | undefined>;
   updateBookingStatus(id: string, status: "pending" | "confirmed" | "completed" | "cancelled"): Promise<Booking | undefined>;
+  updateBookingPaymentMethod(id: string, paymentMethod: string, whopCheckoutId?: string): Promise<Booking | undefined>;
 }
 
 export class MemStorage implements IStorage {
@@ -131,6 +133,10 @@ export class MemStorage implements IStorage {
     return this.bookingsMap.get(id);
   }
 
+  async getBookingByWhopCheckoutId(checkoutId: string): Promise<Booking | undefined> {
+    return Array.from(this.bookingsMap.values()).find(b => b.whopCheckoutId === checkoutId);
+  }
+
   async getAllBookings(): Promise<Booking[]> {
     return Array.from(this.bookingsMap.values()).sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -153,6 +159,18 @@ export class MemStorage implements IStorage {
     const booking = this.bookingsMap.get(id);
     if (booking) {
       booking.bookingStatus = status;
+      this.bookingsMap.set(id, booking);
+    }
+    return booking;
+  }
+
+  async updateBookingPaymentMethod(id: string, paymentMethod: string, whopCheckoutId?: string): Promise<Booking | undefined> {
+    const booking = this.bookingsMap.get(id);
+    if (booking) {
+      booking.paymentMethod = paymentMethod;
+      if (whopCheckoutId) {
+        booking.whopCheckoutId = whopCheckoutId;
+      }
       this.bookingsMap.set(id, booking);
     }
     return booking;
@@ -242,6 +260,11 @@ export class DatabaseStorage implements IStorage {
     return result[0];
   }
 
+  async getBookingByWhopCheckoutId(checkoutId: string): Promise<Booking | undefined> {
+    const result = await this.db.select().from(bookings).where(eq(bookings.whopCheckoutId, checkoutId));
+    return result[0];
+  }
+
   async getAllBookings(): Promise<Booking[]> {
     return await this.db.select().from(bookings).orderBy(sql`${bookings.createdAt} DESC`);
   }
@@ -257,6 +280,15 @@ export class DatabaseStorage implements IStorage {
 
   async updateBookingStatus(id: string, status: "pending" | "confirmed" | "completed" | "cancelled"): Promise<Booking | undefined> {
     const result = await this.db.update(bookings).set({ bookingStatus: status }).where(eq(bookings.id, id)).returning();
+    return result[0];
+  }
+
+  async updateBookingPaymentMethod(id: string, paymentMethod: string, whopCheckoutId?: string): Promise<Booking | undefined> {
+    const updates: any = { paymentMethod };
+    if (whopCheckoutId) {
+      updates.whopCheckoutId = whopCheckoutId;
+    }
+    const result = await this.db.update(bookings).set(updates).where(eq(bookings.id, id)).returning();
     return result[0];
   }
 }
