@@ -492,6 +492,7 @@ export default function Booking() {
                     data-whop-checkout-theme-accent-color="orange"
                     data-whop-checkout-hide-email="true"
                     data-whop-checkout-hide-address="true"
+                    data-whop-checkout-hide-tos="true"
                     data-whop-checkout-prefill-email={customerInfo.email}
                     data-whop-checkout-prefill-name={customerInfo.name}
                   ></div>
