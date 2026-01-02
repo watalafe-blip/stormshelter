@@ -194,5 +194,127 @@ export async function registerRoutes(
     }
   });
 
+  // Cart session endpoints for abandonment tracking
+  app.post("/api/cart-sessions", async (req, res) => {
+    try {
+      const { sessionToken, customerEmail } = req.body;
+      if (!sessionToken) {
+        return res.status(400).json({ error: "Session token is required" });
+      }
+      
+      const existingSession = await storage.getCartSessionByToken(sessionToken);
+      if (existingSession) {
+        await storage.updateCartSessionActivity(existingSession.id);
+        return res.json(existingSession);
+      }
+      
+      const session = await storage.createCartSession({
+        sessionToken,
+        customerEmail: customerEmail || null,
+        status: "active",
+        potentialSavings: "400",
+        lastActivityAt: new Date()
+      });
+      res.json(session);
+    } catch (error) {
+      console.error("Error creating cart session:", error);
+      res.status(500).json({ error: "Failed to create cart session" });
+    }
+  });
+
+  app.get("/api/cart-sessions/:token", async (req, res) => {
+    try {
+      const session = await storage.getCartSessionByToken(req.params.token);
+      if (!session) {
+        return res.status(404).json({ error: "Session not found" });
+      }
+      res.json(session);
+    } catch (error) {
+      console.error("Error fetching cart session:", error);
+      res.status(500).json({ error: "Failed to fetch cart session" });
+    }
+  });
+
+  app.post("/api/cart-sessions/:token/abandon", async (req, res) => {
+    try {
+      const { email } = req.body;
+      const session = await storage.getCartSessionByToken(req.params.token);
+      if (!session) {
+        return res.status(404).json({ error: "Session not found" });
+      }
+      
+      const updatedSession = await storage.updateCartSessionStatus(session.id, "abandoned");
+      
+      if (email) {
+        const expiresAt = new Date();
+        expiresAt.setHours(expiresAt.getHours() + 24);
+        
+        await storage.createEmailReminder({
+          cartSessionId: session.id,
+          customerEmail: email,
+          reminderType: "shipping_discount",
+          discountAmount: "400",
+          expiresAt,
+          status: "pending"
+        });
+      }
+      
+      res.json({ success: true, session: updatedSession });
+    } catch (error) {
+      console.error("Error marking cart abandoned:", error);
+      res.status(500).json({ error: "Failed to mark cart as abandoned" });
+    }
+  });
+
+  app.post("/api/cart-sessions/:token/convert", async (req, res) => {
+    try {
+      const session = await storage.getCartSessionByToken(req.params.token);
+      if (!session) {
+        return res.status(404).json({ error: "Session not found" });
+      }
+      
+      await storage.updateCartSessionStatus(session.id, "converted");
+      
+      const reminder = await storage.getActiveReminderBySession(session.id);
+      if (reminder) {
+        await storage.updateReminderStatus(reminder.id, "redeemed");
+      }
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error converting cart session:", error);
+      res.status(500).json({ error: "Failed to convert cart session" });
+    }
+  });
+
+  app.get("/api/cart-sessions/:token/reminder", async (req, res) => {
+    try {
+      const session = await storage.getCartSessionByToken(req.params.token);
+      if (!session) {
+        return res.status(404).json({ error: "Session not found" });
+      }
+      
+      const reminder = await storage.getActiveReminderBySession(session.id);
+      if (!reminder) {
+        return res.json({ hasActiveReminder: false });
+      }
+      
+      const now = new Date();
+      if (reminder.expiresAt && new Date(reminder.expiresAt) < now) {
+        await storage.updateReminderStatus(reminder.id, "expired");
+        return res.json({ hasActiveReminder: false });
+      }
+      
+      res.json({
+        hasActiveReminder: true,
+        discountAmount: reminder.discountAmount,
+        expiresAt: reminder.expiresAt
+      });
+    } catch (error) {
+      console.error("Error fetching reminder:", error);
+      res.status(500).json({ error: "Failed to fetch reminder" });
+    }
+  });
+
   return httpServer;
 }
