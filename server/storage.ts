@@ -186,12 +186,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAvailableSlots(fromDate: string): Promise<DeliverySlot[]> {
-    return await this.db.select().from(deliverySlots).where(
-      and(
-        gte(deliverySlots.date, fromDate),
-        eq(deliverySlots.isEnabled, 1)
-      )
-    );
+    try {
+      const result = await this.db.select().from(deliverySlots).where(
+        and(
+          gte(deliverySlots.date, fromDate),
+          eq(deliverySlots.isEnabled, 1)
+        )
+      );
+      return result || [];
+    } catch (error) {
+      console.error("Error in getAvailableSlots:", error);
+      return [];
+    }
   }
 
   async getSlotByDate(date: string): Promise<DeliverySlot | undefined> {
