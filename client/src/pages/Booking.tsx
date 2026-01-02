@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CalendarDays, Truck, Loader2, ShieldCheck } from 'lucide-react';
+import { CalendarDays, Truck, Loader2, ShieldCheck, ChevronDown } from 'lucide-react';
 import { Link } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import logoImg from '@assets/images-Photoroom_1766984801727.png';
+import headerLogoImg from '@assets/home-defend-pro-logo.png';
 import { WhopCheckoutEmbed } from "@whop/checkout/react";
 
 interface ShippingInfo {
@@ -40,6 +41,7 @@ export default function Booking() {
   const [agreedRefund, setAgreedRefund] = useState(false);
   const [addressSuggestions, setAddressSuggestions] = useState<Array<{display: string, city: string, state: string, zip: string}>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showMobileSummary, setShowMobileSummary] = useState(false);
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
   const [billingInfo, setBillingInfo] = useState({
     name: '',
@@ -178,13 +180,64 @@ export default function Booking() {
       <div className="bg-white border-b border-stone-200 py-4">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <Link href="/">
-            <img src={logoImg} alt="Home Defend" className="h-12 w-auto" />
+            <img src={headerLogoImg} alt="Home Defend Pro" className="h-10 w-auto" />
           </Link>
           <div className="flex items-center gap-2 text-sm text-stone-600">
             <ShieldCheck className="w-4 h-4" />
             <span>Secure Checkout</span>
           </div>
         </div>
+      </div>
+
+      <div className="md:hidden bg-stone-50 border-b border-stone-200">
+        <button 
+          onClick={() => setShowMobileSummary(!showMobileSummary)}
+          className="w-full px-4 py-4 flex items-center justify-between"
+          data-testid="mobile-summary-toggle"
+        >
+          <div className="flex items-center gap-2 text-[#E69138]">
+            <span className="text-sm font-medium">Order summary</span>
+            <ChevronDown className={`w-4 h-4 transition-transform ${showMobileSummary ? 'rotate-180' : ''}`} />
+          </div>
+          <span className="text-lg font-semibold">${totalForFull.toLocaleString()}</span>
+        </button>
+        {showMobileSummary && (
+          <div className="px-4 pb-4 space-y-3">
+            <div className="flex gap-4">
+              <div className="w-16 h-16 bg-stone-100 rounded-lg flex items-center justify-center">
+                <img src={logoImg} alt="Storm Shelter" className="w-12 h-12 object-contain" />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-gray-900 text-sm">Underground Storm Shelter</p>
+                <p className="text-xs text-gray-500">Stock #706900</p>
+                <p className="text-sm font-medium mt-1">${productPrice.toLocaleString()}</p>
+              </div>
+            </div>
+            <div className="border-t pt-3 space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Subtotal</span>
+                <span>${productPrice.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Shipping</span>
+                <span>{shippingInfo ? `$${shippingInfo.shippingFee.toLocaleString()}` : 'Enter address'}</span>
+              </div>
+              <div className="flex justify-between pt-2 border-t font-medium">
+                <span>Total</span>
+                <span>${totalForFull.toLocaleString()}</span>
+              </div>
+            </div>
+            <div className="border-t pt-3 space-y-2">
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-gray-600">Due today (deposit)</span>
+                <span className="font-medium">${depositAmount}</span>
+              </div>
+              <p className="text-xs text-gray-500">
+                Remaining balance of ${(totalForFull - depositAmount).toLocaleString()} will be invoiced before delivery.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
