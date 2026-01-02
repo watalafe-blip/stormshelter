@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, CalendarDays, Truck, Loader2, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, CalendarDays, Truck, Loader2, ShieldCheck } from 'lucide-react';
 import { Link } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import logoImg from '@assets/images-Photoroom_1766984801727.png';
@@ -40,6 +40,13 @@ export default function Booking() {
   const [agreedRefund, setAgreedRefund] = useState(false);
   const [addressSuggestions, setAddressSuggestions] = useState<Array<{display: string, city: string, state: string, zip: string}>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
+  const [billingAddress, setBillingAddress] = useState({
+    street: '',
+    city: '',
+    state: '',
+    zip: ''
+  });
 
   const productPrice = 4999;
   const depositAmount = 500;
@@ -147,11 +154,17 @@ export default function Booking() {
     setAddressSuggestions([]);
   };
 
+  const billingValid = billingSameAsShipping || 
+    (billingAddress.street && billingAddress.city && billingAddress.state && billingAddress.zip);
+  
   const isFormValid = selectedDate && 
     address.street && address.city && address.state && address.zip && 
     customerInfo.name && customerInfo.email && customerInfo.phone &&
     shippingInfo &&
+    billingValid &&
     agreedTerms && agreedRefund;
+  
+  const effectiveBillingAddress = billingSameAsShipping ? address : billingAddress;
 
   return (
     <div className="min-h-screen bg-stone-100" data-testid="booking-page">
@@ -323,24 +336,63 @@ export default function Booking() {
                 )}
 
                 {shippingInfo && (
-                  <div className="p-3 bg-blue-50 rounded-lg border border-blue-100" data-testid="shipping-info">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-blue-700">
-                        Delivery from Grandview, MO ({shippingInfo.miles.toFixed(0)} mi)
-                      </span>
-                      <span className="font-bold text-blue-900">
-                        ${shippingInfo.shippingFee.toLocaleString()}
-                      </span>
-                    </div>
+                  <div className="flex justify-between items-center text-sm pt-2" data-testid="shipping-info">
+                    <span className="text-gray-600">Shipping</span>
+                    <span className="font-medium">${shippingInfo.shippingFee.toLocaleString()}</span>
                   </div>
                 )}
+
+                <div className="border-t pt-4 mt-4">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <Checkbox 
+                      id="billingSame" 
+                      checked={billingSameAsShipping}
+                      onCheckedChange={(checked) => setBillingSameAsShipping(checked === true)}
+                      data-testid="checkbox-billing-same"
+                    />
+                    <label htmlFor="billingSame" className="text-sm text-gray-700 cursor-pointer">
+                      Billing address same as shipping address
+                    </label>
+                  </div>
+
+                  {!billingSameAsShipping && (
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium">Billing Address</Label>
+                      <Input 
+                        placeholder="Street Address"
+                        value={billingAddress.street}
+                        onChange={(e) => setBillingAddress({ ...billingAddress, street: e.target.value })}
+                        data-testid="input-billing-street"
+                      />
+                      <div className="grid grid-cols-3 gap-3">
+                        <Input 
+                          placeholder="City"
+                          value={billingAddress.city}
+                          onChange={(e) => setBillingAddress({ ...billingAddress, city: e.target.value })}
+                          data-testid="input-billing-city"
+                        />
+                        <Input 
+                          placeholder="State"
+                          value={billingAddress.state}
+                          onChange={(e) => setBillingAddress({ ...billingAddress, state: e.target.value })}
+                          data-testid="input-billing-state"
+                        />
+                        <Input 
+                          placeholder="ZIP"
+                          value={billingAddress.zip}
+                          onChange={(e) => setBillingAddress({ ...billingAddress, zip: e.target.value })}
+                          data-testid="input-billing-zip"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg">Complete Your Payment</CardTitle>
-                <p className="text-sm text-gray-500 mt-1">Billing address will be collected during payment</p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3 pb-4 border-b">
@@ -379,10 +431,10 @@ export default function Booking() {
                         address: {
                           name: customerInfo.name,
                           country: "US",
-                          line1: address.street,
-                          city: address.city,
-                          state: address.state,
-                          postalCode: address.zip
+                          line1: effectiveBillingAddress.street,
+                          city: effectiveBillingAddress.city,
+                          state: effectiveBillingAddress.state,
+                          postalCode: effectiveBillingAddress.zip
                         }
                       }}
                       fallback={
@@ -446,28 +498,22 @@ export default function Booking() {
                   </div>
                 </div>
 
-                <div className="bg-[#E69138]/10 border border-[#E69138] rounded-lg p-4">
+                <div className="border-t pt-4 space-y-3">
                   <div className="flex justify-between items-center">
-                    <div>
-                      <p className="font-bold text-[#3E2723]">Due Today</p>
-                      <p className="text-xs text-gray-600">Non-refundable deposit</p>
-                    </div>
-                    <span className="font-bold text-2xl text-[#E69138]">${depositAmount}</span>
+                    <span className="text-sm text-gray-600">Due today (deposit)</span>
+                    <span className="font-medium">${depositAmount}</span>
                   </div>
-                </div>
-
-                <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
-                  <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                  <p className="text-xs text-amber-800">
+                  <p className="text-xs text-gray-500">
                     Remaining balance of ${(totalForFull - depositAmount).toLocaleString()} will be invoiced before delivery.
                   </p>
                 </div>
 
                 {selectedDate && (
-                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-sm text-green-800">
-                      <strong>Delivery:</strong> {format(selectedDate, 'MMMM d, yyyy')}
-                    </p>
+                  <div className="border-t pt-4">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-600">Delivery date</span>
+                      <span>{format(selectedDate, 'MMM d, yyyy')}</span>
+                    </div>
                   </div>
                 )}
 
