@@ -2,8 +2,8 @@ import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Layout from '@/components/layout/Layout';
-import teamMemberMale from '@assets/generated_images/missouri_businessman_professional_headshot.png';
-import teamMemberFemale from '@assets/generated_images/professional_businesswoman_headshot_portrait.png';
+import teamMemberMale from '@assets/generated_images/family_business_owner_headshot.png';
+import teamMemberFemale from '@assets/generated_images/family_businesswoman_co-owner_headshot.png';
 
 export default function About() {
   return (
@@ -99,39 +99,39 @@ export default function About() {
 
         <section className="py-24 bg-gradient-to-b from-white to-slate-50">
           <div className="max-w-3xl mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Our leadership</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">A family business</h2>
             <p className="text-lg text-slate-600 mb-12">
-              The people behind Home Defend Pro.
+              Home Defend Pro is a family-owned company. We treat every customer like family.
             </p>
             <div className="grid md:grid-cols-2 gap-12">
               <div>
                 <img 
                   src={teamMemberMale} 
-                  alt="Robert Mitchell - Founder & CEO" 
+                  alt="Robert Mitchell - Founder" 
                   className="w-full aspect-square object-cover rounded-2xl mb-6"
                   data-testid="img-team-robert"
                 />
                 <h3 className="text-xl font-semibold text-slate-900">Robert Mitchell</h3>
-                <p className="text-[#E69138] font-medium mb-3">Founder & CEO</p>
+                <p className="text-[#E69138] font-medium mb-3">Founder</p>
                 <p className="text-slate-600 leading-relaxed">
-                  Born and raised in Missouri, Robert founded Home Defend Pro after losing 
-                  his childhood home to a tornado. He's dedicated the last 17 years to 
-                  making storm protection accessible to every family.
+                  Born and raised in Missouri, Robert started building storm shelters 
+                  after his family lost their home to a tornado in 2007. What began 
+                  in his garage is now a company that's protected over 2 million families.
                 </p>
               </div>
               <div>
                 <img 
                   src={teamMemberFemale} 
-                  alt="Sarah Collins - COO" 
+                  alt="Lisa Mitchell - Co-Owner" 
                   className="w-full aspect-square object-cover rounded-2xl mb-6"
-                  data-testid="img-team-sarah"
+                  data-testid="img-team-lisa"
                 />
-                <h3 className="text-xl font-semibold text-slate-900">Sarah Collins</h3>
-                <p className="text-[#E69138] font-medium mb-3">Chief Operations Officer</p>
+                <h3 className="text-xl font-semibold text-slate-900">Lisa Mitchell</h3>
+                <p className="text-[#E69138] font-medium mb-3">Co-Owner</p>
                 <p className="text-slate-600 leading-relaxed">
-                  Sarah oversees all delivery operations and customer experience. Her 
-                  background in logistics has helped streamline our delivery process, 
-                  getting shelters to families faster than ever.
+                  Lisa handles customer relations and makes sure every family gets 
+                  the attention they deserve. She's the reason our customers keep 
+                  recommending us to their neighbors.
                 </p>
               </div>
             </div>
