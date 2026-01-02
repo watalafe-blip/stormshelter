@@ -2,8 +2,7 @@ import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Layout from '@/components/layout/Layout';
-import teamMemberMale from '@assets/generated_images/family_business_owner_headshot.png';
-import teamMemberFemale from '@assets/generated_images/family_businesswoman_co-owner_headshot.png';
+import familyCouple from '@assets/generated_images/country_couple_family_business_portrait.png';
 
 export default function About() {
   return (
@@ -98,41 +97,30 @@ export default function About() {
         </section>
 
         <section className="py-24 bg-gradient-to-b from-white to-slate-50">
-          <div className="max-w-3xl mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">A family business</h2>
-            <p className="text-lg text-slate-600 mb-12">
-              Home Defend Pro is a family-owned company. We treat every customer like family.
-            </p>
-            <div className="grid md:grid-cols-2 gap-12">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <img 
-                  src={teamMemberMale} 
-                  alt="Robert Mitchell - Founder" 
-                  className="w-full aspect-square object-cover rounded-2xl mb-6"
-                  data-testid="img-team-robert"
+                  src={familyCouple} 
+                  alt="Family business owners" 
+                  className="w-full rounded-2xl"
+                  data-testid="img-family-owners"
                 />
-                <h3 className="text-xl font-semibold text-slate-900">Robert Mitchell</h3>
-                <p className="text-[#E69138] font-medium mb-3">Founder</p>
-                <p className="text-slate-600 leading-relaxed">
-                  Born and raised in Missouri, Robert started building storm shelters 
-                  after his family lost their home to a tornado in 2007. What began 
-                  in his garage is now a company that's protected over 2 million families.
-                </p>
               </div>
               <div>
-                <img 
-                  src={teamMemberFemale} 
-                  alt="Lisa Mitchell - Co-Owner" 
-                  className="w-full aspect-square object-cover rounded-2xl mb-6"
-                  data-testid="img-team-lisa"
-                />
-                <h3 className="text-xl font-semibold text-slate-900">Lisa Mitchell</h3>
-                <p className="text-[#E69138] font-medium mb-3">Co-Owner</p>
-                <p className="text-slate-600 leading-relaxed">
-                  Lisa handles customer relations and makes sure every family gets 
-                  the attention they deserve. She's the reason our customers keep 
-                  recommending us to their neighbors.
-                </p>
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">A family business</h2>
+                <div className="space-y-4 text-lg text-slate-600 leading-relaxed">
+                  <p>
+                    We're a family-owned company from the heart of the Midwest. 
+                    We started this business after losing our own home to a tornado, 
+                    and we've dedicated our lives to making sure other families 
+                    never have to go through what we did.
+                  </p>
+                  <p>
+                    Every shelter we build, we build like it's going into our own backyard. 
+                    That's the promise we make to every customer.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
