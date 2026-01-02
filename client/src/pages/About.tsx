@@ -33,19 +33,20 @@ export default function About() {
           <div>
             <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Our Story</h2>
             <p className="text-gray-700 mb-4">
-              Home Defend Pro was founded in Grandview, Missouri with a simple mission: to provide 
-              families with reliable, affordable protection against severe weather. After witnessing 
-              the devastation caused by tornadoes in the heartland, our founder committed to making 
-              high-quality storm shelters accessible to every family.
+              Home Defend Pro was founded with a simple mission: to provide 
+              families with reliable, affordable protection against severe weather. 
+              After witnessing the devastation caused by tornadoes in the heartland, 
+              our founder committed to making high-quality storm shelters accessible to 
+              every family.
             </p>
             <p className="text-gray-700 mb-4">
-              Today, we've helped protect over 2 million families across Kansas, Missouri, Oklahoma, 
-              Texas, and beyond. Our concrete underground shelters are engineered to withstand 
-              EF5 tornadoes and provide peace of mind when you need it most.
+              Today, we've helped protect over 2 million families across the country. 
+              Our concrete underground shelters are engineered to withstand EF5 tornadoes 
+              and provide peace of mind when you need it most.
             </p>
             <p className="text-gray-700">
-              Every shelter we deliver is built with the same care and attention we'd want for our 
-              own families. That's the Home Defend Pro promise.
+              Every shelter we deliver is built with the same care and attention we'd 
+              want for our own families. That's the Home Defend Pro promise.
             </p>
           </div>
           <div className="bg-stone-100 rounded-xl p-8">
@@ -108,14 +109,15 @@ export default function About() {
 
         <section className="bg-white rounded-xl p-8 md:p-12 mb-16">
           <h2 className="text-2xl font-bold text-[#3E2723] mb-8 text-center">Contact Us</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-4 gap-8">
             <div className="flex items-start gap-4">
               <MapPin className="w-6 h-6 text-[#E69138] flex-shrink-0" />
               <div>
                 <h3 className="font-medium text-gray-900">Address</h3>
                 <p className="text-gray-600">
                   Home Defend Pro<br />
-                  Grandview, MO 64030<br />
+                  312 W 2nd St, Unit #A1936<br />
+                  Casper, WY 82601<br />
                   United States
                 </p>
               </div>
@@ -125,8 +127,8 @@ export default function About() {
               <div>
                 <h3 className="font-medium text-gray-900">Phone</h3>
                 <p className="text-gray-600">
-                  <a href="tel:+18005551234" className="hover:text-[#E69138]">
-                    1-800-555-1234
+                  <a href="tel:+18339061077" className="hover:text-[#E69138]">
+                    (833) 906-1077
                   </a>
                 </p>
                 <p className="text-sm text-gray-500">Mon-Fri 8am-6pm CST</p>
@@ -137,11 +139,21 @@ export default function About() {
               <div>
                 <h3 className="font-medium text-gray-900">Email</h3>
                 <p className="text-gray-600">
-                  <a href="mailto:support@homedefendpro.com" className="hover:text-[#E69138]">
-                    support@homedefendpro.com
+                  <a href="mailto:info@homedefendpro.com" className="hover:text-[#E69138]">
+                    info@homedefendpro.com
                   </a>
                 </p>
                 <p className="text-sm text-gray-500">Response within 24 hours</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <Shield className="w-6 h-6 text-[#E69138] flex-shrink-0" />
+              <div>
+                <h3 className="font-medium text-gray-900">D-U-N-S®</h3>
+                <p className="text-gray-600">
+                  243314493
+                </p>
+                <p className="text-sm text-gray-500">Verified Business</p>
               </div>
             </div>
           </div>
