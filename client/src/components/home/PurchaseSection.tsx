@@ -64,7 +64,7 @@ export default function PurchaseSection() {
             Secure Your Legacy
           </h2>
           <p className="text-xl text-muted-foreground">
-            Production slots for the 2025 season are filling fast. Lock in your delivery date today.
+            Production slots are filling fast. Lock in your delivery date today.
           </p>
         </div>
 

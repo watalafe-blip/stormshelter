@@ -131,7 +131,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     storeName: "Home Defend",
     logoUrl: null,
     primaryColor: "30 25% 20%", // Dark Brown (HSL approx for #4E342E)
-    announcementBar: "Now Taking Orders for 2025 Season - Secure Your Spot with $500 Deposit",
+    announcementBar: "Now Taking Orders - Secure Your Spot with $500 Deposit",
     typography: {
       heading: 'sans', // Strong, trustworthy sans-serif
       body: 'sans'
