@@ -260,12 +260,12 @@ function BookingsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead>Booking ID</TableHead>
                     <TableHead>Customer</TableHead>
                     <TableHead>Location</TableHead>
-                    <TableHead>Miles</TableHead>
-                    <TableHead>Payment</TableHead>
+                    <TableHead>Deposit</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Total</TableHead>
+                    <TableHead>Created</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -273,16 +273,22 @@ function BookingsPage() {
                   {bookings.map((booking) => (
                     <TableRow key={booking.id}>
                       <TableCell>
+                        <div className="font-mono text-xs bg-stone-100 px-2 py-1 rounded inline-block">
+                          {booking.id.slice(0, 8)}...
+                        </div>
+                      </TableCell>
+                      <TableCell>
                         <div className="font-medium">{booking.customerName}</div>
                         <div className="text-xs text-muted-foreground">{booking.customerEmail}</div>
+                        <div className="text-xs text-muted-foreground">{booking.customerPhone}</div>
                       </TableCell>
                       <TableCell>
-                        <div className="text-sm">{booking.deliveryCity}, {booking.deliveryState}</div>
+                        <div className="text-sm">{booking.deliveryAddress}</div>
+                        <div className="text-xs text-muted-foreground">{booking.deliveryCity}, {booking.deliveryState} {booking.deliveryZip}</div>
                       </TableCell>
-                      <TableCell>{parseFloat(booking.milesFromHq).toFixed(0)} mi</TableCell>
                       <TableCell>
                         <Badge variant={getPaymentBadgeVariant(booking.paymentStatus)} className="capitalize">
-                          {booking.paymentStatus}
+                          {booking.paymentStatus === 'paid' ? '$500 Paid' : booking.paymentStatus}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -290,7 +296,9 @@ function BookingsPage() {
                           {booking.bookingStatus}
                         </Badge>
                       </TableCell>
-                      <TableCell className="font-medium">${parseFloat(booking.totalDue).toLocaleString()}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {format(new Date(booking.createdAt), 'MMM d, yyyy')}
+                      </TableCell>
                       <TableCell className="text-right">
                         <Button variant="ghost" size="sm" onClick={() => setSelectedBooking(booking)}>
                           View
@@ -310,19 +318,23 @@ function BookingsPage() {
           <SheetHeader>
             <SheetTitle>Booking Details</SheetTitle>
             <SheetDescription>
-              Created {selectedBooking && format(new Date(selectedBooking.createdAt), 'MMM d, yyyy h:mm a')}
+              Booking ID: <span className="font-mono">{selectedBooking?.id}</span>
             </SheetDescription>
           </SheetHeader>
           
           {selectedBooking && (
             <div className="space-y-6 py-4">
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Badge variant={getStatusBadgeVariant(selectedBooking.bookingStatus)} className="capitalize">
                   {selectedBooking.bookingStatus}
                 </Badge>
                 <Badge variant={getPaymentBadgeVariant(selectedBooking.paymentStatus)} className="capitalize">
-                  Payment: {selectedBooking.paymentStatus}
+                  Deposit: {selectedBooking.paymentStatus === 'paid' ? '$500 Paid' : selectedBooking.paymentStatus}
                 </Badge>
+              </div>
+              
+              <div className="text-sm text-muted-foreground">
+                Created: {format(new Date(selectedBooking.createdAt), 'MMMM d, yyyy at h:mm a')}
               </div>
 
               <div className="space-y-4">

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { CreditCard, Calendar, Download, Truck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { CreditCard, Calendar, Truck, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function HowItWorks() {
@@ -7,7 +7,7 @@ export default function HowItWorks() {
     {
       icon: CreditCard,
       title: "1. Secure Your Spot",
-      description: "Non-refundable $500 deposit locks your slot."
+      description: "Non-refundable $500 deposit locks your delivery slot."
     },
     {
       icon: Calendar,
@@ -15,19 +15,14 @@ export default function HowItWorks() {
       description: "Choose a delivery window that works for you."
     },
     {
-      icon: Download,
-      title: "3. Prep Your Site",
-      description: "Get our guide for your contractor."
-    },
-    {
       icon: CheckCircle2,
-      title: "4. Finalize Payment",
+      title: "3. Finalize Payment",
       description: "Balance due prior to shipping."
     },
     {
       icon: Truck,
-      title: "5. Delivery Day",
-      description: "Arrives within 1 week of date."
+      title: "4. Delivery Day",
+      description: "Your shelter arrives within 1 week of scheduled date."
     }
   ];
 
@@ -36,14 +31,14 @@ export default function HowItWorks() {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-sans font-bold text-[#3E2723] mb-4">
-            Simple 5-Step Process
+            Simple 4-Step Process
           </h2>
           <p className="text-lg text-stone-600">
-            From order to delivery, we make it easy.
+            From booking to delivery, we make it easy.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, idx) => (
             <motion.div
               key={idx}
