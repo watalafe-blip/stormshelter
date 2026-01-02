@@ -80,22 +80,24 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (January 2026)
 
-### Cart Abandonment System
-- Added `cart_sessions` and `email_reminders` database tables for tracking abandoned carts
-- Cart session tracking via localStorage token
-- Scarcity popup shows $400 shipping discount offer when user returns after abandoning cart
-- 24-hour expiring discount reminders
+### Booking Confirmation Emails
+- Resend integration for automated booking confirmation emails (`server/email.ts`)
+- Branded HTML email template with booking details, order summary, and next steps
+- Emails sent automatically when booking is created
 
-### Email Integration (Pending)
-- Email reminder system is ready but email service (Resend) was not configured
-- To enable: Set up Resend integration via Replit integrations panel
-- System will send reminder emails for abandoned carts with 24-hour discount offers
+### Streamlined Process
+- Changed from 5-step to 4-step process (removed "Prep Your Site" step)
+- Steps: Secure Your Spot → Schedule Delivery → Finalize Payment → Delivery Day
 
 ### Admin Features
 - Bookings management at `/admin/bookings` with full CRUD operations
-- Calendar-based slot management
+- Enhanced table view: Booking ID, customer details, full address, deposit status, creation date
+- Calendar-based slot management for delivery capacity
 - Payment and booking status tracking
-- Demo bookings added to database for demonstration
+
+### Cleanup
+- Removed cart abandonment tracking system (ScarcityPopup, cart session endpoints)
+- Cleaned up unused schema and storage code for cart_sessions and email_reminders
 
 ## User Preferences & Design Decisions
 - **Brand Colors**: Orange (#E69138) for primary actions, Brown (#3E2723) for text/accents
@@ -104,3 +106,4 @@ Preferred communication style: Simple, everyday language.
 - **Navigation**: "Slope Storm Shelter" link for SEO, About Us, Contact Us
 - **No year references**: Removed all "2025" mentions to keep content evergreen
 - **No professional installation**: Service not provided by company
+- **Email Service**: Resend (RESEND_API_KEY secret configured)

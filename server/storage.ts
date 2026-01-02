@@ -2,9 +2,7 @@ import {
   type User, type InsertUser,
   type DeliverySlot, type InsertDeliverySlot,
   type Booking, type InsertBooking,
-  type CartSession, type InsertCartSession,
-  type EmailReminder, type InsertEmailReminder,
-  users, deliverySlots, bookings, cartSessions, emailReminders
+  users, deliverySlots, bookings
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { drizzle } from "drizzle-orm/neon-http";
@@ -29,34 +27,17 @@ export interface IStorage {
   getAllBookings(): Promise<Booking[]>;
   updateBookingPaymentStatus(id: string, status: "pending" | "paid" | "failed" | "refunded"): Promise<Booking | undefined>;
   updateBookingStatus(id: string, status: "pending" | "confirmed" | "completed" | "cancelled"): Promise<Booking | undefined>;
-  
-  // Cart session methods
-  createCartSession(session: InsertCartSession): Promise<CartSession>;
-  getCartSessionByToken(token: string): Promise<CartSession | undefined>;
-  updateCartSessionStatus(id: string, status: "active" | "abandoned" | "converted"): Promise<CartSession | undefined>;
-  updateCartSessionActivity(id: string): Promise<CartSession | undefined>;
-  getAbandonedSessions(): Promise<CartSession[]>;
-  
-  // Email reminder methods
-  createEmailReminder(reminder: InsertEmailReminder): Promise<EmailReminder>;
-  getActiveReminderBySession(sessionId: string): Promise<EmailReminder | undefined>;
-  updateReminderStatus(id: string, status: "pending" | "sent" | "expired" | "redeemed"): Promise<EmailReminder | undefined>;
-  markReminderSent(id: string): Promise<EmailReminder | undefined>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private slots: Map<string, DeliverySlot>;
   private bookingsMap: Map<string, Booking>;
-  private cartSessionsMap: Map<string, CartSession>;
-  private emailRemindersMap: Map<string, EmailReminder>;
 
   constructor() {
     this.users = new Map();
     this.slots = new Map();
     this.bookingsMap = new Map();
-    this.cartSessionsMap = new Map();
-    this.emailRemindersMap = new Map();
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -175,89 +156,6 @@ export class MemStorage implements IStorage {
     }
     return booking;
   }
-
-  async createCartSession(session: InsertCartSession): Promise<CartSession> {
-    const id = randomUUID();
-    const cartSession: CartSession = {
-      id,
-      sessionToken: session.sessionToken,
-      customerEmail: session.customerEmail || null,
-      status: (session.status as "active" | "abandoned" | "converted") || "active",
-      potentialSavings: session.potentialSavings || "400",
-      lastActivityAt: session.lastActivityAt || new Date(),
-      createdAt: new Date()
-    };
-    this.cartSessionsMap.set(id, cartSession);
-    return cartSession;
-  }
-
-  async getCartSessionByToken(token: string): Promise<CartSession | undefined> {
-    return Array.from(this.cartSessionsMap.values()).find(s => s.sessionToken === token);
-  }
-
-  async updateCartSessionStatus(id: string, status: "active" | "abandoned" | "converted"): Promise<CartSession | undefined> {
-    const session = this.cartSessionsMap.get(id);
-    if (session) {
-      session.status = status;
-      this.cartSessionsMap.set(id, session);
-    }
-    return session;
-  }
-
-  async updateCartSessionActivity(id: string): Promise<CartSession | undefined> {
-    const session = this.cartSessionsMap.get(id);
-    if (session) {
-      session.lastActivityAt = new Date();
-      this.cartSessionsMap.set(id, session);
-    }
-    return session;
-  }
-
-  async getAbandonedSessions(): Promise<CartSession[]> {
-    return Array.from(this.cartSessionsMap.values()).filter(s => s.status === "abandoned");
-  }
-
-  async createEmailReminder(reminder: InsertEmailReminder): Promise<EmailReminder> {
-    const id = randomUUID();
-    const emailReminder: EmailReminder = {
-      id,
-      cartSessionId: reminder.cartSessionId,
-      customerEmail: reminder.customerEmail,
-      reminderType: reminder.reminderType || "shipping_discount",
-      discountAmount: reminder.discountAmount || "400",
-      expiresAt: reminder.expiresAt,
-      status: (reminder.status as "pending" | "sent" | "expired" | "redeemed") || "pending",
-      sentAt: null,
-      createdAt: new Date()
-    };
-    this.emailRemindersMap.set(id, emailReminder);
-    return emailReminder;
-  }
-
-  async getActiveReminderBySession(sessionId: string): Promise<EmailReminder | undefined> {
-    return Array.from(this.emailRemindersMap.values()).find(
-      r => r.cartSessionId === sessionId && (r.status === "pending" || r.status === "sent")
-    );
-  }
-
-  async updateReminderStatus(id: string, status: "pending" | "sent" | "expired" | "redeemed"): Promise<EmailReminder | undefined> {
-    const reminder = this.emailRemindersMap.get(id);
-    if (reminder) {
-      reminder.status = status;
-      this.emailRemindersMap.set(id, reminder);
-    }
-    return reminder;
-  }
-
-  async markReminderSent(id: string): Promise<EmailReminder | undefined> {
-    const reminder = this.emailRemindersMap.get(id);
-    if (reminder) {
-      reminder.status = "sent";
-      reminder.sentAt = new Date();
-      this.emailRemindersMap.set(id, reminder);
-    }
-    return reminder;
-  }
 }
 
 export class DatabaseStorage implements IStorage {
@@ -352,78 +250,6 @@ export class DatabaseStorage implements IStorage {
 
   async updateBookingStatus(id: string, status: "pending" | "confirmed" | "completed" | "cancelled"): Promise<Booking | undefined> {
     const result = await this.db.update(bookings).set({ bookingStatus: status }).where(eq(bookings.id, id)).returning();
-    return result[0];
-  }
-
-  async createCartSession(session: InsertCartSession): Promise<CartSession> {
-    const result = await this.db.insert(cartSessions).values(session as any).returning();
-    return result[0];
-  }
-
-  async getCartSessionByToken(token: string): Promise<CartSession | undefined> {
-    try {
-      const result: any = await this.queryClient`SELECT * FROM cart_sessions WHERE session_token = ${token} LIMIT 1`;
-      if (result && Array.isArray(result) && result.length > 0) {
-        const row = result[0];
-        return {
-          id: row.id,
-          sessionToken: row.session_token,
-          customerEmail: row.customer_email,
-          status: row.status,
-          potentialSavings: row.potential_savings,
-          lastActivityAt: row.last_activity_at,
-          createdAt: row.created_at
-        };
-      }
-      return undefined;
-    } catch (error) {
-      console.error("getCartSessionByToken error details:", error);
-      throw error;
-    }
-  }
-
-  async updateCartSessionStatus(id: string, status: "active" | "abandoned" | "converted"): Promise<CartSession | undefined> {
-    const result = await this.db.update(cartSessions).set({ status }).where(eq(cartSessions.id, id)).returning();
-    return result[0];
-  }
-
-  async updateCartSessionActivity(id: string): Promise<CartSession | undefined> {
-    const result = await this.db.update(cartSessions)
-      .set({ lastActivityAt: sql`now()` })
-      .where(eq(cartSessions.id, id))
-      .returning();
-    return result[0];
-  }
-
-  async getAbandonedSessions(): Promise<CartSession[]> {
-    return await this.db.select().from(cartSessions).where(eq(cartSessions.status, "abandoned"));
-  }
-
-  async createEmailReminder(reminder: InsertEmailReminder): Promise<EmailReminder> {
-    const result = await this.db.insert(emailReminders).values(reminder as any).returning();
-    return result[0];
-  }
-
-  async getActiveReminderBySession(sessionId: string): Promise<EmailReminder | undefined> {
-    const result = await this.db.select().from(emailReminders).where(
-      and(
-        eq(emailReminders.cartSessionId, sessionId),
-        sql`${emailReminders.status} IN ('pending', 'sent')`
-      )
-    );
-    return result[0];
-  }
-
-  async updateReminderStatus(id: string, status: "pending" | "sent" | "expired" | "redeemed"): Promise<EmailReminder | undefined> {
-    const result = await this.db.update(emailReminders).set({ status }).where(eq(emailReminders.id, id)).returning();
-    return result[0];
-  }
-
-  async markReminderSent(id: string): Promise<EmailReminder | undefined> {
-    const result = await this.db.update(emailReminders)
-      .set({ status: "sent", sentAt: sql`now()` })
-      .where(eq(emailReminders.id, id))
-      .returning();
     return result[0];
   }
 }

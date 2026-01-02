@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
+import { sendBookingConfirmation } from "./email";
 
 const GRANDVIEW_MO_COORDS = { lat: 38.8814, lng: -94.5314 };
 const SHIPPING_RATE_PER_MILE = 5.2;
@@ -126,6 +127,22 @@ export async function registerRoutes(
       });
       
       await storage.incrementSlotReservation(slot.id);
+      
+      sendBookingConfirmation({
+        customerName: validatedData.customerName,
+        customerEmail: validatedData.customerEmail,
+        bookingId: booking.id,
+        deliveryAddress: validatedData.deliveryAddress,
+        deliveryCity: validatedData.deliveryCity,
+        deliveryState: validatedData.deliveryState,
+        deliveryZip: validatedData.deliveryZip,
+        milesFromHq: validatedData.milesFromHq.toString(),
+        shippingFee: shippingFee.toString(),
+        productPrice: PRODUCT_PRICE.toString(),
+        depositPaid: DEPOSIT_AMOUNT.toString(),
+        remainingBalance: (PRODUCT_PRICE + shippingFee - DEPOSIT_AMOUNT).toString(),
+        deliveryDate: validatedData.selectedDate
+      }).catch(err => console.error('Email send failed:', err));
       
       res.json(booking);
     } catch (error) {
