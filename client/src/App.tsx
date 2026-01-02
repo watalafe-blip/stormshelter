@@ -20,6 +20,8 @@ import Contact from "@/pages/Contact";
 import FAQ from "@/pages/FAQ";
 import ReturnPolicy from "@/pages/ReturnPolicy";
 import ShippingPolicy from "@/pages/ShippingPolicy";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import Terms from "@/pages/Terms";
 import Layout from "@/components/layout/Layout";
 
 function Router() {
@@ -38,6 +40,8 @@ function Router() {
       <Route path="/faq" component={FAQ} />
       <Route path="/returns" component={ReturnPolicy} />
       <Route path="/shipping" component={ShippingPolicy} />
+      <Route path="/privacy" component={PrivacyPolicy} />
+      <Route path="/terms" component={Terms} />
       <Route path="/confirmation" component={Confirmation} />
       <Route path="/admin">
         <Layout>

@@ -11,12 +11,8 @@ export default function ReturnPolicy() {
           <div className="max-w-3xl mx-auto px-6 text-center">
             <p className="text-[#E69138] font-medium text-sm tracking-wide uppercase mb-3">Policies</p>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#3E2723] leading-tight tracking-tight mb-4">
-              Return & Refund Policy
+              Refund & Cancellation Policy
             </h1>
-            <p className="text-lg text-stone-600 leading-relaxed max-w-2xl mx-auto">
-              We want you to be completely confident in your purchase. Here's our 
-              straightforward policy on deposits, cancellations, and refunds.
-            </p>
           </div>
         </section>
 
@@ -25,108 +21,103 @@ export default function ReturnPolicy() {
             <div className="space-y-12">
               
               <div>
-                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Deposit Policy</h2>
+                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Deposit Cancellations</h2>
                 <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>
-                    We require a <strong className="text-[#3E2723]">$500 refundable deposit</strong> to 
-                    reserve your delivery slot. This deposit secures your place in our 
-                    production and delivery schedule.
+                    If you place a deposit for a storm shelter and later cancel your order, 
+                    <strong className="text-[#3E2723]"> 50% of the deposit amount paid will be refunded</strong> and 
+                    50% will be retained.
                   </p>
                   <p>
-                    The deposit will be applied toward your final balance when payment 
-                    is due before delivery.
+                    If you cancel within <strong className="text-[#3E2723]">twenty-four (24) hours</strong> of a 
+                    scheduled date/time confirmed by Home Defend Pro, the deposit will be 
+                    forfeited in full (no refund).
                   </p>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Full Refund</h2>
+                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Full Payment Cancellations</h2>
                 <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>
-                    You are entitled to a <strong className="text-[#3E2723]">full refund of your deposit</strong> if 
-                    you cancel your order at least <strong className="text-[#3E2723]">14 days before</strong> your 
-                    scheduled delivery date.
-                  </p>
-                  <p>
-                    To request a cancellation, contact us by phone at (833) 906-1077 or 
-                    email info@homedefendpro.com. We'll process your refund within 
-                    5-7 business days.
+                    If the storm shelter was paid in full upfront, any approved refund will be 
+                    subject to a <strong className="text-[#3E2723]">3% return/processing fee</strong> calculated 
+                    on the total amount paid, which will be deducted from the refund.
                   </p>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Partial Refund</h2>
+                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Delays Outside Our Control</h2>
                 <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>
-                    If you cancel within <strong className="text-[#3E2723]">7-14 days</strong> of your scheduled 
-                    delivery date, you will receive a <strong className="text-[#3E2723]">50% refund</strong> of 
-                    your deposit ($250).
-                  </p>
-                  <p>
-                    This partial forfeiture covers the administrative costs and lost 
-                    opportunity of the reserved delivery slot.
+                    We are not responsible for delays caused by weather or other circumstances 
+                    outside our reasonable control.
                   </p>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">No Refund</h2>
+                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Refund Processing</h2>
                 <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>
-                    Cancellations made <strong className="text-[#3E2723]">less than 7 days</strong> before 
-                    your scheduled delivery date are not eligible for a deposit refund.
+                    All refunds, if issued, will be processed to the original payment method 
+                    used by the customer.
                   </p>
                   <p>
-                    At this point, the delivery truck and crew have been scheduled, 
-                    and the shelter is staged for transport.
+                    Please allow up to <strong className="text-[#3E2723]">48 hours</strong> for the refund to 
+                    be processed, although we aim to complete refunds on the next business day. 
+                    Home Defend Pro is not responsible for delays caused by our merchant processor 
+                    or your credit card company in posting the refund to your account.
                   </p>
                 </div>
               </div>
 
               <div className="bg-stone-50 rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">After Delivery</h2>
+                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">How to Request a Refund</h2>
                 <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>
-                    Once the shelter has been delivered and placed, <strong className="text-[#3E2723]">all 
-                    sales are final</strong>. Due to the nature of the product (custom 
-                    delivery, crane placement, and site-specific installation), we 
-                    cannot accept returns after delivery.
-                  </p>
-                  <p>
-                    If there are any defects or issues with your shelter, these are 
-                    covered under our <strong className="text-[#3E2723]">lifetime structural warranty</strong>. 
-                    Please contact us immediately to report any concerns.
+                    To request a refund, please email{' '}
+                    <a href="mailto:info@homedefendpro.com" className="text-[#E69138] hover:underline">
+                      info@homedefendpro.com
+                    </a>{' '}
+                    and include your order number, name, and the reason for your refund request.
                   </p>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Rescheduling</h2>
+                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Warranty Claims</h2>
                 <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>
-                    Need to change your delivery date? No problem. You can reschedule 
-                    your delivery <strong className="text-[#3E2723]">one time at no charge</strong>, provided 
-                    you give us at least 7 days notice.
-                  </p>
-                  <p>
-                    Additional rescheduling requests may be subject to a $100 
-                    administrative fee, depending on circumstances.
+                    If a storm shelter is found to be faulty or does not meet the described 
+                    specifications under an applicable warranty, please contact us immediately. 
+                    This policy does not apply to damage caused by misuse, accidents, or neglect. 
+                    Valid warranty claims will be handled in accordance with our standard warranty terms.
                   </p>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Weather & Access Issues</h2>
+                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Policy Changes</h2>
                 <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>
-                    If delivery cannot be completed due to weather conditions or 
-                    site access issues on the scheduled date, we will work with you 
-                    to reschedule at no additional cost.
+                    Home Defend Pro reserves the right to modify this Refund & Cancellation Policy 
+                    at any time. Changes become effective immediately upon posting to this website.
                   </p>
+                </div>
+              </div>
+
+              <div className="border-t border-stone-200 pt-8">
+                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">Acceptance</h2>
+                <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>
-                    If site access issues are due to inadequate site preparation on 
-                    your part, a rescheduling fee may apply.
+                    By submitting a deposit, placing a purchase, or using Home Defend Pro products, 
+                    you acknowledge that you have read, understand, and agree to be bound by this 
+                    Refund & Cancellation Policy and the{' '}
+                    <Link href="/terms" className="text-[#E69138] hover:underline">
+                      Terms & Conditions
+                    </Link>.
                   </p>
                 </div>
               </div>

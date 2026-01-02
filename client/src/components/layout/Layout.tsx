@@ -259,7 +259,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">FAQs</Link></li>
               <li><Link href="/shipping" className="hover:text-white transition-colors">Shipping & Delivery</Link></li>
-              <li><Link href="/returns" className="hover:text-white transition-colors">Returns & Warranty</Link></li>
+              <li><Link href="/returns" className="hover:text-white transition-colors">Refund Policy</Link></li>
+              <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link></li>
             </ul>
           </div>
         </div>
