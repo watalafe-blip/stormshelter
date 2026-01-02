@@ -508,7 +508,7 @@ export default function Booking() {
 
             <div className="md:hidden">
               <Link href="/">
-                <Button variant="outline" className="w-full">
+                <Button className="w-full bg-[#E69138] hover:bg-[#D4802F] text-white">
                   Pay Now
                 </Button>
               </Link>
@@ -576,7 +576,7 @@ export default function Booking() {
 
                 <div className="hidden lg:block pt-4">
                   <Link href="/">
-                    <Button variant="outline" className="w-full">
+                    <Button className="w-full bg-[#E69138] hover:bg-[#D4802F] text-white">
                       Pay Now
                     </Button>
                   </Link>
