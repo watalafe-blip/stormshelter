@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,6 @@ import { Link } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import logoImg from '@assets/images-Photoroom_1766984801727.png';
 import headerLogoImg from '@assets/home-defend-pro-logo.png';
-import { WhopCheckoutEmbed } from "@whop/checkout/react";
 
 interface ShippingInfo {
   miles: number;
@@ -55,6 +54,20 @@ export default function Booking() {
   const depositAmount = 500;
   const today = startOfDay(new Date());
   const minDate = addDays(today, 7);
+  const checkoutContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Dynamically load Whop checkout script
+    const script = document.createElement('script');
+    script.src = "https://js.whop.com/static/checkout/loader.js";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   useEffect(() => {
     if (selectedDate) {
@@ -241,6 +254,9 @@ export default function Booking() {
                     ) : null}
                   </div>
                 )}
+                <p className="text-xs text-gray-500 text-center mt-3">
+                  You can update your delivery details anytime before your scheduled delivery date.
+                </p>
               </CardContent>
             </Card>
 
@@ -468,37 +484,18 @@ export default function Booking() {
                 <CardTitle className="text-lg">Complete Your Payment</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="min-h-[400px] whop-checkout-container">
-                  <WhopCheckoutEmbed
-                    planId="plan_0uXfZPdIAvES2"
-                    returnUrl={`${window.location.origin}/checkout/complete`}
-                    theme="light"
-                    hideTermsAndConditions={true}
-                    hideEmail={true}
-                    hideAddressForm={true}
-                    prefill={{
-                      email: customerInfo.email,
-                      address: {
-                        name: customerInfo.name,
-                        country: "US",
-                        line1: effectiveBillingAddress.street,
-                        city: effectiveBillingAddress.city,
-                        state: effectiveBillingAddress.state,
-                        postalCode: effectiveBillingAddress.zip
-                      }
-                    }}
-                    fallback={
-                      <div className="flex items-center justify-center py-12">
-                        <Loader2 className="w-6 h-6 animate-spin text-[#E69138]" />
-                        <span className="ml-2 text-gray-600">Loading payment form...</span>
-                      </div>
-                    }
-                  />
+                <div className="min-h-[400px] whop-checkout-container" ref={checkoutContainerRef}>
+                  <div
+                    key={customerInfo.email} // Re-render when email changes to update prefill in HTML embed
+                    data-whop-checkout-plan-id="plan_0uXfZPdIAvES2"
+                    data-whop-checkout-theme="light"
+                    data-whop-checkout-theme-accent-color="orange"
+                    data-whop-checkout-hide-email="true"
+                    data-whop-checkout-hide-address="true"
+                    data-whop-checkout-prefill-email={customerInfo.email}
+                    data-whop-checkout-prefill-name={customerInfo.name}
+                  ></div>
                 </div>
-
-                <p className="text-xs text-gray-500 text-center">
-                  You can update your delivery details anytime before your scheduled delivery date.
-                </p>
 
                 <p className="text-xs text-gray-500 text-center pb-4 border-b">
                   By clicking purchase, you agree to our <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] underline">Terms and Conditions</a> and acknowledge that the $500 deposit is non-refundable.
