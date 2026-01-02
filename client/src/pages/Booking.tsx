@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, CalendarDays, Truck, Loader2, ShieldCheck } from 'lucide-react';
+import { CalendarDays, Truck, Loader2, ShieldCheck } from 'lucide-react';
 import { Link } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import logoImg from '@assets/images-Photoroom_1766984801727.png';
@@ -460,7 +460,7 @@ export default function Booking() {
                       data-testid="checkbox-terms"
                     />
                     <label htmlFor="terms" className="text-sm text-gray-600 leading-tight cursor-pointer">
-                      I agree to the <a href="#" className="text-[#E69138] underline">Terms and Conditions</a> including the delivery requirements.
+                      I agree to the <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] underline">Terms and Conditions</a> including the delivery requirements.
                     </label>
                   </div>
                   <div className="flex items-start space-x-3">
@@ -482,6 +482,7 @@ export default function Booking() {
                       planId="plan_0uXfZPdIAvES2"
                       returnUrl={`${window.location.origin}/checkout/complete`}
                       theme="light"
+                      hideTermsAndConditions={false}
                       prefill={{
                         email: customerInfo.email,
                         address: {
@@ -508,7 +509,7 @@ export default function Booking() {
             <div className="md:hidden">
               <Link href="/">
                 <Button variant="outline" className="w-full">
-                  <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+                  Pay Now
                 </Button>
               </Link>
             </div>
@@ -576,7 +577,7 @@ export default function Booking() {
                 <div className="hidden lg:block pt-4">
                   <Link href="/">
                     <Button variant="outline" className="w-full">
-                      <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+                      Pay Now
                     </Button>
                   </Link>
                 </div>
