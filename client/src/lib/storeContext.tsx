@@ -137,8 +137,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       body: 'sans'
     },
     headerMenu: [
-      { id: '1', label: 'About Us', url: '/about', type: 'page' },
-      { id: '2', label: 'Contact Us', url: '/contact', type: 'page' },
+      { id: '1', label: 'Slope Storm Shelter', url: '/', type: 'url' },
+      { id: '2', label: 'About Us', url: '/about', type: 'page' },
+      { id: '3', label: 'Contact Us', url: '/contact', type: 'page' },
     ],
     footerMenu: [
       { id: '1', label: 'Shipping Policy', url: '/shipping', type: 'page' },
