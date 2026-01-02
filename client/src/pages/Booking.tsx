@@ -475,6 +475,7 @@ export default function Booking() {
                     theme="light"
                     hideTermsAndConditions={true}
                     hideEmail={true}
+                    hideAddressForm={true}
                     prefill={{
                       email: customerInfo.email,
                       address: {
