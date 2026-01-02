@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, ArrowRight, CalendarDays, MapPin, CreditCard, Truck, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
-import { Link, useLocation } from 'wouter';
+import { ArrowLeft, CalendarDays, Truck, Loader2, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { Link } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import logoImg from '@assets/images-Photoroom_1766984801727.png';
 import { WhopCheckoutEmbed } from "@whop/checkout/react";
-
-type Step = 'date' | 'address' | 'payment';
 
 interface ShippingInfo {
   miles: number;
@@ -19,8 +17,6 @@ interface ShippingInfo {
 }
 
 export default function Booking() {
-  const [, setLocation] = useLocation();
-  const [step, setStep] = useState<Step>('date');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [slotInfo, setSlotInfo] = useState<{ available: number; total: number } | null>(null);
   const [isLoadingSlot, setIsLoadingSlot] = useState(false);
@@ -34,19 +30,16 @@ export default function Booking() {
   const [shippingInfo, setShippingInfo] = useState<ShippingInfo | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   
-  const [paymentOption, setPaymentOption] = useState<'deposit' | 'full'>('deposit');
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
     email: '',
     phone: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const [agreedTerms, setAgreedTerms] = useState(false);
   const [agreedRefund, setAgreedRefund] = useState(false);
   const [addressSuggestions, setAddressSuggestions] = useState<Array<{display: string, city: string, state: string, zip: string}>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [showCheckout, setShowCheckout] = useState(false);
-  const [bookingId, setBookingId] = useState<number | null>(null);
 
   const productPrice = 4999;
   const depositAmount = 500;
@@ -113,60 +106,11 @@ export default function Booking() {
     }
   }, [address.zip]);
 
-  const handleProceedToCheckout = async () => {
-    if (!selectedDate || !shippingInfo) return;
-    
-    setIsSubmitting(true);
-    try {
-      const bookingData = {
-        selectedDate: format(selectedDate, 'yyyy-MM-dd'),
-        customerName: customerInfo.name,
-        customerEmail: customerInfo.email,
-        customerPhone: customerInfo.phone,
-        deliveryAddress: address.street,
-        deliveryCity: address.city,
-        deliveryState: address.state,
-        deliveryZip: address.zip,
-        milesFromHq: shippingInfo.miles,
-        paymentOption,
-        notes: null
-      };
-
-      const response = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bookingData)
-      });
-
-      if (response.ok) {
-        const booking = await response.json();
-        setBookingId(booking.id);
-        setShowCheckout(true);
-      } else {
-        const errorData = await response.json();
-        console.error('Booking failed:', errorData);
-      }
-    } catch (error) {
-      console.error('Error creating booking:', error);
-    }
-    setIsSubmitting(false);
-  };
-
-  const getReturnUrl = () => {
-    const baseUrl = window.location.origin;
-    return `${baseUrl}/checkout/complete?bookingId=${bookingId}`;
-  };
-
   const isDateDisabled = (date: Date) => {
     return isBefore(date, minDate);
   };
 
-  const canProceedFromDate = selectedDate && slotInfo && slotInfo.available > 0;
-  const canProceedFromAddress = address.street && address.city && address.state && address.zip && shippingInfo;
-  const canSubmit = customerInfo.name && customerInfo.email && customerInfo.phone && agreedTerms && agreedRefund;
-
   const totalForFull = shippingInfo ? productPrice + shippingInfo.shippingFee : productPrice;
-  const amountDueNow = paymentOption === 'deposit' ? depositAmount : totalForFull;
 
   const searchAddress = async (query: string) => {
     if (query.length < 3) {
@@ -203,286 +147,96 @@ export default function Booking() {
     setAddressSuggestions([]);
   };
 
+  const isFormValid = selectedDate && 
+    address.street && address.city && address.state && address.zip && 
+    customerInfo.name && customerInfo.email && customerInfo.phone &&
+    shippingInfo &&
+    agreedTerms && agreedRefund;
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white" data-testid="booking-page">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
+    <div className="min-h-screen bg-stone-100" data-testid="booking-page">
+      <div className="bg-white border-b border-stone-200 py-4">
+        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <Link href="/">
-            <button className="flex items-center gap-2 text-gray-600 hover:text-gray-900" data-testid="back-home">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
-            </button>
+            <img src={logoImg} alt="Home Defend" className="h-12 w-auto" />
           </Link>
-          <Link href="/">
-            <img src={logoImg} alt="Home Defend" className="h-16 w-auto" />
-          </Link>
-        </div>
-
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Schedule Your Delivery</h1>
-          <p className="text-gray-600">Book your storm shelter installation in 3 easy steps</p>
-        </div>
-
-        <div className="flex justify-center mb-8">
-          <div className="flex items-center gap-2">
-            {[
-              { id: 'date', label: 'Date', icon: CalendarDays },
-              { id: 'address', label: 'Address', icon: MapPin },
-              { id: 'payment', label: 'Payment', icon: CreditCard }
-            ].map((s, i) => (
-              <div key={s.id} className="flex items-center">
-                <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${
-                  step === s.id 
-                    ? 'bg-[#E69138] text-white' 
-                    : i < ['date', 'address', 'payment'].indexOf(step)
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-gray-100 text-gray-500'
-                }`}>
-                  {i < ['date', 'address', 'payment'].indexOf(step) ? (
-                    <CheckCircle className="w-4 h-4" />
-                  ) : (
-                    <s.icon className="w-4 h-4" />
-                  )}
-                  <span className="font-medium text-sm">{s.label}</span>
-                </div>
-                {i < 2 && <div className="w-12 h-0.5 bg-gray-200 mx-2" />}
-              </div>
-            ))}
+          <div className="flex items-center gap-2 text-sm text-stone-600">
+            <ShieldCheck className="w-4 h-4" />
+            <span>Secure Checkout</span>
           </div>
         </div>
+      </div>
 
-        {step === 'date' && (
-          <Card className="max-w-2xl mx-auto" data-testid="step-date">
-            <CardHeader className="text-center">
-              <CardTitle className="flex items-center justify-center gap-2 text-xl">
-                <CalendarDays className="w-6 h-6 text-[#E69138]" />
-                Select Delivery Date
-              </CardTitle>
-              <CardDescription className="text-base">
-                Choose your preferred installation date (minimum 7 days from today)
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="px-6 pb-8">
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={(date) => {
-                  setSelectedDate(date);
-                  if (date) {
-                    setTimeout(() => setStep('address'), 300);
-                  }
-                }}
-                disabled={isDateDisabled}
-                className="w-full rounded-md border p-6 [&_table]:w-full [&_td]:p-3 [&_th]:p-3 [&_button]:w-full [&_button]:h-12 [&_button]:text-base"
-                data-testid="calendar"
-              />
-              
-              {selectedDate && (
-                <div className="mt-8 p-4 bg-stone-50 rounded-lg w-full text-center" data-testid="slot-info">
-                  <p className="font-medium text-gray-900 text-lg">
-                    {format(selectedDate, 'EEEE, MMMM d, yyyy')}
-                  </p>
-                  {isLoadingSlot ? (
-                    <p className="text-sm text-gray-500 flex items-center justify-center gap-2 mt-1">
-                      <Loader2 className="w-4 h-4 animate-spin" /> Checking availability...
-                    </p>
-                  ) : slotInfo ? (
-                    <p className={`text-sm mt-1 ${slotInfo.available > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {slotInfo.available > 0 
-                        ? `${slotInfo.available} of ${slotInfo.total} slots available`
-                        : 'No slots available - please select another date'}
-                    </p>
-                  ) : null}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        )}
-
-        {step === 'address' && (
-          <Card className="max-w-lg mx-auto" data-testid="step-address">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-[#E69138]" />
-                Delivery Address
-              </CardTitle>
-              <CardDescription>
-                Enter where you want the storm shelter installed
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="relative">
-                <Label htmlFor="street">Street Address</Label>
-                <Input 
-                  id="street"
-                  placeholder="Start typing your address..."
-                  value={address.street}
-                  onChange={(e) => {
-                    setAddress({ ...address, street: e.target.value });
-                    searchAddress(e.target.value);
-                  }}
-                  onFocus={() => addressSuggestions.length > 0 && setShowSuggestions(true)}
-                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                  data-testid="input-street"
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid lg:grid-cols-[1fr,400px] gap-8">
+          <div className="space-y-6">
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <CalendarDays className="w-5 h-5 text-[#E69138]" />
+                  Delivery Date
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={setSelectedDate}
+                  disabled={isDateDisabled}
+                  className="rounded-md border w-full [&_table]:w-full [&_td]:p-2 [&_th]:p-2 [&_button]:w-full [&_button]:h-10"
+                  data-testid="calendar"
                 />
-                {showSuggestions && addressSuggestions.length > 0 && (
-                  <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
-                    {addressSuggestions.map((suggestion, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 border-b border-gray-100 last:border-0"
-                        onClick={() => selectSuggestion(suggestion)}
-                      >
-                        {suggestion.display}
-                      </button>
-                    ))}
+                {selectedDate && (
+                  <div className="mt-4 p-3 bg-stone-50 rounded-lg text-center" data-testid="slot-info">
+                    <p className="font-medium text-gray-900">
+                      {format(selectedDate, 'EEEE, MMMM d, yyyy')}
+                    </p>
+                    {isLoadingSlot ? (
+                      <p className="text-sm text-gray-500 flex items-center justify-center gap-2 mt-1">
+                        <Loader2 className="w-4 h-4 animate-spin" /> Checking availability...
+                      </p>
+                    ) : slotInfo ? (
+                      <p className={`text-sm mt-1 ${slotInfo.available > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {slotInfo.available > 0 
+                          ? `${slotInfo.available} slots available`
+                          : 'No slots available - please select another date'}
+                      </p>
+                    ) : null}
                   </div>
                 )}
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="city">City</Label>
-                  <Input 
-                    id="city"
-                    placeholder="Kansas City"
-                    value={address.city}
-                    onChange={(e) => setAddress({ ...address, city: e.target.value })}
-                    data-testid="input-city"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="state">State</Label>
-                  <Input 
-                    id="state"
-                    placeholder="MO"
-                    value={address.state}
-                    onChange={(e) => setAddress({ ...address, state: e.target.value })}
-                    data-testid="input-state"
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="zip">ZIP Code</Label>
-                <Input 
-                  id="zip"
-                  placeholder="64030"
-                  value={address.zip}
-                  onChange={(e) => setAddress({ ...address, zip: e.target.value })}
-                  data-testid="input-zip"
-                />
-              </div>
+              </CardContent>
+            </Card>
 
-              {isCalculating && (
-                <div className="flex items-center gap-2 text-gray-500 text-sm">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Calculating shipping...
-                </div>
-              )}
-
-              {shippingInfo && (
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-100" data-testid="shipping-info">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Truck className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium text-blue-900">Shipping Estimate</span>
-                  </div>
-                  <p className="text-sm text-blue-700">
-                    Distance from Grandview, MO: <strong>{shippingInfo.miles.toFixed(0)} miles</strong>
-                  </p>
-                  <p className="text-lg font-bold text-blue-900 mt-1">
-                    Shipping: ${shippingInfo.shippingFee.toLocaleString()}
-                  </p>
-                  <p className="text-xs text-blue-600 mt-1">Calculated at $5.20/mile</p>
-                </div>
-              )}
-
-              <div className="flex gap-3 pt-4">
-                <Button 
-                  variant="outline" 
-                  onClick={() => setStep('date')}
-                  data-testid="btn-back-date"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" /> Back
-                </Button>
-                <Button 
-                  className="flex-1 bg-[#E69138] hover:bg-[#d4812f]"
-                  disabled={!canProceedFromAddress}
-                  onClick={() => setStep('payment')}
-                  data-testid="btn-next-payment"
-                >
-                  Continue <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {step === 'payment' && (
-          <Card className="max-w-lg mx-auto" data-testid="step-payment">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CreditCard className="w-5 h-5 text-[#E69138]" />
-                Secure Your Shelter
-              </CardTitle>
-              <CardDescription>
-                Pay your $500 deposit to reserve your production slot
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="p-4 bg-[#E69138]/10 border border-[#E69138] rounded-lg">
-                <div className="flex justify-between items-center">
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Truck className="w-5 h-5 text-[#E69138]" />
+                  Delivery & Contact Information
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <p className="font-bold text-lg text-[#3E2723]">$500 Deposit (Non-Refundable)</p>
-                    <p className="text-sm text-gray-600">Reserve your slot - remaining balance will be invoiced before delivery</p>
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input 
+                      id="name"
+                      placeholder="John Smith"
+                      value={customerInfo.name}
+                      onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
+                      data-testid="input-name"
+                    />
                   </div>
-                  <span className="font-bold text-2xl text-[#E69138]">$500</span>
-                </div>
-              </div>
-
-              <div className="p-4 bg-stone-50 rounded-lg">
-                <h3 className="font-medium mb-2">Order Summary</h3>
-                <div className="space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span>Storm Shelter #706900</span>
-                    <span>${productPrice.toLocaleString()}</span>
+                  <div>
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input 
+                      id="phone"
+                      type="tel"
+                      placeholder="(555) 123-4567"
+                      value={customerInfo.phone}
+                      onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
+                      data-testid="input-phone"
+                    />
                   </div>
-                  <div className="flex justify-between">
-                    <span>Shipping ({shippingInfo?.miles.toFixed(0)} mi)</span>
-                    <span>${shippingInfo?.shippingFee.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between pt-2 border-t mt-2">
-                    <span>Order Total</span>
-                    <span>${totalForFull.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between font-bold text-lg pt-2 border-t mt-2 text-[#E69138]">
-                    <span>Due Now (Deposit)</span>
-                    <span>${depositAmount.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-500 text-xs">
-                    <span>Remaining balance invoiced before delivery</span>
-                    <span>${(totalForFull - depositAmount).toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
-                <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                <p className="text-sm text-amber-800">
-                  <strong>Important:</strong> The $500 deposit is non-refundable. It secures your production slot and raw materials. You will receive an invoice for the remaining balance (product + shipping) before delivery.
-                </p>
-              </div>
-
-              <div className="space-y-4 pt-4 border-t">
-                <h3 className="font-medium">Contact Information</h3>
-                <div>
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input 
-                    id="name"
-                    placeholder="John Smith"
-                    value={customerInfo.name}
-                    onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
-                    data-testid="input-name"
-                  />
                 </div>
                 <div>
                   <Label htmlFor="email">Email</Label>
@@ -495,88 +249,252 @@ export default function Booking() {
                     data-testid="input-email"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input 
-                    id="phone"
-                    type="tel"
-                    placeholder="(555) 123-4567"
-                    value={customerInfo.phone}
-                    onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
-                    data-testid="input-phone"
-                  />
-                </div>
-              </div>
 
-              <div className="pt-6 border-t" data-testid="whop-checkout-container">
-                <h3 className="font-medium mb-4">Complete Your Payment</h3>
-                <div className="rounded-lg overflow-hidden border border-gray-200 min-h-[500px]">
-                  <WhopCheckoutEmbed
-                    planId="plan_0uXfZPdIAvES2"
-                    returnUrl={`${window.location.origin}/checkout/complete`}
-                    theme="light"
-                    prefill={{
-                      email: customerInfo.email,
-                      address: {
-                        name: customerInfo.name,
-                        country: "US",
-                        line1: address.street,
-                        city: address.city,
-                        state: address.state,
-                        postalCode: address.zip
-                      }
-                    }}
-                    fallback={
-                      <div className="flex items-center justify-center py-12">
-                        <Loader2 className="w-6 h-6 animate-spin text-[#E69138]" />
-                        <span className="ml-2 text-gray-600">Loading checkout...</span>
+                <div className="pt-4 border-t">
+                  <Label className="text-base font-medium mb-3 block">Delivery Address</Label>
+                  <div className="relative">
+                    <Label htmlFor="street">Street Address</Label>
+                    <Input 
+                      id="street"
+                      placeholder="Start typing your address..."
+                      value={address.street}
+                      onChange={(e) => {
+                        setAddress({ ...address, street: e.target.value });
+                        searchAddress(e.target.value);
+                      }}
+                      onFocus={() => addressSuggestions.length > 0 && setShowSuggestions(true)}
+                      onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                      data-testid="input-street"
+                    />
+                    {showSuggestions && addressSuggestions.length > 0 && (
+                      <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
+                        {addressSuggestions.map((suggestion, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 border-b border-gray-100 last:border-0"
+                            onClick={() => selectSuggestion(suggestion)}
+                          >
+                            {suggestion.display}
+                          </button>
+                        ))}
                       </div>
-                    }
-                  />
+                    )}
+                  </div>
+                  <div className="grid grid-cols-3 gap-3 mt-3">
+                    <div>
+                      <Label htmlFor="city">City</Label>
+                      <Input 
+                        id="city"
+                        placeholder="City"
+                        value={address.city}
+                        onChange={(e) => setAddress({ ...address, city: e.target.value })}
+                        data-testid="input-city"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="state">State</Label>
+                      <Input 
+                        id="state"
+                        placeholder="MO"
+                        value={address.state}
+                        onChange={(e) => setAddress({ ...address, state: e.target.value })}
+                        data-testid="input-state"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="zip">ZIP</Label>
+                      <Input 
+                        id="zip"
+                        placeholder="64030"
+                        value={address.zip}
+                        onChange={(e) => setAddress({ ...address, zip: e.target.value })}
+                        data-testid="input-zip"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-3 pt-4 border-t">
-                <div className="flex items-start space-x-3">
-                  <Checkbox 
-                    id="terms" 
-                    checked={agreedTerms}
-                    onCheckedChange={(checked) => setAgreedTerms(checked === true)}
-                    data-testid="checkbox-terms"
-                  />
-                  <label htmlFor="terms" className="text-sm text-gray-600 leading-tight cursor-pointer">
-                    I agree to the <a href="#" className="text-[#E69138] underline">Terms and Conditions</a> including the delivery requirements and customer unloading responsibility.
-                  </label>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <Checkbox 
-                    id="refund" 
-                    checked={agreedRefund}
-                    onCheckedChange={(checked) => setAgreedRefund(checked === true)}
-                    data-testid="checkbox-refund"
-                  />
-                  <label htmlFor="refund" className="text-sm text-gray-600 leading-tight cursor-pointer">
-                    I understand and accept the <a href="#" className="text-[#E69138] underline">Return Policy</a>. The $500 deposit is non-refundable once the order is placed.
-                  </label>
-                </div>
-              </div>
+                {isCalculating && (
+                  <div className="flex items-center gap-2 text-gray-500 text-sm p-3 bg-stone-50 rounded-lg">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Calculating shipping...
+                  </div>
+                )}
 
-              <div className="pt-4">
-                <Button 
-                  variant="outline" 
-                  onClick={() => setStep('address')}
-                  data-testid="btn-back-address"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                {shippingInfo && (
+                  <div className="p-3 bg-blue-50 rounded-lg border border-blue-100" data-testid="shipping-info">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-blue-700">
+                        Delivery from Grandview, MO ({shippingInfo.miles.toFixed(0)} mi)
+                      </span>
+                      <span className="font-bold text-blue-900">
+                        ${shippingInfo.shippingFee.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Complete Your Payment</CardTitle>
+                <p className="text-sm text-gray-500 mt-1">Billing address will be collected during payment</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3 pb-4 border-b">
+                  <div className="flex items-start space-x-3">
+                    <Checkbox 
+                      id="terms" 
+                      checked={agreedTerms}
+                      onCheckedChange={(checked) => setAgreedTerms(checked === true)}
+                      data-testid="checkbox-terms"
+                    />
+                    <label htmlFor="terms" className="text-sm text-gray-600 leading-tight cursor-pointer">
+                      I agree to the <a href="#" className="text-[#E69138] underline">Terms and Conditions</a> including the delivery requirements.
+                    </label>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <Checkbox 
+                      id="refund" 
+                      checked={agreedRefund}
+                      onCheckedChange={(checked) => setAgreedRefund(checked === true)}
+                      data-testid="checkbox-refund"
+                    />
+                    <label htmlFor="refund" className="text-sm text-gray-600 leading-tight cursor-pointer">
+                      I understand the $500 deposit is non-refundable once the order is placed.
+                    </label>
+                  </div>
+                </div>
+
+                {!isFormValid ? (
+                  <div className="p-6 bg-stone-50 rounded-lg border border-stone-200 text-center">
+                    <p className="text-gray-600 mb-3">Please complete the following to proceed:</p>
+                    <ul className="text-sm text-gray-500 space-y-1">
+                      {!selectedDate && <li>Select a delivery date</li>}
+                      {!customerInfo.name && <li>Enter your full name</li>}
+                      {!customerInfo.email && <li>Enter your email address</li>}
+                      {!customerInfo.phone && <li>Enter your phone number</li>}
+                      {(!address.street || !address.city || !address.state || !address.zip) && <li>Enter your delivery address</li>}
+                      {!shippingInfo && address.zip && <li>Wait for shipping calculation</li>}
+                      {!agreedTerms && <li>Agree to Terms and Conditions</li>}
+                      {!agreedRefund && <li>Acknowledge the refund policy</li>}
+                    </ul>
+                  </div>
+                ) : (
+                  <div className="rounded-lg overflow-hidden border border-gray-200 min-h-[400px]">
+                    <WhopCheckoutEmbed
+                      planId="plan_0uXfZPdIAvES2"
+                      returnUrl={`${window.location.origin}/checkout/complete`}
+                      theme="light"
+                      prefill={{
+                        email: customerInfo.email,
+                        address: {
+                          name: customerInfo.name,
+                          country: "US",
+                          line1: address.street,
+                          city: address.city,
+                          state: address.state,
+                          postalCode: address.zip
+                        }
+                      }}
+                      fallback={
+                        <div className="flex items-center justify-center py-12">
+                          <Loader2 className="w-6 h-6 animate-spin text-[#E69138]" />
+                          <span className="ml-2 text-gray-600">Loading payment form...</span>
+                        </div>
+                      }
+                    />
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <div className="lg:hidden">
+              <Link href="/">
+                <Button variant="outline" className="w-full">
+                  <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+              </Link>
+            </div>
+          </div>
 
-        <div className="text-center mt-8 text-sm text-gray-500">
-          <p>Delivery scheduled for: {selectedDate ? format(selectedDate, 'MMMM d, yyyy') : '—'}</p>
-          <p>Shipping from Grandview, MO</p>
+          <div className="lg:sticky lg:top-8 h-fit">
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Order Summary</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-4">
+                  <div className="w-20 h-20 bg-stone-100 rounded-lg flex items-center justify-center">
+                    <img 
+                      src={logoImg} 
+                      alt="Storm Shelter" 
+                      className="w-16 h-16 object-contain"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-900">Underground Storm Shelter</p>
+                    <p className="text-sm text-gray-500">Stock #706900</p>
+                    <p className="text-sm font-medium mt-1">${productPrice.toLocaleString()}</p>
+                  </div>
+                </div>
+
+                <div className="border-t pt-4 space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Subtotal</span>
+                    <span>${productPrice.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">
+                      Shipping {shippingInfo ? `(${shippingInfo.miles.toFixed(0)} mi)` : ''}
+                    </span>
+                    <span>
+                      {shippingInfo ? `$${shippingInfo.shippingFee.toLocaleString()}` : 'Enter address'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between pt-2 border-t font-medium">
+                    <span>Total</span>
+                    <span>${totalForFull.toLocaleString()}</span>
+                  </div>
+                </div>
+
+                <div className="bg-[#E69138]/10 border border-[#E69138] rounded-lg p-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="font-bold text-[#3E2723]">Due Today</p>
+                      <p className="text-xs text-gray-600">Non-refundable deposit</p>
+                    </div>
+                    <span className="font-bold text-2xl text-[#E69138]">${depositAmount}</span>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                  <p className="text-xs text-amber-800">
+                    Remaining balance of ${(totalForFull - depositAmount).toLocaleString()} will be invoiced before delivery.
+                  </p>
+                </div>
+
+                {selectedDate && (
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm text-green-800">
+                      <strong>Delivery:</strong> {format(selectedDate, 'MMMM d, yyyy')}
+                    </p>
+                  </div>
+                )}
+
+                <div className="hidden lg:block pt-4">
+                  <Link href="/">
+                    <Button variant="outline" className="w-full">
+                      <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
