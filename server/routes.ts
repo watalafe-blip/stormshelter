@@ -195,6 +195,7 @@ export async function registerRoutes(
   });
 
   // Cart session endpoints for abandonment tracking
+  // Note: These are optional features that don't block main functionality
   app.post("/api/cart-sessions", async (req, res) => {
     try {
       const { sessionToken, customerEmail } = req.body;
@@ -217,8 +218,9 @@ export async function registerRoutes(
       });
       res.json(session);
     } catch (error) {
-      console.error("Error creating cart session:", error);
-      res.status(500).json({ error: "Failed to create cart session" });
+      console.error("Cart session tracking unavailable:", error);
+      // Return a minimal success response to not block client functionality
+      res.json({ id: null, sessionToken: req.body.sessionToken, status: "unavailable" });
     }
   });
 
@@ -226,12 +228,13 @@ export async function registerRoutes(
     try {
       const session = await storage.getCartSessionByToken(req.params.token);
       if (!session) {
-        return res.status(404).json({ error: "Session not found" });
+        return res.json({ status: "not_found" });
       }
       res.json(session);
     } catch (error) {
-      console.error("Error fetching cart session:", error);
-      res.status(500).json({ error: "Failed to fetch cart session" });
+      console.error("Cart session lookup unavailable:", error);
+      // Return graceful response to not block client
+      res.json({ status: "unavailable" });
     }
   });
 
@@ -240,7 +243,7 @@ export async function registerRoutes(
       const { email } = req.body;
       const session = await storage.getCartSessionByToken(req.params.token);
       if (!session) {
-        return res.status(404).json({ error: "Session not found" });
+        return res.json({ success: true, message: "Session not tracked" });
       }
       
       const updatedSession = await storage.updateCartSessionStatus(session.id, "abandoned");
@@ -261,8 +264,8 @@ export async function registerRoutes(
       
       res.json({ success: true, session: updatedSession });
     } catch (error) {
-      console.error("Error marking cart abandoned:", error);
-      res.status(500).json({ error: "Failed to mark cart as abandoned" });
+      console.error("Cart abandon tracking unavailable:", error);
+      res.json({ success: true, message: "Tracking unavailable" });
     }
   });
 
@@ -270,7 +273,7 @@ export async function registerRoutes(
     try {
       const session = await storage.getCartSessionByToken(req.params.token);
       if (!session) {
-        return res.status(404).json({ error: "Session not found" });
+        return res.json({ success: true });
       }
       
       await storage.updateCartSessionStatus(session.id, "converted");
@@ -282,8 +285,8 @@ export async function registerRoutes(
       
       res.json({ success: true });
     } catch (error) {
-      console.error("Error converting cart session:", error);
-      res.status(500).json({ error: "Failed to convert cart session" });
+      console.error("Cart conversion tracking unavailable:", error);
+      res.json({ success: true });
     }
   });
 
@@ -291,7 +294,7 @@ export async function registerRoutes(
     try {
       const session = await storage.getCartSessionByToken(req.params.token);
       if (!session) {
-        return res.status(404).json({ error: "Session not found" });
+        return res.json({ hasActiveReminder: false });
       }
       
       const reminder = await storage.getActiveReminderBySession(session.id);
@@ -311,8 +314,8 @@ export async function registerRoutes(
         expiresAt: reminder.expiresAt
       });
     } catch (error) {
-      console.error("Error fetching reminder:", error);
-      res.status(500).json({ error: "Failed to fetch reminder" });
+      console.error("Reminder lookup unavailable:", error);
+      res.json({ hasActiveReminder: false });
     }
   });
 

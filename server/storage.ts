@@ -262,13 +262,14 @@ export class MemStorage implements IStorage {
 
 export class DatabaseStorage implements IStorage {
   private db: ReturnType<typeof drizzle>;
+  private queryClient: ReturnType<typeof neon>;
 
   constructor() {
     if (!DATABASE_URL) {
       throw new Error("DATABASE_URL is required for DatabaseStorage");
     }
-    const queryClient = neon(DATABASE_URL);
-    this.db = drizzle(queryClient);
+    this.queryClient = neon(DATABASE_URL);
+    this.db = drizzle(this.queryClient);
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -360,8 +361,25 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getCartSessionByToken(token: string): Promise<CartSession | undefined> {
-    const result = await this.db.select().from(cartSessions).where(eq(cartSessions.sessionToken, token));
-    return result[0];
+    try {
+      const result: any = await this.queryClient`SELECT * FROM cart_sessions WHERE session_token = ${token} LIMIT 1`;
+      if (result && Array.isArray(result) && result.length > 0) {
+        const row = result[0];
+        return {
+          id: row.id,
+          sessionToken: row.session_token,
+          customerEmail: row.customer_email,
+          status: row.status,
+          potentialSavings: row.potential_savings,
+          lastActivityAt: row.last_activity_at,
+          createdAt: row.created_at
+        };
+      }
+      return undefined;
+    } catch (error) {
+      console.error("getCartSessionByToken error details:", error);
+      throw error;
+    }
   }
 
   async updateCartSessionStatus(id: string, status: "active" | "abandoned" | "converted"): Promise<CartSession | undefined> {
