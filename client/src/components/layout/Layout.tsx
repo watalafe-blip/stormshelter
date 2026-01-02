@@ -136,21 +136,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }
 
   const headerBgClass = isScrolled 
-    ? "bg-white/95 backdrop-blur shadow-md text-[#3E2723]" 
-    : "bg-transparent text-white border-transparent"; // Transparent on top
+    ? "bg-white shadow-md text-[#3E2723]" 
+    : location === '/' 
+      ? "bg-transparent text-white border-transparent" 
+      : "bg-white border-b border-stone-200 text-[#3E2723]";
 
-  const navLinkClass = isScrolled
+  const navLinkClass = isScrolled || location !== '/'
     ? "hover:text-[#E69138] text-[#3E2723]"
     : "hover:text-[#E69138] text-white";
 
-  const outlineButtonClass = isScrolled
+  const outlineButtonClass = isScrolled || location !== '/'
     ? "border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
     : "border-white text-white hover:bg-white hover:text-[#E69138]";
+
+  const isSticky = location === '/';
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <PurchaseNotification />
-      <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${headerBgClass}`}>
+      <header className={`${isSticky ? 'fixed' : 'sticky'} top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${headerBgClass}`}>
         <div className="container mx-auto px-4 h-24 flex items-center justify-between">
           {/* Mobile Menu */}
           <Sheet>
