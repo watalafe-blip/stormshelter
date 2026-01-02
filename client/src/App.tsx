@@ -17,6 +17,9 @@ import Booking from "@/pages/Booking";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import FAQ from "@/pages/FAQ";
+import ReturnPolicy from "@/pages/ReturnPolicy";
+import ShippingPolicy from "@/pages/ShippingPolicy";
 import Layout from "@/components/layout/Layout";
 
 function Router() {
@@ -32,6 +35,9 @@ function Router() {
       <Route path="/booking" component={Booking} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
+      <Route path="/faq" component={FAQ} />
+      <Route path="/returns" component={ReturnPolicy} />
+      <Route path="/shipping" component={ShippingPolicy} />
       <Route path="/confirmation" component={Confirmation} />
       <Route path="/admin">
         <Layout>

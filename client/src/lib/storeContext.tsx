@@ -192,7 +192,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
          type: 'testimonials',
          enabled: true
       },
-      { id: 'text-install', type: 'text-block', title: 'Installation & Delivery', content: 'Shipped directly from Missouri. Delivery is $6 per mile for locations outside of Missouri. You are responsible for unloading and installation at your site.', enabled: true },
+      { id: 'text-install', type: 'text-block', title: 'Installation & Delivery', content: 'Shipped directly from Missouri. Delivery is $5.20 per mile from our facility. You are responsible for unloading and installation at your site.', enabled: true },
       { id: 'news', type: 'newsletter', enabled: false },
     ]
   });

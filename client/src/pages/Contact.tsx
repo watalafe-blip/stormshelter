@@ -176,7 +176,7 @@ export default function Contact() {
                     <p className="text-sm font-medium text-slate-500 uppercase tracking-wide mb-2">Hours</p>
                     <p className="text-lg text-slate-900">
                       Monday – Friday<br />
-                      8:00 AM – 6:00 PM CST
+                      8:00 AM – 6:00 PM EST
                     </p>
                   </div>
                 </div>
