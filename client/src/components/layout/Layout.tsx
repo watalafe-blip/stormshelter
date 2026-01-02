@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from 'wouter';
-import { ShoppingBag, Menu, X, Search, User, LayoutDashboard, Box, FileText, CreditCard, Settings, Users, Phone, Shield, Calculator } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, User, LayoutDashboard, Box, FileText, CreditCard, Settings, Users, Phone, Shield, Calculator, CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -45,6 +45,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors flex items-center gap-3 ${location === '/admin/orders' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
           <ShoppingBag size={20} />
           Orders
+        </div>
+      </Link>
+      <Link href="/admin/bookings">
+        <div className={`p-3 rounded-md cursor-pointer hover:bg-sidebar-accent transition-colors flex items-center gap-3 ${location === '/admin/bookings' ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : ''}`}>
+          <CalendarDays size={20} />
+          Bookings
         </div>
       </Link>
       <Link href="/admin/payments">

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CalendarDays, Truck, Loader2, ShieldCheck, ChevronDown } from 'lucide-react';
+import { CalendarDays, Truck, Loader2, ShieldCheck, ChevronDown, Star, Award, Lock } from 'lucide-react';
 import { Link } from 'wouter';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import logoImg from '@assets/images-Photoroom_1766984801727.png';
@@ -238,6 +238,29 @@ export default function Booking() {
             </div>
           </div>
         )}
+      </div>
+
+      <div className="bg-white border-b border-stone-200 py-3">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-center">
+            <div className="flex items-center gap-2">
+              <span className="text-lg md:text-xl font-bold text-gray-900">2,000,000+</span>
+              <span className="text-xs md:text-sm text-gray-600">HAPPY CUSTOMERS</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Award className="w-4 h-4 text-gray-700" />
+              <span className="text-xs md:text-sm text-gray-600">Award Winning</span>
+            </div>
+            <div className="flex items-center gap-1">
+              {[1,2,3,4,5].map(i => (
+                <Star key={i} className="w-4 h-4 fill-[#E69138] text-[#E69138]" />
+              ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs md:text-sm text-gray-600">150,000+ 5 Star Reviews</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -504,26 +527,47 @@ export default function Booking() {
                 <CardTitle className="text-lg">Complete Your Payment</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div className="rounded-lg border-2 border-blue-600 bg-blue-50/50 p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded bg-blue-600 flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="font-medium text-gray-900">Credit card</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/100px-Visa_Inc._logo.svg.png" alt="Visa" className="h-6 object-contain" />
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/100px-Mastercard-logo.svg.png" alt="Mastercard" className="h-6 object-contain" />
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/American_Express_logo_%282018%29.svg/100px-American_Express_logo_%282018%29.svg.png" alt="Amex" className="h-6 object-contain" />
+                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">+5</span>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="space-y-3 pb-4 border-b">
                   <div className="flex items-start space-x-3">
-                    <Checkbox 
-                      id="terms" 
-                      checked={agreedTerms}
-                      onCheckedChange={(checked) => setAgreedTerms(checked === true)}
-                      data-testid="checkbox-terms"
-                    />
-                    <label htmlFor="terms" className="text-sm text-gray-600 leading-tight cursor-pointer">
-                      I agree to the <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-[#E69138] underline">Terms and Conditions</a> including the delivery requirements.
+                    <div className="mt-0.5 w-5 h-5 rounded bg-blue-600 flex items-center justify-center flex-shrink-0 cursor-pointer" onClick={() => setAgreedTerms(!agreedTerms)}>
+                      {agreedTerms && (
+                        <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <label className="text-sm text-gray-600 leading-tight cursor-pointer" onClick={() => setAgreedTerms(!agreedTerms)}>
+                      I agree to the <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline" onClick={(e) => e.stopPropagation()}>Terms and Conditions</a> including the delivery requirements.
                     </label>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <Checkbox 
-                      id="refund" 
-                      checked={agreedRefund}
-                      onCheckedChange={(checked) => setAgreedRefund(checked === true)}
-                      data-testid="checkbox-refund"
-                    />
-                    <label htmlFor="refund" className="text-sm text-gray-600 leading-tight cursor-pointer">
+                    <div className="mt-0.5 w-5 h-5 rounded bg-blue-600 flex items-center justify-center flex-shrink-0 cursor-pointer" onClick={() => setAgreedRefund(!agreedRefund)}>
+                      {agreedRefund && (
+                        <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <label className="text-sm text-gray-600 leading-tight cursor-pointer" onClick={() => setAgreedRefund(!agreedRefund)}>
                       I understand the $500 deposit is non-refundable once the order is placed.
                     </label>
                   </div>
@@ -556,6 +600,11 @@ export default function Booking() {
                     />
                   </div>
                 )}
+
+                <div className="flex items-center justify-center gap-2 text-gray-500 text-sm pt-2">
+                  <Lock className="w-4 h-4" />
+                  <span>Secure and encrypted</span>
+                </div>
               </CardContent>
             </Card>
 
@@ -637,6 +686,21 @@ export default function Booking() {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </div>
+
+      <div className="border-t border-stone-200 bg-white py-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm">
+            <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Refund policy</a>
+            <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Shipping</a>
+            <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Privacy policy</a>
+            <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Terms of service</a>
+            <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Cancellations</a>
+          </div>
+          <p className="text-center text-sm text-gray-600 mt-4">
+            By ordering, you agree to our <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Terms of Service</a> and acknowledge our <a href="https://assets-2-prod.whop.com/uploads/user_20314880/other/bots/2026-01-02/8155c636-5290-4808-838b-6e4560f35e6f.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Privacy Policy</a>
+          </p>
         </div>
       </div>
     </div>
