@@ -163,7 +163,7 @@ export default function ProductGallery() {
                   className="w-full h-12 text-base font-bold border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723] hover:text-white"
                   data-testid="reserve-deposit-btn"
                 >
-                  Pay Deposit
+                  Reserve Now
                 </Button>
               </a>
             </div>

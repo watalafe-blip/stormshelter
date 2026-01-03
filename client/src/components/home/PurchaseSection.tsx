@@ -163,7 +163,7 @@ export default function PurchaseSection() {
                   <Button 
                     className="w-full h-16 text-xl font-bold bg-[#E69138] hover:bg-[#D4842F] text-[#3E2723] shadow-lg hover:shadow-xl transition-all"
                   >
-                    Pay Deposit
+                    Reserve Now
                   </Button>
                 </Link>
                 

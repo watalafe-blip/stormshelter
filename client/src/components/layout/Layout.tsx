@@ -214,6 +214,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Secure My Shelter
                 </Button>
               </Link>
+
+              {/* Mobile Reserve Now Button */}
+              <Link href="/booking" className="lg:hidden">
+                <Button 
+                  size="sm"
+                  className={`font-bold shadow-md ${isScrolled ? 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F]' : 'bg-[#E69138] text-[#3E2723] hover:bg-[#D4842F]'}`}
+                  data-testid="mobile-reserve-btn"
+                >
+                  Reserve Now
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
