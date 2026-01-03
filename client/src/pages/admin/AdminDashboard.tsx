@@ -1,4 +1,5 @@
 
+import { useState, useEffect } from 'react';
 import { Link, useRoute, useLocation } from 'wouter';
 import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit, Loader2, Save, FileText, CreditCard, RefreshCw, XCircle, CheckCircle, Palette, Mail, LayoutTemplate, Image as ImageIcon, CalendarDays, MapPin, Phone, Clock, LogOut } from 'lucide-react';
 import { useAuth } from '@/lib/authContext';
@@ -9,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { useState } from 'react';
 import { useStore } from '@/lib/storeContext';
 import {
   Table,
@@ -492,6 +492,12 @@ export default function AdminDashboard() {
   } = useStore();
   const { toast } = useToast();
 
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      setLocation('/admin/login');
+    }
+  }, [authLoading, isAuthenticated, setLocation]);
+
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -501,7 +507,6 @@ export default function AdminDashboard() {
   }
 
   if (!isAuthenticated) {
-    setLocation('/admin/login');
     return null;
   }
 

@@ -11,6 +11,8 @@ import HowItWorks from '@/components/home/HowItWorks';
 import TechnicalSpecs from '@/components/home/TechnicalSpecs';
 import PurchaseSection from '@/components/home/PurchaseSection';
 import Testimonials from '@/components/home/Testimonials';
+import TrustIndicators from '@/components/home/TrustIndicators';
+import UrgencyBanner from '@/components/home/UrgencyBanner';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2, Ruler, Hammer, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -250,6 +252,8 @@ export default function Home() {
   return (
     <Layout>
       {getSectionOrder().map(section => renderSection(section))}
+      <TrustIndicators />
+      <UrgencyBanner />
       <ServiceFeatures />
     </Layout>
   );

@@ -43,8 +43,8 @@ export const heroSlides = [
   {
     id: 1,
     image: prodShelter,
-    title: "Protect Your Legacy",
-    subtitle: "EF5 Rated Underground Concrete Shelters",
-    cta: "Secure Yours Now"
+    title: "When the Storm Comes, Will You Be Ready?",
+    subtitle: "Protecting families one shelter at a time. FEMA-rated underground concrete storm shelters built to save lives.",
+    cta: "Protect Your Family Now"
   }
 ];

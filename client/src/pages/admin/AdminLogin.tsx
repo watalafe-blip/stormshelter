@@ -90,6 +90,29 @@ export default function AdminLogin() {
                 'Sign In'
               )}
             </Button>
+
+            <button
+              type="button"
+              onClick={async () => {
+                const email = prompt('Enter your admin email to request a password reset:');
+                if (email) {
+                  const res = await fetch('/api/admin/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: email })
+                  });
+                  if (res.ok) {
+                    alert('Password reset request sent to info@homedefendpro.com');
+                  } else {
+                    alert('Failed to send reset request');
+                  }
+                }
+              }}
+              className="w-full text-center text-sm text-stone-500 hover:text-[#E69138] transition-colors"
+              data-testid="link-forgot-password"
+            >
+              Forgot password?
+            </button>
           </form>
         </div>
       </div>

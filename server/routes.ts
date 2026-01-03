@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { sendBookingConfirmation, sendContactFormEmail } from "./email";
+import { sendBookingConfirmation, sendContactFormEmail, sendPasswordResetRequest } from "./email";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -290,6 +290,25 @@ export async function registerRoutes(
       res.json({ user: { id: user.id, username: user.username } });
     } catch (error) {
       res.status(401).json({ error: "Invalid token" });
+    }
+  });
+
+  // Forgot password endpoint
+  app.post("/api/admin/forgot-password", async (req, res) => {
+    try {
+      const { username } = req.body;
+      if (!username) {
+        return res.status(400).json({ error: "Username is required" });
+      }
+      
+      const emailSent = await sendPasswordResetRequest(username);
+      if (!emailSent) {
+        return res.status(500).json({ error: "Failed to send reset email. Please contact support." });
+      }
+      res.json({ success: true, message: "Password reset request sent" });
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      res.status(500).json({ error: "Failed to send reset request" });
     }
   });
 

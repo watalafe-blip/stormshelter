@@ -5,6 +5,45 @@ const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 const CONTACT_EMAIL = 'info@homedefendpro.com';
 
+export async function sendPasswordResetRequest(username: string): Promise<boolean> {
+  if (!resend) {
+    console.log('Email service not configured (RESEND_API_KEY missing). Password reset requested for:', username);
+    return false;
+  }
+  
+  try {
+    const { error } = await resend.emails.send({
+      from: 'Home Defend Pro <noreply@homedefendpro.com>',
+      to: [CONTACT_EMAIL],
+      subject: 'Admin Password Reset Request',
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <body style="font-family: sans-serif; padding: 20px; color: #333;">
+          <h2 style="color: #E69138;">Password Reset Request</h2>
+          <p>A password reset was requested for the admin account:</p>
+          <p><strong>Username:</strong> ${username}</p>
+          <p style="margin-top: 20px;">If this was you, please reset your password through the database or contact your system administrator.</p>
+          <hr style="margin: 24px 0; border: none; border-top: 1px solid #ddd;" />
+          <p style="color: #666; font-size: 12px;">This message was sent from the Home Defend Pro admin system.</p>
+        </body>
+        </html>
+      `
+    });
+
+    if (error) {
+      console.error('Failed to send password reset email:', error);
+      return false;
+    }
+
+    console.log('Password reset email sent for:', username);
+    return true;
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    return false;
+  }
+}
+
 interface ContactFormData {
   firstName: string;
   lastName?: string;
