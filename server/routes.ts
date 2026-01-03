@@ -3,6 +3,11 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { sendBookingConfirmation, sendContactFormEmail } from "./email";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = process.env.JWT_SECRET || "home-defend-admin-secret-key-change-in-production";
+const COOKIE_NAME = "admin_token";
 
 const GRANDVIEW_MO_COORDS = { lat: 38.8814, lng: -94.5314 };
 const SHIPPING_RATE_PER_MILE = 5.2;
@@ -225,6 +230,91 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error processing contact form:", error);
       res.status(500).json({ error: "Failed to process contact form" });
+    }
+  });
+
+  // Admin Authentication Routes
+  app.post("/api/admin/login", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      
+      if (!username || !password) {
+        return res.status(400).json({ error: "Username and password required" });
+      }
+      
+      const user = await storage.getUserByUsername(username);
+      if (!user) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+      
+      const isValid = await bcrypt.compare(password, user.password);
+      if (!isValid) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+      
+      const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: "24h" });
+      
+      res.cookie(COOKIE_NAME, token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      });
+      
+      res.json({ success: true, user: { id: user.id, username: user.username } });
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ error: "Login failed" });
+    }
+  });
+
+  app.post("/api/admin/logout", (req, res) => {
+    res.clearCookie(COOKIE_NAME);
+    res.json({ success: true });
+  });
+
+  app.get("/api/admin/me", async (req, res) => {
+    try {
+      const token = req.cookies?.[COOKIE_NAME];
+      if (!token) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; username: string };
+      const user = await storage.getUser(decoded.userId);
+      
+      if (!user) {
+        return res.status(401).json({ error: "User not found" });
+      }
+      
+      res.json({ user: { id: user.id, username: user.username } });
+    } catch (error) {
+      res.status(401).json({ error: "Invalid token" });
+    }
+  });
+
+  // Seed admin user endpoint (one-time use)
+  app.post("/api/admin/seed", async (req, res) => {
+    try {
+      const { username, password, secretKey } = req.body;
+      
+      // Simple security check
+      if (secretKey !== "home-defend-setup-2026") {
+        return res.status(403).json({ error: "Invalid secret key" });
+      }
+      
+      const existingUser = await storage.getUserByUsername(username);
+      if (existingUser) {
+        return res.status(400).json({ error: "User already exists" });
+      }
+      
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await storage.createUser({ username, password: hashedPassword });
+      
+      res.json({ success: true, message: "Admin user created", userId: user.id });
+    } catch (error) {
+      console.error("Seed error:", error);
+      res.status(500).json({ error: "Failed to create admin user" });
     }
   });
 

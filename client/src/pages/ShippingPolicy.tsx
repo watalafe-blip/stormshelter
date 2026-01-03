@@ -40,7 +40,7 @@ export default function ShippingPolicy() {
               </div>
               <div className="text-center p-8 bg-stone-50 rounded-2xl">
                 <Clock className="w-10 h-10 text-[#E69138] mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-[#3E2723] mb-2">2-4 Week Lead Time</h3>
+                <h3 className="text-xl font-semibold text-[#3E2723] mb-2">1 Week Lead Time</h3>
                 <p className="text-stone-600">From deposit to delivery</p>
               </div>
             </div>
@@ -91,19 +91,6 @@ export default function ShippingPolicy() {
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-[#3E2723] mb-4">What's Included</h2>
-                <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
-                  <p>Your shipping cost includes:</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>Transport from our facility to your property</li>
-                    <li>Crane placement of the shelter into your prepared excavation</li>
-                    <li>Basic positioning and leveling</li>
-                    <li>Removal of transport straps and packaging</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div>
                 <h2 className="text-2xl font-bold text-[#3E2723] mb-4">What's NOT Included</h2>
                 <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>You are responsible for:</p>
@@ -146,7 +133,7 @@ export default function ShippingPolicy() {
                 <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
                   <p>
                     After you place your deposit, you'll select a preferred delivery date 
-                    from our available slots. Typical lead time is <strong className="text-[#3E2723]">2-4 weeks</strong> 
+                    from our available slots. Typical lead time is <strong className="text-[#3E2723]">1 week</strong> 
                     from deposit to delivery, depending on current demand.
                   </p>
                   <p>

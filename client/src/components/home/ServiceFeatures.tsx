@@ -34,7 +34,7 @@ export default function ServiceFeatures() {
               <div className="p-4 rounded-full bg-background border border-border shadow-sm text-primary">
                 <feature.icon size={28} strokeWidth={1.5} />
               </div>
-              <h3 className="font-serif font-semibold text-lg">{feature.title}</h3>
+              <h3 className="font-sans font-semibold text-lg">{feature.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {feature.description}
               </p>

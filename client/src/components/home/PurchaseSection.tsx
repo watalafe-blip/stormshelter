@@ -68,7 +68,7 @@ export default function PurchaseSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
           
           {/* Features Column */}
           <div className="space-y-6 lg:pt-10">
@@ -98,7 +98,7 @@ export default function PurchaseSection() {
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className="lg:col-span-1 bg-white rounded-2xl shadow-2xl border-2 border-[#3E2723] overflow-hidden relative"
+            className="lg:col-span-3 bg-white rounded-2xl shadow-2xl border-2 border-[#3E2723] overflow-hidden relative"
           >
             <div className="bg-[#3E2723] text-white py-3 text-center text-sm font-bold uppercase tracking-wider">
               Most Popular Choice
@@ -194,13 +194,6 @@ export default function PurchaseSection() {
                    You must have a forklift or crane available at the delivery site to unload the unit (approx. 12,000 lbs). The driver cannot unload it for you.
                 </AlertDescription>
              </Alert>
-
-             <div className="bg-stone-50 p-6 rounded-xl border border-stone-200">
-                <h4 className="font-bold text-stone-800 mb-2">Why a Non-Refundable Deposit?</h4>
-                <p className="text-sm text-stone-600 leading-relaxed">
-                   This deposit secures your raw materials and production slot in our casting schedule. This ensures we can maintain our delivery timelines for all customers.
-                </p>
-             </div>
           </div>
 
         </div>

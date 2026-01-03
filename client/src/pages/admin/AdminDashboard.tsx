@@ -1,6 +1,7 @@
 
-import { Link, useRoute } from 'wouter';
-import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit, Loader2, Save, FileText, CreditCard, RefreshCw, XCircle, CheckCircle, Palette, Mail, LayoutTemplate, Image as ImageIcon, CalendarDays, MapPin, Phone, Clock } from 'lucide-react';
+import { Link, useRoute, useLocation } from 'wouter';
+import { Package, ShoppingCart, Users, DollarSign, Settings, Search, Plus, Filter, MoreHorizontal, Trash, Edit, Loader2, Save, FileText, CreditCard, RefreshCw, XCircle, CheckCircle, Palette, Mail, LayoutTemplate, Image as ImageIcon, CalendarDays, MapPin, Phone, Clock, LogOut } from 'lucide-react';
+import { useAuth } from '@/lib/authContext';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
@@ -181,6 +182,12 @@ function BookingsPage() {
           <h1 className="text-3xl font-serif font-bold">Delivery Bookings</h1>
           <p className="text-muted-foreground">Manage storm shelter delivery reservations.</p>
         </div>
+        <Button variant="ghost" onClick={() => {
+          fetch('/api/admin/logout', { method: 'POST', credentials: 'include' })
+            .then(() => window.location.href = '/admin/login');
+        }}>
+          <LogOut className="mr-2 h-4 w-4" /> Logout
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -472,7 +479,9 @@ function BookingsPage() {
 
 export default function AdminDashboard() {
   const [, params] = useRoute('/admin/:page?');
+  const [, setLocation] = useLocation();
   const page = params?.page || 'dashboard';
+  const { user, isLoading: authLoading, isAuthenticated, logout } = useAuth();
   const { 
     products, addProduct, updateProduct, deleteProduct, 
     orders, addOrder, updateOrder, 
@@ -482,6 +491,24 @@ export default function AdminDashboard() {
     notifications
   } = useStore();
   const { toast } = useToast();
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#E69138]" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    setLocation('/admin/login');
+    return null;
+  }
+
+  const handleLogout = async () => {
+    await logout();
+    setLocation('/admin/login');
+  };
 
   // Local State for Editing
   const [editingProduct, setEditingProduct] = useState<string | null>(null);
@@ -1422,11 +1449,13 @@ export default function AdminDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-serif font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">Overview of your store's performance.</p>
+          <p className="text-muted-foreground">Welcome back, {user?.username}</p>
         </div>
         <div className="flex gap-3">
            <Button variant="outline">Export Report</Button>
-           <Button><Plus className="mr-2 h-4 w-4" /> Add Product</Button>
+           <Button variant="ghost" onClick={handleLogout}>
+             <LogOut className="mr-2 h-4 w-4" /> Logout
+           </Button>
         </div>
       </div>
 
