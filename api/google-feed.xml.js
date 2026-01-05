@@ -5,8 +5,8 @@ export default function handler(req, res) {
   // Product data - update these values anytime
   const product = {
     id: '706900',
-    title: 'Underground Concrete Storm Shelter - FEMA 320 & ICC 500 Certified - EF5 Rated',
-    description: 'FEMA 320 & ICC 500 certified underground concrete storm shelter. EF5 rated, protects against 250+ MPH winds. Made in USA (Missouri). Features reinforced steel rebar construction, built-in ventilation system, and easy-access hatch door with gas strut assist. Capacity for 6-8 adults. Includes 10-year structural warranty.',
+    title: 'Underground Concrete Storm Shelter - Texas Oklahoma Kansas Missouri Arkansas - FEMA 320 ICC 500 EF5 Rated',
+    description: 'FEMA 320 & ICC 500 certified underground concrete storm shelter serving Texas, Oklahoma, Kansas, Missouri, Arkansas, Illinois, Ohio, Tennessee, Mississippi, Alabama, Iowa, Nebraska and surrounding Tornado Alley states. EF5 rated, protects against 250+ MPH winds. Made in USA (Grandview, Missouri). Features reinforced steel rebar construction, built-in ventilation system, and easy-access hatch door with gas strut assist. Capacity for 6-8 adults. Ships from Grandview, MO via flatbed truck. Includes 10-year structural warranty. Professional installation coordination available.',
     link: 'https://www.homedefendpro.com',
     image_link: 'https://www.homedefendpro.com/Office-SI-Storm-Shelter_(1)_1767252448693.jpg',
     additional_image_link: [
