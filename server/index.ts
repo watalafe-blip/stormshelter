@@ -94,12 +94,11 @@ app.use((req, res, next) => {
   }
 
   /**
-   * Dyad starts the server with:
-   *   tsx server/index.ts --port <dynamic>
-   * So prefer --port, then PORT, then 5000 for local.
+   * Dyad Preview typically exposes ONLY process.env.PORT.
+   * So we prefer PORT first, then the CLI --port, then 5000.
    */
   const portArg = getArgValue("--port");
-  const port = Number(portArg || process.env.PORT || 5000);
+  const port = Number(process.env.PORT || portArg || 5000);
 
   httpServer.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
