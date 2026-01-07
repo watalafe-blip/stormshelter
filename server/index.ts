@@ -3,7 +3,6 @@ import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import cookieParser from "cookie-parser";
- 
 
 const app = express();
 const httpServer = createServer(app);
@@ -12,6 +11,21 @@ declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;
   }
+}
+
+/**
+ * Parse CLI args like:
+ *   --port 32107
+ *   --port=32107
+ */
+function getArgValue(flag: string): string | undefined {
+  const idx = process.argv.indexOf(flag);
+  if (idx !== -1 && idx + 1 < process.argv.length) return process.argv[idx + 1];
+
+  const withEquals = process.argv.find((a) => a.startsWith(flag + "="));
+  if (withEquals) return withEquals.split("=").slice(1).join("=");
+
+  return undefined;
 }
 
 app.use(cookieParser());
@@ -54,7 +68,6 @@ app.use((req, res, next) => {
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
-
       log(logLine);
     }
   });
@@ -65,17 +78,14 @@ app.use((req, res, next) => {
 (async () => {
   await registerRoutes(httpServer, app);
 
+  // Error handler: respond but DO NOT crash the server
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err?.status || err?.statusCode || 500;
     const message = err?.message || "Internal Server Error";
-
-    // Respond, but do NOT crash the server
     res.status(status).json({ message });
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // IMPORTANT: only setup vite in development and after setting up other routes
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
@@ -84,15 +94,12 @@ app.use((req, res, next) => {
   }
 
   /**
-   * Dyad (and many platforms) start your process with a dynamic port like:
-   *   tsx server/index.ts --port 32107
-   * So we must read BOTH:
-   * - CLI arg: --port
-   * - env var: PORT
-   * and fall back to 5000 for local dev.
+   * Dyad starts the server with:
+   *   tsx server/index.ts --port <dynamic>
+   * So prefer --port, then PORT, then 5000 for local.
    */
-  const args = minimist(process.argv.slice(2));
-  const port = Number(args.port || process.env.PORT || 5000);
+  const portArg = getArgValue("--port");
+  const port = Number(portArg || process.env.PORT || 5000);
 
   httpServer.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
