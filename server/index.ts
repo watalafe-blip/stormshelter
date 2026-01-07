@@ -5,7 +5,6 @@ import { createServer } from "http";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const httpServer = createServer(app);
 
 declare module "http" {
   interface IncomingMessage {
@@ -76,6 +75,9 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Main server (the one that Vite/HMR hooks onto)
+  const httpServer = createServer(app);
+
   await registerRoutes(httpServer, app);
 
   // Error handler: respond but DO NOT crash the server
@@ -85,7 +87,6 @@ app.use((req, res, next) => {
     res.status(status).json({ message });
   });
 
-  // IMPORTANT: only setup vite in development and after setting up other routes
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
@@ -93,14 +94,30 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  /**
-   * Dyad Preview typically exposes ONLY process.env.PORT.
-   * So we prefer PORT first, then the CLI --port, then 5000.
-   */
+  // Prefer env PORT if present, otherwise use Dyad's --port, otherwise 5000.
   const portArg = getArgValue("--port");
-  const port = Number(process.env.PORT || portArg || 5000);
+  const envPort = process.env.PORT ?? (process.env as any).port;
+  const mainPort = Number(envPort || portArg || 5000);
 
-  httpServer.listen(port, "0.0.0.0", () => {
-    log(`serving on port ${port}`);
+  httpServer.listen(mainPort, "0.0.0.0", () => {
+    log(`serving on port ${mainPort}`);
+    log(`env PORT=${process.env.PORT} env port=${(process.env as any).port} arg --port=${portArg}`, "debug");
   });
+
+  /**
+   * Dyad Preview often expects port 5000.
+   * If our main server is not on 5000, also open a simple secondary listener on 5000.
+   * (No HMR on this secondary port, but Preview will load.)
+   */
+  if (mainPort !== 5000) {
+    const previewServer = createServer(app);
+
+    previewServer.on("error", (e: any) => {
+      log(`could not listen on 5000 for preview: ${e?.code || e?.message}`, "preview");
+    });
+
+    previewServer.listen(5000, "0.0.0.0", () => {
+      log(`also listening on port 5000 for Dyad Preview`, "preview");
+    });
+  }
 })();
