@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import cookieParser from "cookie-parser";
+import minimist from "minimist";
 
 const app = express();
 const httpServer = createServer(app);
@@ -65,11 +66,11 @@ app.use((req, res, next) => {
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+    const status = err?.status || err?.statusCode || 500;
+    const message = err?.message || "Internal Server Error";
 
+    // Respond, but do NOT crash the server
     res.status(status).json({ message });
-    throw err;
   });
 
   // importantly only setup vite in development and after
@@ -82,15 +83,18 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-   
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
+  /**
+   * Dyad (and many platforms) start your process with a dynamic port like:
+   *   tsx server/index.ts --port 32107
+   * So we must read BOTH:
+   * - CLI arg: --port
+   * - env var: PORT
+   * and fall back to 5000 for local dev.
+   */
+  const args = minimist(process.argv.slice(2));
+  const port = Number(args.port || process.env.PORT || 5000);
+
+  httpServer.listen(port, "0.0.0.0", () => {
+    log(`serving on port ${port}`);
+  });
 })();
