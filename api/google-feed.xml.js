@@ -136,9 +136,9 @@ export default function handler(req, res) {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
-    <title>Home Defend Pro - Underground Concrete Storm Shelters</title>
+    <title>Home Defend Pro Underground Concrete Storm Shelters</title>
     <link>https://www.homedefendpro.com</link>
-    <description>FEMA 320 & ICC 500 certified underground concrete storm shelters. EF5-rated protection for families nationwide. Manufactured in Grandview, Missouri. Professional delivery and 10-year warranty included.</description>
+    <description>FEMA 320 and ICC 500 certified underground concrete storm shelters. EF5 rated protection for families nationwide. Manufactured in Grandview Missouri. Professional delivery and 10 year warranty included.</description>
 ${stateProducts.map(generateProductItem).join('\n')}
   </channel>
 </rss>`;
