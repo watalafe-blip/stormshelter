@@ -97,8 +97,8 @@ export default function handler(req, res) {
       : `Underground Storm Shelter ${stateData.state} - FEMA Certified - EF5 Tornado Protection - Ships from Missouri`;
     
     const description = stateData.priority
-      ? `FEMA 320 & ICC 500 certified underground concrete storm shelter for ${stateData.state}. EF5 rated protection against 250+ MPH winds. Manufactured in Grandview, Missouri and professionally delivered to ${stateData.state}. Reinforced steel rebar construction, built-in ventilation system, easy-access hatch with gas strut assist. Capacity: 6-8 adults. Includes 10-year structural warranty. Total price includes shelter ($4,599) + delivery to ${stateData.state} (approximately ${stateData.distance} miles). Protects families across ${stateData.state} from tornadoes and severe weather.`
-      : `Underground concrete storm shelter delivered to ${stateData.state}. FEMA certified, EF5-rated protection. Manufactured in Missouri, ships nationwide. 6-8 person capacity, 10-year warranty. Price includes delivery to ${stateData.state}.`;
+      ? `FEMA 320 and ICC 500 certified underground concrete storm shelter for ${stateData.state}. EF5 rated protection against 250 plus MPH winds. Manufactured in Grandview Missouri and professionally delivered to ${stateData.state}. Reinforced steel rebar construction built-in ventilation system easy-access hatch with gas strut assist. Capacity 6-8 adults. Includes 10-year structural warranty. Total price includes shelter 4599 dollars plus delivery to ${stateData.state} approximately ${stateData.distance} miles. Protects families across ${stateData.state} from tornadoes and severe weather.`
+      : `Underground concrete storm shelter delivered to ${stateData.state}. FEMA certified EF5-rated protection. Manufactured in Missouri ships nationwide. 6-8 person capacity 10-year warranty. Price includes delivery to ${stateData.state}.`;
 
     return `    <item>
       <g:id>${escapeXml(productId)}</g:id>
