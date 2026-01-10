@@ -51,7 +51,7 @@ export default function handler(req, res) {
     quantity: 10, // Set to your actual available inventory
 
     custom_labels: {
-      custom_label_0: "FEMA Certified",
+      custom_label_0: "FEMA P-320 Compliant",
       custom_label_1: "EF5 Rated",
       custom_label_2: "Made in USA",
       custom_label_3: "Underground Shelter",
@@ -116,10 +116,10 @@ export default function handler(req, res) {
     +(BASE_PRICE + distanceMiles * RATE_PER_MILE).toFixed(2);
 
   const buildTitle = (stateName) =>
-    `Underground Concrete Storm Shelter Delivered to ${stateName} - FEMA Certified EF5-Rated Protection - 4-6 Person`;
+    `Underground Concrete Storm Shelter Delivered to ${stateName} - EF5-Rated Protection - 4-6 Person - FEMA P-320 Compliant`;
 
   const buildDescription = (stateName) =>
-    `Underground concrete storm shelter delivered to ${stateName}. FEMA certified EF5-rated protection. Manufactured in Missouri ships nationwide. 4-6 person capacity 10-year warranty. Price includes delivery to ${stateName}.`;
+    `Underground concrete storm shelter delivered to ${stateName}. Built to FEMA P-320 standards for EF5-rated tornado protection. Manufactured in Missouri ships nationwide. 4-6 person capacity with 10-year warranty. Price includes delivery to ${stateName}.`;
 
   const generateProductItem = (stateData) => {
     const productId = `${baseProduct.id}-${stateData.abbr}`;
