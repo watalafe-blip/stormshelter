@@ -116,10 +116,10 @@ export default function handler(req, res) {
     +(BASE_PRICE + distanceMiles * RATE_PER_MILE).toFixed(2);
 
   const buildTitle = (stateName) =>
-    `Underground Concrete Storm Shelter Delivered to ${stateName} - FEMA Certified EF5-Rated Protection - 2-4 Person`;
+    `Underground Concrete Storm Shelter Delivered to ${stateName} - FEMA Certified EF5-Rated Protection - 4-6 Person`;
 
   const buildDescription = (stateName) =>
-    `Underground concrete storm shelter delivered to ${stateName}. FEMA certified EF5-rated protection. Manufactured in Missouri ships nationwide. 2-4 person capacity 10-year warranty. Price includes delivery to ${stateName}.`;
+    `Underground concrete storm shelter delivered to ${stateName}. FEMA certified EF5-rated protection. Manufactured in Missouri ships nationwide. 4-6 person capacity 10-year warranty. Price includes delivery to ${stateName}.`;
 
   const generateProductItem = (stateData) => {
     const productId = `${baseProduct.id}-${stateData.abbr}`;
