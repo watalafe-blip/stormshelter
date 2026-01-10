@@ -1,17 +1,17 @@
 // pages/api/google-feed.xml.js
-// Google Shopping XML feed with 49 state/region-specific "products"
-// Includes state name in title + description, and sets PRICE to include delivery.
+// HYBRID GOOGLE SHOPPING FEED
+// - 49 State listings (broad search visibility)
+// - 50+ Major city listings (accurate pricing + specific searches)
+// - Total: ~100 products for optimal coverage
 //
 // FIXES APPLIED:
 // ✅ Removed shipping_weight (was causing "shipping weight value too high")
 // ✅ Set shipping cost to 0.00 (price includes delivery)
-// ✅ Fixed image URLs to use actual working URLs from homedefendpro.com
-// ✅ Added inventory quantity to fix "Missing inventory data" error
-// ✅ Added sale_price_effective_date to help with approval
-//
-// IMPORTANT (Google reality check):
-// - Your landing page MUST show the same price for each state
-// - Link includes ?state=XX parameter so your page can display correct price
+// ✅ Fixed image URLs to use actual working URLs
+// ✅ Added inventory quantity
+// ✅ Removed misleading "FEMA Certified" claims
+// ✅ Updated to accurate "Built to FEMA P-320 standards"
+// ✅ Corrected capacity to 4-6 person (based on 27 sq ft)
 
 export default function handler(req, res) {
   const BASE_PRICE = 4599.0;
@@ -28,7 +28,7 @@ export default function handler(req, res) {
     google_product_category: "596",
     product_type: "Home & Garden > Emergency Preparedness > Storm Shelters",
 
-    // Dimensions (keep these - they're fine)
+    // Dimensions
     shipping_length: "72 in",
     shipping_width: "54 in",
     shipping_height: "78 in",
@@ -44,11 +44,8 @@ export default function handler(req, res) {
       "https://www.homedefendpro.com/assets/shelter-blueprint-B5RKgi0K.png",
     ],
 
-    // No GTIN/UPC - this is correct for custom products
     identifier_exists: "no",
-
-    // ✅ ADDED: Inventory quantity (required by Google)
-    quantity: 10, // Set to your actual available inventory
+    quantity: 10,
 
     custom_labels: {
       custom_label_0: "FEMA P-320 Compliant",
@@ -59,77 +56,187 @@ export default function handler(req, res) {
     },
   };
 
-  // 49 entries: 48 contiguous states + DC (no AK/HI to avoid extreme shipping warnings)
+  // 49 STATE LISTINGS (for broad search visibility)
   const stateProducts = [
-    { state: "Alabama", abbr: "AL", distance: 680 },
-    { state: "Arizona", abbr: "AZ", distance: 1100 },
-    { state: "Arkansas", abbr: "AR", distance: 320 },
-    { state: "California", abbr: "CA", distance: 1600 },
-    { state: "Colorado", abbr: "CO", distance: 600 },
-    { state: "Connecticut", abbr: "CT", distance: 1200 },
-    { state: "Delaware", abbr: "DE", distance: 1100 },
-    { state: "District of Columbia", abbr: "DC", distance: 1000 },
-    { state: "Florida", abbr: "FL", distance: 1150 },
-    { state: "Georgia", abbr: "GA", distance: 820 },
-    { state: "Idaho", abbr: "ID", distance: 1300 },
-    { state: "Illinois", abbr: "IL", distance: 280 },
-    { state: "Indiana", abbr: "IN", distance: 420 },
-    { state: "Iowa", abbr: "IA", distance: 200 },
-    { state: "Kansas", abbr: "KS", distance: 50 },
-    { state: "Kentucky", abbr: "KY", distance: 400 },
-    { state: "Louisiana", abbr: "LA", distance: 700 },
-    { state: "Maine", abbr: "ME", distance: 1450 },
-    { state: "Maryland", abbr: "MD", distance: 1000 },
-    { state: "Massachusetts", abbr: "MA", distance: 1250 },
-    { state: "Michigan", abbr: "MI", distance: 650 },
-    { state: "Minnesota", abbr: "MN", distance: 520 },
-    { state: "Mississippi", abbr: "MS", distance: 600 },
-    { state: "Missouri", abbr: "MO", distance: 20 },
-    { state: "Montana", abbr: "MT", distance: 1150 },
-    { state: "Nebraska", abbr: "NE", distance: 180 },
-    { state: "Nevada", abbr: "NV", distance: 1250 },
-    { state: "New Hampshire", abbr: "NH", distance: 1300 },
-    { state: "New Jersey", abbr: "NJ", distance: 1100 },
-    { state: "New Mexico", abbr: "NM", distance: 850 },
-    { state: "New York", abbr: "NY", distance: 1150 },
-    { state: "North Carolina", abbr: "NC", distance: 950 },
-    { state: "North Dakota", abbr: "ND", distance: 750 },
-    { state: "Ohio", abbr: "OH", distance: 620 },
-    { state: "Oklahoma", abbr: "OK", distance: 150 },
-    { state: "Oregon", abbr: "OR", distance: 1700 },
-    { state: "Pennsylvania", abbr: "PA", distance: 950 },
-    { state: "Rhode Island", abbr: "RI", distance: 1250 },
-    { state: "South Carolina", abbr: "SC", distance: 900 },
-    { state: "South Dakota", abbr: "SD", distance: 580 },
-    { state: "Tennessee", abbr: "TN", distance: 480 },
-    { state: "Texas", abbr: "TX", distance: 550 },
-    { state: "Utah", abbr: "UT", distance: 950 },
-    { state: "Vermont", abbr: "VT", distance: 1300 },
-    { state: "Virginia", abbr: "VA", distance: 900 },
-    { state: "Washington", abbr: "WA", distance: 1750 },
-    { state: "West Virginia", abbr: "WV", distance: 720 },
-    { state: "Wisconsin", abbr: "WI", distance: 480 },
-    { state: "Wyoming", abbr: "WY", distance: 680 },
+    { location: "Alabama", abbr: "AL", distance: 680, type: "state" },
+    { location: "Arizona", abbr: "AZ", distance: 1100, type: "state" },
+    { location: "Arkansas", abbr: "AR", distance: 320, type: "state" },
+    { location: "California", abbr: "CA", distance: 1600, type: "state" },
+    { location: "Colorado", abbr: "CO", distance: 600, type: "state" },
+    { location: "Connecticut", abbr: "CT", distance: 1200, type: "state" },
+    { location: "Delaware", abbr: "DE", distance: 1100, type: "state" },
+    { location: "District of Columbia", abbr: "DC", distance: 1000, type: "state" },
+    { location: "Florida", abbr: "FL", distance: 1150, type: "state" },
+    { location: "Georgia", abbr: "GA", distance: 820, type: "state" },
+    { location: "Idaho", abbr: "ID", distance: 1300, type: "state" },
+    { location: "Illinois", abbr: "IL", distance: 280, type: "state" },
+    { location: "Indiana", abbr: "IN", distance: 420, type: "state" },
+    { location: "Iowa", abbr: "IA", distance: 200, type: "state" },
+    { location: "Kansas", abbr: "KS", distance: 50, type: "state" },
+    { location: "Kentucky", abbr: "KY", distance: 400, type: "state" },
+    { location: "Louisiana", abbr: "LA", distance: 700, type: "state" },
+    { location: "Maine", abbr: "ME", distance: 1450, type: "state" },
+    { location: "Maryland", abbr: "MD", distance: 1000, type: "state" },
+    { location: "Massachusetts", abbr: "MA", distance: 1250, type: "state" },
+    { location: "Michigan", abbr: "MI", distance: 650, type: "state" },
+    { location: "Minnesota", abbr: "MN", distance: 520, type: "state" },
+    { location: "Mississippi", abbr: "MS", distance: 600, type: "state" },
+    { location: "Missouri", abbr: "MO", distance: 20, type: "state" },
+    { location: "Montana", abbr: "MT", distance: 1150, type: "state" },
+    { location: "Nebraska", abbr: "NE", distance: 180, type: "state" },
+    { location: "Nevada", abbr: "NV", distance: 1250, type: "state" },
+    { location: "New Hampshire", abbr: "NH", distance: 1300, type: "state" },
+    { location: "New Jersey", abbr: "NJ", distance: 1100, type: "state" },
+    { location: "New Mexico", abbr: "NM", distance: 850, type: "state" },
+    { location: "New York", abbr: "NY", distance: 1150, type: "state" },
+    { location: "North Carolina", abbr: "NC", distance: 950, type: "state" },
+    { location: "North Dakota", abbr: "ND", distance: 750, type: "state" },
+    { location: "Ohio", abbr: "OH", distance: 620, type: "state" },
+    { location: "Oklahoma", abbr: "OK", distance: 150, type: "state" },
+    { location: "Oregon", abbr: "OR", distance: 1700, type: "state" },
+    { location: "Pennsylvania", abbr: "PA", distance: 950, type: "state" },
+    { location: "Rhode Island", abbr: "RI", distance: 1250, type: "state" },
+    { location: "South Carolina", abbr: "SC", distance: 900, type: "state" },
+    { location: "South Dakota", abbr: "SD", distance: 580, type: "state" },
+    { location: "Tennessee", abbr: "TN", distance: 480, type: "state" },
+    { location: "Texas", abbr: "TX", distance: 550, type: "state" },
+    { location: "Utah", abbr: "UT", distance: 950, type: "state" },
+    { location: "Vermont", abbr: "VT", distance: 1300, type: "state" },
+    { location: "Virginia", abbr: "VA", distance: 900, type: "state" },
+    { location: "Washington", abbr: "WA", distance: 1750, type: "state" },
+    { location: "West Virginia", abbr: "WV", distance: 720, type: "state" },
+    { location: "Wisconsin", abbr: "WI", distance: 480, type: "state" },
+    { location: "Wyoming", abbr: "WY", distance: 680, type: "state" },
   ];
+
+  // 50+ MAJOR CITY LISTINGS (accurate pricing + specific searches)
+  // Focused on: Tornado Alley, High Risk Areas, High Population Centers
+  const cityProducts = [
+    // OKLAHOMA (Tornado Alley - High Priority)
+    { location: "Oklahoma City", state: "Oklahoma", abbr: "OK", distance: 350, type: "city" },
+    { location: "Tulsa", state: "Oklahoma", abbr: "OK", distance: 240, type: "city" },
+    { location: "Norman", state: "Oklahoma", abbr: "OK", distance: 360, type: "city" },
+    { location: "Edmond", state: "Oklahoma", abbr: "OK", distance: 340, type: "city" },
+
+    // KANSAS (Tornado Alley)
+    { location: "Wichita", state: "Kansas", abbr: "KS", distance: 200, type: "city" },
+    { location: "Overland Park", state: "Kansas", abbr: "KS", distance: 170, type: "city" },
+    { location: "Kansas City", state: "Kansas", abbr: "KS", distance: 150, type: "city" },
+    { location: "Topeka", state: "Kansas", abbr: "KS", distance: 100, type: "city" },
+
+    // TEXAS (High Risk + Population)
+    { location: "Dallas", state: "Texas", abbr: "TX", distance: 630, type: "city" },
+    { location: "Fort Worth", state: "Texas", abbr: "TX", distance: 650, type: "city" },
+    { location: "Houston", state: "Texas", abbr: "TX", distance: 850, type: "city" },
+    { location: "San Antonio", state: "Texas", abbr: "TX", distance: 950, type: "city" },
+    { location: "Austin", state: "Texas", abbr: "TX", distance: 850, type: "city" },
+    { location: "Amarillo", state: "Texas", abbr: "TX", distance: 550, type: "city" },
+    { location: "Lubbock", state: "Texas", abbr: "TX", distance: 600, type: "city" },
+
+    // MISSOURI (Home State + High Risk)
+    { location: "Kansas City", state: "Missouri", abbr: "MO", distance: 150, type: "city" },
+    { location: "St. Louis", state: "Missouri", abbr: "MO", distance: 200, type: "city" },
+    { location: "Springfield", state: "Missouri", abbr: "MO", distance: 100, type: "city" },
+    { location: "Columbia", state: "Missouri", abbr: "MO", distance: 120, type: "city" },
+    { location: "Joplin", state: "Missouri", abbr: "MO", distance: 80, type: "city" },
+
+    // ARKANSAS (High Risk)
+    { location: "Little Rock", state: "Arkansas", abbr: "AR", distance: 280, type: "city" },
+    { location: "Fort Smith", state: "Arkansas", abbr: "AR", distance: 200, type: "city" },
+    { location: "Fayetteville", state: "Arkansas", abbr: "AR", distance: 160, type: "city" },
+
+    // TENNESSEE (Dixie Alley)
+    { location: "Nashville", state: "Tennessee", abbr: "TN", distance: 480, type: "city" },
+    { location: "Memphis", state: "Tennessee", abbr: "TN", distance: 380, type: "city" },
+    { location: "Knoxville", state: "Tennessee", abbr: "TN", distance: 650, type: "city" },
+    { location: "Chattanooga", state: "Tennessee", abbr: "TN", distance: 580, type: "city" },
+
+    // ALABAMA (Dixie Alley)
+    { location: "Birmingham", state: "Alabama", abbr: "AL", distance: 600, type: "city" },
+    { location: "Montgomery", state: "Alabama", abbr: "AL", distance: 750, type: "city" },
+    { location: "Huntsville", state: "Alabama", abbr: "AL", distance: 520, type: "city" },
+    { location: "Mobile", state: "Alabama", abbr: "AL", distance: 820, type: "city" },
+
+    // MISSISSIPPI (Dixie Alley)
+    { location: "Jackson", state: "Mississippi", abbr: "MS", distance: 520, type: "city" },
+    { location: "Gulfport", state: "Mississippi", abbr: "MS", distance: 750, type: "city" },
+    { location: "Hattiesburg", state: "Mississippi", abbr: "MS", distance: 680, type: "city" },
+
+    // LOUISIANA
+    { location: "New Orleans", state: "Louisiana", abbr: "LA", distance: 780, type: "city" },
+    { location: "Baton Rouge", state: "Louisiana", abbr: "LA", distance: 720, type: "city" },
+    { location: "Shreveport", state: "Louisiana", abbr: "LA", distance: 480, type: "city" },
+
+    // GEORGIA
+    { location: "Atlanta", state: "Georgia", abbr: "GA", distance: 750, type: "city" },
+    { location: "Augusta", state: "Georgia", abbr: "GA", distance: 850, type: "city" },
+    { location: "Columbus", state: "Georgia", abbr: "GA", distance: 780, type: "city" },
+
+    // ILLINOIS (High Population)
+    { location: "Chicago", state: "Illinois", abbr: "IL", distance: 420, type: "city" },
+    { location: "Springfield", state: "Illinois", abbr: "IL", distance: 180, type: "city" },
+    { location: "Peoria", state: "Illinois", abbr: "IL", distance: 220, type: "city" },
+
+    // INDIANA
+    { location: "Indianapolis", state: "Indiana", abbr: "IN", distance: 450, type: "city" },
+    { location: "Fort Wayne", state: "Indiana", abbr: "IN", distance: 580, type: "city" },
+
+    // IOWA
+    { location: "Des Moines", state: "Iowa", abbr: "IA", distance: 180, type: "city" },
+    { location: "Cedar Rapids", state: "Iowa", abbr: "IA", distance: 250, type: "city" },
+
+    // NEBRASKA
+    { location: "Omaha", state: "Nebraska", abbr: "NE", distance: 180, type: "city" },
+    { location: "Lincoln", state: "Nebraska", abbr: "NE", distance: 200, type: "city" },
+
+    // OHIO
+    { location: "Columbus", state: "Ohio", abbr: "OH", distance: 620, type: "city" },
+    { location: "Cincinnati", state: "Ohio", abbr: "OH", distance: 520, type: "city" },
+
+    // NORTH CAROLINA
+    { location: "Charlotte", state: "North Carolina", abbr: "NC", distance: 880, type: "city" },
+    { location: "Raleigh", state: "North Carolina", abbr: "NC", distance: 950, type: "city" },
+  ];
+
+  // Combine all products
+  const allProducts = [...stateProducts, ...cityProducts];
 
   const calcTotalPrice = (distanceMiles) =>
     +(BASE_PRICE + distanceMiles * RATE_PER_MILE).toFixed(2);
 
-  const buildTitle = (stateName) =>
-    `Underground Concrete Storm Shelter Delivered to ${stateName} - EF5-Rated Protection - 4-6 Person - FEMA P-320 Compliant`;
+  const buildTitle = (product) => {
+    if (product.type === "state") {
+      return `Underground Concrete Storm Shelter Delivered to ${product.location} - EF5-Rated Protection - 4-6 Person - FEMA P-320 Compliant`;
+    } else {
+      // City listing
+      return `Underground Concrete Storm Shelter ${product.location} ${product.abbr} - EF5-Rated Protection - 4-6 Person - FEMA P-320 Compliant`;
+    }
+  };
 
-  const buildDescription = (stateName) =>
-    `Underground concrete storm shelter delivered to ${stateName}. Built to FEMA P-320 standards for EF5-rated tornado protection. Manufactured in Missouri ships nationwide. 4-6 person capacity with 10-year warranty. Price includes delivery to ${stateName}.`;
+  const buildDescription = (product) => {
+    if (product.type === "state") {
+      return `Underground concrete storm shelter delivered to ${product.location}. Built to FEMA P-320 standards for EF5-rated tornado protection. Manufactured in Missouri ships nationwide. 4-6 person capacity with 10-year warranty. Price includes delivery to ${product.location}.`;
+    } else {
+      // City listing
+      return `Underground concrete storm shelter delivered to ${product.location}, ${product.state}. Built to FEMA P-320 standards for EF5-rated tornado protection. Manufactured in Missouri ships nationwide. 4-6 person capacity with 10-year warranty. Price includes delivery to ${product.location}.`;
+    }
+  };
 
-  const generateProductItem = (stateData) => {
-    const productId = `${baseProduct.id}-${stateData.abbr}`;
-    const title = buildTitle(stateData.state);
-    const description = buildDescription(stateData.state);
+  const generateProductItem = (product) => {
+    const productId = product.type === "state" 
+      ? `${baseProduct.id}-${product.abbr}`
+      : `${baseProduct.id}-${product.abbr}-${product.location.replace(/\s+/g, '')}`;
+    
+    const title = buildTitle(product);
+    const description = buildDescription(product);
 
-    const totalPrice = calcTotalPrice(stateData.distance);
-    const stateLink = `${PRODUCT_PAGE_BASE}?state=${encodeURIComponent(
-      stateData.abbr
-    )}&price=${encodeURIComponent(totalPrice.toFixed(2))}`;
+    const totalPrice = calcTotalPrice(product.distance);
+    
+    const locationParam = product.type === "state"
+      ? `state=${encodeURIComponent(product.abbr)}`
+      : `city=${encodeURIComponent(product.location)}&state=${encodeURIComponent(product.abbr)}`;
+    
+    const productLink = `${PRODUCT_PAGE_BASE}?${locationParam}&price=${encodeURIComponent(totalPrice.toFixed(2))}`;
 
     return `    <item>
       <g:id>${escapeXml(productId)}</g:id>
@@ -138,7 +245,7 @@ export default function handler(req, res) {
       <g:title>${escapeXml(title)}</g:title>
       <g:description>${escapeXml(description)}</g:description>
 
-      <g:link>${escapeXml(stateLink)}</g:link>
+      <g:link>${escapeXml(productLink)}</g:link>
 
       <g:image_link>${escapeXml(baseProduct.image_link)}</g:image_link>
       ${baseProduct.additional_image_link
@@ -153,13 +260,12 @@ export default function handler(req, res) {
       <g:availability>${escapeXml(baseProduct.availability)}</g:availability>
       <g:price>${totalPrice.toFixed(2)} USD</g:price>
       
-      <!-- ✅ ADDED: Inventory quantity -->
       <g:quantity>${baseProduct.quantity}</g:quantity>
 
       <g:brand>${escapeXml(baseProduct.brand)}</g:brand>
       <g:condition>${escapeXml(baseProduct.condition)}</g:condition>
 
-      <g:mpn>${escapeXml(baseProduct.mpn)}-${escapeXml(stateData.abbr)}</g:mpn>
+      <g:mpn>${escapeXml(baseProduct.mpn)}-${escapeXml(product.abbr)}</g:mpn>
       <g:identifier_exists>${escapeXml(baseProduct.identifier_exists)}</g:identifier_exists>
 
       <g:google_product_category>${escapeXml(
@@ -171,10 +277,9 @@ export default function handler(req, res) {
       <g:shipping_width>${escapeXml(baseProduct.shipping_width)}</g:shipping_width>
       <g:shipping_height>${escapeXml(baseProduct.shipping_height)}</g:shipping_height>
 
-      <!-- ✅ FIXED: Price includes delivery, so shipping is 0.00 -->
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>${escapeXml(stateData.abbr)}</g:region>
+        <g:region>${escapeXml(product.abbr)}</g:region>
         <g:service>Delivery Included</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
@@ -188,10 +293,10 @@ export default function handler(req, res) {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
-    <title>Home Defend Pro - State Delivery Listings</title>
+    <title>Home Defend Pro - Storm Shelters by Location</title>
     <link>${escapeXml(PRODUCT_PAGE_BASE)}</link>
-    <description>State-specific listings with delivery included in price.</description>
-${stateProducts.map(generateProductItem).join("\n")}
+    <description>Underground concrete storm shelters delivered nationwide. State and city-specific listings with delivery included in price.</description>
+${allProducts.map(generateProductItem).join("\n")}
   </channel>
 </rss>`;
 
