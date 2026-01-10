@@ -203,6 +203,11 @@ export default function handler(req, res) {
 
   const calcTotalPrice = (distanceMiles) =>
     +(BASE_PRICE + distanceMiles * RATE_PER_MILE).toFixed(2);
+  
+  const DISCOUNT_AMOUNT = 900.0;
+  
+  const calcSalePrice = (regularPrice) =>
+    +(regularPrice - DISCOUNT_AMOUNT).toFixed(2);
 
   const buildTitle = (product) => {
     if (product.type === "state") {
@@ -231,12 +236,18 @@ export default function handler(req, res) {
     const description = buildDescription(product);
 
     const totalPrice = calcTotalPrice(product.distance);
+    const salePrice = calcSalePrice(totalPrice);
+    
+    // Sale effective dates - set to your desired promotion period
+    const saleStartDate = '2025-01-10T00:00-06:00';
+    const saleEndDate = '2025-03-31T23:59-06:00';
     
     const locationParam = product.type === "state"
       ? `state=${encodeURIComponent(product.abbr)}`
       : `city=${encodeURIComponent(product.location)}&state=${encodeURIComponent(product.abbr)}`;
     
-    const productLink = `${PRODUCT_PAGE_BASE}?${locationParam}&price=${encodeURIComponent(totalPrice.toFixed(2))}`;
+    // Use sale price in the URL so website shows discounted price
+    const productLink = `${PRODUCT_PAGE_BASE}?${locationParam}&price=${encodeURIComponent(salePrice.toFixed(2))}`;
 
     return `    <item>
       <g:id>${escapeXml(productId)}</g:id>
@@ -259,6 +270,8 @@ export default function handler(req, res) {
 
       <g:availability>${escapeXml(baseProduct.availability)}</g:availability>
       <g:price>${totalPrice.toFixed(2)} USD</g:price>
+      <g:sale_price>${salePrice.toFixed(2)} USD</g:sale_price>
+      <g:sale_price_effective_date>${saleStartDate}/${saleEndDate}</g:sale_price_effective_date>
       
       <g:quantity>${baseProduct.quantity}</g:quantity>
 
