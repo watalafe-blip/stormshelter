@@ -210,20 +210,25 @@ export default function handler(req, res) {
     +(regularPrice - DISCOUNT_AMOUNT).toFixed(2);
 
   const buildTitle = (product) => {
+    // Optimized titles based on competitor analysis
+    // Format: [CAPACITY] [TYPE] [MATERIAL] [RATING] | [LOCATION]
+    // Keeps it under 100 chars, prioritizes key search terms
     if (product.type === "state") {
-      return `Underground Concrete Storm Shelter Delivered to ${product.location} - EF5-Rated Protection - 4-6 Person - FEMA P-320 Compliant`;
+      return `4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | ${product.location}`;
     } else {
-      // City listing
-      return `Underground Concrete Storm Shelter ${product.location} ${product.abbr} - EF5-Rated Protection - 4-6 Person - FEMA P-320 Compliant`;
+      // City listing - include city name for local searches
+      return `4-6 Person Underground Tornado Shelter | EF5 Concrete | ${product.location} ${product.abbr}`;
     }
   };
 
   const buildDescription = (product) => {
+    // Optimized descriptions with competitor keywords
+    // Include: tornado (not just storm), bunker, safe room, specific features
     if (product.type === "state") {
-      return `Underground concrete storm shelter delivered to ${product.location}. Built to FEMA P-320 standards for EF5-rated tornado protection. Manufactured in Missouri ships nationwide. 4-6 person capacity with 10-year warranty. Price includes delivery to ${product.location}.`;
+      return `Underground concrete tornado shelter and safe room for ${product.location}. EF5-rated tornado bunker built to FEMA P-320 standards. Seats 4-6 people. 6x9 reinforced concrete construction with escape hatch, air vents, and steel door. Made in USA. 10-year warranty. Free delivery to ${product.location} included in price.`;
     } else {
       // City listing
-      return `Underground concrete storm shelter delivered to ${product.location}, ${product.state}. Built to FEMA P-320 standards for EF5-rated tornado protection. Manufactured in Missouri ships nationwide. 4-6 person capacity with 10-year warranty. Price includes delivery to ${product.location}.`;
+      return `Underground concrete tornado shelter for ${product.location}, ${product.state}. EF5-rated safe room built to FEMA P-320 standards. 4-6 person capacity. Reinforced concrete bunker with escape hatch, ventilation, and impact-resistant door. Garage or backyard installation. Made in USA. Free delivery to ${product.location} included.`;
     }
   };
 
