@@ -87,14 +87,18 @@ export default function ProductDetail() {
                       <ProductPricing basePrice={product.price} />
                       <UrgencyTimer durationMinutes={15} />
                       <div className="bg-[#fefce8] border border-yellow-200 rounded-lg p-4 flex flex-col gap-2">
-                        <div className="flex justify-between items-center">
-                          <span className="font-bold text-[#3E2723]">Your Special Price:</span>
-                          <span className="font-extrabold text-2xl text-[#3E2723]" data-testid="special-price">
-                            ${getDynamicPrice(product.price).toLocaleString()}
+                        <div className="flex justify-between items-center border-b border-yellow-200 pb-2">
+                          <span className="font-bold text-[#3E2723]">Reserve Now for Only:</span>
+                          <span className="font-extrabold text-2xl text-[#3E2723]" data-testid="deposit-amount">
+                            $500
                           </span>
                         </div>
+                        <div className="flex justify-between items-center text-sm text-[#3E2723]/80 pt-1">
+                          <span>Total Price (with discount):</span>
+                          <span data-testid="special-price">${getDynamicPrice(product.price).toLocaleString()}</span>
+                        </div>
                         <p className="text-sm text-green-600 font-bold">
-                          Exclusive ${getDiscount()} discount applied!
+                          You save ${getDiscount()} with this exclusive offer!
                         </p>
                       </div>
                     </>
@@ -144,7 +148,7 @@ export default function ProductDetail() {
 
                  <Link href="/booking">
                    <Button size="lg" className="w-full h-16 text-xl font-bold bg-[#E69138] hover:bg-[#D4842F] text-white shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1" data-testid="reserve-now-btn">
-                      {isGoogleShoppingVisitor() ? 'Reserve Now - Special Price' : `Secure Your Unit - Pay $${depositAmount} Deposit`}
+                      {isGoogleShoppingVisitor() ? 'Reserve Now - $500 Deposit' : `Secure Your Unit - Pay $${depositAmount} Deposit`}
                    </Button>
                  </Link>
                  
