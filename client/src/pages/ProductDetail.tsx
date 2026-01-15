@@ -17,6 +17,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
+import ProductPricing from "@/components/ProductPricing";
+import UrgencyTimer from "@/components/UrgencyTimer";
+import { isGoogleShoppingVisitor, getDynamicPrice, getDiscount, getOriginalUrlPrice } from "@/lib/urlParams";
 
 export default function ProductDetail() {
   const { products } = useStore();
@@ -79,47 +82,69 @@ export default function ProductDetail() {
                 </div>
 
                 <div className="space-y-4 bg-white p-6 rounded-xl border-2 border-[#3E2723]/10 shadow-md">
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-baseline gap-3">
-                      <span className="text-5xl font-extrabold text-[#3E2723]">${product.price.toLocaleString()}</span>
-                      {product.compareAtPrice && (
-                        <span className="text-xl text-muted-foreground line-through decoration-red-500/50">${product.compareAtPrice.toLocaleString()}</span>
-                      )}
-                    </div>
-                    {product.compareAtPrice && (
-                       <span className="text-sm font-bold text-green-600">You Save ${(product.compareAtPrice - product.price).toLocaleString()}</span>
-                    )}
-                  </div>
+                  {isGoogleShoppingVisitor() ? (
+                    <>
+                      <ProductPricing basePrice={product.price} />
+                      <UrgencyTimer durationMinutes={15} />
+                      <div className="bg-[#fefce8] border border-yellow-200 rounded-lg p-4 flex flex-col gap-2">
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold text-[#3E2723]">Your Special Price:</span>
+                          <span className="font-extrabold text-2xl text-[#3E2723]" data-testid="special-price">
+                            ${getDynamicPrice(product.price).toLocaleString()}
+                          </span>
+                        </div>
+                        <p className="text-sm text-green-600 font-bold">
+                          Exclusive ${getDiscount()} discount applied!
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-baseline gap-3">
+                          <span className="text-5xl font-extrabold text-[#3E2723]">${product.price.toLocaleString()}</span>
+                          {product.compareAtPrice && (
+                            <span className="text-xl text-muted-foreground line-through decoration-red-500/50">${product.compareAtPrice.toLocaleString()}</span>
+                          )}
+                        </div>
+                        {product.compareAtPrice && (
+                           <span className="text-sm font-bold text-green-600">You Save ${(product.compareAtPrice - product.price).toLocaleString()}</span>
+                        )}
+                      </div>
 
-                  <div className="bg-[#fefce8] border border-yellow-200 rounded-lg p-4 flex flex-col gap-2">
-                    <div className="flex justify-between items-center border-b border-yellow-200 pb-2">
-                      <span className="font-bold text-[#3E2723]">Non-Refundable Deposit Today:</span>
-                      <span className="font-extrabold text-2xl text-[#3E2723]">${depositAmount}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm text-[#3E2723]/80 pt-1">
-                      <span>Remaining Balance (Due before ship):</span>
-                      <span>${remainingBalance.toLocaleString()}</span>
-                    </div>
-                  </div>
+                      <div className="bg-[#fefce8] border border-yellow-200 rounded-lg p-4 flex flex-col gap-2">
+                        <div className="flex justify-between items-center border-b border-yellow-200 pb-2">
+                          <span className="font-bold text-[#3E2723]">Non-Refundable Deposit Today:</span>
+                          <span className="font-extrabold text-2xl text-[#3E2723]">${depositAmount}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm text-[#3E2723]/80 pt-1">
+                          <span>Remaining Balance (Due before ship):</span>
+                          <span>${remainingBalance.toLocaleString()}</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
               <div className="space-y-4">
-                 <Alert className="bg-orange-50 border-orange-200 text-[#3E2723]">
-                    <AlertTriangle className="h-4 w-4 text-orange-600" />
-                    <AlertTitle className="text-orange-800 font-bold">Important Delivery Info</AlertTitle>
-                    <AlertDescription className="text-orange-900/80 text-sm mt-1">
-                       <ul className="list-disc list-inside space-y-1">
-                          <li>Ships from Missouri ($4 per mile shipping fee outside MO)</li>
-                          <li><strong>Customer responsible for unloading</strong> (Forklift/Crane required)</li>
-                          <li>Installation services not included</li>
-                       </ul>
-                    </AlertDescription>
-                 </Alert>
+                 {!isGoogleShoppingVisitor() && (
+                   <Alert className="bg-orange-50 border-orange-200 text-[#3E2723]">
+                      <AlertTriangle className="h-4 w-4 text-orange-600" />
+                      <AlertTitle className="text-orange-800 font-bold">Important Delivery Info</AlertTitle>
+                      <AlertDescription className="text-orange-900/80 text-sm mt-1">
+                         <ul className="list-disc list-inside space-y-1">
+                            <li>Ships from Missouri ($4 per mile shipping fee outside MO)</li>
+                            <li><strong>Customer responsible for unloading</strong> (Forklift/Crane required)</li>
+                            <li>Installation services not included</li>
+                         </ul>
+                      </AlertDescription>
+                   </Alert>
+                 )}
 
                  <Link href="/booking">
-                   <Button size="lg" className="w-full h-16 text-xl font-bold bg-[#3E2723] hover:bg-[#5D4037] text-white shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
-                      Secure Your Unit - Pay ${depositAmount} Deposit
+                   <Button size="lg" className="w-full h-16 text-xl font-bold bg-[#E69138] hover:bg-[#D4842F] text-white shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1" data-testid="reserve-now-btn">
+                      {isGoogleShoppingVisitor() ? 'Reserve Now - Special Price' : `Secure Your Unit - Pay $${depositAmount} Deposit`}
                    </Button>
                  </Link>
                  
