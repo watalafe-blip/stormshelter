@@ -127,3 +127,43 @@ export function clearOffer(): void {
     localStorage.removeItem(OFFER_STORAGE_KEY);
   }
 }
+
+export interface ParsedGoogleShoppingParams {
+  fromGoogle: boolean;
+  state: string | null;
+  price: number | null;
+  originalPrice: number;
+  discount: number;
+  finalPrice: number;
+}
+
+export function parseGoogleShoppingParams(): ParsedGoogleShoppingParams {
+  const offer = getActiveOffer();
+  
+  if (offer) {
+    return {
+      fromGoogle: true,
+      state: offer.state,
+      price: offer.price,
+      originalPrice: offer.price,
+      discount: offer.discount,
+      finalPrice: offer.finalPrice,
+    };
+  }
+  
+  return {
+    fromGoogle: false,
+    state: null,
+    price: null,
+    originalPrice: 4599,
+    discount: 900,
+    finalPrice: 4599,
+  };
+}
+
+export function storeGoogleParams(params: ParsedGoogleShoppingParams): void {
+  if (typeof window === 'undefined') return;
+  if (params.fromGoogle && params.state && params.price) {
+    saveOffer(params.state, params.price);
+  }
+}

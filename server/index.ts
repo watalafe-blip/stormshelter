@@ -5,12 +5,26 @@ import { createServer } from "http";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const httpServer = createServer(app);
 
 declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;
   }
+}
+
+/**
+ * Parse CLI args like:
+ *   --port 32107
+ *   --port=32107
+ */
+function getArgValue(flag: string): string | undefined {
+  const idx = process.argv.indexOf(flag);
+  if (idx !== -1 && idx + 1 < process.argv.length) return process.argv[idx + 1];
+
+  const withEquals = process.argv.find((a) => a.startsWith(flag + "="));
+  if (withEquals) return withEquals.split("=").slice(1).join("=");
+
+  return undefined;
 }
 
 app.use(cookieParser());
@@ -53,7 +67,6 @@ app.use((req, res, next) => {
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
-
       log(logLine);
     }
   });
@@ -62,19 +75,18 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Main server (the one that Vite/HMR hooks onto)
+  const httpServer = createServer(app);
+
   await registerRoutes(httpServer, app);
 
+  // Error handler: respond but DO NOT crash the server
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
+    const status = err?.status || err?.statusCode || 500;
+    const message = err?.message || "Internal Server Error";
     res.status(status).json({ message });
-    throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
@@ -82,19 +94,30 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
+  // Prefer env PORT if present, otherwise use Dyad's --port, otherwise 5000.
+  const portArg = getArgValue("--port");
+  const envPort = process.env.PORT ?? (process.env as any).port;
+  const mainPort = Number(envPort || portArg || 5000);
+
+  httpServer.listen(mainPort, "0.0.0.0", () => {
+    log(`serving on port ${mainPort}`);
+    log(`env PORT=${process.env.PORT} env port=${(process.env as any).port} arg --port=${portArg}`, "debug");
+  });
+
+  /**
+   * Dyad Preview often expects port 5000.
+   * If our main server is not on 5000, also open a simple secondary listener on 5000.
+   * (No HMR on this secondary port, but Preview will load.)
+   */
+  if (mainPort !== 5000) {
+    const previewServer = createServer(app);
+
+    previewServer.on("error", (e: any) => {
+      log(`could not listen on 5000 for preview: ${e?.code || e?.message}`, "preview");
+    });
+
+    previewServer.listen(5000, "0.0.0.0", () => {
+      log(`also listening on port 5000 for Dyad Preview`, "preview");
+    });
+  }
 })();

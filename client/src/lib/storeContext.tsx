@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { products as initialProducts, categories as initialCategories } from './mockData';
 import imgConstruction from '@assets/stock_images/underground_storm_sh_f71d64df.jpg';
@@ -139,7 +138,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     headerMenu: [
       { id: '1', label: 'Slope Storm Shelter', url: '/', type: 'url' },
       { id: '2', label: 'About Us', url: '/about', type: 'page' },
-      { id: '3', label: 'Contact Us', url: '/contact', type: 'page' },
+      { id: '3', label: 'Blog', url: '/blog', type: 'page' }, // New Blog link
+      { id: '4', label: 'Contact Us', url: '/contact', type: 'page' },
     ],
     footerMenu: [
       { id: '1', label: 'Shipping Policy', url: '/shipping', type: 'page' },
@@ -203,6 +203,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     { id: 'contact', title: 'Contact', slug: '/contact', content: 'Contact form...', status: 'published' },
     { id: 'shipping', title: 'Shipping Info', slug: '/shipping', content: 'Shipping policies...', status: 'published' },
     { id: 'returns', title: 'Return Policy', slug: '/returns', content: 'Return policies...', status: 'published' },
+    { id: 'blog', title: 'Blog', slug: '/blog', content: 'Blog listing page...', status: 'published' }, // New page entry
   ]);
   
   const [shippingProfiles, setShippingProfiles] = useState<ShippingProfile[]>([

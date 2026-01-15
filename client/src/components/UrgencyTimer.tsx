@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Clock, AlertTriangle } from 'lucide-react';
-import { isGoogleShoppingVisitor, getActiveOffer } from '@/lib/urlParams';
+import { isGoogleShoppingVisitor } from '@/lib/urlParams';
 
 interface UrgencyTimerProps {
   durationMinutes?: number;

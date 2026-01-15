@@ -1,25 +1,14 @@
-
 import { useRoute, Link } from "wouter";
 import { useStore } from "@/lib/storeContext";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Heart, Share2, Truck, ShieldCheck, RefreshCw, Star, AlertTriangle, Info, Check } from "lucide-react";
+import { ShieldCheck, Star, AlertTriangle, Check } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import ProductCard from "@/components/product/ProductCard";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Card, CardContent } from "@/components/ui/card";
 import ProductPricing from "@/components/ProductPricing";
 import UrgencyTimer from "@/components/UrgencyTimer";
-import { isGoogleShoppingVisitor, getDynamicPrice, getDiscount, getOriginalUrlPrice } from "@/lib/urlParams";
+import { isGoogleShoppingVisitor, getDynamicPrice, getDiscount } from "@/lib/urlParams";
 
 export default function ProductDetail() {
   const { products } = useStore();
@@ -28,10 +17,9 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
 
-  // If no product found
   if (!product) return <div>Product not found</div>;
 
-  const depositAmount = (product as any).deposit || 0;
+  const depositAmount = (product as any).deposit || 500;
   const remainingBalance = product.price - depositAmount;
 
   const handleAddToCart = () => {
@@ -46,7 +34,6 @@ export default function ProductDetail() {
       <div className="bg-[#fdfaf5]">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-            {/* Image Gallery */}
             <div className="space-y-4">
               <div className="aspect-[4/3] bg-white rounded-xl overflow-hidden border-2 border-[#3E2723]/10 shadow-lg sticky top-24">
                 <img 
@@ -60,7 +47,6 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Product Info */}
             <div className="space-y-8">
               <div>
                 <div className="flex items-center gap-2 mb-2">
