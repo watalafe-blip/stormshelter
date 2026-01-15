@@ -1,20 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Clock, AlertTriangle } from 'lucide-react';
-import { isGoogleShoppingVisitor } from '@/lib/urlParams';
+import { isGoogleShoppingVisitor, getActiveOffer } from '@/lib/urlParams';
 
 interface UrgencyTimerProps {
   durationMinutes?: number;
   className?: string;
 }
 
-function getStorageKey(): string {
-  if (typeof window === 'undefined') return 'urgency_timer';
-  return `urgency_timer_${window.location.pathname}${window.location.search}`;
-}
+const TIMER_STORAGE_KEY = 'google_shopping_timer';
 
 function getStoredEndTime(): number | null {
   if (typeof window === 'undefined') return null;
-  const stored = localStorage.getItem(getStorageKey());
+  const stored = localStorage.getItem(TIMER_STORAGE_KEY);
   if (stored) {
     const endTime = parseInt(stored, 10);
     if (!isNaN(endTime) && endTime > Date.now()) {
@@ -26,7 +23,7 @@ function getStoredEndTime(): number | null {
 
 function setStoredEndTime(endTime: number): void {
   if (typeof window !== 'undefined') {
-    localStorage.setItem(getStorageKey(), endTime.toString());
+    localStorage.setItem(TIMER_STORAGE_KEY, endTime.toString());
   }
 }
 
