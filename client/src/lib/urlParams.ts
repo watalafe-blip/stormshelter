@@ -3,6 +3,7 @@ const OFFER_TTL_MINUTES = 30;
 
 export interface GoogleShoppingOffer {
   state: string;
+  city: string | null;
   price: number;
   discount: number;
   finalPrice: number;
@@ -33,10 +34,11 @@ function getStoredOffer(): GoogleShoppingOffer | null {
   }
 }
 
-function saveOffer(state: string, price: number): GoogleShoppingOffer {
+function saveOffer(state: string, price: number, city: string | null = null): GoogleShoppingOffer {
   const discount = 900;
   const offer: GoogleShoppingOffer = {
     state,
+    city,
     price,
     discount,
     finalPrice: price - discount,
@@ -56,6 +58,7 @@ export function getActiveOffer(): GoogleShoppingOffer | null {
   const params = new URLSearchParams(window.location.search);
   const stateParam = params.get('state');
   const priceParam = params.get('price');
+  const cityParam = params.get('city');
 
   const state = stateParam && /^[A-Z]{2}$/i.test(stateParam) 
     ? stateParam.toUpperCase() 
@@ -65,8 +68,10 @@ export function getActiveOffer(): GoogleShoppingOffer | null {
     ? parseInt(priceParam, 10) 
     : null;
 
+  const city = cityParam ? decodeURIComponent(cityParam).replace(/\+/g, ' ') : null;
+
   if (state && price) {
-    return saveOffer(state, price);
+    return saveOffer(state, price, city);
   }
 
   return getStoredOffer();
@@ -114,10 +119,28 @@ export function getVisitorState(): string | null {
   return offer?.state ?? null;
 }
 
+export function getVisitorCity(): string | null {
+  const offer = getActiveOffer();
+  return offer?.city ?? null;
+}
+
+export function getVisitorLocation(): string | null {
+  const offer = getActiveOffer();
+  if (!offer) return null;
+  if (offer.city) {
+    return `${offer.city}, ${offer.state}`;
+  }
+  return offer.state;
+}
+
 export function getOfferParams(): string {
   const offer = getActiveOffer();
   if (offer) {
-    return `?state=${offer.state}&price=${offer.price}`;
+    let params = `?state=${offer.state}&price=${offer.price}`;
+    if (offer.city) {
+      params += `&city=${encodeURIComponent(offer.city)}`;
+    }
+    return params;
   }
   return '';
 }
@@ -131,6 +154,7 @@ export function clearOffer(): void {
 export interface ParsedGoogleShoppingParams {
   fromGoogle: boolean;
   state: string | null;
+  city: string | null;
   price: number | null;
   originalPrice: number;
   discount: number;
@@ -144,6 +168,7 @@ export function parseGoogleShoppingParams(): ParsedGoogleShoppingParams {
     return {
       fromGoogle: true,
       state: offer.state,
+      city: offer.city,
       price: offer.price,
       originalPrice: offer.price,
       discount: offer.discount,
@@ -154,6 +179,7 @@ export function parseGoogleShoppingParams(): ParsedGoogleShoppingParams {
   return {
     fromGoogle: false,
     state: null,
+    city: null,
     price: null,
     originalPrice: 4250,
     discount: 900,
@@ -164,6 +190,6 @@ export function parseGoogleShoppingParams(): ParsedGoogleShoppingParams {
 export function storeGoogleParams(params: ParsedGoogleShoppingParams): void {
   if (typeof window === 'undefined') return;
   if (params.fromGoogle && params.state && params.price) {
-    saveOffer(params.state, params.price);
+    saveOffer(params.state, params.price, params.city);
   }
 }

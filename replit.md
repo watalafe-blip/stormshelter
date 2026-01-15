@@ -99,6 +99,30 @@ Preferred communication style: Simple, everyday language.
 - Removed cart abandonment tracking system (ScarcityPopup, cart session endpoints)
 - Cleaned up unused schema and storage code for cart_sessions and email_reminders
 
+## Google Shopping Integration
+
+### Pricing Strategy
+- **Base Price**: $4,250 (Stock #706900)
+- **Shipping**: $5.20/mile from Grandview, MO (38.8814, -94.5314)
+- **Distance Calculation**: Uses MAX metro edge distance (furthest suburb) to protect profit margin
+- **Discount**: $900 off displayed price for Google Shopping visitors
+
+### URL Parameters
+- `?state=XX&price=XXXXX&city=Dallas` - Parsed from Google Shopping feed links
+- **Offer Persistence**: 30-minute TTL in localStorage (`google_shopping_offer` key)
+- **Timer Persistence**: Countdown timer state preserved across navigation (`google_shopping_timer` key)
+
+### XML Feed
+- **Location**: `public/google-shopping-feed.xml`
+- **Coverage**: 75 major tornado-prone cities across 18 states
+- **States**: MO, KS, OK, TX, AR, NE, IA, SD, LA, MS, AL, TN, IL, IN, OH, KY, GA, CO, MN, WI
+- **Price Calculation**: $4,250 + (max metro edge distance × $5.20)
+
+### Key Files
+- `client/src/lib/urlParams.ts` - URL parameter parsing and offer persistence
+- `client/src/components/ProductPricing.tsx` - Dynamic pricing display
+- `client/src/components/UrgencyTimer.tsx` - Countdown timer component
+
 ## User Preferences & Design Decisions
 - **Brand Colors**: Orange (#E69138) for primary actions, Brown (#3E2723) for text/accents
 - **Design Style**: Premium SaaS aesthetic (Stripe/Linear style) - no cards, borders, or template elements; generous whitespace
