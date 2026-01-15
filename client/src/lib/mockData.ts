@@ -34,7 +34,7 @@ export const products: Product[] = [
   {
     id: 'shelter-001',
     name: 'Slope Top Underground Concrete Storm Shelter',
-    price: 4599.00,
+    price: 4250.00,
     compareAtPrice: 5499.00,
     deposit: 500.00,
     category: 'shelters',

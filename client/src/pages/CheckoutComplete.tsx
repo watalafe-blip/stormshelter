@@ -26,9 +26,9 @@ export default function CheckoutComplete() {
       paymentId,
       productName: '8x8 Underground Storm Shelter',
       state: googleParams.state || 'Your State',
-      totalPrice: googleParams.finalPrice || 4599,
+      totalPrice: googleParams.finalPrice || 4250,
       depositPaid: 500,
-      balanceDue: (googleParams.finalPrice || 4599) - 500,
+      balanceDue: (googleParams.finalPrice || 4250) - 500,
       originalPrice: googleParams.originalPrice,
       discount: googleParams.discount,
       isGoogleShopping: googleParams.fromGoogle

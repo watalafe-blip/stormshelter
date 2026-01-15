@@ -155,9 +155,9 @@ export function parseGoogleShoppingParams(): ParsedGoogleShoppingParams {
     fromGoogle: false,
     state: null,
     price: null,
-    originalPrice: 4599,
+    originalPrice: 4250,
     discount: 900,
-    finalPrice: 4599,
+    finalPrice: 4250,
   };
 }
 

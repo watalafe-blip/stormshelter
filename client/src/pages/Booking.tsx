@@ -51,7 +51,7 @@ export default function Booking() {
     zip: ''
   });
 
-  const productPrice = 4599;
+  const productPrice = 4250;
   const depositAmount = 500;
   const today = startOfDay(new Date());
   const minDate = addDays(today, 7);

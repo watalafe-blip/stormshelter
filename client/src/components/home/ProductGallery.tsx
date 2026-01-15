@@ -93,7 +93,7 @@ export default function ProductGallery() {
             </div>
             
             <div className="flex items-baseline gap-3">
-              <span className="text-4xl font-black text-[#3E2723]" data-testid="product-price">$4,599</span>
+              <span className="text-4xl font-black text-[#3E2723]" data-testid="product-price">$4,250</span>
               <span className="text-lg text-stone-400 line-through">$5,499</span>
             </div>
             

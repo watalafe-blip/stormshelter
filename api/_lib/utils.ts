@@ -1,6 +1,6 @@
 export const GRANDVIEW_MO_COORDS = { lat: 38.8814, lng: -94.5314 };
 export const SHIPPING_RATE_PER_MILE = 5.2;
-export const PRODUCT_PRICE = 4599;
+export const PRODUCT_PRICE = 4250;
 export const DEPOSIT_AMOUNT = 500;
 
 export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {

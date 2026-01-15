@@ -6,7 +6,7 @@ interface ProductPricingProps {
   className?: string;
 }
 
-export default function ProductPricing({ basePrice = 4599, className = '' }: ProductPricingProps) {
+export default function ProductPricing({ basePrice = 4250, className = '' }: ProductPricingProps) {
   const { price, isGoogleVisitor } = getUrlParams();
   
   if (!isGoogleVisitor || price === null) {
