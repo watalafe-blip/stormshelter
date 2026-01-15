@@ -1,270 +1,358 @@
+// FILE LOCATION: server/email.ts
+// Email service using Resend for sending order confirmations and invoices
+
 import { Resend } from 'resend';
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
+// Initialize Resend with your API key
+// Get your API key from: https://resend.com/api-keys
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const CONTACT_EMAIL = 'info@homedefendpro.com';
-
-export async function sendPasswordResetRequest(username: string): Promise<boolean> {
-  if (!resend) {
-    console.log('Email service not configured (RESEND_API_KEY missing). Password reset requested for:', username);
-    return false;
-  }
-  
-  try {
-    const { error } = await resend.emails.send({
-      from: 'Home Defend Pro <noreply@homedefendpro.com>',
-      to: [CONTACT_EMAIL],
-      subject: 'Admin Password Reset Request',
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <body style="font-family: sans-serif; padding: 20px; color: #333;">
-          <h2 style="color: #E69138;">Password Reset Request</h2>
-          <p>A password reset was requested for the admin account:</p>
-          <p><strong>Username:</strong> ${username}</p>
-          <p style="margin-top: 20px;">If this was you, please reset your password through the database or contact your system administrator.</p>
-          <hr style="margin: 24px 0; border: none; border-top: 1px solid #ddd;" />
-          <p style="color: #666; font-size: 12px;">This message was sent from the Home Defend Pro admin system.</p>
-        </body>
-        </html>
-      `
-    });
-
-    if (error) {
-      console.error('Failed to send password reset email:', error);
-      return false;
-    }
-
-    console.log('Password reset email sent for:', username);
-    return true;
-  } catch (error) {
-    console.error('Error sending password reset email:', error);
-    return false;
-  }
-}
-
-interface ContactFormData {
-  firstName: string;
-  lastName?: string;
-  email: string;
-  message: string;
-}
-
-export async function sendContactFormEmail(data: ContactFormData): Promise<boolean> {
-  if (!resend) {
-    console.log('Email service not configured (RESEND_API_KEY missing). Contact form submission from:', data.email);
-    return false;
-  }
-  
-  try {
-    const fullName = data.lastName ? `${data.firstName} ${data.lastName}` : data.firstName;
-    
-    const { error } = await resend.emails.send({
-      from: 'Home Defend Pro <noreply@homedefendpro.com>',
-      to: [CONTACT_EMAIL],
-      replyTo: data.email,
-      subject: `Contact Form: ${fullName}`,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <body style="font-family: sans-serif; padding: 20px; color: #333;">
-          <h2 style="color: #E69138;">New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${fullName}</p>
-          <p><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
-          <p><strong>Message:</strong></p>
-          <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; white-space: pre-wrap;">${data.message}</div>
-          <hr style="margin: 24px 0; border: none; border-top: 1px solid #ddd;" />
-          <p style="color: #666; font-size: 12px;">This message was sent from the Home Defend Pro contact form.</p>
-        </body>
-        </html>
-      `
-    });
-
-    if (error) {
-      console.error('Failed to send contact form email:', error);
-      return false;
-    }
-
-    console.log('Contact form email sent from:', data.email);
-    return true;
-  } catch (error) {
-    console.error('Error sending contact form email:', error);
-    return false;
-  }
-}
-
-interface BookingEmailData {
+interface OrderDetails {
+  orderId: string;
   customerName: string;
   customerEmail: string;
-  bookingId: string;
-  deliveryAddress: string;
-  deliveryCity: string;
-  deliveryState: string;
-  deliveryZip: string;
-  milesFromHq: string;
-  shippingFee: string;
-  productPrice: string;
-  depositPaid: string;
-  remainingBalance: string;
-  deliveryDate: string;
+  customerPhone: string;
+  productName: string;
+  state: string;
+  totalPrice: number;
+  depositPaid: number;
+  balanceDue: number;
+  paymentId: string;
+  isGoogleShopping: boolean;
+  originalPrice?: number;
+  discount?: number;
 }
 
-export async function sendBookingConfirmation(data: BookingEmailData): Promise<boolean> {
-  if (!resend) {
-    console.log('Email service not configured (RESEND_API_KEY missing). Skipping booking confirmation email for:', data.customerEmail);
-    return false;
-  }
-  
-  try {
-    const totalPrice = parseFloat(data.productPrice) + parseFloat(data.shippingFee);
-    const remainingBalance = totalPrice - parseFloat(data.depositPaid);
+/**
+ * Send order confirmation email to customer
+ */
+export async function sendOrderConfirmationEmail(order: OrderDetails) {
+  const { 
+    orderId, 
+    customerName, 
+    customerEmail, 
+    productName,
+    state,
+    totalPrice, 
+    depositPaid, 
+    balanceDue,
+    paymentId,
+    isGoogleShopping,
+    originalPrice,
+    discount
+  } = order;
 
-    const { error } = await resend.emails.send({
-      from: 'Home Defend Pro <noreply@homedefendpro.com>',
-      to: [data.customerEmail],
-      subject: `Booking Confirmed - Storm Shelter Delivery`,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        </head>
-        <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #3E2723; margin: 0; padding: 0; background-color: #f5f5f4;">
-          <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-            <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
-              
-              <!-- Header -->
-              <div style="background: linear-gradient(135deg, #E69138 0%, #D4842F 100%); padding: 32px; text-align: center;">
-                <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">
-                  Booking Confirmed
-                </h1>
-                <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0 0; font-size: 16px;">
-                  Your storm shelter is reserved
-                </p>
-              </div>
-              
-              <!-- Content -->
-              <div style="padding: 32px;">
-                <p style="font-size: 18px; margin: 0 0 24px 0;">
-                  Hi ${data.customerName},
-                </p>
-                
-                <p style="margin: 0 0 24px 0; color: #57534e;">
-                  Thank you for your $${data.depositPaid} deposit. Your storm shelter delivery slot has been reserved.
-                </p>
-                
-                <!-- Booking Reference -->
-                <div style="background: #fafaf9; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
-                  <p style="margin: 0 0 8px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #78716c;">
-                    Booking Reference
-                  </p>
-                  <p style="margin: 0; font-family: monospace; font-size: 14px; color: #3E2723;">
-                    ${data.bookingId}
-                  </p>
-                </div>
-                
-                <!-- Order Summary -->
-                <div style="border: 1px solid #e7e5e4; border-radius: 8px; overflow: hidden; margin-bottom: 24px;">
-                  <div style="padding: 16px; border-bottom: 1px solid #e7e5e4;">
-                    <h3 style="margin: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #78716c;">
-                      Order Summary
-                    </h3>
-                  </div>
-                  <div style="padding: 16px;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                      <tr>
-                        <td style="padding: 8px 0; color: #57534e;">Concrete Storm Shelter (Stock #706900)</td>
-                        <td style="padding: 8px 0; text-align: right;">$${parseFloat(data.productPrice).toLocaleString()}</td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 8px 0; color: #57534e;">Shipping (${parseFloat(data.milesFromHq).toFixed(0)} miles)</td>
-                        <td style="padding: 8px 0; text-align: right;">$${parseFloat(data.shippingFee).toLocaleString()}</td>
-                      </tr>
-                      <tr style="border-top: 1px solid #e7e5e4;">
-                        <td style="padding: 12px 0 8px 0; font-weight: 600;">Total</td>
-                        <td style="padding: 12px 0 8px 0; text-align: right; font-weight: 600;">$${totalPrice.toLocaleString()}</td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 8px 0; color: #16a34a;">Deposit Paid</td>
-                        <td style="padding: 8px 0; text-align: right; color: #16a34a;">-$${parseFloat(data.depositPaid).toLocaleString()}</td>
-                      </tr>
-                      <tr style="border-top: 1px solid #e7e5e4;">
-                        <td style="padding: 12px 0 0 0; font-weight: 700; font-size: 18px;">Balance Due</td>
-                        <td style="padding: 12px 0 0 0; text-align: right; font-weight: 700; font-size: 18px; color: #E69138;">$${remainingBalance.toLocaleString()}</td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                
-                <!-- Delivery Address -->
-                <div style="border: 1px solid #e7e5e4; border-radius: 8px; overflow: hidden; margin-bottom: 24px;">
-                  <div style="padding: 16px; border-bottom: 1px solid #e7e5e4;">
-                    <h3 style="margin: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #78716c;">
-                      Delivery Address
-                    </h3>
-                  </div>
-                  <div style="padding: 16px;">
-                    <p style="margin: 0; color: #3E2723;">
-                      ${data.deliveryAddress}<br>
-                      ${data.deliveryCity}, ${data.deliveryState} ${data.deliveryZip}
-                    </p>
-                  </div>
-                </div>
-                
-                <!-- Next Steps -->
-                <div style="background: #fefce8; border: 1px solid #fef08a; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
-                  <h3 style="margin: 0 0 12px 0; color: #854d0e; font-size: 16px;">
-                    What's Next?
-                  </h3>
-                  <ol style="margin: 0; padding-left: 20px; color: #854d0e;">
-                    <li style="margin-bottom: 8px;">We'll contact you to confirm your delivery window</li>
-                    <li style="margin-bottom: 8px;">You'll receive an invoice for the remaining balance ($${remainingBalance.toLocaleString()}) before delivery</li>
-                    <li style="margin-bottom: 8px;">Your shelter will arrive within 1 week of your scheduled date</li>
-                  </ol>
-                </div>
-                
-                <p style="margin: 0 0 16px 0; color: #57534e;">
-                  If you have any questions, please don't hesitate to contact us.
-                </p>
-                
-                <p style="margin: 0; color: #57534e;">
-                  Thank you for choosing Home Defend Pro!
-                </p>
-              </div>
-              
-              <!-- Footer -->
-              <div style="background: #fafaf9; padding: 24px 32px; border-top: 1px solid #e7e5e4;">
-                <p style="margin: 0 0 8px 0; font-weight: 600; color: #3E2723;">
-                  Home Defend Pro
-                </p>
-                <p style="margin: 0; font-size: 14px; color: #78716c;">
-                  Family-Owned Storm Shelter Company<br>
-                  Grandview, MO<br>
-                  (833) 906-1077 | info@homedefendpro.com
-                </p>
-              </div>
-            </div>
-            
-            <p style="text-align: center; font-size: 12px; color: #a8a29e; margin-top: 24px;">
-              This email was sent regarding your storm shelter booking.
-            </p>
-          </div>
-        </body>
-        </html>
-      `
+  const emailHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #16a34a; color: white; padding: 20px; text-align: center; }
+    .content { background: #f9fafb; padding: 30px; margin-top: 20px; }
+    .success-badge { background: #dcfce7; color: #166534; padding: 10px 20px; border-radius: 8px; display: inline-block; font-weight: bold; }
+    .price-box { background: white; border: 2px solid #16a34a; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .price-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+    .price-row.total { font-weight: bold; font-size: 1.2em; border-bottom: none; }
+    .next-steps { background: #dbeafe; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0; }
+    .button { background: #16a34a; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; display: inline-block; margin: 20px 0; }
+    .footer { text-align: center; color: #6b7280; font-size: 0.9em; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎉 Order Confirmed!</h1>
+      <p>Thank you for choosing Home Defend Pro</p>
+    </div>
+    
+    <div class="content">
+      <p>Dear ${customerName},</p>
+      
+      <div class="success-badge">
+        ✅ Your $${depositPaid.toLocaleString()} deposit has been received!
+      </div>
+      
+      <h2>Order Summary</h2>
+      <p><strong>Order #:</strong> ${orderId}</p>
+      <p><strong>Product:</strong> ${productName}</p>
+      <p><strong>Delivery Location:</strong> ${state}</p>
+      ${isGoogleShopping ? `<p><strong>Special Offer:</strong> Google Shopping Discount Applied!</p>` : ''}
+      
+      <div class="price-box">
+        ${isGoogleShopping && originalPrice ? `
+        <div class="price-row">
+          <span>Original Price:</span>
+          <span style="text-decoration: line-through; color: #9ca3af;">$${originalPrice.toLocaleString()}</span>
+        </div>
+        <div class="price-row">
+          <span>Google Shopping Discount:</span>
+          <span style="color: #16a34a;">-$${discount?.toLocaleString()}</span>
+        </div>
+        ` : ''}
+        <div class="price-row total">
+          <span>Total Price:</span>
+          <span style="color: #16a34a;">$${totalPrice.toLocaleString()}</span>
+        </div>
+        <div class="price-row" style="background: #f0fdf4; margin-top: 10px; padding: 15px;">
+          <span><strong>✅ Paid Today (Deposit):</strong></span>
+          <span><strong>$${depositPaid.toLocaleString()}</strong></span>
+        </div>
+        <div class="price-row" style="background: #fef3c7; padding: 15px;">
+          <span><strong>⏳ Balance Due Before Installation:</strong></span>
+          <span><strong>$${balanceDue.toLocaleString()}</strong></span>
+        </div>
+      </div>
+      
+      <div class="next-steps">
+        <h3 style="margin-top: 0;">📋 Next Steps:</h3>
+        <ol style="margin: 10px 0;">
+          <li><strong>We'll contact you within 24 hours</strong> to confirm your order details</li>
+          <li><strong>Schedule your installation date</strong> - typically 2-4 weeks out</li>
+          <li><strong>Pay balance of $${balanceDue.toLocaleString()}</strong> before installation begins</li>
+          <li><strong>Professional installation</strong> - takes 2-3 days</li>
+          <li><strong>Final inspection</strong> - we ensure everything is perfect!</li>
+        </ol>
+      </div>
+      
+      <h3>What's Included:</h3>
+      <ul>
+        <li>✅ ${productName}</li>
+        <li>✅ Free delivery to ${state}</li>
+        <li>✅ Professional installation guide</li>
+        <li>✅ Lifetime warranty on concrete structure</li>
+        <li>✅ 5-year warranty on doors and hardware</li>
+        <li>✅ FEMA P-361 & ICC 500 certified</li>
+      </ul>
+      
+      <p><strong>Payment Receipt:</strong></p>
+      <p>Payment ID: ${paymentId}</p>
+      <p>Amount Paid: $${depositPaid.toLocaleString()}</p>
+      <p>Payment Method: Credit Card</p>
+      
+      <a href="https://stormshelter.vercel.app/confirmation?order=${orderId}" class="button">
+        View Order Details
+      </a>
+      
+      <p>If you have any questions, contact us:</p>
+      <p>📞 <strong>Phone:</strong> 1-800-555-0123</p>
+      <p>📧 <strong>Email:</strong> orders@homedefendpro.com</p>
+    </div>
+    
+    <div class="footer">
+      <p>Home Defend Pro - Underground Storm Shelters</p>
+      <p>Protecting families since 2009</p>
+      <p><a href="https://stormshelter.vercel.app">stormshelter.vercel.app</a></p>
+    </div>
+  </div>
+</body>
+</html>
+  `;
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'Home Defend Pro <orders@homedefendpro.com>',
+      to: [customerEmail],
+      subject: `Order Confirmed #${orderId} - $${depositPaid} Deposit Received`,
+      html: emailHtml,
     });
 
     if (error) {
-      console.error('Failed to send booking confirmation email:', error);
-      return false;
+      console.error('Error sending customer email:', error);
+      return { success: false, error };
     }
 
-    console.log('Booking confirmation email sent to:', data.customerEmail);
-    return true;
+    console.log('✅ Customer email sent:', data);
+    return { success: true, data };
   } catch (error) {
-    console.error('Error sending booking confirmation email:', error);
-    return false;
+    console.error('Error sending email:', error);
+    return { success: false, error };
+  }
+}
+
+/**
+ * Send notification email to admin
+ */
+export async function sendAdminNotificationEmail(order: OrderDetails) {
+  const { 
+    orderId, 
+    customerName, 
+    customerEmail,
+    customerPhone,
+    productName,
+    state,
+    totalPrice, 
+    depositPaid, 
+    balanceDue,
+    isGoogleShopping
+  } = order;
+
+  const emailHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #2563eb; color: white; padding: 20px; text-align: center; }
+    .content { background: #f9fafb; padding: 30px; margin-top: 20px; }
+    .info-box { background: white; border: 2px solid #2563eb; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .info-row { padding: 8px 0; border-bottom: 1px solid #e5e7eb; }
+    .urgent { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔔 New Order Received!</h1>
+      <p>Order #${orderId}</p>
+    </div>
+    
+    <div class="content">
+      <div class="urgent">
+        <strong>⚡ ACTION REQUIRED:</strong> Contact customer within 24 hours to schedule installation
+      </div>
+      
+      <div class="info-box">
+        <h2>Customer Information:</h2>
+        <div class="info-row"><strong>Name:</strong> ${customerName}</div>
+        <div class="info-row"><strong>Email:</strong> ${customerEmail}</div>
+        <div class="info-row"><strong>Phone:</strong> ${customerPhone}</div>
+        <div class="info-row"><strong>Location:</strong> ${state}</div>
+        ${isGoogleShopping ? '<div class="info-row" style="color: #16a34a;"><strong>Source:</strong> Google Shopping (Special Offer)</div>' : ''}
+      </div>
+      
+      <div class="info-box">
+        <h2>Order Details:</h2>
+        <div class="info-row"><strong>Product:</strong> ${productName}</div>
+        <div class="info-row"><strong>Total Price:</strong> $${totalPrice.toLocaleString()}</div>
+        <div class="info-row" style="background: #f0fdf4;"><strong>✅ Deposit Received:</strong> $${depositPaid.toLocaleString()}</div>
+        <div class="info-row" style="background: #fef3c7;"><strong>⏳ Balance Due:</strong> $${balanceDue.toLocaleString()}</div>
+      </div>
+      
+      <h3>Next Actions:</h3>
+      <ol>
+        <li>Call customer at ${customerPhone}</li>
+        <li>Confirm delivery address and site accessibility</li>
+        <li>Schedule installation date (2-4 weeks out)</li>
+        <li>Collect balance payment before installation</li>
+        <li>Coordinate with installation team</li>
+      </ol>
+      
+      <p><a href="https://stormshelter.vercel.app/admin?order=${orderId}" style="background: #2563eb; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; display: inline-block; margin: 20px 0;">View in Admin Dashboard</a></p>
+    </div>
+  </div>
+</body>
+</html>
+  `;
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'Orders <orders@homedefendpro.com>',
+      to: ['admin@homedefendpro.com'], // Your admin email
+      subject: `🔔 New Order #${orderId} - $${depositPaid} Deposit Received`,
+      html: emailHtml,
+    });
+
+    if (error) {
+      console.error('Error sending admin email:', error);
+      return { success: false, error };
+    }
+
+    console.log('✅ Admin email sent:', data);
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error sending admin email:', error);
+    return { success: false, error };
+  }
+}
+
+/**
+ * Send balance due reminder email
+ */
+export async function sendBalanceDueEmail(order: OrderDetails, installationDate: string) {
+  const { 
+    orderId, 
+    customerName, 
+    customerEmail,
+    balanceDue
+  } = order;
+
+  const emailHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #f59e0b; color: white; padding: 20px; text-align: center; }
+    .content { background: #f9fafb; padding: 30px; margin-top: 20px; }
+    .payment-box { background: #fef3c7; border: 3px solid #f59e0b; border-radius: 8px; padding: 25px; margin: 20px 0; text-align: center; }
+    .button { background: #16a34a; color: white; padding: 15px 40px; text-decoration: none; border-radius: 8px; display: inline-block; margin: 20px 0; font-size: 1.1em; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>⏰ Balance Payment Due</h1>
+      <p>Order #${orderId}</p>
+    </div>
+    
+    <div class="content">
+      <p>Dear ${customerName},</p>
+      
+      <p>Great news! Your storm shelter installation is scheduled for:</p>
+      <p style="font-size: 1.3em; text-align: center; background: #dbeafe; padding: 15px; border-radius: 8px;">
+        <strong>📅 ${installationDate}</strong>
+      </p>
+      
+      <div class="payment-box">
+        <h2 style="margin-top: 0;">Balance Due Before Installation:</h2>
+        <p style="font-size: 2.5em; font-weight: bold; color: #f59e0b; margin: 10px 0;">
+          $${balanceDue.toLocaleString()}
+        </p>
+        <p>Payment must be received before installation begins</p>
+      </div>
+      
+      <p>To complete your payment:</p>
+      <ol>
+        <li>Click the button below to pay online</li>
+        <li>Or call us at 1-800-555-0123 to pay by phone</li>
+        <li>Or mail a check to our office</li>
+      </ol>
+      
+      <div style="text-align: center;">
+        <a href="https://stormshelter.vercel.app/pay-balance?order=${orderId}" class="button">
+          Pay Balance Now
+        </a>
+      </div>
+      
+      <p><strong>Questions?</strong> Contact us anytime:</p>
+      <p>📞 1-800-555-0123 | 📧 orders@homedefendpro.com</p>
+    </div>
+  </div>
+</body>
+</html>
+  `;
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'Home Defend Pro <orders@homedefendpro.com>',
+      to: [customerEmail],
+      subject: `Balance Payment Due - Order #${orderId} ($${balanceDue.toLocaleString()})`,
+      html: emailHtml,
+    });
+
+    if (error) {
+      console.error('Error sending balance due email:', error);
+      return { success: false, error };
+    }
+
+    console.log('✅ Balance due email sent:', data);
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error sending email:', error);
+    return { success: false, error };
   }
 }
