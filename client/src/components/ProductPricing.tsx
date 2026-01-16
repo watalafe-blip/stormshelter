@@ -23,7 +23,7 @@ export default function ProductPricing({ basePrice = 4000, className = '' }: Pro
   }
 
   const discount = getDiscount();
-  const dynamicPrice = price - discount;
+  const originalPrice = price + discount;
   
   return (
     <div className={`space-y-3 ${className}`} data-testid="dynamic-pricing">
@@ -35,10 +35,10 @@ export default function ProductPricing({ basePrice = 4000, className = '' }: Pro
       
       <div className="flex items-baseline gap-3">
         <span className="text-4xl font-black text-[#3E2723]" data-testid="dynamic-price">
-          ${dynamicPrice.toLocaleString()}
+          ${price.toLocaleString()}
         </span>
         <span className="text-lg text-stone-400 line-through" data-testid="original-price">
-          ${price.toLocaleString()}
+          ${originalPrice.toLocaleString()}
         </span>
       </div>
       
