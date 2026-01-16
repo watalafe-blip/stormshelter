@@ -5,1217 +5,19 @@
     <link>https://homedefendpro.com</link>
     <description>EF5-rated underground concrete storm shelters - Delivered from Missouri</description>
     
-    <!-- PRICING STRATEGY: Base $4,250 + Shipping ($5.20/mile from Grandview, MO 38.8814, -94.5314) -->
-    <!-- All distances use MAX METRO EDGE (furthest suburb) to protect profit margin -->
-
-    <!-- ==================== MISSOURI (Home State) ==================== -->
-    
-    <!-- Kansas City Metro - Local pickup/short delivery -->
+    <!-- Alabama - 600 miles - Price: $4,250 + (600 × $5.20) = $7,370 -->
     <item>
-      <g:id>shelter-kansas-city-mo</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Kansas City MO</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=MO&amp;city=Kansas+City&amp;price=4510</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-AL</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Alabama</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=AL&amp;price=7370</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>4510.00 USD</g:price>
+      <g:price>7370.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000001</g:gtin>
       <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>MO</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- St. Louis Metro (max edge: St. Charles ~285 miles) -->
-    <item>
-      <g:id>shelter-st-louis-mo</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | St. Louis MO</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=MO&amp;city=St+Louis&amp;price=5732</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5732.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000002</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>MO</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Springfield MO (max edge: ~195 miles) -->
-    <item>
-      <g:id>shelter-springfield-mo</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Springfield MO</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=MO&amp;city=Springfield&amp;price=5264</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5264.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000003</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>MO</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Joplin MO (max edge: ~170 miles) -->
-    <item>
-      <g:id>shelter-joplin-mo</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Joplin MO</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=MO&amp;city=Joplin&amp;price=5134</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5134.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000004</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>MO</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Columbia MO (max edge: ~200 miles) -->
-    <item>
-      <g:id>shelter-columbia-mo</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Columbia MO</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=MO&amp;city=Columbia&amp;price=5290</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5290.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000005</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>MO</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== KANSAS ==================== -->
-    
-    <!-- Wichita KS (max edge: ~230 miles) -->
-    <item>
-      <g:id>shelter-wichita-ks</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Wichita KS</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=KS&amp;city=Wichita&amp;price=5446</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5446.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000006</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>KS</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Topeka KS (max edge: ~95 miles) -->
-    <item>
-      <g:id>shelter-topeka-ks</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Topeka KS</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=KS&amp;city=Topeka&amp;price=4744</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>4744.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000007</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>KS</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Overland Park KS (max edge: ~55 miles) -->
-    <item>
-      <g:id>shelter-overland-park-ks</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Overland Park KS</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=KS&amp;city=Overland+Park&amp;price=4536</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>4536.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000008</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>KS</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Manhattan KS (max edge: ~165 miles) -->
-    <item>
-      <g:id>shelter-manhattan-ks</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Manhattan KS</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=KS&amp;city=Manhattan&amp;price=5108</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5108.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000009</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>KS</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Salina KS (max edge: ~220 miles) -->
-    <item>
-      <g:id>shelter-salina-ks</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Salina KS</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=KS&amp;city=Salina&amp;price=5394</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5394.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000010</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>KS</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== OKLAHOMA ==================== -->
-    
-    <!-- Oklahoma City Metro (max edge: Edmond/Norman ~330 miles) -->
-    <item>
-      <g:id>shelter-oklahoma-city-ok</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Oklahoma City OK</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OK&amp;city=Oklahoma+City&amp;price=5966</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5966.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000011</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OK</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Tulsa Metro (max edge: ~310 miles) -->
-    <item>
-      <g:id>shelter-tulsa-ok</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Tulsa OK</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OK&amp;city=Tulsa&amp;price=5862</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5862.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000012</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OK</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Norman OK (max edge: ~340 miles) -->
-    <item>
-      <g:id>shelter-norman-ok</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Norman OK</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OK&amp;city=Norman&amp;price=6018</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6018.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000013</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OK</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Edmond OK (max edge: ~335 miles) -->
-    <item>
-      <g:id>shelter-edmond-ok</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Edmond OK</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OK&amp;city=Edmond&amp;price=5992</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5992.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000014</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OK</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Lawton OK (max edge: ~395 miles) -->
-    <item>
-      <g:id>shelter-lawton-ok</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Lawton OK</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OK&amp;city=Lawton&amp;price=6304</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6304.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000015</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OK</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Broken Arrow OK (max edge: ~315 miles) -->
-    <item>
-      <g:id>shelter-broken-arrow-ok</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Broken Arrow OK</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OK&amp;city=Broken+Arrow&amp;price=5888</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5888.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000016</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OK</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Moore OK (max edge: ~345 miles - famous for tornadoes) -->
-    <item>
-      <g:id>shelter-moore-ok</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Moore OK</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OK&amp;city=Moore&amp;price=6044</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6044.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000017</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OK</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== TEXAS ==================== -->
-    
-    <!-- Dallas-Fort Worth Metro (max edge: McKinney/Denton ~530 miles) -->
-    <item>
-      <g:id>shelter-dallas-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Dallas TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Dallas&amp;price=7006</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7006.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000018</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Fort Worth TX (max edge: ~535 miles) -->
-    <item>
-      <g:id>shelter-fort-worth-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Fort Worth TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Fort+Worth&amp;price=7032</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7032.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000019</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Arlington TX (max edge: ~520 miles) -->
-    <item>
-      <g:id>shelter-arlington-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Arlington TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Arlington&amp;price=6954</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6954.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000020</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Plano TX (max edge: ~515 miles) -->
-    <item>
-      <g:id>shelter-plano-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Plano TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Plano&amp;price=6928</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6928.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000021</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- McKinney TX (max edge: ~505 miles) -->
-    <item>
-      <g:id>shelter-mckinney-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | McKinney TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=McKinney&amp;price=6876</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6876.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000022</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Frisco TX (max edge: ~495 miles) -->
-    <item>
-      <g:id>shelter-frisco-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Frisco TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Frisco&amp;price=6824</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6824.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000023</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Denton TX (max edge: ~490 miles) -->
-    <item>
-      <g:id>shelter-denton-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Denton TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Denton&amp;price=6798</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6798.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000024</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Waco TX (max edge: ~480 miles) -->
-    <item>
-      <g:id>shelter-waco-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Waco TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Waco&amp;price=6746</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6746.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000025</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Lubbock TX (max edge: ~560 miles) -->
-    <item>
-      <g:id>shelter-lubbock-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Lubbock TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Lubbock&amp;price=7162</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7162.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000026</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Amarillo TX (max edge: ~530 miles) -->
-    <item>
-      <g:id>shelter-amarillo-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Amarillo TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Amarillo&amp;price=7006</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7006.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000027</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Tyler TX (max edge: ~445 miles) -->
-    <item>
-      <g:id>shelter-tyler-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Tyler TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Tyler&amp;price=6564</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6564.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000028</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Abilene TX (max edge: ~480 miles) -->
-    <item>
-      <g:id>shelter-abilene-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Abilene TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Abilene&amp;price=6746</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6746.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000029</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Wichita Falls TX (max edge: ~435 miles) -->
-    <item>
-      <g:id>shelter-wichita-falls-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Wichita Falls TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Wichita+Falls&amp;price=6512</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6512.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000030</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- San Angelo TX (max edge: ~540 miles) -->
-    <item>
-      <g:id>shelter-san-angelo-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | San Angelo TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=San+Angelo&amp;price=7058</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7058.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000031</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Houston TX (max edge: ~620 miles - large metro) -->
-    <item>
-      <g:id>shelter-houston-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Houston TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Houston&amp;price=7474</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7474.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000032</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Austin TX (max edge: ~580 miles) -->
-    <item>
-      <g:id>shelter-austin-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Austin TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=Austin&amp;price=7266</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7266.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000033</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- San Antonio TX (max edge: ~640 miles) -->
-    <item>
-      <g:id>shelter-san-antonio-tx</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | San Antonio TX</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TX&amp;city=San+Antonio&amp;price=7578</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7578.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000034</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>TX</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== ARKANSAS ==================== -->
-    
-    <!-- Little Rock AR (max edge: ~385 miles) -->
-    <item>
-      <g:id>shelter-little-rock-ar</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Little Rock AR</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=AR&amp;city=Little+Rock&amp;price=6252</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6252.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000035</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>AR</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Fort Smith AR (max edge: ~275 miles) -->
-    <item>
-      <g:id>shelter-fort-smith-ar</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Fort Smith AR</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=AR&amp;city=Fort+Smith&amp;price=5680</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5680.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000036</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>AR</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Fayetteville AR (max edge: ~230 miles) -->
-    <item>
-      <g:id>shelter-fayetteville-ar</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Fayetteville AR</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=AR&amp;city=Fayetteville&amp;price=5446</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5446.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000037</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>AR</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Jonesboro AR (max edge: ~355 miles) -->
-    <item>
-      <g:id>shelter-jonesboro-ar</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Jonesboro AR</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=AR&amp;city=Jonesboro&amp;price=6096</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6096.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000038</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>AR</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== NEBRASKA ==================== -->
-    
-    <!-- Omaha NE (max edge: ~230 miles) -->
-    <item>
-      <g:id>shelter-omaha-ne</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Omaha NE</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=NE&amp;city=Omaha&amp;price=5446</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5446.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000039</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>NE</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Lincoln NE (max edge: ~250 miles) -->
-    <item>
-      <g:id>shelter-lincoln-ne</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Lincoln NE</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=NE&amp;city=Lincoln&amp;price=5550</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5550.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000040</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>NE</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Grand Island NE (max edge: ~335 miles) -->
-    <item>
-      <g:id>shelter-grand-island-ne</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Grand Island NE</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=NE&amp;city=Grand+Island&amp;price=5992</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5992.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000041</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>NE</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== IOWA ==================== -->
-    
-    <!-- Des Moines IA (max edge: ~220 miles) -->
-    <item>
-      <g:id>shelter-des-moines-ia</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Des Moines IA</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IA&amp;city=Des+Moines&amp;price=5394</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5394.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000042</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>IA</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Cedar Rapids IA (max edge: ~315 miles) -->
-    <item>
-      <g:id>shelter-cedar-rapids-ia</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Cedar Rapids IA</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IA&amp;city=Cedar+Rapids&amp;price=5888</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5888.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000043</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>IA</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Davenport IA (max edge: ~295 miles) -->
-    <item>
-      <g:id>shelter-davenport-ia</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Davenport IA</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IA&amp;city=Davenport&amp;price=5784</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5784.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000044</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>IA</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Sioux City IA (max edge: ~310 miles) -->
-    <item>
-      <g:id>shelter-sioux-city-ia</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Sioux City IA</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IA&amp;city=Sioux+City&amp;price=5862</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>5862.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000045</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>IA</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== SOUTH DAKOTA ==================== -->
-    
-    <!-- Sioux Falls SD (max edge: ~380 miles) -->
-    <item>
-      <g:id>shelter-sioux-falls-sd</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Sioux Falls SD</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=SD&amp;city=Sioux+Falls&amp;price=6226</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6226.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000046</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>SD</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Rapid City SD (max edge: ~615 miles) -->
-    <item>
-      <g:id>shelter-rapid-city-sd</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Rapid City SD</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=SD&amp;city=Rapid+City&amp;price=7448</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7448.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000047</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>SD</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== LOUISIANA ==================== -->
-    
-    <!-- Shreveport LA (max edge: ~445 miles) -->
-    <item>
-      <g:id>shelter-shreveport-la</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Shreveport LA</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=LA&amp;city=Shreveport&amp;price=6564</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6564.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000048</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>LA</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Monroe LA (max edge: ~485 miles) -->
-    <item>
-      <g:id>shelter-monroe-la</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Monroe LA</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=LA&amp;city=Monroe&amp;price=6772</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6772.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000049</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>LA</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== MISSISSIPPI ==================== -->
-    
-    <!-- Jackson MS (max edge: ~530 miles) -->
-    <item>
-      <g:id>shelter-jackson-ms</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Jackson MS</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=MS&amp;city=Jackson&amp;price=7006</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7006.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000050</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>MS</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Tupelo MS (max edge: ~475 miles) -->
-    <item>
-      <g:id>shelter-tupelo-ms</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Tupelo MS</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=MS&amp;city=Tupelo&amp;price=6720</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6720.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000051</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>MS</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== ALABAMA ==================== -->
-    
-    <!-- Birmingham AL (max edge: ~570 miles) -->
-    <item>
-      <g:id>shelter-birmingham-al</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Birmingham AL</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=AL&amp;city=Birmingham&amp;price=7214</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7214.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000052</g:gtin>
-      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
@@ -1226,399 +28,203 @@
       </g:shipping>
     </item>
 
-    <!-- Huntsville AL (max edge: ~535 miles) -->
+    <!-- Alaska - 3500 miles - Price: $4,250 + (3500 × $5.20) = $22,450 -->
     <item>
-      <g:id>shelter-huntsville-al</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Huntsville AL</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=AL&amp;city=Huntsville&amp;price=7032</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-AK</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Alaska</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=AK&amp;price=22450</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>7032.00 USD</g:price>
+      <g:price>22450.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000053</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>AL</g:region>
+        <g:region>AK</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- Tuscaloosa AL (max edge: ~580 miles) -->
+    <!-- Arizona - 1200 miles - Price: $4,250 + (1200 × $5.20) = $10,490 -->
     <item>
-      <g:id>shelter-tuscaloosa-al</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Tuscaloosa AL</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=AL&amp;city=Tuscaloosa&amp;price=7266</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-AZ</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Arizona</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=AZ&amp;price=10490</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>7266.00 USD</g:price>
+      <g:price>10490.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000054</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>AL</g:region>
+        <g:region>AZ</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- ==================== TENNESSEE ==================== -->
-    
-    <!-- Memphis TN (max edge: ~375 miles) -->
+    <!-- Arkansas - 350 miles - Price: $4,250 + (350 × $5.20) = $6,070 -->
     <item>
-      <g:id>shelter-memphis-tn</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Memphis TN</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TN&amp;city=Memphis&amp;price=6200</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-AR</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Arkansas</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=AR&amp;price=6070</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>6200.00 USD</g:price>
+      <g:price>6070.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000055</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>TN</g:region>
+        <g:region>AR</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- Nashville TN (max edge: ~485 miles) -->
+    <!-- California - 1800 miles - Price: $4,250 + (1800 × $5.20) = $13,610 -->
     <item>
-      <g:id>shelter-nashville-tn</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Nashville TN</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=TN&amp;city=Nashville&amp;price=6772</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-CA</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | California</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=CA&amp;price=13610</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>6772.00 USD</g:price>
+      <g:price>13610.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000056</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>TN</g:region>
+        <g:region>CA</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- ==================== ILLINOIS ==================== -->
-    
-    <!-- Chicago IL (max edge: ~575 miles) -->
+    <!-- Colorado - 700 miles - Price: $4,250 + (700 × $5.20) = $7,890 -->
     <item>
-      <g:id>shelter-chicago-il</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Chicago IL</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IL&amp;city=Chicago&amp;price=7240</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-CO</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Colorado</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=CO&amp;price=7890</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>7240.00 USD</g:price>
+      <g:price>7890.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000057</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>IL</g:region>
+        <g:region>CO</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- Springfield IL (max edge: ~255 miles) -->
+    <!-- Connecticut - 1350 miles - Price: $4,250 + (1350 × $5.20) = $11,270 -->
     <item>
-      <g:id>shelter-springfield-il</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Springfield IL</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IL&amp;city=Springfield&amp;price=5576</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-CT</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Connecticut</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=CT&amp;price=11270</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>5576.00 USD</g:price>
+      <g:price>11270.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000058</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>IL</g:region>
+        <g:region>CT</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- Peoria IL (max edge: ~325 miles) -->
+    <!-- Delaware - 1200 miles - Price: $4,250 + (1200 × $5.20) = $10,490 -->
     <item>
-      <g:id>shelter-peoria-il</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Peoria IL</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IL&amp;city=Peoria&amp;price=5940</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-DE</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Delaware</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=DE&amp;price=10490</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>5940.00 USD</g:price>
+      <g:price>10490.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000059</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>IL</g:region>
+        <g:region>DE</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- ==================== INDIANA ==================== -->
-    
-    <!-- Indianapolis IN (max edge: ~510 miles) -->
+    <!-- Florida - 1100 miles - Price: $4,250 + (1100 × $5.20) = $9,970 -->
     <item>
-      <g:id>shelter-indianapolis-in</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Indianapolis IN</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IN&amp;city=Indianapolis&amp;price=6902</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-FL</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Florida</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=FL&amp;price=9970</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>6902.00 USD</g:price>
+      <g:price>9970.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000060</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>IN</g:region>
+        <g:region>FL</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- Fort Wayne IN (max edge: ~590 miles) -->
+    <!-- Georgia - 850 miles - Price: $4,250 + (850 × $5.20) = $8,670 -->
     <item>
-      <g:id>shelter-fort-wayne-in</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Fort Wayne IN</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IN&amp;city=Fort+Wayne&amp;price=7318</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-GA</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Georgia</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=GA&amp;price=8670</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>7318.00 USD</g:price>
+      <g:price>8670.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000061</g:gtin>
       <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>IN</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Evansville IN (max edge: ~395 miles) -->
-    <item>
-      <g:id>shelter-evansville-in</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Evansville IN</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=IN&amp;city=Evansville&amp;price=6304</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6304.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000062</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>IN</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== OHIO ==================== -->
-    
-    <!-- Columbus OH (max edge: ~630 miles) -->
-    <item>
-      <g:id>shelter-columbus-oh</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Columbus OH</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OH&amp;city=Columbus&amp;price=7526</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7526.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000063</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OH</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Dayton OH (max edge: ~580 miles) -->
-    <item>
-      <g:id>shelter-dayton-oh</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Dayton OH</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OH&amp;city=Dayton&amp;price=7266</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7266.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000064</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OH</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Toledo OH (max edge: ~665 miles) -->
-    <item>
-      <g:id>shelter-toledo-oh</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Toledo OH</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=OH&amp;city=Toledo&amp;price=7708</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7708.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000065</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>OH</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== KENTUCKY ==================== -->
-    
-    <!-- Louisville KY (max edge: ~425 miles) -->
-    <item>
-      <g:id>shelter-louisville-ky</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Louisville KY</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=KY&amp;city=Louisville&amp;price=6460</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6460.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000066</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>KY</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Lexington KY (max edge: ~500 miles) -->
-    <item>
-      <g:id>shelter-lexington-ky</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Lexington KY</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=KY&amp;city=Lexington&amp;price=6850</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6850.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000067</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>KY</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- Bowling Green KY (max edge: ~415 miles) -->
-    <item>
-      <g:id>shelter-bowling-green-ky</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Bowling Green KY</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=KY&amp;city=Bowling+Green&amp;price=6408</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>6408.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000068</g:gtin>
-      <g:mpn>706900</g:mpn>
-      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
-      <g:google_product_category>536</g:google_product_category>
-      <g:shipping>
-        <g:country>US</g:country>
-        <g:region>KY</g:region>
-        <g:service>Freight</g:service>
-        <g:price>0.00 USD</g:price>
-      </g:shipping>
-    </item>
-
-    <!-- ==================== GEORGIA ==================== -->
-    
-    <!-- Atlanta GA (max edge: ~680 miles) -->
-    <item>
-      <g:id>shelter-atlanta-ga</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Atlanta GA</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=GA&amp;city=Atlanta&amp;price=7786</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
-      <g:condition>new</g:condition>
-      <g:availability>in stock</g:availability>
-      <g:price>7786.00 USD</g:price>
-      <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000069</g:gtin>
-      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
@@ -1629,92 +235,295 @@
       </g:shipping>
     </item>
 
-    <!-- Rome GA (max edge: ~640 miles) -->
+    <!-- Hawaii - 4200 miles - Price: $4,250 + (4200 × $5.20) = $26,090 -->
     <item>
-      <g:id>shelter-rome-ga</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Rome GA</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=GA&amp;city=Rome&amp;price=7578</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-HI</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Hawaii</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=HI&amp;price=26090</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>7578.00 USD</g:price>
+      <g:price>26090.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000070</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>GA</g:region>
+        <g:region>HI</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- ==================== COLORADO (Tornado Prone Eastern) ==================== -->
-    
-    <!-- Denver CO (max edge: ~650 miles) -->
+    <!-- Idaho - 1500 miles - Price: $4,250 + (1500 × $5.20) = $12,050 -->
     <item>
-      <g:id>shelter-denver-co</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Denver CO</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=CO&amp;city=Denver&amp;price=7630</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-ID</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Idaho</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=ID&amp;price=12050</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>12050.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>ID</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Illinois - 400 miles - Price: $4,250 + (400 × $5.20) = $6,330 -->
+    <item>
+      <g:id>706900-IL</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Illinois</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=IL&amp;price=6330</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>6330.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>IL</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Indiana - 550 miles - Price: $4,250 + (550 × $5.20) = $7,110 -->
+    <item>
+      <g:id>706900-IN</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Indiana</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=IN&amp;price=7110</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7110.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>IN</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Iowa - 350 miles - Price: $4,250 + (350 × $5.20) = $6,070 -->
+    <item>
+      <g:id>706900-IA</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Iowa</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=IA&amp;price=6070</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>6070.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>IA</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Kansas - 400 miles - Price: $4,250 + (400 × $5.20) = $6,330 -->
+    <item>
+      <g:id>706900-KS</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Kansas</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=KS&amp;price=6330</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>6330.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>KS</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Kentucky - 550 miles - Price: $4,250 + (550 × $5.20) = $7,110 -->
+    <item>
+      <g:id>706900-KY</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Kentucky</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=KY&amp;price=7110</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7110.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>KY</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Louisiana - 650 miles - Price: $4,250 + (650 × $5.20) = $7,630 -->
+    <item>
+      <g:id>706900-LA</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Louisiana</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=LA&amp;price=7630</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>7630.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000071</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>CO</g:region>
+        <g:region>LA</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- Colorado Springs CO (max edge: ~625 miles) -->
+    <!-- Maine - 1600 miles - Price: $4,250 + (1600 × $5.20) = $12,570 -->
     <item>
-      <g:id>shelter-colorado-springs-co</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Colorado Springs CO</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=CO&amp;city=Colorado+Springs&amp;price=7500</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-ME</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Maine</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=ME&amp;price=12570</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>7500.00 USD</g:price>
+      <g:price>12570.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000072</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>CO</g:region>
+        <g:region>ME</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- ==================== MINNESOTA (Southern Tornado Zone) ==================== -->
-    
-    <!-- Minneapolis MN (max edge: ~490 miles) -->
+    <!-- Maryland - 1150 miles - Price: $4,250 + (1150 × $5.20) = $10,230 -->
     <item>
-      <g:id>shelter-minneapolis-mn</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Minneapolis MN</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=MN&amp;city=Minneapolis&amp;price=6798</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-MD</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Maryland</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=MD&amp;price=10230</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>6798.00 USD</g:price>
+      <g:price>10230.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000073</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>MD</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Massachusetts - 1400 miles - Price: $4,250 + (1400 × $5.20) = $11,530 -->
+    <item>
+      <g:id>706900-MA</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Massachusetts</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=MA&amp;price=11530</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>11530.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>MA</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Michigan - 700 miles - Price: $4,250 + (700 × $5.20) = $7,890 -->
+    <item>
+      <g:id>706900-MI</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Michigan</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=MI&amp;price=7890</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7890.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>MI</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Minnesota - 600 miles - Price: $4,250 + (600 × $5.20) = $7,370 -->
+    <item>
+      <g:id>706900-MN</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Minnesota</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=MN&amp;price=7370</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7370.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
@@ -1725,49 +534,622 @@
       </g:shipping>
     </item>
 
-    <!-- Rochester MN (max edge: ~395 miles) -->
+    <!-- Mississippi - 600 miles - Price: $4,250 + (600 × $5.20) = $7,370 -->
     <item>
-      <g:id>shelter-rochester-mn</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Rochester MN</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=MN&amp;city=Rochester&amp;price=6304</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-MS</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Mississippi</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=MS&amp;price=7370</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>6304.00 USD</g:price>
+      <g:price>7370.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000074</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
-        <g:region>MN</g:region>
+        <g:region>MS</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
     </item>
 
-    <!-- ==================== WISCONSIN ==================== -->
-    
-    <!-- Madison WI (max edge: ~430 miles) -->
+    <!-- Missouri - 50 miles (local) - Price: $4,250 + (50 × $5.20) = $4,510 -->
     <item>
-      <g:id>shelter-madison-wi</g:id>
-      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Madison WI</g:title>
-      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 8-12 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
-      <g:link>https://homedefendpro.com/product/1?state=WI&amp;city=Madison&amp;price=6486</g:link>
-      <g:image_link>https://homedefendpro.com/shelter-main.jpg</g:image_link>
+      <g:id>706900-MO</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Missouri</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=MO&amp;price=4510</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>6486.00 USD</g:price>
+      <g:price>4510.00 USD</g:price>
       <g:brand>Home Defend Pro</g:brand>
-      <g:gtin>706900000075</g:gtin>
       <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>MO</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Montana - 1400 miles - Price: $4,250 + (1400 × $5.20) = $11,530 -->
+    <item>
+      <g:id>706900-MT</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Montana</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=MT&amp;price=11530</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>11530.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>MT</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Nebraska - 500 miles - Price: $4,250 + (500 × $5.20) = $6,850 -->
+    <item>
+      <g:id>706900-NE</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Nebraska</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=NE&amp;price=6850</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>6850.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>NE</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Nevada - 1600 miles - Price: $4,250 + (1600 × $5.20) = $12,570 -->
+    <item>
+      <g:id>706900-NV</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Nevada</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=NV&amp;price=12570</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>12570.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>NV</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- New Hampshire - 1450 miles - Price: $4,250 + (1450 × $5.20) = $11,790 -->
+    <item>
+      <g:id>706900-NH</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | New Hampshire</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=NH&amp;price=11790</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>11790.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>NH</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- New Jersey - 1250 miles - Price: $4,250 + (1250 × $5.20) = $10,750 -->
+    <item>
+      <g:id>706900-NJ</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | New Jersey</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=NJ&amp;price=10750</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>10750.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>NJ</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- New Mexico - 850 miles - Price: $4,250 + (850 × $5.20) = $8,670 -->
+    <item>
+      <g:id>706900-NM</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | New Mexico</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=NM&amp;price=8670</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>8670.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>NM</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- New York - 1300 miles - Price: $4,250 + (1300 × $5.20) = $11,010 -->
+    <item>
+      <g:id>706900-NY</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | New York</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=NY&amp;price=11010</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>11010.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>NY</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- North Carolina - 1000 miles - Price: $4,250 + (1000 × $5.20) = $9,450 -->
+    <item>
+      <g:id>706900-NC</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | North Carolina</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=NC&amp;price=9450</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>9450.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>NC</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- North Dakota - 900 miles - Price: $4,250 + (900 × $5.20) = $8,930 -->
+    <item>
+      <g:id>706900-ND</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | North Dakota</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=ND&amp;price=8930</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>8930.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>ND</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Ohio - 700 miles - Price: $4,250 + (700 × $5.20) = $7,890 -->
+    <item>
+      <g:id>706900-OH</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Ohio</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=OH&amp;price=7890</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7890.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>OH</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Oklahoma - 350 miles - Price: $4,250 + (350 × $5.20) = $6,070 -->
+    <item>
+      <g:id>706900-OK</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Oklahoma</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=OK&amp;price=6070</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>6070.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>OK</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Oregon - 1900 miles - Price: $4,250 + (1900 × $5.20) = $14,130 -->
+    <item>
+      <g:id>706900-OR</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Oregon</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=OR&amp;price=14130</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>14130.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>OR</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Pennsylvania - 1100 miles - Price: $4,250 + (1100 × $5.20) = $9,970 -->
+    <item>
+      <g:id>706900-PA</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Pennsylvania</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=PA&amp;price=9970</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>9970.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>PA</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Rhode Island - 1400 miles - Price: $4,250 + (1400 × $5.20) = $11,530 -->
+    <item>
+      <g:id>706900-RI</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Rhode Island</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=RI&amp;price=11530</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>11530.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>RI</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- South Carolina - 950 miles - Price: $4,250 + (950 × $5.20) = $9,190 -->
+    <item>
+      <g:id>706900-SC</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | South Carolina</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=SC&amp;price=9190</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>9190.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>SC</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- South Dakota - 650 miles - Price: $4,250 + (650 × $5.20) = $7,630 -->
+    <item>
+      <g:id>706900-SD</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | South Dakota</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=SD&amp;price=7630</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7630.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>SD</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Tennessee - 500 miles - Price: $4,250 + (500 × $5.20) = $6,850 -->
+    <item>
+      <g:id>706900-TN</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Tennessee</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=TN&amp;price=6850</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>6850.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>TN</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Texas - 850 miles - Price: $4,250 + (850 × $5.20) = $8,670 -->
+    <item>
+      <g:id>706900-TX</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Texas</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=TX&amp;price=8670</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>8670.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>TX</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Utah - 1200 miles - Price: $4,250 + (1200 × $5.20) = $10,490 -->
+    <item>
+      <g:id>706900-UT</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Utah</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=UT&amp;price=10490</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>10490.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>UT</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Vermont - 1500 miles - Price: $4,250 + (1500 × $5.20) = $12,050 -->
+    <item>
+      <g:id>706900-VT</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Vermont</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=VT&amp;price=12050</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>12050.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>VT</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Virginia - 1050 miles - Price: $4,250 + (1050 × $5.20) = $9,710 -->
+    <item>
+      <g:id>706900-VA</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Virginia</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=VA&amp;price=9710</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>9710.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>VA</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Washington - 2000 miles - Price: $4,250 + (2000 × $5.20) = $14,650 -->
+    <item>
+      <g:id>706900-WA</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Washington</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=WA&amp;price=14650</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>14650.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>WA</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- West Virginia - 850 miles - Price: $4,250 + (850 × $5.20) = $8,670 -->
+    <item>
+      <g:id>706900-WV</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | West Virginia</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=WV&amp;price=8670</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>8670.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>WV</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Wisconsin - 550 miles - Price: $4,250 + (550 × $5.20) = $7,110 -->
+    <item>
+      <g:id>706900-WI</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Wisconsin</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=WI&amp;price=7110</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7110.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
       <g:google_product_category>536</g:google_product_category>
       <g:shipping>
         <g:country>US</g:country>
         <g:region>WI</g:region>
+        <g:service>Freight</g:service>
+        <g:price>0.00 USD</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Wyoming - 950 miles - Price: $4,250 + (950 × $5.20) = $9,190 -->
+    <item>
+      <g:id>706900-WY</g:id>
+      <g:title>4-6 Person Underground Tornado Shelter | EF5 Concrete Safe Room | Wyoming</g:title>
+      <g:description>EF5-rated underground concrete storm shelter. EF5 tornado rated protection. Holds 4-6 people. Lifetime warranty on concrete. Delivered from Missouri. Stock #706900.</g:description>
+      <g:link>https://homedefendpro.com/product/1?state=WY&amp;price=9190</g:link>
+      <g:image_link>https://homedefendpro.com/shelter-og-image.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>9190.00 USD</g:price>
+      <g:brand>Home Defend Pro</g:brand>
+      <g:mpn>706900</g:mpn>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:product_type>Home &amp; Garden &gt; Emergency Preparedness &gt; Storm Shelters</g:product_type>
+      <g:google_product_category>536</g:google_product_category>
+      <g:shipping>
+        <g:country>US</g:country>
+        <g:region>WY</g:region>
         <g:service>Freight</g:service>
         <g:price>0.00 USD</g:price>
       </g:shipping>
