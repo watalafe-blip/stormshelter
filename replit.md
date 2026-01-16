@@ -103,8 +103,8 @@ Preferred communication style: Simple, everyday language.
 
 ### Pricing Strategy
 - **Base Price**: $4,250 (Stock #706900)
-- **Shipping**: $5.20/mile from Grandview, MO (38.8814, -94.5314)
-- **Distance Calculation**: Uses MAX metro edge distance (furthest suburb) to protect profit margin
+- **Shipping**: $5.50/mile from Grandview, MO (38.8814, -94.5314)
+- **City-Level Pricing**: Each city has its own distance-based price
 - **Discount**: $900 off displayed price for Google Shopping visitors
 
 ### URL Parameters
@@ -113,10 +113,10 @@ Preferred communication style: Simple, everyday language.
 - **Timer Persistence**: Countdown timer state preserved across navigation (`google_shopping_timer` key)
 
 ### XML Feed
-- **Location**: `public/google-shopping-feed.xml`
-- **Coverage**: 75 major tornado-prone cities across 18 states
+- **Location**: `client/public/google-shopping-feed.xml`
+- **Coverage**: 77 city-level products across 18 states
 - **States**: MO, KS, OK, TX, AR, NE, IA, SD, LA, MS, AL, TN, IL, IN, OH, KY, GA, CO, MN, WI
-- **Price Calculation**: $4,250 + (max metro edge distance × $5.20)
+- **Price Calculation**: $4,250 + (city distance × $5.50)
 
 ### Key Files
 - `client/src/lib/urlParams.ts` - URL parameter parsing and offer persistence
