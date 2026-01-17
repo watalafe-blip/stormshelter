@@ -7,6 +7,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const JWT_SECRET = process.env.JWT_SECRET || "home-defend-admin-secret-key-change-in-production";
 const COOKIE_NAME = "admin_token";
@@ -46,12 +50,25 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
 
+  // Helper to find static files in dev or production
+  function findStaticFile(filename: string): string | null {
+    const paths = [
+      path.resolve(process.cwd(), "client/public", filename),
+      path.resolve(__dirname, "public", filename),
+      path.resolve(process.cwd(), "dist/public", filename)
+    ];
+    for (const p of paths) {
+      if (fs.existsSync(p)) return p;
+    }
+    return null;
+  }
+
   // Serve sitemap.xml
   app.get("/sitemap.xml", (req, res) => {
-    const sitemapPath = path.resolve(process.cwd(), "client/public/sitemap.xml");
-    if (fs.existsSync(sitemapPath)) {
+    const filePath = findStaticFile("sitemap.xml");
+    if (filePath) {
       res.setHeader("Content-Type", "application/xml");
-      res.sendFile(sitemapPath);
+      res.sendFile(filePath);
     } else {
       res.status(404).send("Sitemap not found");
     }
@@ -59,10 +76,10 @@ export async function registerRoutes(
 
   // Serve robots.txt
   app.get("/robots.txt", (req, res) => {
-    const robotsPath = path.resolve(process.cwd(), "client/public/robots.txt");
-    if (fs.existsSync(robotsPath)) {
+    const filePath = findStaticFile("robots.txt");
+    if (filePath) {
       res.setHeader("Content-Type", "text/plain");
-      res.sendFile(robotsPath);
+      res.sendFile(filePath);
     } else {
       res.status(404).send("Robots.txt not found");
     }
@@ -70,10 +87,10 @@ export async function registerRoutes(
 
   // Serve Google Shopping feed
   app.get("/google-shopping-feed.xml", (req, res) => {
-    const feedPath = path.resolve(process.cwd(), "client/public/google-shopping-feed.xml");
-    if (fs.existsSync(feedPath)) {
+    const filePath = findStaticFile("google-shopping-feed.xml");
+    if (filePath) {
       res.setHeader("Content-Type", "application/xml");
-      res.sendFile(feedPath);
+      res.sendFile(filePath);
     } else {
       res.status(404).send("Feed not found");
     }
