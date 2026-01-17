@@ -52,11 +52,17 @@ export async function registerRoutes(
 
   // Helper to find static files in dev or production
   function findStaticFile(filename: string): string | null {
-    const paths = [
-      path.resolve(process.cwd(), "client/public", filename),
-      path.resolve(__dirname, "public", filename),
-      path.resolve(process.cwd(), "dist/public", filename)
-    ];
+    const isProduction = process.env.NODE_ENV === "production";
+    const paths = isProduction
+      ? [
+          // Production: server runs from dist/index.cjs, static files in dist/public
+          path.resolve(__dirname, "public", filename),
+          path.join(__dirname, "public", filename)
+        ]
+      : [
+          // Development: files in client/public
+          path.resolve(process.cwd(), "client/public", filename)
+        ];
     for (const p of paths) {
       if (fs.existsSync(p)) return p;
     }
