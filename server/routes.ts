@@ -5,6 +5,8 @@ import { z } from "zod";
 import { sendBookingConfirmation, sendContactFormEmail, sendPasswordResetRequest } from "./email";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import path from "path";
+import fs from "fs";
 
 const JWT_SECRET = process.env.JWT_SECRET || "home-defend-admin-secret-key-change-in-production";
 const COOKIE_NAME = "admin_token";
@@ -43,6 +45,39 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+
+  // Serve sitemap.xml
+  app.get("/sitemap.xml", (req, res) => {
+    const sitemapPath = path.resolve(process.cwd(), "client/public/sitemap.xml");
+    if (fs.existsSync(sitemapPath)) {
+      res.setHeader("Content-Type", "application/xml");
+      res.sendFile(sitemapPath);
+    } else {
+      res.status(404).send("Sitemap not found");
+    }
+  });
+
+  // Serve robots.txt
+  app.get("/robots.txt", (req, res) => {
+    const robotsPath = path.resolve(process.cwd(), "client/public/robots.txt");
+    if (fs.existsSync(robotsPath)) {
+      res.setHeader("Content-Type", "text/plain");
+      res.sendFile(robotsPath);
+    } else {
+      res.status(404).send("Robots.txt not found");
+    }
+  });
+
+  // Serve Google Shopping feed
+  app.get("/google-shopping-feed.xml", (req, res) => {
+    const feedPath = path.resolve(process.cwd(), "client/public/google-shopping-feed.xml");
+    if (fs.existsSync(feedPath)) {
+      res.setHeader("Content-Type", "application/xml");
+      res.sendFile(feedPath);
+    } else {
+      res.status(404).send("Feed not found");
+    }
+  });
 
   app.get("/api/availability", async (req, res) => {
     try {

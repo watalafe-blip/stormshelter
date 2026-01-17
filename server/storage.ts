@@ -293,4 +293,5 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = DATABASE_URL ? new DatabaseStorage() : new MemStorage();
+// Force in-memory storage (no database required)
+export const storage = new MemStorage();
