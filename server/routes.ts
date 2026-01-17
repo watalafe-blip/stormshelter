@@ -7,10 +7,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const JWT_SECRET = process.env.JWT_SECRET || "home-defend-admin-secret-key-change-in-production";
 const COOKIE_NAME = "admin_token";
@@ -55,9 +51,8 @@ export async function registerRoutes(
     const isProduction = process.env.NODE_ENV === "production";
     const paths = isProduction
       ? [
-          // Production: server runs from dist/index.cjs, static files in dist/public
-          path.resolve(__dirname, "public", filename),
-          path.join(__dirname, "public", filename)
+          // Production: static files in dist/public relative to cwd
+          path.resolve(process.cwd(), "dist/public", filename)
         ]
       : [
           // Development: files in client/public
